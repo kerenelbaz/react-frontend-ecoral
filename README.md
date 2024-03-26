@@ -1,43 +1,46 @@
-# ArchitectUI Bootstrap 5 ReactJS Theme FREE
+## Minimal [(Free version)](https://minimal-kit-react.vercel.app/)
 
-ArchitectUI ReactJS is a free admin dashboard template based on Bootstrap and React frontend framework. It is easy to install, customiza and use. We have this template available in [Vue](https://dashboardpack.com/theme-details/architectui-dashboard-vue-pro/), [jQuery/HTML](https://dashboardpack.com/theme-details/architectui-dashboard-html-pro), [Angular](https://dashboardpack.com/theme-details/architectui-angular-7-bootstrap-material-design-pro?v=7516fd43adaa) and other version. For more awesome admin panels please check DashboardPack.com
+![license](https://img.shields.io/badge/license-MIT-blue.svg)
 
-### Made with love by DashboardPack.com
+> Free React Admin Dashboard made with Material-UI components and React.
 
-## PRO Version Available [here](https://dashboardpack.com/theme-details/architectui-dashboard-react-pro)
+![preview](public/assets/preview.jpg)
 
-## ArchitectUI ReactJS Preview
+## Demo
 
-![ArchitectUI Bootstrap 5 ReactJS Theme FREE](https://colorlib.com/wp/wp-content/uploads/sites/2/architectui-react-free.jpg)
+- [Dashboard Page](https://minimal-kit-react.vercel.app/)
+- [Users Page](https://minimal-kit-react.vercel.app/user)
+- [Products Page](https://minimal-kit-react.vercel.app/products)
+- [Blog Page](https://minimal-kit-react.vercel.app/blog)
+- [Login Page](https://minimal-kit-react.vercel.app/login)
+- [Not Found Page](https://minimal-kit-react.vercel.app/404)
 
-## Installation
+## Quick start
 
-Download and Uncompress the theme package archive in your desired folder location.
+- [Download from Github](https://github.com/minimal-ui-kit/material-kit-react/archive/refs/heads/main.zip) or clone the repo : `git clone https://github.com/minimal-ui-kit/material-kit-react.git`
+- Recommended `Node.js v18.x`.
+- **Install:** `yarn install`
+- **Start:** `yarn dev`
+- **Build:** `yarn build`
 
-Download and install Node.js LTS from https://nodejs.org/en/download/
+## Upgrade to PRO Version
 
-```bash
-npm install
-```
+| Minimal Free     | [Minimal Pro](https://material-ui.com/store/items/minimal-dashboard/) |
+| :--------------- | :-------------------------------------------------------------------- |
+| **6** Demo Pages | **70+** Demo Pages                                                    |
+| -                | Authentication with **Amplify**, **Auth0**, **JWT** and **Firebase**  |
+| -                | [+More components](https://minimals.cc/components)                    |
+| -                | Dark & light mode                                                     |
+| -                | Next.js version                                                       |
+| -                | TypeScript version (Standard Plus and Extended license)               |
+| -                | Design Figma File (Standard Plus and Extended license)                |
+| -                | Complete Users Flows                                                  |
+| -                | Learn more: [Package & License](https://docs.minimals.cc/package)     |
 
-After npm finishes installing the modules from package.json you can go ahead and start the application. To do so, run the command below.
+## License
 
-```bash
-npm run start
-```
+Distributed under the MIT License. See [LICENSE](https://github.com/minimal-ui-kit/minimal.free/blob/main/LICENSE.md) for more information.
 
-After the command finished, you should see a Compiled successfully! message in your terminal window. Also, a web server service will be started so you can view your app in the browser: http://localhost:3000
+## Contact us
 
-To create a production optimized build run the command below:
-
-```bash
-npm run build
-```
-
-This created another folder in the root of your project named build. You'll have an option to start a local web server to view your newly created production build.
-
-```bash
-npx serve -s build -l 4000
-```
-
-This will start a local web server on port 4000, on which the production folder (/build/) will be available in your browser.
+Email: support@minimals.cc
