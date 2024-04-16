@@ -9,7 +9,8 @@ export const UserPage = lazy(() => import('src/pages/user'));
 export const LoginPage = lazy(() => import('src/pages/login'));
 export const ProductsPage = lazy(() => import('src/pages/products'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
-export const DiveSitesMapPage = lazy(() => import('src/pages/dive_sites_map'));export const InsertDataPage = lazy(() => import('src/pages/insert-data'));
+export const DiveSitesMapPage = lazy(() => import('src/pages/dive_sites_map'));
+export const InsertDataPage = lazy(() => import('src/pages/insert-data'));
 
 // ----------------------------------------------------------------------
 
@@ -28,6 +29,8 @@ export default function Router() {
         { path: 'user', element: <UserPage /> },
         { path: 'products', element: <ProductsPage /> },
         { path: 'blog', element: <BlogPage /> },
+        { path: 'insert-data', element: <InsertDataPage /> },
+        { path: 'Map', element: <DiveSitesMapPage /> },
       ],
     },
     {
