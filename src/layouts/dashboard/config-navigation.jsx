@@ -1,4 +1,5 @@
 import SvgColor from 'src/components/svg-color';
+import RoomTwoToneIcon from '@mui/icons-material/RoomTwoTone';
 
 // ----------------------------------------------------------------------
 
@@ -36,6 +37,11 @@ const navConfig = [
     title: 'Not found',
     path: '/404',
     icon: icon('ic_disabled'),
+  },
+  {
+    title: 'Dive sites map',
+    path: '/Dive_sites_map',
+    icon: <RoomTwoToneIcon/>,
   },
 ];
 
