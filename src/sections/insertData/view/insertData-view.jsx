@@ -16,6 +16,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Button from '@mui/material/Button';
+import SendIcon from '@mui/icons-material/Send';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
@@ -387,8 +388,14 @@ export default function InsertDataView() {
           </IconButton>
 
         </div>
-
+        <div className="insideContiner">
+          <Button size="large" variant="outlined" endIcon={<SendIcon />}>
+          Submit
+        </Button>
+        </div>
+        <br />
       </FormControl>
+      
 
       <h2>Thank you for your contribution!</h2>
     </div>
