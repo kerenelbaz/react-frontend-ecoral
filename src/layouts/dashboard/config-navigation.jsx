@@ -1,5 +1,6 @@
 import SvgColor from 'src/components/svg-color';
 
+import RoomTwoToneIcon from '@mui/icons-material/RoomTwoTone';
 
 // ----------------------------------------------------------------------
 
@@ -43,7 +44,6 @@ const navConfig = [
     path: '/404',
     icon: icon('ic_disabled'),
   },
-  
 ];
 
 export default navConfig;
