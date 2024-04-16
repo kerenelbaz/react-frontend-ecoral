@@ -1,0 +1,57 @@
+.container {
+    background-color: #f7f7f7;
+    padding: 20px;
+    margin: 10px auto;
+    width: 700px;
+    border-radius: 10px;
+    /* 
+    
+    */
+  }
+
+  
+  .input-field {
+    width: 80%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    
+  }
+  
+  .button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+  
+  .button:hover {
+    background-color: #0056b3;
+  }
+  
+  .button:active {
+    background-color: #004080;
+  }
+  .fieldContainer {
+    margin-bottom: 10px;
+    border-radius: 20px;
+
+  }
+    .fieldInput {
+    width: 65%;
+    margin-bottom: 3%;
+    border-radius: 20px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+  }
+  .buttonGroupClass {
+    background-color: #f9fafb;
+    color:#1877f2;
+    
+
+    /* Add any other styles you want */
+  }

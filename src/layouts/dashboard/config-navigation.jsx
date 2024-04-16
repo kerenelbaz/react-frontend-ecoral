@@ -1,4 +1,5 @@
 import SvgColor from 'src/components/svg-color';
+
 import RoomTwoToneIcon from '@mui/icons-material/RoomTwoTone';
 
 // ----------------------------------------------------------------------
@@ -29,6 +30,11 @@ const navConfig = [
     icon: icon('ic_blog'),
   },
   {
+    title: 'Insert Data',
+    path: '/insert-data',
+    icon: icon('ic_addData'),
+  },
+  {
     title: 'login',
     path: '/login',
     icon: icon('ic_lock'),
@@ -37,11 +43,6 @@ const navConfig = [
     title: 'Not found',
     path: '/404',
     icon: icon('ic_disabled'),
-  },
-  {
-    title: 'Dive sites map',
-    path: '/Dive_sites_map',
-    icon: <RoomTwoToneIcon/>,
   },
 ];
 
