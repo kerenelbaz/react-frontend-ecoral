@@ -17,28 +17,16 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import Grid from '@mui/material/Grid';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Rating from '@mui/material/Rating';
+import Stack from '@mui/material/Stack';
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import IconButton from '@mui/material/IconButton';
 
 
 import dataLists from './dataLists.json';
 import './styleByMe.css';
-
-
-// const styles = {
-//   fieldContainer: {
-//       marginBottom: '10px',
-//       borderRadius: '20px'
-
-//   },
-//   fieldInput: {
-//       width: '100%',
-//       marginBottom: '10px',
-//       borderRadius: '20px'
-//   },
-// };
 
 
 export default function InsertDataView() {
@@ -149,69 +137,67 @@ export default function InsertDataView() {
     }));
   };
 
+
+
   return (
-    
-    <div className="container">insertData-view
+    <div className="container">
       <h2>Input the details from your recents dives</h2>
 
       <FormControl>
-        <div>
-          <Grid container spacing={2}>
-            <Grid item xs={8}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <Box >
-                  <DemoContainer components={['DatePicker']} valueType="date">
-                    <div>
-                      <DatePicker
-                        label="Date Of Dive"
-                        id="dateDive"
-                        name="dateDive"
-                        onChange={handleDateChange}
-                        format="DD/MM/YYYY"
-                        required
-                        inputStyle={{
-                          color: insertData.errors.dateDive ? 'red' : (selectedDate ? 'blue' : '#1675E8'),
-                          fontWeight: selectedDate ? 'bold' : 'normal'
-                        }}
-                        slotProps={{
-                          textField: {
-                            error: insertData.errors.dateDive,
-                            helperText: insertData.errors.dateDive && 'Invalid dive date',
-                          },
-                          InputProps: {
-                            style: {
-                              color: selectedDate ? 'blue' : '#1675E8',
-                              fontWeight: selectedDate ? 'bold' : 'normal',
-                            }
-                          }
-                        }}
 
-                      />
+        <div className="insideContiner">
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <Box >
+              <DemoContainer components={['DatePicker']} valueType="date">
+                <div>
+                  <DatePicker
+                    className="custom-date-picker"
+                    label="Date Of Dive"
+                    id="dateDive"
+                    name="dateDive"
+                    onChange={handleDateChange}
+                    format="DD/MM/YYYY"
+                    required
+                    inputStyle={{
+                      color: insertData.errors.dateDive ? 'red' : (selectedDate ? 'blue' : '#1675E8'),
+                    }}
+                    slotProps={{
+                      textField: {
+                        error: insertData.errors.dateDive,
+                        helperText: insertData.errors.dateDive && 'Invalid dive date',
+                        className: "fieldInput", style: { width: "100%" }
+                      },
+                      InputProps: {
+                        style: {
+                          color: selectedDate ? 'blue' : '#1675E8',
+                          fontWeight: selectedDate ? 'bold' : 'normal',
+                        }
+                      }
+                    }}
 
-                    </div>
-                  </DemoContainer>
-                </Box>
-              </LocalizationProvider>
-            </Grid>
-          </Grid>
+                  />
+
+                </div>
+              </DemoContainer>
+            </Box>
+          </LocalizationProvider>
+
+        </div>
+        <br />
+        <div >
+
+          <lable className="lblButtonsGroup">Dive Took Place During:</lable>
+
+          <ButtonGroup size="large" color="inherit" aria-label="Large button group">
+            {timeButtons.map((button, index) => (
+              <Button key={index}>{button}</Button>
+            ))}
+          </ButtonGroup>
+
         </div>
         <br />
         <div>
-          <Grid container spacing={2}>
-            <Grid item xs={8}>
-              <span style={{ 'color': '#212b36', 'fontSize': '20px' }}>Dive Took Place During:</span>
-            </Grid>
-            <Grid item xs={4}>
-              <ButtonGroup size="large" color="inherit" aria-label="Large button group">
-                {timeButtons.map((button, index) => (
-                  <Button key={index}>{button}</Button>
-                ))}
-              </ButtonGroup>
-            </Grid>
-          </Grid>
-        </div>
-        <br />
-        <div>
+
           <Autocomplete
             options={dataLists.diveSite}
             // specifies how to render the options in the dropdown list - returns the option itself
@@ -227,6 +213,7 @@ export default function InsertDataView() {
                 name="site"
                 autoComplete="site"
                 className="fieldInput"
+
               />
             )}
           />
@@ -249,6 +236,7 @@ export default function InsertDataView() {
               />
             )}
           />
+
         </div>
         <div>
           <Autocomplete
@@ -288,19 +276,16 @@ export default function InsertDataView() {
           />
         </div>
         <br />
-        <div>
-          <Grid container spacing={2}>
-            <Grid item xs={8}>
-              <span style={{ 'color': '#212b36', 'fontSize': '20px' }}>Photo Took In Artificial Reef:</span>
-            </Grid>
-            <Grid item xs={4}>
-              <ButtonGroup size="large" color="inherit" aria-label="Large button group">
-                {isArButtonGroup.map((button, index) => (
-                  <Button key={index}>{button}</Button>
-                ))}
-              </ButtonGroup>
-            </Grid>
-          </Grid>
+        <div >
+
+          <lable className="lblButtonsGroup">Photo Took In Artificial Reef:</lable>
+
+          <ButtonGroup size="large" color="inherit" aria-label="Large button group">
+            {isArButtonGroup.map((button, index) => (
+              <Button key={index}>{button}</Button>
+            ))}
+          </ButtonGroup>
+
         </div>
         <br />
         <div>
@@ -343,24 +328,25 @@ export default function InsertDataView() {
           />
 
         </div>
-        <div style={{ width: '48%' }}>
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <span style={{ 'color': '#212b36', 'fontSize': '20px' }}>Dive Rank:</span>
-            </Grid>
-            <Grid item xs={5}>
-              <Rating
-                name="simple-controlled"
-                value={insertData.rank}
-                onChange={(event, newValue) => {
-                  setInsertData.rank(newValue);
-                }}
-              />
-            </Grid>
+        <br />
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <lable className="lblButtonsGroup">Dive Rank:</lable>
+          <Stack spacing={1}>
+            <Rating
+              // sx={{ color: 'red' }}
+              name="size-large"
+              defaultValue={2}
+              size="large"
+            // value={insertData.rank}
+            // onChange={(event, newValue) => {
+            //   setInsertData.rank(newValue);
+            // }}
+            />
+          </Stack>
 
-          </Grid>
         </div>
-        <div style={{ width: '48%' }}>
+        <br />
+        <div>
           <TextField
             label='Max Depth (in meters)'
             id="maxDepth"
@@ -369,10 +355,9 @@ export default function InsertDataView() {
             onChange={handleInputChange}
             error={insertData.errors.maxDepth}
             helperText={insertData.errors.maxDepth && 'number higher than 0'}
-            className="fieldInput"
+            className="numbersField"
           />
-        </div>
-        <div style={{ width: '48%' }}>
+
           <TextField
             label='Distance (in meters)'
             id="distance"
@@ -381,25 +366,31 @@ export default function InsertDataView() {
             onChange={handleInputChange}
             error={insertData.errors.distance}
             helperText={insertData.errors.distance && 'number higher than 0'}
-            className="fieldInput"
+            className="numbersField"
           />
-        </div>
-        <div style={{ width: '48%' }}>
+
           <TextField
-            label='temperature (in celsius)'
+            label='Temperature (in celsius)'
             id="temp"
             name="temp"
             type="number"
             onChange={handleInputChange}
             error={insertData.errors.temp}
             helperText={insertData.errors.temp && 'temp is a number height than 0'}
-            className="fieldInput"
+            className="numbersField"
           />
+        </div>
+        <div>
+          <lable className="lblButtonsGroup">Add photo</lable>
+          <IconButton aria-label="delete" size="large">
+            <AddAPhotoIcon fontSize="inherit" />
+          </IconButton>
+
         </div>
 
       </FormControl>
 
-      <h1>Thank you for your contribution!</h1>
+      <h2>Thank you for your contribution!</h2>
     </div>
 
 
