@@ -138,264 +138,312 @@ export default function InsertDataView() {
     }));
   };
 
+  const handleSubmit = async () => {
+    const divingData = {
+      dateDive: insertData.dateDive,
+      timeDive: insertData.timeDive,
+      site: insertData.site,
+      objectGroup: insertData.objectGroup,
+      specie: insertData.specie,
+      file: insertData.file,
+      imgLocation: insertData.imgLocation,
+      arReef: insertData.arReef,
+      reportType: insertData.reportType,
+      typeOfDive: insertData.typeOfDive,
+      rank: insertData.rank,
+      userDescription: insertData.userDescription,
+      maxDepth: insertData.maxDepth,
+      distance: insertData.distance,
+      temp: insertData.temp
+    };
 
+    const jsdonDivingData = {
+      divingData
+    };
+
+    const jsdonDivingDataString = JSON.stringify(jsdonDivingData, null, 2);
+
+    try {
+      const response = await fetch('/api/data', {
+        method: 'POST',
+        Headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(jsdonDivingDataString),
+      });
+      if (response.ok) {
+        console.log('Data saved successfully');
+        // Reset form data after successful submission
+        setInsertData({ /* Reset your form data here */ });
+      } else {
+        console.error('Failed to save data:', response.statusText);
+      }
+    } catch (e) {
+      console.error('Error saving data:', e.message);
+    }
+
+  }
 
   return (
     <div className="container">
       <h2>Input the details from your recents dives</h2>
 
       <FormControl>
-
-        <div className="insideContiner">
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <Box >
-              <DemoContainer components={['DatePicker']} valueType="date">
-                <div>
-                  <DatePicker
-                    className="custom-date-picker"
-                    label="Date Of Dive"
-                    id="dateDive"
-                    name="dateDive"
-                    onChange={handleDateChange}
-                    format="DD/MM/YYYY"
-                    required
-                    inputStyle={{
-                      color: insertData.errors.dateDive ? 'red' : (selectedDate ? 'blue' : '#1675E8'),
-                    }}
-                    slotProps={{
-                      textField: {
-                        error: insertData.errors.dateDive,
-                        helperText: insertData.errors.dateDive && 'Invalid dive date',
-                        className: "fieldInput", style: { width: "100%" }
-                      },
-                      InputProps: {
-                        style: {
-                          color: selectedDate ? 'blue' : '#1675E8',
-                          fontWeight: selectedDate ? 'bold' : 'normal',
+        <form onSubmit={handleSubmit}>
+          <div className="insideContiner">
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <Box >
+                <DemoContainer components={['DatePicker']} valueType="date">
+                  <div>
+                    <DatePicker
+                      className="custom-date-picker"
+                      label="Date Of Dive"
+                      id="dateDive"
+                      name="dateDive"
+                      onChange={handleDateChange}
+                      format="DD/MM/YYYY"
+                      required
+                      inputStyle={{
+                        color: insertData.errors.dateDive ? 'red' : (selectedDate ? 'blue' : '#1675E8'),
+                      }}
+                      slotProps={{
+                        textField: {
+                          error: insertData.errors.dateDive,
+                          helperText: insertData.errors.dateDive && 'Invalid dive date',
+                          className: "fieldInput", style: { width: "100%" }
+                        },
+                        InputProps: {
+                          style: {
+                            color: selectedDate ? 'blue' : '#1675E8',
+                            fontWeight: selectedDate ? 'bold' : 'normal',
+                          }
                         }
-                      }
-                    }}
+                      }}
 
-                  />
+                    />
 
-                </div>
-              </DemoContainer>
-            </Box>
-          </LocalizationProvider>
+                  </div>
+                </DemoContainer>
+              </Box>
+            </LocalizationProvider>
 
-        </div>
-        <br />
-        <div >
+          </div>
+          <br />
+          <div >
 
-          <lable className="lblButtonsGroup">Dive Took Place During:</lable>
+            <lable className="lblButtonsGroup">Dive Took Place During:</lable>
 
-          <ButtonGroup size="large" color="inherit" aria-label="Large button group">
-            {timeButtons.map((button, index) => (
-              <Button key={index}>{button}</Button>
-            ))}
-          </ButtonGroup>
+            <ButtonGroup size="large" color="inherit" aria-label="Large button group">
+              {timeButtons.map((button, index) => (
+                <Button key={index}>{button}</Button>
+              ))}
+            </ButtonGroup>
 
-        </div>
-        <br />
-        <div>
+          </div>
+          <br />
+          <div>
 
-          <Autocomplete
-            options={dataLists.diveSite}
-            // specifies how to render the options in the dropdown list - returns the option itself
-            getOptionLabel={(option) => option}
-            onChange={(e, value) =>
-              handleAutocompleteChange("site", value || "")
-            }
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                required
-                label="Dive Site"
-                name="site"
-                autoComplete="site"
-                className="fieldInput"
+            <Autocomplete
+              options={dataLists.diveSite}
+              // specifies how to render the options in the dropdown list - returns the option itself
+              getOptionLabel={(option) => option}
+              onChange={(e, value) =>
+                handleAutocompleteChange("site", value || "")
+              }
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  required
+                  label="Dive Site"
+                  name="site"
+                  autoComplete="site"
+                  className="fieldInput"
 
-              />
-            )}
-          />
-        </div>
-        <div>
-          <Autocomplete
-            options={dataLists.objectGroupList}
-            getOptionLabel={(option) => (option)}
-            onChange={(e, value) =>
-              handleAutocompleteChange("objectGroup", value || "")
-            }
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                required
-                label="Object Group"
-                name="objectGroup"
-                autoComplete='objectGroup'
-                className="fieldInput"
-              />
-            )}
-          />
-
-        </div>
-        <div>
-          <Autocomplete
-            options={dataLists.specieName}
-            getOptionLabel={(option) => (option)}
-            onChange={(e, value) =>
-              handleAutocompleteChange("specie", value || "")
-            }
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                required
-                label="Specie Name"
-                name="specie"
-                autoComplete='specie'
-                className="fieldInput"
-              />
-            )}
-          />
-        </div>
-        <div>
-          <Autocomplete
-            options={dataLists.imageLocation}
-            getOptionLabel={(option) => (option)}
-            onChange={(e, value) =>
-              handleAutocompleteChange("imgLocation", value || "")
-            }
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Image Location"
-                name="imgLocation"
-                autoComplete='imgLocation'
-                className="fieldInput"
-              />
-            )}
-          />
-        </div>
-        <br />
-        <div >
-
-          <lable className="lblButtonsGroup">Photo Took In Artificial Reef:</lable>
-
-          <ButtonGroup size="large" color="inherit" aria-label="Large button group">
-            {isArButtonGroup.map((button, index) => (
-              <Button key={index}>{button}</Button>
-            ))}
-          </ButtonGroup>
-
-        </div>
-        <br />
-        <div>
-          <Autocomplete
-            options={dataLists.ReportType}
-            getOptionLabel={(option) => (option)}
-            onChange={(e, value) =>
-              handleAutocompleteChange("reportType", value || "")
-            }
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                required
-                label="Report Type"
-                name="reportType"
-                autoComplete='reportType'
-                className="fieldInput"
-              />
-            )}
-          />
-
-        </div>
-        <div>
-          <Autocomplete
-            options={dataLists.typeOfDive}
-            getOptionLabel={(option) => (option)}
-            onChange={(e, value) =>
-              handleAutocompleteChange("typeOfDive", value || "")
-            }
-            renderInput={(params) => (
-              <TextField
-                {...params}
-
-                label="Type Of Dive"
-                name="typeOfDive"
-                autoComplete='typeOfDive'
-                className="fieldInput"
-              />
-            )}
-          />
-
-        </div>
-        <br />
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <lable className="lblButtonsGroup">Dive Rank:</lable>
-          <Stack spacing={1}>
-            <Rating
-              // sx={{ color: 'red' }}
-              name="size-large"
-              defaultValue={2}
-              size="large"
-            // value={insertData.rank}
-            // onChange={(event, newValue) => {
-            //   setInsertData.rank(newValue);
-            // }}
+                />
+              )}
             />
-          </Stack>
+          </div>
+          <div>
+            <Autocomplete
+              options={dataLists.objectGroupList}
+              getOptionLabel={(option) => (option)}
+              onChange={(e, value) =>
+                handleAutocompleteChange("objectGroup", value || "")
+              }
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  required
+                  label="Object Group"
+                  name="objectGroup"
+                  autoComplete='objectGroup'
+                  className="fieldInput"
+                />
+              )}
+            />
 
-        </div>
-        <br />
-        <div>
-          <TextField
-            label='Max Depth (in meters)'
-            id="maxDepth"
-            name="maxDepth"
-            type="number"
-            onChange={handleInputChange}
-            error={insertData.errors.maxDepth}
-            helperText={insertData.errors.maxDepth && 'number higher than 0'}
-            className="numbersField"
-          />
+          </div>
+          <div>
+            <Autocomplete
+              options={dataLists.specieName}
+              getOptionLabel={(option) => (option)}
+              onChange={(e, value) =>
+                handleAutocompleteChange("specie", value || "")
+              }
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  required
+                  label="Specie Name"
+                  name="specie"
+                  autoComplete='specie'
+                  className="fieldInput"
+                />
+              )}
+            />
+          </div>
+          <div>
+            <Autocomplete
+              options={dataLists.imageLocation}
+              getOptionLabel={(option) => (option)}
+              onChange={(e, value) =>
+                handleAutocompleteChange("imgLocation", value || "")
+              }
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Image Location"
+                  name="imgLocation"
+                  autoComplete='imgLocation'
+                  className="fieldInput"
+                />
+              )}
+            />
+          </div>
+          <br />
+          <div >
 
-          <TextField
-            label='Distance (in meters)'
-            id="distance"
-            name="distance"
-            type="number"
-            onChange={handleInputChange}
-            error={insertData.errors.distance}
-            helperText={insertData.errors.distance && 'number higher than 0'}
-            className="numbersField"
-          />
+            <lable className="lblButtonsGroup">Photo Took In Artificial Reef:</lable>
 
-          <TextField
-            label='Temperature (in celsius)'
-            id="temp"
-            name="temp"
-            type="number"
-            onChange={handleInputChange}
-            error={insertData.errors.temp}
-            helperText={insertData.errors.temp && 'temp is a number height than 0'}
-            className="numbersField"
-          />
-        </div>
-        <div>
-          <lable className="lblButtonsGroup">Add photo</lable>
-          <IconButton aria-label="delete" size="large">
-            <AddAPhotoIcon fontSize="inherit" />
-          </IconButton>
+            <ButtonGroup size="large" color="inherit" aria-label="Large button group">
+              {isArButtonGroup.map((button, index) => (
+                <Button key={index}>{button}</Button>
+              ))}
+            </ButtonGroup>
 
-        </div>
-        <div className="insideContiner">
-          <Button size="large" variant="outlined" endIcon={<SendIcon />}>
-          Submit
-        </Button>
-        </div>
-        <br />
+          </div>
+          <br />
+          <div>
+            <Autocomplete
+              options={dataLists.ReportType}
+              getOptionLabel={(option) => (option)}
+              onChange={(e, value) =>
+                handleAutocompleteChange("reportType", value || "")
+              }
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  required
+                  label="Report Type"
+                  name="reportType"
+                  autoComplete='reportType'
+                  className="fieldInput"
+                />
+              )}
+            />
+
+          </div>
+          <div>
+            <Autocomplete
+              options={dataLists.typeOfDive}
+              getOptionLabel={(option) => (option)}
+              onChange={(e, value) =>
+                handleAutocompleteChange("typeOfDive", value || "")
+              }
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+
+                  label="Type Of Dive"
+                  name="typeOfDive"
+                  autoComplete='typeOfDive'
+                  className="fieldInput"
+                />
+              )}
+            />
+
+          </div>
+          <br />
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <lable className="lblButtonsGroup">Dive Rank:</lable>
+            <Stack spacing={1}>
+              <Rating
+                // sx={{ color: 'red' }}
+                name="size-large"
+                defaultValue={2}
+                size="large"
+
+              // onChange={(event, newValue) => {
+              //   setInsertData.rank(newValue);
+              // }}
+              />
+            </Stack>
+
+          </div>
+          <br />
+          <div>
+            <TextField
+              label='Max Depth (in meters)'
+              id="maxDepth"
+              name="maxDepth"
+              type="number"
+              onChange={handleInputChange}
+              error={insertData.errors.maxDepth}
+              helperText={insertData.errors.maxDepth && 'number higher than 0'}
+              className="numbersField"
+            />
+
+            <TextField
+              label='Distance (in meters)'
+              id="distance"
+              name="distance"
+              type="number"
+              onChange={handleInputChange}
+              error={insertData.errors.distance}
+              helperText={insertData.errors.distance && 'number higher than 0'}
+              className="numbersField"
+            />
+
+            <TextField
+              label='Temperature (in celsius)'
+              id="temp"
+              name="temp"
+              type="number"
+              onChange={handleInputChange}
+              error={insertData.errors.temp}
+              helperText={insertData.errors.temp && 'temp is a number height than 0'}
+              className="numbersField"
+            />
+          </div>
+          <div>
+            <lable className="lblButtonsGroup">Add photos or video </lable>
+            <IconButton size="large">
+              <AddAPhotoIcon fontSize="inherit" />
+            </IconButton>
+
+          </div>
+          <div className="insideContiner">
+            <Button size="large" type="submit" variant="outlined" endIcon={<SendIcon />}>
+              Submit
+            </Button>
+          </div>
+          <br />
+          {/* .......................................................................................... */}
+          
+
+        </form>
       </FormControl>
-      
+
 
       <h2>Thank you for your contribution!</h2>
     </div>
