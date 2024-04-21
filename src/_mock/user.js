@@ -22,4 +22,5 @@ export const users = [...Array(24)].map((_, index) => ({
     'Front End Developer',
     'Full Stack Developer',
   ]),
+  date: sample(['13/11/2222', '14/11/2233']),
 }));
