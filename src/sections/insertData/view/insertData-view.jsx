@@ -5,7 +5,7 @@
 /* eslint-disable radix */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable perfectionist/sort-imports */
-import { useRef,useState } from "react";
+import { useRef, useState, useEffect } from "react";
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
@@ -24,6 +24,7 @@ import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import IconButton from '@mui/material/IconButton';
+
 
 
 
@@ -67,13 +68,21 @@ export default function InsertDataView() {
 
   const [imagePreview, setImagePreview] = useState(null);
 
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [selectedTime, setSelectedTime] = useState(null);
+  const [selectedReef, setSelectedReef] = useState(null);
 
   const fileInputRef = useRef(null);
 
-  const togglePopup = () => {
-    setIsPopupOpen(!isPopupOpen);
-  };
+
+  // Update button states when selectedTime or selectedReef changes
+  useEffect(() => {
+    setInsertData(prevData => ({
+      ...prevData,
+      timeDive: selectedTime,
+      arReef: selectedReef,
+    }));
+  }, [selectedTime, selectedReef]);
+
 
   const onSelectFile = (e) => {
     const file = e.target.files[0];
@@ -83,7 +92,7 @@ export default function InsertDataView() {
         setImagePreview(reader.result);
         setInsertData(prevData => ({
           ...prevData,
-          file: reader.result, 
+          file: reader.result,
         }));
       };
       reader.readAsDataURL(file);
@@ -99,7 +108,7 @@ export default function InsertDataView() {
       rank: newValue,
     }));
   };
-  
+
   const handleDateChange = (date) => {
     const isValidYear = isAppropriateDate(date)
     if (!isValidYear) {
@@ -139,26 +148,52 @@ export default function InsertDataView() {
 
   const isArButtonGroup = ['Yes', 'No', 'Maybe'];
 
+  // const handleInputChange = (e) => {
+  //   const { name, value } = e.target;
+  //   let isValid = true;
+  //   const numericRegex = /^[0-9]*$/;
+
+  //   switch (name) {
+  //     case 'rank':
+  //       isValid = parseInt(value) > 0 && parseInt(value) < 6;
+  //       break;
+  //     case 'maxDepth':
+  //       isValid = parseInt(value) > 0;
+  //       break;
+  //     case 'distance':
+  //       isValid = parseInt(value) > 0;
+  //       break;
+  //     case 'temp':
+  //       isValid = parseInt(value) > 0;
+  //       break;
+
+  //     default:
+  //       break;
+  //   }
+  //   setInsertData((prevFormData) => ({
+  //     ...prevFormData,
+  //     [name]: value,
+  //     errors: {
+  //       ...prevFormData.errors,
+  //       [name]: !isValid,
+  //     },
+  //   }));
+  // }
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     let isValid = true;
-    switch (name) {
-      case 'rank':
-        isValid = parseInt(value) > 0 && parseInt(value) < 6;
-        break;
-      case 'maxDepth':
-        isValid = parseInt(value) > 0;
-        break;
-      case 'distance':
-        isValid = parseInt(value) > 0;
-        break;
-      case 'temp':
-        isValid = parseInt(value) > 0;
-        break;
 
-      default:
-        break;
+    // Regular expression to match only numeric values
+    const numericRegex = /^[0-9]*$/;
+
+    // Check if the input value matches the numeric regex
+    if (!numericRegex.test(value)) {
+      // If the input value doesn't match, set isValid to false
+      isValid = false;
     }
+
+    // Update the state with the input value and validity
     setInsertData((prevFormData) => ({
       ...prevFormData,
       [name]: value,
@@ -169,11 +204,30 @@ export default function InsertDataView() {
     }));
   }
 
+
   const handleAutocompleteChange = (name, value) => {
     setInsertData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
+  };
+
+  const handleButtonClick = (value, group) => {
+    if (group === 'time') {
+      setSelectedTime(value === selectedTime ? null : value);
+      // Update the timeDive value in the insertData state
+      setInsertData(prevData => ({
+        ...prevData,
+        timeDive: value,
+      }));
+    } else if (group === 'reef') {
+      setSelectedReef(value === selectedReef ? null : value);
+      // Update the arReef value in the insertData state
+      setInsertData(prevData => ({
+        ...prevData,
+        arReef: value,
+      }));
+    }
   };
 
   const handleSubmit = async (event) => {
@@ -196,7 +250,7 @@ export default function InsertDataView() {
       return;
     }
 
-    
+
 
     console.log('The form attributes are: ', insertData);
     const divingData = {
@@ -217,6 +271,8 @@ export default function InsertDataView() {
       temp: insertData.temp,
       uploadeImage: insertData.uploadeImage
     };
+
+    console.log(divingData);
 
     // const jsdonDivingData = {
     //   divingData
@@ -336,7 +392,12 @@ export default function InsertDataView() {
 
           <ButtonGroup size="large" color="inherit" aria-label="Large button group">
             {isArButtonGroup.map((button, index) => (
-              <Button key={index}>{button}</Button>
+              <Button key={index} onClick={() => handleButtonClick(button, 'reef')}
+                variant={selectedReef === button ? "contained" : "outlined"}
+
+              >
+                {button}
+              </Button>
             ))}
           </ButtonGroup>
 
@@ -425,7 +486,15 @@ export default function InsertDataView() {
 
           <ButtonGroup size="large" color="inherit" aria-label="Large button group">
             {timeButtons.map((button, index) => (
-              <Button key={index}>{button}</Button>
+              <Button key={index} onClick={() => handleButtonClick(button, 'time')}
+                variant={selectedTime === button ? "contained" : "outlined"}
+              // style={{
+              //   backgroundColor: selectedTime === button ? "red" : "transparent",
+              //   color: selectedTime === button ? "#fff" : "#000"
+              // }}
+              >
+                {button}
+              </Button>
             ))}
           </ButtonGroup>
 
@@ -450,10 +519,10 @@ export default function InsertDataView() {
         <br />
         <div>
           <TextField
-            label='Max Depth (in meters)'
+            label='Max Depth (meters)'
+            type="number"
             id="maxDepth"
             name="maxDepth"
-            type="number"
             onChange={handleInputChange}
             error={insertData.errors.maxDepth}
             helperText={insertData.errors.maxDepth && 'number higher than 0'}
@@ -461,10 +530,10 @@ export default function InsertDataView() {
           />
 
           <TextField
-            label='Distance (in meters)'
+            label='Distance (meters)'
+            type="number"
             id="distance"
             name="distance"
-            type="number"
             onChange={handleInputChange}
             error={insertData.errors.distance}
             helperText={insertData.errors.distance && 'number higher than 0'}
@@ -472,10 +541,10 @@ export default function InsertDataView() {
           />
 
           <TextField
-            label='Temperature (in celsius)'
+            label='Temperature (celsius)'
+            type="number"
             id="temp"
             name="temp"
-            type="number"
             onChange={handleInputChange}
             error={insertData.errors.temp}
             helperText={insertData.errors.temp && 'temp is a number height than 0'}
@@ -502,20 +571,12 @@ export default function InsertDataView() {
             ) : (
               <div className="placeholder-icon">
                 <IconButton size="large" onClick={() => fileInputRef.current.click()}>
-                  <AddAPhotoIcon fontSize="inherit"  />
+                  <AddAPhotoIcon fontSize="inherit" />
                 </IconButton>
               </div>
             )}
           </div>
-          {/* Popup screen */}
-      {isPopupOpen && (
-        <div className="popup">
-          <div className="popup-inner">
-            <button onClick={togglePopup}>Close</button>
-            <img src={imagePreview} alt="Preview" />
-          </div>
-        </div>
-      )}
+
         </div>
         <br />
         <div>

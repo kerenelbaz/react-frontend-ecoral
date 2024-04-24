@@ -1,10 +1,17 @@
+/* eslint-disable no-unused-vars */
+// eslint-disable-next-line unused-imports/no-unused-imports
 import Container from '@mui/material/Container';
+// eslint-disable-next-line perfectionist/sort-imports
 import * as React from 'react';
+// eslint-disable-next-line perfectionist/sort-imports
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
+// eslint-disable-next-line perfectionist/sort-imports
 import Select from '@mui/material/Select';
+
 import './style.css';
 import 'leaflet/dist/leaflet.css';
+// eslint-disable-next-line perfectionist/sort-named-imports, unused-imports/no-unused-imports
 import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 
 export default function DiveSitesMapView() {
