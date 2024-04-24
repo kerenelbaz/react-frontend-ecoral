@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 /* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/label-has-associated-control */
@@ -24,9 +25,6 @@ import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import IconButton from '@mui/material/IconButton';
-
-
-
 
 import dataLists from './dataLists.json';
 import './styleByMe.css';
@@ -60,7 +58,7 @@ export default function InsertDataView() {
       maxDepth: false,
       distance: false,
       temp: false,
-      uploadeImage: false
+      uploadeImage: false,
     }
   });
 
@@ -230,6 +228,14 @@ export default function InsertDataView() {
     }
   };
 
+  const handleTextareaChange = (value) => {
+    // Update the state with the value of the textarea
+    setInsertData(prevData => ({
+      ...prevData,
+      userDescription: value
+    }));
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent default form submission behavior
 
@@ -250,29 +256,18 @@ export default function InsertDataView() {
       return;
     }
 
+    // Check if any errors are true
+    const hasErrors = Object.values(insertData.errors).some(error => error);
 
+    // If any error is true, return without saving the data
+    if (hasErrors) {
+      console.log('There are errors in the form. Data not saved.');
+      return;
+    }
 
-    console.log('The form attributes are: ', insertData);
-    const divingData = {
-      dateDive: insertData.dateDive,
-      timeDive: insertData.timeDive,
-      site: insertData.site,
-      objectGroup: insertData.objectGroup,
-      specie: insertData.specie,
-      file: insertData.file,
-      imgLocation: insertData.imgLocation,
-      arReef: insertData.arReef,
-      reportType: insertData.reportType,
-      typeOfDive: insertData.typeOfDive,
-      rank: insertData.rank,
-      userDescription: insertData.userDescription,
-      maxDepth: insertData.maxDepth,
-      distance: insertData.distance,
-      temp: insertData.temp,
-      uploadeImage: insertData.uploadeImage
-    };
+    const divingData = insertData.dateDive;
 
-    console.log(divingData);
+    console.log("diving data from the handler is: ",divingData);
 
     // const jsdonDivingData = {
     //   divingData
@@ -516,22 +511,22 @@ export default function InsertDataView() {
           </Stack>
 
         </div>
-        <br />
+        <br/>
         <div>
           <TextField
             label='Max Depth (meters)'
-            type="number"
+            type="text"
             id="maxDepth"
             name="maxDepth"
             onChange={handleInputChange}
             error={insertData.errors.maxDepth}
-            helperText={insertData.errors.maxDepth && 'number higher than 0'}
+            helperText={insertData.errors.maxDepth && 'only numbers higher than 0'}
             className="numbersField"
           />
 
           <TextField
             label='Distance (meters)'
-            type="number"
+            type="text"
             id="distance"
             name="distance"
             onChange={handleInputChange}
@@ -542,7 +537,7 @@ export default function InsertDataView() {
 
           <TextField
             label='Temperature (celsius)'
-            type="number"
+            type="text"
             id="temp"
             name="temp"
             onChange={handleInputChange}
@@ -581,7 +576,7 @@ export default function InsertDataView() {
         <br />
         <div>
           <label className="lblButtonsGroup" htmlFor="userDescription">Tell us about your diving trip:</label>
-          <textarea id="userDescription" name="userDescription" rows={3} className="custom-textarea" />
+          <textarea id="userDescription" name="userDescription" rows={3} className="custom-textarea"  onChange={(e) => handleTextareaChange(e.target.value)} />
         </div>
         <br />
         <div className="insideContiner">
