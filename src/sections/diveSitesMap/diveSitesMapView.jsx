@@ -1,29 +1,24 @@
-/* eslint-disable no-unused-vars */
-// eslint-disable-next-line unused-imports/no-unused-imports
-import Container from '@mui/material/Container';
-// eslint-disable-next-line perfectionist/sort-imports
-import * as React from 'react';
-// eslint-disable-next-line perfectionist/sort-imports
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 // eslint-disable-next-line perfectionist/sort-imports
 import Select from '@mui/material/Select';
+import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet';
 
-import './style.css';
 import 'leaflet/dist/leaflet.css';
-// eslint-disable-next-line perfectionist/sort-named-imports, unused-imports/no-unused-imports
-import { MapContainer, TileLayer, useMap } from 'react-leaflet';
+import './style.css';
 
 export default function DiveSitesMapView() {
-  const [position, setPosition] = React.useState([0, 0]);
+  const [position, setPosition] = useState([0, 0]);
+  const [diveSites, setDiveSites] = useState([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
+    // Fetch user's position
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (currentPosition) => {
-          console.log(currentPosition);
           const { latitude, longitude } = currentPosition.coords;
-          console.log(`https://www.google.com/maps/@${latitude},${longitude}`);
           setPosition([latitude, longitude]);
         },
         () => {
@@ -31,7 +26,27 @@ export default function DiveSitesMapView() {
         }
       );
     }
-  }, []); // Empty dependency array to run this effect only once on component mount
+    fetchDiveSitesFromServer();
+  }, []);
+
+  const fetchDiveSitesFromServer = async () => {
+    try {
+      const response = await fetch('http://localhost:8000/api/dive_sites_map', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+      });
+      if (!response.ok) {
+        throw new Error('Failed to fetch dive sites');
+      }
+      const data = await response.json();
+      console.log('Dive sites:', data.data.diveSites);
+      setDiveSites(data.data.diveSites);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <>
@@ -39,53 +54,62 @@ export default function DiveSitesMapView() {
       <FormControl sx={{ m: 1, minWidth: 120 }}>
         <InputLabel htmlFor="grouped-native-select">Search By</InputLabel>
         <Select native defaultValue="" id="grouped-native-select" label="Grouping">
-          <option aria-label="None" value="" />
+          <option aria-label="None" value="" key="none" />
           <optgroup label="Site">
-            <option value={[8, 9]} data-description="Your description here">
-              Dolphin Reef + Katza, Eilat
-            </option>
-            <option value={2}>Neptune’s Tables, Eilat</option>
-            <option value={3}>Stream of Sharks, Hadera</option>
-            <option value={4}>Underwater Archaeological Park, Old Caesarea</option>
-            <option value={5}>The Dead Sea</option>
-            <option value={6}>The Nature Reserve, Eilat</option>
-            <option value={7}>Rosh Hanikra caverns and Achziv Canyon</option>
-            <option value={8}>Scire Submarine wreck, Haifa</option>
-            <option value={9}>Kidon Shipwreck and Memorial, Nahariya</option>
-            <option value={10}>The Atlit Yam Archaeological Site</option>
+            {diveSites
+              .filter((site) => site.type === 'diveSite')
+              .map((site) => (
+                <option key={`site-${site.id}`} value={site.name} data-longitude={site.longitude} data-latitude={site.latitude} data-description={site.description}>
+                  {site.name}
+                </option>
+              ))}
           </optgroup>
           <optgroup label="Animal">
-            <option value={11}>Turtle</option>
-            <option value={12}>Dolphin</option>
-            <option value={13}>Seahorse</option>
-            <option value={14}>Octopus</option>
-            <option value={15}>Shark</option>
-            <option value={16}>Clownfish</option>
-            <option value={17}>Catfish</option>
-            <option value={18}>Stingray</option>
-            <option value={19}>Sunfish</option>
-            <option value={20}>Moray eel</option>
-            <option value={21}>Sea cucumber</option>
+            {diveSites
+              .filter((site) => site.type === 'animal')
+              .map((site) => (
+                <option key={`animal-${site.id}`} value={site.name} data-longitude={site.longitude} data-latitude={site.latitude} data-description={site.description} >
+                  {site.name}
+                </option>
+              ))}
           </optgroup>
           <optgroup label="Plant">
-            <option value={22}>Spirulina</option>
+            {diveSites
+              .filter((site) => site.type === 'plant')
+              .map((site) => (
+                <option key={`plant-${site.id}`} value={site.name} data-longitude={site.longitude} data-latitude={site.latitude} data-description={site.description}>
+                  {site.name}
+                </option>
+              ))}
           </optgroup>
         </Select>
       </FormControl>
 
-      <div id="map">
-        <MapContainer center={[32.2739226, 34.8486424]} zoom={20}>
+      <div id="map" style={{ height: '500px', width: '100%' }}>
+        <MapContainer center={position} zoom={15} style={{ height: '100%', width: '100%' }}>
+          <ChangeView center={position} zoom={15} />
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
           />
-          {/* <Marker position={[51.505, -0.09]}>
-              <Popup>
-                A pretty CSS3 popup. <br /> Easily customizable.
-              </Popup>
-            </Marker> */}
+          <Marker position={position}>
+            <Popup>Your position</Popup>
+          </Marker>
         </MapContainer>
       </div>
     </>
   );
 }
+
+// ChangeView component
+function ChangeView({ center, zoom }) {
+  const map = useMap();
+  map.setView(center, zoom);
+  return null;
+}
+
+// PropTypes for ChangeView component
+ChangeView.propTypes = {
+  center: PropTypes.arrayOf(PropTypes.number).isRequired, // PropTypes for center prop
+  zoom: PropTypes.number.isRequired, // PropTypes for zoom prop
+};
