@@ -239,8 +239,26 @@ export default function InsertDataView() {
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent default form submission behavior
 
-    // Log form data to the console
-    console.log(insertData);
+    const entireDivingData = {
+      diveCode: "4",
+      dateDive: insertData.dateDive,
+      timeDive: insertData.timeDive,
+      site: insertData.site,
+      objectGroup: insertData.objectGroup,
+      specie: insertData.specie,
+      file: insertData.file,
+      imgLocation: insertData.imgLocation,
+      uploadeImage: insertData.uploadeImage,
+      arReef: insertData.arReef,
+      reportType: insertData.reportType,
+      typeOfDive: insertData.typeOfDive,
+      rank: insertData.rank,
+      userDescription: insertData.userDescription,
+      maxDepth: insertData.maxDepth,
+      distance: insertData.distance,
+      temp: insertData.temp,
+
+    };
 
     // Check if the Date Of Dive field is empty
     if (!insertData.dateDive) {
@@ -265,39 +283,137 @@ export default function InsertDataView() {
       return;
     }
 
-    const divingData = insertData.dateDive;
+    // Save entireDivingData to local storage
+    localStorage.setItem('entireDivingData', JSON.stringify(entireDivingData));
 
-    console.log("diving data from the handler is: ",divingData);
 
-    // const jsdonDivingData = {
-    //   divingData
-    // };
 
-    // const jsdonDivingDataString = JSON.stringify(jsdonDivingData, null, 2);
+
+
+    // const tosend = {
+    //   "diveCode": "508",
+    //   "time": "night"
+    // }
+    // console.log(JSON.stringify(tosend));
+    // console.log("before the try");
 
     // try {
-    //   const response = await fetch('/api/data', {
+    //   // Send form data to the server
+    //   const response = await fetch('api/pendings_dives', {
     //     method: 'POST',
-    //     Headers: {
-    //       'Content-Type': 'application/json',
+    //     headers: {
+    //       'Content-Type': 'application/json; charset=utf-8',
     //     },
-    //     body: JSON.stringify(jsdonDivingDataString),
+    //     body: JSON.stringify(tosend)
     //   });
+    //   console.log(response);
     //   if (response.ok) {
     //     console.log('Data saved successfully');
     //     // Reset form data after successful submission
-    //     setInsertData({ /* Reset your form data here */ });
+    //     setInsertData({
+    //       dateDive: '',
+    //       timeDive: '',
+    //       site: '',
+    //       objectGroup: '',
+    //       specie: '',
+    //       file: '',
+    //       imgLocation: '',
+    //       uploadeImage: '',
+    //       arReef: '',
+    //       reportType: '',
+    //       typeOfDive: '',
+    //       rank: '',
+    //       userDescription: '',
+    //       maxDepth: '',
+    //       distance: '',
+    //       temp: '',
+    //       errors: {
+    //         dateDive: false,
+    //         site: false,
+    //         objectGroup: false,
+    //         reportType: false,
+    //         file: false,
+    //         rank: false,
+    //         maxDepth: false,
+    //         distance: false,
+    //         temp: false,
+    //         uploadeImage: false,
+    //       }
+    //     });
     //   } else {
     //     console.error('Failed to save data:', response.statusText);
     //   }
-    // } catch (e) {
-    //   console.error('Error saving data:', e.message);
+    // } catch (error) {
+    //   console.error('Error saving data:', error.message);
     // }
+
+    
+    // try{
+    //   const response = await axios.post('/api/pendings_dives', 
+    //     {"diveCode":"222","time":"night"}
+    //   )
+    //       console.log(response);
+    // }catch (error) {
+    //   console.error('Error saving data:', error.message);
+    // }
+
+     // Reset the form fields
+    event.target.reset(); // Reset the form
+
+    // Reset form data after successful submission
+    setInsertData({
+      dateDive: '',
+      timeDive: '',
+      site: '',
+      objectGroup: '',
+      specie: '',
+      imgLocation: '',
+      uploadeImage: '',
+      arReef: '',
+      reportType: '',
+      typeOfDive: '',
+      rank: '',
+      userDescription: '',
+      maxDepth: '',
+      distance: '',
+      temp: '',
+      errors: {
+        dateDive: false,
+        site: false,
+        objectGroup: false,
+        reportType: false,
+        rank: false,
+        maxDepth: false,
+        distance: false,
+        temp: false,
+        uploadeImage: false,
+      },
+    });
+
+
 
   }
 
+  
+  const handleClick = async () => {
+    console.log('hello');
+    try {
+      const response = await fetch('/api/pendings_dives'); 
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      alert(JSON.stringify(data)); // Display documents in an alert
+    } catch (error) {
+      console.error('Error fetching documents:', error.message);
+    }
+  }
+    
   return (
     <div className="container">
+       <div>
+      <button onClick={handleClick}>Get Documents</button>
+      </div>
       <h2>Input the details from your recents dives</h2>
 
       <form onSubmit={handleSubmit}>
@@ -511,7 +627,7 @@ export default function InsertDataView() {
           </Stack>
 
         </div>
-        <br/>
+        <br />
         <div>
           <TextField
             label='Max Depth (meters)'
@@ -576,7 +692,7 @@ export default function InsertDataView() {
         <br />
         <div>
           <label className="lblButtonsGroup" htmlFor="userDescription">Tell us about your diving trip:</label>
-          <textarea id="userDescription" name="userDescription" rows={3} className="custom-textarea"  onChange={(e) => handleTextareaChange(e.target.value)} />
+          <textarea id="userDescription" name="userDescription" rows={3} className="custom-textarea" onChange={(e) => handleTextareaChange(e.target.value)} />
         </div>
         <br />
         <div className="insideContiner">
