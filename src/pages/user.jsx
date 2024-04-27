@@ -10,7 +10,7 @@ export default function UserPage() {
       <Helmet>
         <title> User | Minimal UI </title>
       </Helmet>
-
+     
       <UserView />
     </>
   );

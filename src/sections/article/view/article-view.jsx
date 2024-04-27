@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
-import Button from '@mui/material/Button';
+// import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
@@ -12,7 +12,7 @@ import TablePagination from '@mui/material/TablePagination';
 
 import { users } from 'src/_mock/user';
 
-import Iconify from 'src/components/iconify';
+// import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 
 import TableNoData from '../table-no-data';
@@ -24,7 +24,7 @@ import { emptyRows, applyFilter, getComparator } from '../utils';
 
 // ----------------------------------------------------------------------
 
-export default function UserPage() {
+export default function ArticleView() {
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -34,6 +34,8 @@ export default function UserPage() {
   const [orderBy, setOrderBy] = useState('name');
 
   const [filterName, setFilterName] = useState('');
+
+  const [filterDateFrom, setFilterDateFrom] = useState('')
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -86,10 +88,16 @@ export default function UserPage() {
     setFilterName(event.target.value);
   };
 
+  const handleFilterDateFrom = (date) => {
+    setPage(0)
+    setFilterDateFrom(date)
+  }
+
   const dataFiltered = applyFilter({
     inputData: users,
     comparator: getComparator(order, orderBy),
     filterName,
+    filterDateFrom
   });
 
   const notFound = !dataFiltered.length && !!filterName;
@@ -97,11 +105,11 @@ export default function UserPage() {
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Typography variant="h4">Users</Typography>
+        <Typography variant="h4">Articles</Typography>
 
-        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
+        {/* <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
           New User
-        </Button>
+        </Button> */}
       </Stack>
 
       <Card>
@@ -109,6 +117,10 @@ export default function UserPage() {
           numSelected={selected.length}
           filterName={filterName}
           onFilterName={handleFilterByName}
+          onFilterDateFrom={handleFilterDateFrom}
+          classNames={[
+            {value: 'class', label: 'label'}
+          ]}
         />
 
         <Scrollbar>
@@ -122,11 +134,12 @@ export default function UserPage() {
                 onRequestSort={handleSort}
                 onSelectAllClick={handleSelectAllClick}
                 headLabel={[
-                  { id: 'name', label: 'name' },
+                  { id: 'name', label: 'Name' },
                   { id: 'company', label: 'Company' },
                   { id: 'role', label: 'Role' },
                   { id: 'isVerified', label: 'Verified', align: 'center' },
                   { id: 'status', label: 'Status' },
+                  { id: 'date', label: 'Date'},
                   { id: '' },
                 ]}
               />
@@ -140,8 +153,8 @@ export default function UserPage() {
                       role={row.role}
                       status={row.status}
                       company={row.company}
-                      avatarUrl={row.avatarUrl}
                       isVerified={row.isVerified}
+                      date={row.date}
                       selected={selected.indexOf(row.name) !== -1}
                       handleClick={(event) => handleClick(event, row.name)}
                     />

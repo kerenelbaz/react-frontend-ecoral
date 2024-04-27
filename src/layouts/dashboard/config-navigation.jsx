@@ -1,5 +1,7 @@
-import SvgColor from 'src/components/svg-color';
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import RoomTwoToneIcon from '@mui/icons-material/RoomTwoTone';
+
+import SvgColor from 'src/components/svg-color';
 
 // ----------------------------------------------------------------------
 
@@ -47,6 +49,11 @@ const navConfig = [
     title: 'Map',
     path: '/map',
     icon: <RoomTwoToneIcon/>,
+  },
+  {
+    title: 'Articles',
+    path: '/article-view',
+    icon: <AutoStoriesIcon/>,
   },
 
 ];

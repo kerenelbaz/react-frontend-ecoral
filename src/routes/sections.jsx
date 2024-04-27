@@ -11,6 +11,7 @@ export const ProductsPage = lazy(() => import('src/pages/products'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
 export const DiveSitesMapPage = lazy(() => import('src/pages/dive_sites_map'));
 export const InsertDataPage = lazy(() => import('src/pages/insert-data'));
+export const ArticleViewPage = lazy(() => import('src/pages/article-view'));
 
 // ----------------------------------------------------------------------
 
@@ -31,6 +32,7 @@ export default function Router() {
         { path: 'blog', element: <BlogPage /> },
         { path: 'insert-data', element: <InsertDataPage /> },
         { path: 'Map', element: <DiveSitesMapPage /> },
+        { path: 'article-view', element: <ArticleViewPage/>},
       ],
     },
     {

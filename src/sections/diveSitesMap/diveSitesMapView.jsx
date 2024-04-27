@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
+// eslint-disable-next-line perfectionist/sort-imports
 import Select from '@mui/material/Select';
 import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet';
 
