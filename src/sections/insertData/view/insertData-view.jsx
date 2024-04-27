@@ -239,26 +239,26 @@ export default function InsertDataView() {
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent default form submission behavior
 
-    const entireDivingData = {
-      diveCode: "4",
-      dateDive: insertData.dateDive,
-      timeDive: insertData.timeDive,
-      site: insertData.site,
-      objectGroup: insertData.objectGroup,
-      specie: insertData.specie,
-      file: insertData.file,
-      imgLocation: insertData.imgLocation,
-      uploadeImage: insertData.uploadeImage,
-      arReef: insertData.arReef,
-      reportType: insertData.reportType,
-      typeOfDive: insertData.typeOfDive,
-      rank: insertData.rank,
-      userDescription: insertData.userDescription,
-      maxDepth: insertData.maxDepth,
-      distance: insertData.distance,
-      temp: insertData.temp,
+    // const entireDivingData = {
+    //   diveCode: "4",
+    //   dateDive: insertData.dateDive,
+    //   timeDive: insertData.timeDive,
+    //   site: insertData.site,
+    //   objectGroup: insertData.objectGroup,
+    //   specie: insertData.specie,
+    //   file: insertData.file,
+    //   imgLocation: insertData.imgLocation,
+    //   uploadeImage: insertData.uploadeImage,
+    //   arReef: insertData.arReef,
+    //   reportType: insertData.reportType,
+    //   typeOfDive: insertData.typeOfDive,
+    //   rank: insertData.rank,
+    //   userDescription: insertData.userDescription,
+    //   maxDepth: insertData.maxDepth,
+    //   distance: insertData.distance,
+    //   temp: insertData.temp,
 
-    };
+    // };
 
     // Check if the Date Of Dive field is empty
     if (!insertData.dateDive) {
@@ -283,69 +283,69 @@ export default function InsertDataView() {
       return;
     }
 
-    // Save entireDivingData to local storage
-    localStorage.setItem('entireDivingData', JSON.stringify(entireDivingData));
+    // // Save entireDivingData to local storage
+    // localStorage.setItem('entireDivingData', JSON.stringify(entireDivingData));
 
 
 
 
 
-    // const tosend = {
-    //   "diveCode": "508",
-    //   "time": "night"
-    // }
-    // console.log(JSON.stringify(tosend));
-    // console.log("before the try");
+    const tosend = {
+      "diveCode": "17",
+      "time": "night"
+    }
+    console.log(JSON.stringify(tosend));
+    console.log("before the try");
 
-    // try {
-    //   // Send form data to the server
-    //   const response = await fetch('api/pendings_dives', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json; charset=utf-8',
-    //     },
-    //     body: JSON.stringify(tosend)
-    //   });
-    //   console.log(response);
-    //   if (response.ok) {
-    //     console.log('Data saved successfully');
-    //     // Reset form data after successful submission
-    //     setInsertData({
-    //       dateDive: '',
-    //       timeDive: '',
-    //       site: '',
-    //       objectGroup: '',
-    //       specie: '',
-    //       file: '',
-    //       imgLocation: '',
-    //       uploadeImage: '',
-    //       arReef: '',
-    //       reportType: '',
-    //       typeOfDive: '',
-    //       rank: '',
-    //       userDescription: '',
-    //       maxDepth: '',
-    //       distance: '',
-    //       temp: '',
-    //       errors: {
-    //         dateDive: false,
-    //         site: false,
-    //         objectGroup: false,
-    //         reportType: false,
-    //         file: false,
-    //         rank: false,
-    //         maxDepth: false,
-    //         distance: false,
-    //         temp: false,
-    //         uploadeImage: false,
-    //       }
-    //     });
-    //   } else {
-    //     console.error('Failed to save data:', response.statusText);
-    //   }
-    // } catch (error) {
-    //   console.error('Error saving data:', error.message);
-    // }
+    try {
+      // Send form data to the server
+      const response = await fetch('http://localhost:8000/api/pendings_dives', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify(tosend)
+      });
+      console.log(response);
+      if (response.ok) {
+        console.log('Data saved successfully');
+        // Reset form data after successful submission
+        setInsertData({
+          dateDive: '',
+          timeDive: '',
+          site: '',
+          objectGroup: '',
+          specie: '',
+          file: '',
+          imgLocation: '',
+          uploadeImage: '',
+          arReef: '',
+          reportType: '',
+          typeOfDive: '',
+          rank: '',
+          userDescription: '',
+          maxDepth: '',
+          distance: '',
+          temp: '',
+          errors: {
+            dateDive: false,
+            site: false,
+            objectGroup: false,
+            reportType: false,
+            file: false,
+            rank: false,
+            maxDepth: false,
+            distance: false,
+            temp: false,
+            uploadeImage: false,
+          }
+        });
+      } else {
+        console.error('Failed to save data:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error saving data:', error.message);
+    }
 
     
     // try{
@@ -358,37 +358,37 @@ export default function InsertDataView() {
     // }
 
      // Reset the form fields
-    event.target.reset(); // Reset the form
+    // event.target.reset(); // Reset the form
 
-    // Reset form data after successful submission
-    setInsertData({
-      dateDive: '',
-      timeDive: '',
-      site: '',
-      objectGroup: '',
-      specie: '',
-      imgLocation: '',
-      uploadeImage: '',
-      arReef: '',
-      reportType: '',
-      typeOfDive: '',
-      rank: '',
-      userDescription: '',
-      maxDepth: '',
-      distance: '',
-      temp: '',
-      errors: {
-        dateDive: false,
-        site: false,
-        objectGroup: false,
-        reportType: false,
-        rank: false,
-        maxDepth: false,
-        distance: false,
-        temp: false,
-        uploadeImage: false,
-      },
-    });
+    // // Reset form data after successful submission
+    // setInsertData({
+    //   dateDive: '',
+    //   timeDive: '',
+    //   site: '',
+    //   objectGroup: '',
+    //   specie: '',
+    //   imgLocation: '',
+    //   uploadeImage: '',
+    //   arReef: '',
+    //   reportType: '',
+    //   typeOfDive: '',
+    //   rank: '',
+    //   userDescription: '',
+    //   maxDepth: '',
+    //   distance: '',
+    //   temp: '',
+    //   errors: {
+    //     dateDive: false,
+    //     site: false,
+    //     objectGroup: false,
+    //     reportType: false,
+    //     rank: false,
+    //     maxDepth: false,
+    //     distance: false,
+    //     temp: false,
+    //     uploadeImage: false,
+    //   },
+    // });
 
 
 
@@ -398,7 +398,7 @@ export default function InsertDataView() {
   const handleClick = async () => {
     console.log('hello');
     try {
-      const response = await fetch('/api/pendings_dives'); 
+      const response = await fetch('http://localhost:8000/api/pendings_dives'); 
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
