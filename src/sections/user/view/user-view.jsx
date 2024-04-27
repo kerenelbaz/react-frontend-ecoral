@@ -1,5 +1,4 @@
-import { useState } from 'react';
-
+import { useState, useEffect } from 'react';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
@@ -9,12 +8,8 @@ import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
-
-import { users } from 'src/_mock/user';
-
 import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
-
 import TableNoData from '../table-no-data';
 import UserTableRow from '../user-table-row';
 import UserTableHead from '../user-table-head';
@@ -22,20 +17,14 @@ import TableEmptyRows from '../table-empty-rows';
 import UserTableToolbar from '../user-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
 
-// ----------------------------------------------------------------------
-
 export default function UserPage() {
   const [page, setPage] = useState(0);
-
   const [order, setOrder] = useState('asc');
-
   const [selected, setSelected] = useState([]);
-
   const [orderBy, setOrderBy] = useState('name');
-
   const [filterName, setFilterName] = useState('');
-
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [usersData, setUsersData] = useState([]);
 
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
@@ -45,9 +34,29 @@ export default function UserPage() {
     }
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/api/pendings_dives');
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
+        }
+        const responseData = await response.json();
+        const { pendingDives } = responseData.data;
+        setUsersData(pendingDives); // Set the fetched data to state
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = users.map((n) => n.name);
+      const newSelecteds = usersData.map((n) => n._id); // Adjusted to use usersData
       setSelected(newSelecteds);
       return;
     }
@@ -87,7 +96,7 @@ export default function UserPage() {
   };
 
   const dataFiltered = applyFilter({
-    inputData: users,
+    inputData: usersData,
     comparator: getComparator(order, orderBy),
     filterName,
   });
@@ -98,7 +107,6 @@ export default function UserPage() {
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">Users</Typography>
-
         <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
           New User
         </Button>
@@ -117,17 +125,28 @@ export default function UserPage() {
               <UserTableHead
                 order={order}
                 orderBy={orderBy}
-                rowCount={users.length}
+                rowCount={usersData.length}
                 numSelected={selected.length}
                 onRequestSort={handleSort}
                 onSelectAllClick={handleSelectAllClick}
                 headLabel={[
-                  { id: 'name', label: 'name' },
-                  { id: 'company', label: 'Company' },
-                  { id: 'role', label: 'Role' },
-                  { id: 'isVerified', label: 'Verified', align: 'center' },
-                  { id: 'status', label: 'Status' },
+                  { id: 'loggedData', label: 'Logged Data' },
+                  { id: 'dateDive', label: 'Date Dive' },
+                  { id: 'timeDive', label: 'Time Dive' },
+                  { id: 'site', label: 'Site' },
+                  { id: 'objectGroup', label: 'Object Group' },
+                  { id: 'specie', label: 'Specie' },
+                  { id: 'arReef', label: 'is AR Reef?' },
+                  { id: 'imgLocation', label: 'Img Location' },
+                  { id: 'reportType', label: 'Report Type' },
+                  { id: 'typeOfDive', label: 'Type of Dive' },
+                  { id: 'rank', label: 'Rank' },
+                  { id: 'userDescription', label: 'User Description' },
+                  { id: 'maxDepth', label: 'Max Depth' },
+                  { id: 'distance', label: 'Distance' },
+                  { id: 'temp', label: 'Temp' },
                   { id: '' },
+                  // { id: 'file', label: 'File' },
                 ]}
               />
               <TableBody>
@@ -135,21 +154,30 @@ export default function UserPage() {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (
                     <UserTableRow
-                      key={row.id}
-                      name={row.name}
-                      role={row.role}
-                      status={row.status}
-                      company={row.company}
-                      avatarUrl={row.avatarUrl}
-                      isVerified={row.isVerified}
-                      selected={selected.indexOf(row.name) !== -1}
+                      key={row._id}
+                      loggedData={row.loggingDate}
+                      dateDive={row.date}
+                      timeDive={row.time}
+                      site={row.diveSite}
+                      objectGroup={row.objectGroup}
+                      specie={row.specie}
+                      // file={row.file}
+                      imgLocation={row.imageLocation}
+                      arReef={row.AR}
+                      reportType={row.reportType}
+                      typeOfDive={row.typeOfDive}
+                      rank={row.rankOfDive}
+                      userDescription={row.userDescription}
+                      maxDepth={row.maxDepth}
+                      distance={row.distance}
+                      temp={row.temp}
                       handleClick={(event) => handleClick(event, row.name)}
                     />
                   ))}
 
                 <TableEmptyRows
                   height={77}
-                  emptyRows={emptyRows(page, rowsPerPage, users.length)}
+                  emptyRows={emptyRows(page, rowsPerPage, usersData.length)}
                 />
 
                 {notFound && <TableNoData query={filterName} />}
@@ -161,7 +189,7 @@ export default function UserPage() {
         <TablePagination
           page={page}
           component="div"
-          count={users.length}
+          count={usersData.length}
           rowsPerPage={rowsPerPage}
           onPageChange={handleChangePage}
           rowsPerPageOptions={[5, 10, 25]}

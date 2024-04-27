@@ -1,28 +1,35 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import Stack from '@mui/material/Stack';
-import Avatar from '@mui/material/Avatar';
 import Popover from '@mui/material/Popover';
 import TableRow from '@mui/material/TableRow';
 import Checkbox from '@mui/material/Checkbox';
 import MenuItem from '@mui/material/MenuItem';
 import TableCell from '@mui/material/TableCell';
-import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
-import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
 export default function UserTableRow({
   selected,
-  name,
-  avatarUrl,
-  company,
-  role,
-  isVerified,
+  dateDive,
+  timeDive,
+  site,
+  objectGroup,
+  specie,
+  file,
+  imgLocation,
+  uploadeImage,
+  arReef,
+  reportType,
+  typeOfDive,
+  rank,
+  userDescription,
+  maxDepth,
+  distance,
+  temp,
   status,
   handleClick,
 }) {
@@ -43,24 +50,22 @@ export default function UserTableRow({
           <Checkbox disableRipple checked={selected} onChange={handleClick} />
         </TableCell>
 
-        <TableCell component="th" scope="row" padding="none">
-          <Stack direction="row" alignItems="center" spacing={2}>
-            <Avatar alt={name} src={avatarUrl} />
-            <Typography variant="subtitle2" noWrap>
-              {name}
-            </Typography>
-          </Stack>
-        </TableCell>
-
-        <TableCell>{company}</TableCell>
-
-        <TableCell>{role}</TableCell>
-
-        <TableCell align="center">{isVerified ? 'Yes' : 'No'}</TableCell>
-
-        <TableCell>
-          <Label color={(status === 'banned' && 'error') || 'success'}>{status}</Label>
-        </TableCell>
+        <TableCell>{dateDive}</TableCell>
+        <TableCell>{timeDive}</TableCell>
+        <TableCell>{site}</TableCell>
+        <TableCell>{objectGroup}</TableCell>
+        <TableCell>{specie}</TableCell>
+        <TableCell>{file}</TableCell>
+        <TableCell>{imgLocation}</TableCell>
+        <TableCell>{uploadeImage}</TableCell>
+        <TableCell>{arReef}</TableCell>
+        <TableCell>{reportType}</TableCell>
+        <TableCell>{typeOfDive}</TableCell>
+        <TableCell>{rank}</TableCell>
+        <TableCell>{userDescription}</TableCell>
+        <TableCell>{maxDepth}</TableCell>
+        <TableCell>{distance}</TableCell>
+        <TableCell>{temp}</TableCell>
 
         <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>
@@ -94,12 +99,23 @@ export default function UserTableRow({
 }
 
 UserTableRow.propTypes = {
-  avatarUrl: PropTypes.any,
-  company: PropTypes.any,
+  dateDive: PropTypes.string,
+  timeDive: PropTypes.string,
+  site: PropTypes.string,
+  objectGroup: PropTypes.string,
+  specie: PropTypes.string,
+  file: PropTypes.string,
+  imgLocation: PropTypes.string,
+  uploadeImage: PropTypes.string,
+  arReef: PropTypes.string,
+  reportType: PropTypes.string,
+  typeOfDive: PropTypes.string,
+  rank: PropTypes.string,
+  userDescription: PropTypes.string,
+  maxDepth: PropTypes.string,
+  distance: PropTypes.string,
+  temp: PropTypes.string,
+  selected: PropTypes.bool,
   handleClick: PropTypes.func,
-  isVerified: PropTypes.any,
-  name: PropTypes.any,
-  role: PropTypes.any,
-  selected: PropTypes.any,
   status: PropTypes.string,
 };

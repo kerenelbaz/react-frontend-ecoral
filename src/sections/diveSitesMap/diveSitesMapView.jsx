@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import 'leaflet/dist/leaflet.css';
 import PropTypes from 'prop-types';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
+import React, { useState, useEffect } from 'react';
+import { Popup, useMap, Marker, TileLayer, MapContainer } from 'react-leaflet';
+
 // eslint-disable-next-line perfectionist/sort-imports
 import Select from '@mui/material/Select';
-import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
 
-import 'leaflet/dist/leaflet.css';
 import './style.css';
 
 export default function DiveSitesMapView() {
