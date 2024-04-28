@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
@@ -6,10 +7,12 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
+import DatasetIcon from '@mui/icons-material/Dataset';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
-import Iconify from 'src/components/iconify';
+
 import Scrollbar from 'src/components/scrollbar';
+
 import TableNoData from '../table-no-data';
 import UserTableRow from '../user-table-row';
 import UserTableHead from '../user-table-head';
@@ -44,6 +47,7 @@ export default function UserPage() {
         const responseData = await response.json();
         const { pendingDives } = responseData.data;
         setUsersData(pendingDives); // Set the fetched data to state
+        console.log(usersData[0].time);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -95,6 +99,32 @@ export default function UserPage() {
     setFilterName(event.target.value);
   };
 
+
+  const formatDateTime = (dateTimeString) => {
+    console.log(dateTimeString)
+    const dateTime = new Date(dateTimeString);
+    
+    // Format the date
+    const dateFormatter = new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: '2-digit',
+    });
+    const formattedDate = dateFormatter.format(dateTime);
+    
+    // Format the time
+    const timeFormatter = new Intl.DateTimeFormat('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+    const formattedTime = timeFormatter.format(dateTime);
+    
+    // Combine date and time
+    return `${formattedDate}, ${formattedTime}`;
+  };
+  
+
+
   const dataFiltered = applyFilter({
     inputData: usersData,
     comparator: getComparator(order, orderBy),
@@ -106,9 +136,9 @@ export default function UserPage() {
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Typography variant="h4">Users</Typography>
-        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
-          New User
+        <Typography variant="h4">Admin Approves</Typography>
+        <Button variant="contained" color="inherit" startIcon={<DatasetIcon icon="eva:plus-fill" />}>
+          All Data
         </Button>
       </Stack>
 
@@ -130,21 +160,21 @@ export default function UserPage() {
                 onRequestSort={handleSort}
                 onSelectAllClick={handleSelectAllClick}
                 headLabel={[
-                  { id: 'loggedData', label: 'Logged Data' },
+                  { id: 'loggingDate', label: 'logged Data' },
                   { id: 'dateDive', label: 'Date Dive' },
                   { id: 'timeDive', label: 'Time Dive' },
                   { id: 'site', label: 'Site' },
                   { id: 'objectGroup', label: 'Object Group' },
                   { id: 'specie', label: 'Specie' },
-                  { id: 'arReef', label: 'is AR Reef?' },
-                  { id: 'imgLocation', label: 'Img Location' },
-                  { id: 'reportType', label: 'Report Type' },
-                  { id: 'typeOfDive', label: 'Type of Dive' },
-                  { id: 'rank', label: 'Rank' },
-                  { id: 'userDescription', label: 'User Description' },
-                  { id: 'maxDepth', label: 'Max Depth' },
-                  { id: 'distance', label: 'Distance' },
-                  { id: 'temp', label: 'Temp' },
+                  // { id: 'arReef', label: 'is AR Reef?' },
+                  // { id: 'imgLocation', label: 'Img Location' },
+                  // { id: 'reportType', label: 'Report Type' },
+                  // { id: 'typeOfDive', label: 'Type of Dive' },
+                  // { id: 'rank', label: 'Rank' },
+                  // { id: 'userDescription', label: 'User Description' },
+                  // { id: 'maxDepth', label: 'Max Depth' },
+                  // { id: 'distance', label: 'Distance' },
+                  // { id: 'temp', label: 'Temp' },
                   { id: '' },
                   // { id: 'file', label: 'File' },
                 ]}
@@ -153,24 +183,26 @@ export default function UserPage() {
                 {dataFiltered
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (
+                    
                     <UserTableRow
+                   
                       key={row._id}
-                      loggedData={row.loggingDate}
-                      dateDive={row.date}
+                      loggingDate={formatDateTime(row.loggingDate)}
+                      dateDive={formatDateTime(row.date)}
                       timeDive={row.time}
                       site={row.diveSite}
                       objectGroup={row.objectGroup}
                       specie={row.specie}
+                      // arReef={row.AR}
+                      // imgLocation={row.imageLocation}
+                      // reportType={row.reportType}
+                      // typeOfDive={row.typeOfDive}
+                      // rank={row.rankOfDive}
+                      // userDescription={row.userDescription}
+                      // maxDepth={row.maxDepth}
+                      // distance={row.distance}
+                      // temp={row.temp}
                       // file={row.file}
-                      imgLocation={row.imageLocation}
-                      arReef={row.AR}
-                      reportType={row.reportType}
-                      typeOfDive={row.typeOfDive}
-                      rank={row.rankOfDive}
-                      userDescription={row.userDescription}
-                      maxDepth={row.maxDepth}
-                      distance={row.distance}
-                      temp={row.temp}
                       handleClick={(event) => handleClick(event, row.name)}
                     />
                   ))}

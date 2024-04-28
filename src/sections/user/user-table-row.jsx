@@ -14,6 +14,7 @@ import Iconify from 'src/components/iconify';
 
 export default function UserTableRow({
   selected,
+  loggingDate,
   dateDive,
   timeDive,
   site,
@@ -49,15 +50,14 @@ export default function UserTableRow({
         <TableCell padding="checkbox">
           <Checkbox disableRipple checked={selected} onChange={handleClick} />
         </TableCell>
-
+        
+        <TableCell>{loggingDate}</TableCell>
         <TableCell>{dateDive}</TableCell>
         <TableCell>{timeDive}</TableCell>
         <TableCell>{site}</TableCell>
         <TableCell>{objectGroup}</TableCell>
         <TableCell>{specie}</TableCell>
-        <TableCell>{file}</TableCell>
-        <TableCell>{imgLocation}</TableCell>
-        <TableCell>{uploadeImage}</TableCell>
+        {/* <TableCell>{imgLocation}</TableCell>
         <TableCell>{arReef}</TableCell>
         <TableCell>{reportType}</TableCell>
         <TableCell>{typeOfDive}</TableCell>
@@ -66,7 +66,7 @@ export default function UserTableRow({
         <TableCell>{maxDepth}</TableCell>
         <TableCell>{distance}</TableCell>
         <TableCell>{temp}</TableCell>
-
+        <TableCell>{file}</TableCell> */}
         <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>
             <Iconify icon="eva:more-vertical-fill" />
@@ -99,11 +99,13 @@ export default function UserTableRow({
 }
 
 UserTableRow.propTypes = {
+  loggingDate: PropTypes.string,
   dateDive: PropTypes.string,
   timeDive: PropTypes.string,
   site: PropTypes.string,
   objectGroup: PropTypes.string,
   specie: PropTypes.string,
+  
   file: PropTypes.string,
   imgLocation: PropTypes.string,
   uploadeImage: PropTypes.string,
