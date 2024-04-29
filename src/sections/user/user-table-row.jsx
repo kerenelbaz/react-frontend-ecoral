@@ -1,19 +1,23 @@
+/* eslint-disable jsx-a11y/alt-text */
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
+// import Button from '@mui/material/Button'; 
 import Popover from '@mui/material/Popover';
 import TableRow from '@mui/material/TableRow';
-import Checkbox from '@mui/material/Checkbox';
-import MenuItem from '@mui/material/MenuItem';
+// import MenuItem from '@mui/material/MenuItem';
+// import Checkbox from '@mui/material/Checkbox';
+import EditIcon from '@mui/icons-material/Edit';
 import TableCell from '@mui/material/TableCell';
 import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 
-import Iconify from 'src/components/iconify';
+// import Iconify from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
 export default function UserTableRow({
-  selected,
+  // selected,
   loggingDate,
   dateDive,
   timeDive,
@@ -37,9 +41,10 @@ export default function UserTableRow({
 }) {
   const [open, setOpen] = useState(null);
 
-  const handleOpenMenu = (event) => {
-    setOpen(event.currentTarget);
-  };
+
+  // const handleOpenMenu = (event) => {
+  //   setOpen(event.currentTarget);
+  // };
 
   const handleCloseMenu = () => {
     setOpen(null);
@@ -49,11 +54,25 @@ export default function UserTableRow({
     onEditClick(); // Call the function passed from the parent component
   };
 
+  
+
   return (
     <>
-      <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
-        <TableCell padding="checkbox">
+      {/* <TableRow hover tabIndex={-1} role="checkbox" selected={selected}> */}
+      <TableRow>
+        {/* <TableCell padding="checkbox">
           <Checkbox disableRipple checked={selected} onChange={handleClick} />
+        </TableCell> */}
+        {/* <IconButton aria-label="delete" size="small" color='success'>
+            <DeleteIcon fontSize="small" color='red' />
+          </IconButton> */}
+        <TableCell padding="checkbox">
+          {/* <Button onClick={handleClick} variant="outlined" startIcon={<EditIcon/>}>
+            Edit
+          </Button> */}
+          <IconButton aria-label="edit" size="small" color='primary' onClick={handleEditClick}>
+            <EditIcon fontSize="small" />
+          </IconButton>
         </TableCell>
         
         <TableCell>{loggingDate}</TableCell>
@@ -61,9 +80,10 @@ export default function UserTableRow({
         <TableCell>{timeDive}</TableCell>
         <TableCell>{site}</TableCell>
         <TableCell>{objectGroup}</TableCell>
-        <TableCell>{specie}</TableCell>
         <TableCell>{reportType}</TableCell>
+        <TableCell>{file}</TableCell>
         {/* <TableCell>{imgLocation}</TableCell>
+        <TableCell>{specie}</TableCell>
         <TableCell>{arReef}</TableCell>
         <TableCell>{typeOfDive}</TableCell>
         <TableCell>{rank}</TableCell>
@@ -71,12 +91,19 @@ export default function UserTableRow({
         <TableCell>{maxDepth}</TableCell>
         <TableCell>{distance}</TableCell>
         <TableCell>{temp}</TableCell>
-        <TableCell>{file}</TableCell> */}
-        <TableCell align="right">
+         */}
+         <TableCell>
+          <IconButton aria-label="delete" size="small" color='error'>
+            <DeleteIcon fontSize="small" color='red' />
+          </IconButton>
+          
+         </TableCell>
+        
+        {/* <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>
             <Iconify icon="eva:more-vertical-fill" />
           </IconButton>
-        </TableCell>
+        </TableCell> */}
       </TableRow>
 
       <Popover
@@ -89,7 +116,7 @@ export default function UserTableRow({
           sx: { width: 140 },
         }}
       >
-        <MenuItem onClick={handleEditClick}>
+        {/* <MenuItem onClick={handleEditClick}>
           <Iconify icon="eva:edit-fill" sx={{ mr: 2 }}/>
           Edit
         </MenuItem>
@@ -97,7 +124,7 @@ export default function UserTableRow({
         <MenuItem onClick={handleCloseMenu} sx={{ color: 'error.main' }}>
           <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
           Delete
-        </MenuItem>
+        </MenuItem> */}
       </Popover>
     </>
   );
@@ -122,7 +149,7 @@ UserTableRow.propTypes = {
   maxDepth: PropTypes.string,
   distance: PropTypes.string,
   temp: PropTypes.string,
-  selected: PropTypes.bool,
+  // selected: PropTypes.bool,
   handleClick: PropTypes.func,
   status: PropTypes.string,
 };

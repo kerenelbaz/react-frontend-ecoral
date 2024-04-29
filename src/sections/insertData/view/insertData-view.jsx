@@ -1,38 +1,32 @@
-/* eslint-disable react/no-unknown-property */
-/* eslint-disable react/button-has-type */
-/* eslint-disable jsx-a11y/alt-text */
-/* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable radix */
 /* eslint-disable no-nested-ternary */
-/* eslint-disable perfectionist/sort-imports */
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import PropTypes from 'prop-types';
 import { useRef, useState, useEffect } from "react";
 
+import Stack from '@mui/material/Stack';
+import Alert from '@mui/material/Alert';
+import Button from '@mui/material/Button';
+import Rating from '@mui/material/Rating';
+import Snackbar from '@mui/material/Snackbar';
+import SendIcon from '@mui/icons-material/Send';
+import TextField from '@mui/material/TextField';
+import IconButton from '@mui/material/IconButton';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import Autocomplete from '@mui/material/Autocomplete';
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import Button from '@mui/material/Button';
-import SendIcon from '@mui/icons-material/Send';
-import ButtonGroup from '@mui/material/ButtonGroup';
-import Autocomplete from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
-import Rating from '@mui/material/Rating';
-import Stack from '@mui/material/Stack';
-import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
-import IconButton from '@mui/material/IconButton';
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
-import dataLists from './dataLists.json';
+
 import './styleByMe.css';
+import dataLists from './dataLists.json';
 
 // const serverPath = http://localhost:8000
 
-export default function InsertDataView() {
+export default function InsertDataView({userData}) {
   const [insertData, setInsertData] = useState({
     dateDive: '',
     timeDive: '',
@@ -125,6 +119,7 @@ export default function InsertDataView() {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result);
+        console.log("previwe is: ",reader.result)
         setInsertData(prevData => ({
           ...prevData,
           file: reader.result,
@@ -276,15 +271,7 @@ export default function InsertDataView() {
 
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent default form submission behavior
-    
-    // const decodedImageData = atob(insertData.file);
-
-    // // Convert the binary data to a Uint8Array
-    // const byteArray = new Uint8Array(decodedImageData.length);
-    // // eslint-disable-next-line no-plusplus
-    // for (let i = 0; i < decodedImageData.length; i++) {
-    //   byteArray[i] = decodedImageData.charCodeAt(i);
-    // }
+   
     console.log(insertData.file)
     const entireDivingData = {
       diveCode,
@@ -464,6 +451,7 @@ export default function InsertDataView() {
             renderInput={(params) => (
               <TextField
                 {...params}
+                // value={insertData.specieName}
                 label="Specie Name"
                 name="specie"
                 autoComplete='specie'
@@ -694,7 +682,7 @@ export default function InsertDataView() {
                         severity="success"
                         sx={{ width: '100%' }}
                     >
-                        Account Created, Thank You
+                        Your Diving Details - Saved, Thank You
                     </Alert>
                 </Snackbar>
         <div className="insideContiner">
@@ -714,3 +702,6 @@ export default function InsertDataView() {
 
   )
 }
+InsertDataView.propTypes = {
+  userData: PropTypes.object.isRequired,
+};
