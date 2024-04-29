@@ -47,7 +47,6 @@ export default function UserPage() {
         const responseData = await response.json();
         const { pendingDives } = responseData.data;
         setUsersData(pendingDives); // Set the fetched data to state
-        console.log(usersData[0].time);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -68,6 +67,7 @@ export default function UserPage() {
   };
 
   const handleClick = (event, name) => {
+
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
     if (selectedIndex === -1) {
@@ -101,7 +101,6 @@ export default function UserPage() {
 
 
   const formatDateTime = (dateTimeString) => {
-    console.log(dateTimeString)
     const dateTime = new Date(dateTimeString);
     
     // Format the date
@@ -132,6 +131,10 @@ export default function UserPage() {
   });
 
   const notFound = !dataFiltered.length && !!filterName;
+
+  const handleEditClick = () => {
+    console.log("hello");
+  };
 
   return (
     <Container>
@@ -168,7 +171,7 @@ export default function UserPage() {
                   { id: 'specie', label: 'Specie' },
                   // { id: 'arReef', label: 'is AR Reef?' },
                   // { id: 'imgLocation', label: 'Img Location' },
-                  // { id: 'reportType', label: 'Report Type' },
+                  { id: 'reportType', label: 'Report Type' },
                   // { id: 'typeOfDive', label: 'Type of Dive' },
                   // { id: 'rank', label: 'Rank' },
                   // { id: 'userDescription', label: 'User Description' },
@@ -195,7 +198,7 @@ export default function UserPage() {
                       specie={row.specie}
                       // arReef={row.AR}
                       // imgLocation={row.imageLocation}
-                      // reportType={row.reportType}
+                      reportType={row.reportType}
                       // typeOfDive={row.typeOfDive}
                       // rank={row.rankOfDive}
                       // userDescription={row.userDescription}
@@ -204,6 +207,7 @@ export default function UserPage() {
                       // temp={row.temp}
                       // file={row.file}
                       handleClick={(event) => handleClick(event, row.name)}
+                      onEditClick={handleEditClick} // passed as a prop
                     />
                   ))}
 

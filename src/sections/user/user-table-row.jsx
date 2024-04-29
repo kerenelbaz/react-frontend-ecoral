@@ -33,6 +33,7 @@ export default function UserTableRow({
   temp,
   status,
   handleClick,
+  onEditClick,
 }) {
   const [open, setOpen] = useState(null);
 
@@ -42,6 +43,10 @@ export default function UserTableRow({
 
   const handleCloseMenu = () => {
     setOpen(null);
+  };
+
+  const handleEditClick = () => {
+    onEditClick(); // Call the function passed from the parent component
   };
 
   return (
@@ -57,9 +62,9 @@ export default function UserTableRow({
         <TableCell>{site}</TableCell>
         <TableCell>{objectGroup}</TableCell>
         <TableCell>{specie}</TableCell>
+        <TableCell>{reportType}</TableCell>
         {/* <TableCell>{imgLocation}</TableCell>
         <TableCell>{arReef}</TableCell>
-        <TableCell>{reportType}</TableCell>
         <TableCell>{typeOfDive}</TableCell>
         <TableCell>{rank}</TableCell>
         <TableCell>{userDescription}</TableCell>
@@ -84,8 +89,8 @@ export default function UserTableRow({
           sx: { width: 140 },
         }}
       >
-        <MenuItem onClick={handleCloseMenu}>
-          <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
+        <MenuItem onClick={handleEditClick}>
+          <Iconify icon="eva:edit-fill" sx={{ mr: 2 }}/>
           Edit
         </MenuItem>
 
@@ -105,7 +110,7 @@ UserTableRow.propTypes = {
   site: PropTypes.string,
   objectGroup: PropTypes.string,
   specie: PropTypes.string,
-  
+  onEditClick: PropTypes.func,
   file: PropTypes.string,
   imgLocation: PropTypes.string,
   uploadeImage: PropTypes.string,

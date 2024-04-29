@@ -293,7 +293,7 @@ export default function InsertDataView() {
       diveSite: insertData.site,
       objectGroup: insertData.objectGroup,
       specie: insertData.specie,
-      // file: insertData.file,
+      file: insertData.file,
       imageLocation: insertData.imgLocation,
       uploadeImage: insertData.uploadeImage,
       AR: insertData.arReef,
