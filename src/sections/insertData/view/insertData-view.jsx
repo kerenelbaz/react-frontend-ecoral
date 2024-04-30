@@ -1,36 +1,32 @@
-/* eslint-disable react/no-unknown-property */
-/* eslint-disable react/button-has-type */
-/* eslint-disable jsx-a11y/alt-text */
-/* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable radix */
 /* eslint-disable no-nested-ternary */
-/* eslint-disable perfectionist/sort-imports */
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import PropTypes from 'prop-types';
 import { useRef, useState, useEffect } from "react";
 
+import Stack from '@mui/material/Stack';
+import Alert from '@mui/material/Alert';
+import Button from '@mui/material/Button';
+import Rating from '@mui/material/Rating';
+import Snackbar from '@mui/material/Snackbar';
+import SendIcon from '@mui/icons-material/Send';
+import TextField from '@mui/material/TextField';
+import IconButton from '@mui/material/IconButton';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import Autocomplete from '@mui/material/Autocomplete';
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import Button from '@mui/material/Button';
-import SendIcon from '@mui/icons-material/Send';
-import ButtonGroup from '@mui/material/ButtonGroup';
-import Autocomplete from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
-import Rating from '@mui/material/Rating';
-import Stack from '@mui/material/Stack';
-import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
-import IconButton from '@mui/material/IconButton';
 
-import dataLists from './dataLists.json';
 import './styleByMe.css';
+import dataLists from './dataLists.json';
 
+// const serverPath = http://localhost:8000
 
-export default function InsertDataView() {
+export default function InsertDataView({userData}) {
   const [insertData, setInsertData] = useState({
     dateDive: '',
     timeDive: '',
@@ -62,6 +58,7 @@ export default function InsertDataView() {
     }
   });
 
+  const [diveCode, setDiveCode] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
 
   const [imagePreview, setImagePreview] = useState(null);
@@ -69,9 +66,43 @@ export default function InsertDataView() {
   const [selectedTime, setSelectedTime] = useState(null);
   const [selectedReef, setSelectedReef] = useState(null);
 
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+
   const fileInputRef = useRef(null);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/api/pendings_dives');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
 
+        const responseData = await response.json();
+        const { pendingDives } = responseData.data;
+
+        const diveCodes = pendingDives.map(pendingDive => pendingDive.diveCode).filter(code => code);
+
+        let newDiveCode;
+        if (diveCodes.length === 0) {
+          newDiveCode = 0;
+        } else {
+          const lastDiveCode = Math.max(...diveCodes);
+          newDiveCode = lastDiveCode + 1;
+        }
+
+        console.log('New dive code:', newDiveCode);
+        setDiveCode(newDiveCode); // Set the state with the new dive code
+
+      } catch (error) {
+        console.error('Error fetching documents:', error.message);
+      }
+    };
+
+    fetchData();
+  }, []); // Empty dependency array to run effect only once on component mount
+
+  
   // Update button states when selectedTime or selectedReef changes
   useEffect(() => {
     setInsertData(prevData => ({
@@ -88,12 +119,14 @@ export default function InsertDataView() {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result);
+        console.log("previwe is: ",reader.result)
         setInsertData(prevData => ({
           ...prevData,
           file: reader.result,
         }));
       };
       reader.readAsDataURL(file);
+
     } else {
       setImagePreview(null);
     }
@@ -238,21 +271,22 @@ export default function InsertDataView() {
 
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent default form submission behavior
-
+   
+    console.log(insertData.file)
     const entireDivingData = {
-      diveCode: "4",
-      dateDive: insertData.dateDive,
-      timeDive: insertData.timeDive,
-      site: insertData.site,
+      diveCode,
+      date: insertData.dateDive,
+      time: insertData.timeDive,
+      diveSite: insertData.site,
       objectGroup: insertData.objectGroup,
       specie: insertData.specie,
       file: insertData.file,
-      imgLocation: insertData.imgLocation,
+      imageLocation: insertData.imgLocation,
       uploadeImage: insertData.uploadeImage,
-      arReef: insertData.arReef,
+      AR: insertData.arReef,
       reportType: insertData.reportType,
       typeOfDive: insertData.typeOfDive,
-      rank: insertData.rank,
+      rankOfDive: insertData.rank,
       userDescription: insertData.userDescription,
       maxDepth: insertData.maxDepth,
       distance: insertData.distance,
@@ -283,137 +317,83 @@ export default function InsertDataView() {
       return;
     }
 
-    // Save entireDivingData to local storage
-    localStorage.setItem('entireDivingData', JSON.stringify(entireDivingData));
-
-
-
-
-
-    // const tosend = {
-    //   "diveCode": "508",
-    //   "time": "night"
-    // }
-    // console.log(JSON.stringify(tosend));
-    // console.log("before the try");
-
-    // try {
-    //   // Send form data to the server
-    //   const response = await fetch('api/pendings_dives', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json; charset=utf-8',
-    //     },
-    //     body: JSON.stringify(tosend)
-    //   });
-    //   console.log(response);
-    //   if (response.ok) {
-    //     console.log('Data saved successfully');
-    //     // Reset form data after successful submission
-    //     setInsertData({
-    //       dateDive: '',
-    //       timeDive: '',
-    //       site: '',
-    //       objectGroup: '',
-    //       specie: '',
-    //       file: '',
-    //       imgLocation: '',
-    //       uploadeImage: '',
-    //       arReef: '',
-    //       reportType: '',
-    //       typeOfDive: '',
-    //       rank: '',
-    //       userDescription: '',
-    //       maxDepth: '',
-    //       distance: '',
-    //       temp: '',
-    //       errors: {
-    //         dateDive: false,
-    //         site: false,
-    //         objectGroup: false,
-    //         reportType: false,
-    //         file: false,
-    //         rank: false,
-    //         maxDepth: false,
-    //         distance: false,
-    //         temp: false,
-    //         uploadeImage: false,
-    //       }
-    //     });
-    //   } else {
-    //     console.error('Failed to save data:', response.statusText);
-    //   }
-    // } catch (error) {
-    //   console.error('Error saving data:', error.message);
-    // }
-
-    
-    // try{
-    //   const response = await axios.post('/api/pendings_dives', 
-    //     {"diveCode":"222","time":"night"}
-    //   )
-    //       console.log(response);
-    // }catch (error) {
-    //   console.error('Error saving data:', error.message);
-    // }
-
-     // Reset the form fields
-    event.target.reset(); // Reset the form
-
-    // Reset form data after successful submission
-    setInsertData({
-      dateDive: '',
-      timeDive: '',
-      site: '',
-      objectGroup: '',
-      specie: '',
-      imgLocation: '',
-      uploadeImage: '',
-      arReef: '',
-      reportType: '',
-      typeOfDive: '',
-      rank: '',
-      userDescription: '',
-      maxDepth: '',
-      distance: '',
-      temp: '',
-      errors: {
-        dateDive: false,
-        site: false,
-        objectGroup: false,
-        reportType: false,
-        rank: false,
-        maxDepth: false,
-        distance: false,
-        temp: false,
-        uploadeImage: false,
-      },
-    });
-
-
-
-  }
-
-  
-  const handleClick = async () => {
-    console.log('hello');
-    try {
-      const response = await fetch('/api/pendings_dives'); 
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const data = await response.json();
-      alert(JSON.stringify(data)); // Display documents in an alert
-    } catch (error) {
-      console.error('Error fetching documents:', error.message);
+    console.log(diveCode)
+    const tosend = {
+      "diveCode": diveCode,
+      "time": "night"
     }
+    console.log(JSON.stringify(tosend));
+    console.log(JSON.stringify(entireDivingData));
+    console.log("before the try");
+
+    try {
+      // Send form data to the server
+      const response = await fetch('http://localhost:8000/api/pendings_dives', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify(entireDivingData)
+      });
+      console.log(response);
+      if (response.ok) {
+        console.log('Data saved successfully');
+        setOpenSnackbar(true);
+        setTimeout(() => {
+          window.location.reload() 
+        }, 2500);
+
+        // Reset form data after successful submission
+        setInsertData({
+          dateDive: '',
+          timeDive: '',
+          site: '',
+          objectGroup: '',
+          specie: '',
+          file: '',
+          imgLocation: '',
+          uploadeImage: '',
+          arReef: '',
+          reportType: '',
+          typeOfDive: '',
+          rank: '',
+          userDescription: '',
+          maxDepth: '',
+          distance: '',
+          temp: '',
+          errors: {
+            dateDive: false,
+            site: false,
+            objectGroup: false,
+            reportType: false,
+            file: false,
+            rank: false,
+            maxDepth: false,
+            distance: false,
+            temp: false,
+            uploadeImage: false,
+          }
+        });
+      } else {
+        console.error('Failed to save data:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error saving data:', error.message);
+    }
+
+
   }
-    
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+        return;
+    }
+    setOpenSnackbar(false);
+};
+  
+
   return (
     <div className="container">
-       <div>
-      <button onClick={handleClick}>Get Documents</button>
-      </div>
+
       <h2>Input the details from your recents dives</h2>
 
       <form onSubmit={handleSubmit}>
@@ -471,6 +451,7 @@ export default function InsertDataView() {
             renderInput={(params) => (
               <TextField
                 {...params}
+                // value={insertData.specieName}
                 label="Specie Name"
                 name="specie"
                 autoComplete='specie'
@@ -695,6 +676,15 @@ export default function InsertDataView() {
           <textarea id="userDescription" name="userDescription" rows={3} className="custom-textarea" onChange={(e) => handleTextareaChange(e.target.value)} />
         </div>
         <br />
+        <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+                    <Alert
+                        onClose={handleCloseSnackbar}
+                        severity="success"
+                        sx={{ width: '100%' }}
+                    >
+                        Your Diving Details - Saved, Thank You
+                    </Alert>
+                </Snackbar>
         <div className="insideContiner">
           <Button size="large" type="submit" variant="outlined" endIcon={<SendIcon />}>
             Submit
@@ -712,3 +702,6 @@ export default function InsertDataView() {
 
   )
 }
+InsertDataView.propTypes = {
+  userData: PropTypes.object.isRequired,
+};
