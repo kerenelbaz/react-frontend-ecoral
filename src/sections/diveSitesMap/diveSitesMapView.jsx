@@ -1,18 +1,15 @@
-import 'leaflet/dist/leaflet.css';
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
-import { Popup, useMap, Marker, TileLayer, MapContainer } from 'react-leaflet';
-
-// eslint-disable-next-line perfectionist/sort-imports
-import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { MapContainer, TileLayer, useMap , Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet';
 import { Icon } from 'leaflet';
+import markerIcon from './markerIcon.png';
 
+import 'leaflet/dist/leaflet.css';
 
-import './style.css';
+import './diveSitesMapStyle.css';
 
 export default function DiveSitesMapView() {
   const [position, setPosition] = useState([0, 0]);
@@ -25,9 +22,8 @@ export default function DiveSitesMapView() {
   const [diveSites, setDiveSites] = useState([]);
   const [showCurrentPosition, setShowCurrentPosition] = useState(false);
   const diveSiteIcon = new Icon({
-    iconUrl:
-      'https://cdn.iconscout.com/icon/premium/png-512-thumb/scuba-diving-2303575-1951890.png?f=webp&w=256',
-    iconSize: [38, 38],
+    iconUrl: markerIcon,
+    iconSize: [60, 60],
   });
 
   useEffect(() => {
@@ -142,13 +138,13 @@ export default function DiveSitesMapView() {
                 <Marker
                   position={[parseFloat(selectedSite.latitude), parseFloat(selectedSite.longitude)]}
                 >
-                  <Popup >{selectedSite.name}</Popup>
+                  <Popup>{selectedSite.name}</Popup>
                 </Marker>
               )}
             </MapContainer>
           </div>
         </div>
-        <div style={{ flex: '30%', marginLeft: '20px',}}>
+        <div style={{ flex: '30%', marginLeft: '20px' }}>
           <h3>{selectedSite.name}</h3>
           <p>{selectedSite.description}</p>
         </div>
