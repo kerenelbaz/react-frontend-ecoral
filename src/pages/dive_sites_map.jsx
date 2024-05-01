@@ -1,17 +1,17 @@
 import { Helmet } from 'react-helmet-async';
 
-import { UserView } from 'src/sections/user/view';
+import { DiveSitesMapView } from 'src/sections/diveSitesMap';
 
 // ----------------------------------------------------------------------
 
-export default function UserPage() {
+export default function Dive_sites_map() {
   return (
     <>
       <Helmet>
-        <title> User | Minimal UI </title>
+        <title> Dive Sites Map </title>
       </Helmet>
-     
-      <UserView />
+
+      <DiveSitesMapView />
     </>
   );
 }

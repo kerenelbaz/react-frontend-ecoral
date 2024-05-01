@@ -1,17 +1,17 @@
 import { Helmet } from 'react-helmet-async';
 
-import { UserView } from 'src/sections/user/view';
+import { ImportPostsView } from 'src/sections/importPosts';
 
 // ----------------------------------------------------------------------
 
-export default function UserPage() {
+export default function Dive_sites_map() {
   return (
     <>
       <Helmet>
-        <title> User | Minimal UI </title>
+        <title> Import posts </title>
       </Helmet>
-     
-      <UserView />
+
+      <ImportPostsView />
     </>
   );
 }

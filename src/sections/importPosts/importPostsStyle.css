@@ -1,0 +1,48 @@
+.container1 {
+  background-color: hsl(207, 100%, 98%);
+  padding: 20px;
+  margin: 10px auto;
+  width: 80%;
+  border-radius: 10px;
+  border: 1px solid #cccccc4f;
+}
+
+.container1 h1,
+.container1 .button,
+.container1 .p {
+  text-align: center;
+  font-family: sans-serif;
+  margin: 1px;
+}
+.p {
+  font-size: 1.3em;
+}
+
+.button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 20px;
+  margin-top: 20px;
+}
+
+.custom-textarea {
+  width: 97%;
+  height: 30em;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-family: sans-serif;
+  resize: vertical;
+  margin-top: 15px;
+  font-size: 10px;
+  margin-left: 1.3%;
+  font-weight: 400;
+}
+
+.custom-textarea:focus {
+  outline: none;
+  border-color: #007bff;
+  font-size: 10px;
+  font-weight: 400;
+}
