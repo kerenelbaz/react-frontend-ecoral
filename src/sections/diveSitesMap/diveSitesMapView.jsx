@@ -1,18 +1,30 @@
-import 'leaflet/dist/leaflet.css';
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
-import { Popup, useMap, Marker, TileLayer, MapContainer } from 'react-leaflet';
-
-// eslint-disable-next-line perfectionist/sort-imports
-import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet';
+import { Icon } from 'leaflet';
+import markerIcon from './markerIcon.png';
 
-import './style.css';
+import 'leaflet/dist/leaflet.css';
+
+import './diveSitesMapStyle.css';
 
 export default function DiveSitesMapView() {
   const [position, setPosition] = useState([0, 0]);
+  const [selectedSite, setSelectedSite] = useState({
+    name: '',
+    latitude: 0,
+    longitude: 0,
+    description: '',
+  });
   const [diveSites, setDiveSites] = useState([]);
+  const [showCurrentPosition, setShowCurrentPosition] = useState(false);
+  const diveSiteIcon = new Icon({
+    iconUrl: markerIcon,
+    iconSize: [60, 60],
+  });
 
   useEffect(() => {
     // Fetch user's position
@@ -20,7 +32,8 @@ export default function DiveSitesMapView() {
       navigator.geolocation.getCurrentPosition(
         (currentPosition) => {
           const { latitude, longitude } = currentPosition.coords;
-          setPosition([latitude, longitude]);
+          setPosition([parseFloat(latitude), parseFloat(longitude)]);
+          setShowCurrentPosition(true);
         },
         () => {
           alert("Couldn't get your position");
@@ -32,35 +45,41 @@ export default function DiveSitesMapView() {
 
   const fetchDiveSitesFromServer = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/dive_sites_map', {
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-        },
-      });
+      const response = await fetch('http://localhost:8000/api/dive_sites_map');
       if (!response.ok) {
         throw new Error('Failed to fetch dive sites');
       }
       const data = await response.json();
-      console.log('Dive sites:', data.data.diveSites);
       setDiveSites(data.data.diveSites);
     } catch (error) {
-      console.error(error);
+      console.error('Error fetching dive sites:', error.message);
     }
   };
 
+  const handleChange = (event) => {
+    const selectedOption = event.target.value;
+    const selectedDiveSite = diveSites.find((site) => site.name === selectedOption);
+    setSelectedSite(selectedDiveSite || { name: '', latitude: 0, longitude: 0, description: '' });
+  };
+
   return (
-    <>
+    <div>
       <h1>Dive Sites map</h1>
-      <FormControl sx={{ m: 1, minWidth: 120 }}>
+      <FormControl sx={{ m: 1, minWidth: 120, width: '17%' }}>
         <InputLabel htmlFor="grouped-native-select">Search By</InputLabel>
-        <Select native defaultValue="" id="grouped-native-select" label="Grouping">
+        <Select
+          native
+          defaultValue=""
+          id="grouped-native-select"
+          label="Grouping"
+          onChange={handleChange}
+        >
           <option aria-label="None" value="" key="none" />
           <optgroup label="Site">
             {diveSites
               .filter((site) => site.type === 'diveSite')
               .map((site) => (
-                <option key={`site-${site.id}`} value={site.name} data-longitude={site.longitude} data-latitude={site.latitude} data-description={site.description}>
+                <option key={`diveSite_${site.name}`} value={site.name}>
                   {site.name}
                 </option>
               ))}
@@ -69,7 +88,7 @@ export default function DiveSitesMapView() {
             {diveSites
               .filter((site) => site.type === 'animal')
               .map((site) => (
-                <option key={`animal-${site.id}`} value={site.name} data-longitude={site.longitude} data-latitude={site.latitude} data-description={site.description} >
+                <option key={`animal_${site.name}`} value={site.name}>
                   {site.name}
                 </option>
               ))}
@@ -78,39 +97,69 @@ export default function DiveSitesMapView() {
             {diveSites
               .filter((site) => site.type === 'plant')
               .map((site) => (
-                <option key={`plant-${site.id}`} value={site.name} data-longitude={site.longitude} data-latitude={site.latitude} data-description={site.description}>
+                <option key={`plant_${site.name}`} value={site.name}>
                   {site.name}
                 </option>
               ))}
           </optgroup>
         </Select>
       </FormControl>
-
-      <div id="map" style={{ height: '500px', width: '100%' }}>
-        <MapContainer center={position} zoom={15} style={{ height: '100%', width: '100%' }}>
-          <ChangeView center={position} zoom={15} />
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
-          />
-          <Marker position={position}>
-            <Popup>Your position</Popup>
-          </Marker>
-        </MapContainer>
+      <div style={{ display: 'flex', width: '100%', marginTop: '20px' }}>
+        <div style={{ flex: '70%' }}>
+          <div id="map" style={{ height: '500px', width: '100%' }}>
+            <MapContainer center={position} style={{ height: '100%', width: '100%' }}>
+              <ChangeView
+                center={
+                  selectedSite.latitude !== 0
+                    ? [parseFloat(selectedSite.latitude), parseFloat(selectedSite.longitude)]
+                    : position
+                }
+                zoom={13}
+              />
+              <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
+              />
+              {showCurrentPosition && position[0] !== 0 && (
+                <Marker position={position}>
+                  <Popup>You are here!</Popup>
+                </Marker>
+              )}
+              {diveSites.map((site) => (
+                <Marker
+                  key={`site_${site.name}`}
+                  position={[parseFloat(site.latitude), parseFloat(site.longitude)]}
+                  icon={diveSiteIcon}
+                >
+                  <Popup>{site.name}</Popup>
+                </Marker>
+              ))}
+              {selectedSite.latitude !== 0 && (
+                <Marker
+                  position={[parseFloat(selectedSite.latitude), parseFloat(selectedSite.longitude)]}
+                >
+                  <Popup>{selectedSite.name}</Popup>
+                </Marker>
+              )}
+            </MapContainer>
+          </div>
+        </div>
+        <div style={{ flex: '30%', marginLeft: '20px' }}>
+          <h3>{selectedSite.name}</h3>
+          <p>{selectedSite.description}</p>
+        </div>
       </div>
-    </>
+    </div>
   );
 }
 
-// ChangeView component
 function ChangeView({ center, zoom }) {
   const map = useMap();
-  map.setView(center, zoom);
+  map.setView(center, zoom, { animate: true, duration: 1.5 });
   return null;
 }
 
-// PropTypes for ChangeView component
 ChangeView.propTypes = {
-  center: PropTypes.arrayOf(PropTypes.number).isRequired, // PropTypes for center prop
-  zoom: PropTypes.number.isRequired, // PropTypes for zoom prop
+  center: PropTypes.arrayOf(PropTypes.number).isRequired,
+  zoom: PropTypes.number.isRequired,
 };
