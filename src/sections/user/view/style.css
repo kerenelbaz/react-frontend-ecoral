@@ -2,7 +2,6 @@
     background-color: #fffdfd;
     padding: 20px;
     margin: 10px auto;
-    width: 700px;
     border-radius: 10px;
     border: 1px solid #cccccc4f;
   }
@@ -15,6 +14,11 @@
     margin-bottom: 1%;
     padding: 5px;
     font-size: 16px;
+  }
+  .fieldInput {
+    width: 100%;
+    margin-bottom: 1%;
+    padding: 5px;
   }
   
   .inLine .MuiAutocomplete-root {
@@ -34,3 +38,33 @@
     overflow: hidden; /* Ensure that the image is clipped if it exceeds the box size */
     background-color:#f9fafb;
   }
+.zoomable-image {
+  width: 100%; /* Adjust as needed */
+  height: auto; /* Maintain aspect ratio */
+  max-width: none; /* Remove max-width */
+  max-height: none; /* Remove max-height */
+  transition: transform 0.2s ease;
+}
+
+.zoomable-image:hover {
+  transform: scale(1.2);
+}
+
+
+.wrapImg{
+  border-radius: 7px;
+  border: 1px solid #cccccc4f;
+  background-color: #fffdfd;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  
+}
+
+.imageB {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+}

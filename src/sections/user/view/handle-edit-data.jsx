@@ -20,27 +20,35 @@ import dataLists from '../../insertData/view/dataLists.json';
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
     padding: theme.spacing(4),
+    overflowY: 'initial',
   },
   '& .MuiDialogActions-root': {
     padding: theme.spacing(1),
   },
   // Apply custom width to the dialog
   '& .MuiDialog-paper': {
-    maxWidth: '90%', // Adjust the value as needed
+    maxWidth: '90%', 
+    width:'1400px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
   },
 }));
 
 
 export default function EditData({ open, handleClose, userData }) {
+    // eslint-disable-next-line no-unused-vars
     const [openImageDialog, setOpenImageDialog] = useState(false);
 
     const handleImageClick = () => {
+
       setOpenImageDialog(true);
     };
   
-    const handleCloseImageDialog = () => {
-      setOpenImageDialog(false);
-    };
+    // const handleCloseImageDialog = () => {
+    //   setOpenImageDialog(false);
+    // };
 
 
 // export default function EditData({ open, handleClose }) {
@@ -69,25 +77,32 @@ export default function EditData({ open, handleClose, userData }) {
       <DialogContent dividers >
         {userData && (
           <>
-            <Button onClick={handleImageClick}>
-                <img src={userData.file} alt="Preview" />
+            <Button style={{display: 'flex', justifyContent:'center', alignItems: 'center' }} onClick={handleImageClick}>
+              <div className="wrapImg" >
+                <img className="imageB" src={userData.file} alt="Preview" /> 
+              </div>
+
             </Button>
-            <Dialog open={openImageDialog} onClose={handleCloseImageDialog}>
-              {/* Add content for image dialog here */}
-            </Dialog>
-            <p>objectGroup: {console.log('user file is  ',userData.file)}</p>
+            {/* <Dialog open={openImageDialog} onClose={handleCloseImageDialog}>
+            <div>
+
+            <Zoom>
+              <img src={userData.file} alt="Preview" />
+            </Zoom>
+            
+              </div>
+            </Dialog> */}
+            <p>objectGroup: {console.log('userDate is', userData)}</p>
+
             <p>loggingDate: {userData.loggingDate}</p>
             
             <div className='container'>
                 <form>
                    
-                    <div className="image-placeholder">
-                        
-                    
-                    <img src={userData.file} alt="Preview" />
-                        
-                    </div>
-                    <br/>
+                    {/* <div className="image-placeholder">
+                      <img src={userData.file} alt="Preview" />
+                    </div> */}
+
                     <div className="inLine">
                         <Autocomplete
                             options={dataLists.diveSite}
@@ -155,7 +170,7 @@ export default function EditData({ open, handleClose, userData }) {
                         <Autocomplete
                             options={dataLists.imageLocation}
                             getOptionLabel={(option) => option}
-                            defaultValue={userData.imgLocation}
+                            defaultValue={userData.imageLocation}
                             // onChange={(e, value) =>
                             //   handleAutocompleteChange("site", value || "")
                             // }
@@ -164,8 +179,8 @@ export default function EditData({ open, handleClose, userData }) {
                                 {...params}
                                 required
                                 label="Image Location"
-                                name="imgLocation"
-                                autoComplete="imgLocation"
+                                name="imageLocation"
+                                autoComplete="imageLocation"
                                 className="fieldInput"
 
                             />
@@ -247,5 +262,5 @@ export default function EditData({ open, handleClose, userData }) {
 EditData.propTypes = {
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
-  userData: PropTypes.object.isRequired,
+  userData: PropTypes.object,
 };

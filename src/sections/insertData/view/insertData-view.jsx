@@ -1,6 +1,5 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import PropTypes from 'prop-types';
 import { useRef, useState, useEffect } from "react";
 
 import Stack from '@mui/material/Stack';
@@ -26,7 +25,7 @@ import dataLists from './dataLists.json';
 
 // const serverPath = http://localhost:8000
 
-export default function InsertDataView({userData}) {
+export default function InsertDataView() {
   const [insertData, setInsertData] = useState({
     dateDive: '',
     timeDive: '',
@@ -702,6 +701,3 @@ export default function InsertDataView({userData}) {
 
   )
 }
-InsertDataView.propTypes = {
-  userData: PropTypes.object.isRequired,
-};

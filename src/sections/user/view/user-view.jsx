@@ -102,8 +102,8 @@
       console.log("hello");
       setOpenEditData(true);
       setSelectedRow(userData);
-      console.log("selected row", selectedRow);
-      console.log("file", userData.file);
+      // console.log("selected row", selectedRow);
+      // console.log("file", userData.file);
     };
 
     return (
