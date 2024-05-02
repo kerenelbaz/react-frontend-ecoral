@@ -1,72 +1,109 @@
+/* eslint-disable jsx-a11y/alt-text */
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import Stack from '@mui/material/Stack';
-import Avatar from '@mui/material/Avatar';
+// import Button from '@mui/material/Button'; 
 import Popover from '@mui/material/Popover';
 import TableRow from '@mui/material/TableRow';
-import Checkbox from '@mui/material/Checkbox';
-import MenuItem from '@mui/material/MenuItem';
+// import MenuItem from '@mui/material/MenuItem';
+// import Checkbox from '@mui/material/Checkbox';
+import EditIcon from '@mui/icons-material/Edit';
 import TableCell from '@mui/material/TableCell';
-import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 
-import Label from 'src/components/label';
-import Iconify from 'src/components/iconify';
+// import Iconify from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
 export default function UserTableRow({
-  selected,
-  name,
-  avatarUrl,
-  company,
-  role,
-  isVerified,
+  // selected,
+  loggingDate,
+  dateDive,
+  timeDive,
+  site,
+  objectGroup,
+  specie,
+  file,
+  imgLocation,
+  uploadeImage,
+  arReef,
+  reportType,
+  typeOfDive,
+  rank,
+  userDescription,
+  maxDepth,
+  distance,
+  temp,
   status,
   handleClick,
+  onEditClick,
 }) {
   const [open, setOpen] = useState(null);
 
-  const handleOpenMenu = (event) => {
-    setOpen(event.currentTarget);
-  };
+
+  // const handleOpenMenu = (event) => {
+  //   setOpen(event.currentTarget);
+  // };
 
   const handleCloseMenu = () => {
     setOpen(null);
   };
 
+  const handleEditClick = () => {
+    onEditClick(); // Call the function passed from the parent component
+  };
+
+  
+
   return (
     <>
-      <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
-        <TableCell padding="checkbox">
+      {/* <TableRow hover tabIndex={-1} role="checkbox" selected={selected}> */}
+      <TableRow>
+        {/* <TableCell padding="checkbox">
           <Checkbox disableRipple checked={selected} onChange={handleClick} />
+        </TableCell> */}
+        {/* <IconButton aria-label="delete" size="small" color='success'>
+            <DeleteIcon fontSize="small" color='red' />
+          </IconButton> */}
+        <TableCell padding="checkbox">
+          {/* <Button onClick={handleClick} variant="outlined" startIcon={<EditIcon/>}>
+            Edit
+          </Button> */}
+          <IconButton aria-label="edit" size="small" color='primary' onClick={handleEditClick}>
+            <EditIcon fontSize="small" />
+          </IconButton>
         </TableCell>
-
-        <TableCell component="th" scope="row" padding="none">
-          <Stack direction="row" alignItems="center" spacing={2}>
-            <Avatar alt={name} src={avatarUrl} />
-            <Typography variant="subtitle2" noWrap>
-              {name}
-            </Typography>
-          </Stack>
-        </TableCell>
-
-        <TableCell>{company}</TableCell>
-
-        <TableCell>{role}</TableCell>
-
-        <TableCell align="center">{isVerified ? 'Yes' : 'No'}</TableCell>
-
-        <TableCell>
-          <Label color={(status === 'banned' && 'error') || 'success'}>{status}</Label>
-        </TableCell>
-
-        <TableCell align="right">
+        
+        <TableCell>{loggingDate}</TableCell>
+        <TableCell>{dateDive}</TableCell>
+        <TableCell>{timeDive}</TableCell>
+        <TableCell>{site}</TableCell>
+        <TableCell>{objectGroup}</TableCell>
+        <TableCell>{reportType}</TableCell>
+        <TableCell>{file}</TableCell>
+        {/* <TableCell>{imgLocation}</TableCell>
+        <TableCell>{specie}</TableCell>
+        <TableCell>{arReef}</TableCell>
+        <TableCell>{typeOfDive}</TableCell>
+        <TableCell>{rank}</TableCell>
+        <TableCell>{userDescription}</TableCell>
+        <TableCell>{maxDepth}</TableCell>
+        <TableCell>{distance}</TableCell>
+        <TableCell>{temp}</TableCell>
+         */}
+         <TableCell>
+          <IconButton aria-label="delete" size="small" color='error'>
+            <DeleteIcon fontSize="small" color='red' />
+          </IconButton>
+          
+         </TableCell>
+        
+        {/* <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>
             <Iconify icon="eva:more-vertical-fill" />
           </IconButton>
-        </TableCell>
+        </TableCell> */}
       </TableRow>
 
       <Popover
@@ -79,27 +116,40 @@ export default function UserTableRow({
           sx: { width: 140 },
         }}
       >
-        <MenuItem onClick={handleCloseMenu}>
-          <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
+        {/* <MenuItem onClick={handleEditClick}>
+          <Iconify icon="eva:edit-fill" sx={{ mr: 2 }}/>
           Edit
         </MenuItem>
 
         <MenuItem onClick={handleCloseMenu} sx={{ color: 'error.main' }}>
           <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
           Delete
-        </MenuItem>
+        </MenuItem> */}
       </Popover>
     </>
   );
 }
 
 UserTableRow.propTypes = {
-  avatarUrl: PropTypes.any,
-  company: PropTypes.any,
+  loggingDate: PropTypes.string,
+  dateDive: PropTypes.string,
+  timeDive: PropTypes.string,
+  site: PropTypes.string,
+  objectGroup: PropTypes.string,
+  specie: PropTypes.string,
+  onEditClick: PropTypes.func,
+  file: PropTypes.string,
+  imgLocation: PropTypes.string,
+  uploadeImage: PropTypes.string,
+  arReef: PropTypes.string,
+  reportType: PropTypes.string,
+  typeOfDive: PropTypes.string,
+  rank: PropTypes.string,
+  userDescription: PropTypes.string,
+  maxDepth: PropTypes.string,
+  distance: PropTypes.string,
+  temp: PropTypes.string,
+  // selected: PropTypes.bool,
   handleClick: PropTypes.func,
-  isVerified: PropTypes.any,
-  name: PropTypes.any,
-  role: PropTypes.any,
-  selected: PropTypes.any,
   status: PropTypes.string,
 };

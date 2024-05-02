@@ -1,0 +1,27 @@
+{
+    "diveSite" :
+    [
+        "Almog Beach", "Amphibious vehicles", "Dekel Canyon", "Dolphin reef", "Eilat", "Hamashtela", "Japanese gardens", "Katzaa", "KISOSKI", "Lighthouse", "Marina Divers", "Mosh beach", "North Beach", "Paradise", "Princess beach", "Pyramid", "Reserve", "Satil", "Snuba", "South Beach", "Sun Boat", "Tamar reef", "The caves", "The underwater observatory", "The university", "Yatush", "Other (Artificial reef)", "Other (Natural reef)"
+    ],
+    "objectGroupList" : 
+    [
+        "Artificial Reef", "Cephlopods", "Coral Reef", "Other Divers", "Dolphins", "Invertabrate", "Large Reef Fish", "Medium Reef Fish", "Mollusca and Worms (not cephlopods)", "Rays", "Sea Turtles", "Sharks", "Small Reef Fish"
+    ],
+    "specieName" : 
+    [
+        "Antennarius sp", "Chromodoris geminus", "Plectropomus pessuliferus", "slate pencil urchin Heterocentrotus mamillatus", "Abudefduf vaigiensis Sergant Major", "Acabaria sp", "Acanthurus nigrofuscus", "Acanthurus sohal", "Acropora sp", "African Eel Blenny (Haliophis guttatus)", "Amblyeleotris sp", "Amblyeleotris steinitzi", "Anampses meleagrides", "Anemone carrier hermit crab Dardanus tinctor", "Anthogorgia caerulea", "Arothron diadematus", "Arothron sp", "Artificial Reef", "Asthenosoma marisrubri", "Aurelia aurita", "basket star Astroboa nuda", "Bathygobius sp", "Bothus pantherinus", "Broomtail Wrasse Cheilinus lunulatus", "Brown surgeonfish Acanthurus nigrofuscus", "Bryaninops sp", "Caesio suevica Red Sea fusillier", "Canthigaster sp", "Carangidae", "Cassiopea andromeda Upside down Jellyfish", "Cephalopholis miniata", "Chaetodon auriga", "Chaetodon sp", "Chelidonura flavolobata", "Choriaster granulatus", "Chromodoris quadricolor", "Chromodoris sp", "Clathrina sp", "clownfish Amphiprion bicinctus", "Conus tessulatus", "cowtail stingray (Pastinachus sephen)", "Ctenophora", "Culcita coriacea", "Dascyllus trimaculatus", "Diversidoris flava", "Echinaster callosus", "Ecsenius frontalis", "Elysia sp", "Epinephelus fasciatus", "Epinephelus polyphekadion", "Euripegasus draconis", "Eviota sp", "Geometric Moray Gymnothorax griseus", "giant guitarfish (Rhynchobatus djiddensis)", "Goniobranchus annulatus", "Gorgasia sillneri", "green sea turtle (Chelonia mydas)", "Gymnothorax nudivomer", "Gymnothorax sp", "Halichoeres hortulanus", "Hawksbill sea turtle (Eretmochelys imbricata)", "Herdmania momus", "Hippocampus sp", "Holacanthus ciliaris", "Holothuria atra", "honeycomb stingray (Himantura uarnak)", "Hypselodoris infucata", "Inimicus filamentosus", "Lamprometra klunzingeri", "loggerhead sea turtle (Caretta caretta", "Lotilia graciliosa", "Lovenia elongata", "Meiacanthus sp", "Mexichromis multituberculata", "Millepora dichotoma", "Murex forskoehlii", "Mycale sp", "Myrichthys maculosus", "NA", "ndo-Pacific sergeant (Abudefduf vaigiensis)", "Nephtheidae", "Octopus sp", "Octopus vulgaris", "Odonus niger", "Ostracion cyanurus", "Oxynoe viridis", "Papilloculiceps longiceps (Cuvier, 1829) Tentacled flathead", "Paragobiodon sp", "Pedum spondyloideum", "Phyllidia undula", "Phyllidia varicosa", "Phyllidiella pustulosa", "Phyllidiidae", "Plectropomus maculatus", "Plectropomus sp", "Pleurobranchus grandis", "Plotosus lineatus", "Polycarpa cryptocarpa", "Polydorella sp", "Pseudoceros sp", "Pterois sp lionfish", "Pygoplites diacanthus", "Red Sea bannerfish Heniochus intermedius", "Risbecia pulchella", "Round ribbontail ray (Taeniurops meyeni","Sabellida", "Salpa sp", "Scarus sp", "Scorpaenopsis oxycephala", "Scorpaenopsis sp", "sea goldie (Pseudanthias squamipinnis)", "SEPIA sp", "Sepiolidae sp", "Sepioteuthis lessoniana", "Seriolina nigrofasciata", "Solenostomus sp", "Sphyraena barracuda", "Sphyraena sp", "Spirobranchus sp", "Spratelloides delicatulus", "Synanceia verrucosa", "Taeniura lymma", "Tetrosomus gibbosus", "Thysanozoon nigropapillosum", "Torpedo sp", "Tridacna sp", "Tursiops sp", "Tylosurus sp Houndfish", "whale shark (Rhincodon typus)", "whitespotted eagle ray ( Aetobatus ocellatus)", "Yago Omnesis", "Yellowspotted burrfish", "zebra shark (Stegostoma tigrinum)"
+    ],
+    "imageLocation": 
+    [
+        "Artificial Reef", "Blue", "Coral reef", "Patched reef", "Sea Grass", "Sandy Buttom"
+    ], 
+    "ReportType": 
+    [
+        "Free diving", "Snorkeling", "SCUBA diving"
+    ], 
+    "typeOfDive": 
+    [
+        "SCUBA private", "SCUBA course", "Free diving", "Intro", "SCUBA guided"
+    ]
+
+}

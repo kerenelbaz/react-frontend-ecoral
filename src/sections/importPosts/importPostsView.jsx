@@ -5,7 +5,7 @@ import './importPostsStyle.css';
 
 export default function ImportPostsView() {
   return (
-    <div className="container">
+    <div className="container1">
       <h1>Import Data From Social Media Posts</h1>
       <br/>
 
