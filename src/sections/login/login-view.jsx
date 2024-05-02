@@ -27,50 +27,115 @@ export default function LoginView() {
 
   const router = useRouter();
 
+  const [userEmail, setUserEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleClick = () => {
-    router.push('/dashboard');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
+  const handleSubmit = (e) => {
+    
+    e.preventDefault();
+     // Perform validation
+     let isValid = true;
+
+     // Email validation
+     if (!userEmail.trim()) {
+       setEmailError('Email is required');
+       isValid = false;
+     } else if (!/^\S+@\S+\.\S+$/.test(userEmail)) {
+       setEmailError('Invalid email address');
+       isValid = false;
+     } else {
+       setEmailError('');
+     }
+ 
+     // Password validation
+     if (!password.trim()) {
+       setPasswordError('Password is required');
+       isValid = false;
+     } else {
+       setPasswordError('');
+     }
+ 
+     // Submit the form if valid
+     if (isValid) {
+      
+       // Your form submission logic here
+       console.log('Form submitted');
+       fetch(`https://localhost:7215/api/User/login?email=${userEmail}`,{
+          method: 'POST',
+          body: JSON.stringify(password),
+          headers: new Headers({'Content-type': 'application/json; charset=UTF-8'
+        })
+       })
+       .then(res =>{
+          console.log('res = ', res);
+          return res.json()
+        })
+        .then(
+          (result) =>{
+            console.log('fetch POST = ', result);
+            localStorage.setItem('user', JSON.stringify(result));
+            router.push('/');
+        },
+        (error) =>{
+          console.log("err POST=", error);
+        });
+        
+       
+     }
   };
 
   const renderForm = (
-    <>
-      <Stack spacing={3}>
-        <TextField name="email" label="Email address" />
+    
+      <form onSubmit={handleSubmit}>
+        <Stack spacing={3}>
+          <TextField name="email" 
+                    label="Email address" 
+                    onChange={(e) => setUserEmail(e.target.value)}
+                    error={!!emailError}
+                    helperText={emailError}/>
 
-        <TextField
-          name="password"
-          label="Password"
-          type={showPassword ? 'text' : 'password'}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                  <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-      </Stack>
+          <TextField
+            name="password"
+            label="Password"
+            type={showPassword ? 'text' : 'password'}
+            onChange={(e) => setPassword(e.target.value)}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                    <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            error={!!passwordError}
+            helperText={passwordError}
+          />
+        </Stack>
 
-      <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 }}>
-        <Link variant="subtitle2" underline="hover">
-          Forgot password?
-        </Link>
-      </Stack>
+        <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 }}>
+          <Link variant="subtitle2" underline="hover">
+            Forgot password?
+          </Link>
+        </Stack>
 
-      <LoadingButton
-        fullWidth
-        size="large"
-        type="submit"
-        variant="contained"
-        color="inherit"
-        onClick={handleClick}
-      >
-        Login
-      </LoadingButton>
-    </>
+        <LoadingButton
+          fullWidth
+          size="large"
+          type="submit"
+          variant="contained"
+          color="inherit"
+          
+        >
+          Login
+        </LoadingButton>
+      </form>
+   
   );
 
   return (

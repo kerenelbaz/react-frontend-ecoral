@@ -159,15 +159,10 @@
     "@emotion/use-insertion-effect-with-fallbacks" "^1.0.1"
     "@emotion/utils" "^1.2.1"
 
-"@emotion/unitless@^0.8.1":
+"@emotion/unitless@^0.8.1", "@emotion/unitless@0.8.1":
   version "0.8.1"
   resolved "https://registry.npmjs.org/@emotion/unitless/-/unitless-0.8.1.tgz"
   integrity sha512-KOEGMu6dmJZtpadb476IsZBclKvILjopjUii3V+7MnXIQCYh8W3NgNcgwo21n9LXZX6EDIKvqfjYxXebDwxKmQ==
-
-"@emotion/unitless@0.8.0":
-  version "0.8.0"
-  resolved "https://registry.npmjs.org/@emotion/unitless/-/unitless-0.8.0.tgz"
-  integrity sha512-VINS5vEYAscRl2ZUDiT3uMPlrFQupiKgHz5AA4bCH1miKBg4qtwkim1qPmJj/4WG6TreYMY111rEFsjupcOKHw==
 
 "@emotion/use-insertion-effect-with-fallbacks@^1.0.1":
   version "1.0.1"
@@ -320,10 +315,10 @@
     clsx "^2.1.0"
     prop-types "^15.8.1"
 
-"@mui/core-downloads-tracker@^5.15.15":
-  version "5.15.15"
-  resolved "https://registry.npmjs.org/@mui/core-downloads-tracker/-/core-downloads-tracker-5.15.15.tgz"
-  integrity sha512-aXnw29OWQ6I5A47iuWEI6qSSUfH6G/aCsW9KmW3LiFqr7uXZBK4Ks+z8G+qeIub8k0T5CMqlT2q0L+ZJTMrqpg==
+"@mui/core-downloads-tracker@^5.15.16":
+  version "5.15.16"
+  resolved "https://registry.npmjs.org/@mui/core-downloads-tracker/-/core-downloads-tracker-5.15.16.tgz"
+  integrity sha512-PTIbMJs5C/vYMfyJNW8ArOezh4eyHkg2pTeA7bBxh2kLP1Uzs0Nm+krXWbWGJPwTWjM8EhnDrr4aCF26+2oleg==
 
 "@mui/core-downloads-tracker@^6.0.0-alpha.3":
   version "6.0.0-dev.240424162023-9968b4889d"
@@ -331,9 +326,9 @@
   integrity sha512-doh3M3U7HUGSBIWGe1yvesSbfDguMRjP0N09ogWSBM2hovXAlgULhMgcRTepAZLLwfRxFII0bCohq6B9NqoKuw==
 
 "@mui/icons-material@^5.15.14":
-  version "5.15.15"
-  resolved "https://registry.npmjs.org/@mui/icons-material/-/icons-material-5.15.15.tgz"
-  integrity sha512-kkeU/pe+hABcYDH6Uqy8RmIsr2S/y5bP2rp+Gat4CcRjCcVne6KudS1NrZQhUCRysrTDCAhcbcf9gt+/+pGO2g==
+  version "5.15.16"
+  resolved "https://registry.npmjs.org/@mui/icons-material/-/icons-material-5.15.16.tgz"
+  integrity sha512-s8vYbyACzTNZRKv+20fCfVXJwJqNcVotns2EKnu1wmAga6wv2LAo5kB1d5yqQqZlMFtp34EJvRXf7cy8X0tJVA==
   dependencies:
     "@babel/runtime" "^7.23.9"
 
@@ -364,14 +359,14 @@
     clsx "^2.1.0"
     prop-types "^15.8.1"
 
-"@mui/material@^5.0.0", "@mui/material@^5.15.14", "@mui/material@^5.15.15", "@mui/material@^5.4.1", "@mui/material@>=5.15.0":
-  version "5.15.15"
-  resolved "https://registry.npmjs.org/@mui/material/-/material-5.15.15.tgz"
-  integrity sha512-3zvWayJ+E1kzoIsvwyEvkTUKVKt1AjchFFns+JtluHCuvxgKcLSRJTADw37k0doaRtVAsyh8bz9Afqzv+KYrIA==
+"@mui/material@^5.0.0", "@mui/material@^5.14.12", "@mui/material@^5.15.14", "@mui/material@^5.4.1", "@mui/material@>=5.15.0":
+  version "5.15.16"
+  resolved "https://registry.npmjs.org/@mui/material/-/material-5.15.16.tgz"
+  integrity sha512-ery2hFReewko9gpDBqOr2VmXwQG9ifXofPhGzIx09/b9JqCQC/06kZXZDGGrOTpIddK9HlIf4yrS+G70jPAzUQ==
   dependencies:
     "@babel/runtime" "^7.23.9"
     "@mui/base" "5.0.0-beta.40"
-    "@mui/core-downloads-tracker" "^5.15.15"
+    "@mui/core-downloads-tracker" "^5.15.16"
     "@mui/system" "^5.15.15"
     "@mui/types" "^7.2.14"
     "@mui/utils" "^5.15.14"
@@ -392,12 +387,12 @@
     prop-types "^15.8.1"
 
 "@mui/private-theming@^6.0.0-alpha.3":
-  version "6.0.0-alpha.3"
-  resolved "https://registry.npmjs.org/@mui/private-theming/-/private-theming-6.0.0-alpha.3.tgz"
-  integrity sha512-zRdwVf8RpuM0MEqMveoJ0sV48eMWvutkcY/pt9nX21jXD9kaxOCuQyT6oNrXF7ZlBDOi/NXfKRDgkQfj+kwxDQ==
+  version "6.0.0-alpha.5"
+  resolved "https://registry.npmjs.org/@mui/private-theming/-/private-theming-6.0.0-alpha.5.tgz"
+  integrity sha512-jMo45tVNOA0t2GEIgOiroPHWkranirwNGdzElxjbNmNXhxniFHDISKzCvEljCEfU88syAwm9fi22CwmqwIbfag==
   dependencies:
     "@babel/runtime" "^7.24.4"
-    "@mui/utils" "^6.0.0-alpha.3"
+    "@mui/utils" "^6.0.0-alpha.5"
     prop-types "^15.8.1"
 
 "@mui/styled-engine-sc@^6.0.0-alpha.18":
@@ -421,9 +416,9 @@
     prop-types "^15.8.1"
 
 "@mui/styled-engine@^6.0.0-alpha.3":
-  version "6.0.0-alpha.3"
-  resolved "https://registry.npmjs.org/@mui/styled-engine/-/styled-engine-6.0.0-alpha.3.tgz"
-  integrity sha512-tQ7xa3mJI6MZJnmm0O/Y+2z4LBSnnvMw0jfEawBSP6vRdN31kiCx8bj/J6asg9uWkCQ7FtNbzq9at7HQlWjGXA==
+  version "6.0.0-alpha.5"
+  resolved "https://registry.npmjs.org/@mui/styled-engine/-/styled-engine-6.0.0-alpha.5.tgz"
+  integrity sha512-M+nvgL6V9JAnJTy9WJLXXWKfe5YnkIpzheXszsvwi0Yoig/er1DcUwhd7fiKhrgSzEhB9eKXA93fdzFdf1+mcQ==
   dependencies:
     "@babel/runtime" "^7.24.4"
     "@emotion/cache" "^11.11.0"
@@ -473,10 +468,10 @@
     prop-types "^15.8.1"
     react-is "^18.2.0"
 
-"@mui/utils@^6.0.0-alpha.1", "@mui/utils@^6.0.0-alpha.3":
-  version "6.0.0-alpha.3"
-  resolved "https://registry.npmjs.org/@mui/utils/-/utils-6.0.0-alpha.3.tgz"
-  integrity sha512-DBuCy0LmpKFBX6KcZpNve8T3oZmbdZABN0ixJIvDRdoxTG86divvx1CcA71YJojZD3FhRWb0d/XxtMAzn4qIvg==
+"@mui/utils@^6.0.0-alpha.1", "@mui/utils@^6.0.0-alpha.3", "@mui/utils@^6.0.0-alpha.5":
+  version "6.0.0-alpha.5"
+  resolved "https://registry.npmjs.org/@mui/utils/-/utils-6.0.0-alpha.5.tgz"
+  integrity sha512-E0MNO8pfIkxsF/Ql+W0J0t4uTgXsTjGHrKr3UhnyFRLqP+JFg5tCvGcSqL0bCDck60Kuc77JCYMr4wbJrhk3LA==
   dependencies:
     "@babel/runtime" "^7.24.4"
     "@types/prop-types" "^15.7.12"
@@ -615,9 +610,9 @@
   integrity sha512-t7dhREVv6dbNj0q17X12j7yDG4bD/DHYX7o5/DbDxobP0HnGPgpRz2Ej77aL7TZT3DSw13fqUTj8J4mMnqa7WA==
 
 "@types/node@*", "@types/node@>= 14":
-  version "20.12.7"
-  resolved "https://registry.npmjs.org/@types/node/-/node-20.12.7.tgz"
-  integrity sha512-wq0cICSkRLVaf3UGLMGItu/PtdY7oaXaI/RVU+xliKVOtRna3PRY57ZDfztpDL0n11vfymMUnXv8QwYCO7L1wg==
+  version "20.12.8"
+  resolved "https://registry.npmjs.org/@types/node/-/node-20.12.8.tgz"
+  integrity sha512-NU0rJLJnshZWdE/097cdCBbyW1h4hEg0xpovcoAQYHl8dnEyp/NAOiE45pvc+Bd1Dt+2r94v2eGFpQJ4R7g+2w==
   dependencies:
     undici-types "~5.26.4"
 
@@ -3071,12 +3066,12 @@ strip-json-comments@^3.1.1:
   integrity sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==
 
 styled-components@^6.0.0, styled-components@^6.1.8:
-  version "6.1.8"
-  resolved "https://registry.npmjs.org/styled-components/-/styled-components-6.1.8.tgz"
-  integrity sha512-PQ6Dn+QxlWyEGCKDS71NGsXoVLKfE1c3vApkvDYS5KAK+V8fNWGhbSUEo9Gg2iaID2tjLXegEW3bZDUGpofRWw==
+  version "6.1.9"
+  resolved "https://registry.npmjs.org/styled-components/-/styled-components-6.1.9.tgz"
+  integrity sha512-aBOqs0uMsYufFXSE4q6cA6Ty1fwZuMk4BJRHfiGSna59F1otnxiDelwhN4fEwmBtIymmF0ZqXHnpSigr2ps9Cg==
   dependencies:
     "@emotion/is-prop-valid" "1.2.1"
-    "@emotion/unitless" "0.8.0"
+    "@emotion/unitless" "0.8.1"
     "@types/stylis" "4.2.0"
     css-to-react-native "3.2.0"
     csstype "3.1.2"
