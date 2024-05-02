@@ -1,10 +1,5 @@
-import AutoStoriesIcon from '@mui/icons-material/AutoStories';
-import RoomTwoToneIcon from '@mui/icons-material/RoomTwoTone';
-
 import SvgColor from 'src/components/svg-color';
-import ShareTwoToneIcon from '@mui/icons-material/ShareTwoTone';
 
-import ImportContactsTwoToneIcon from '@mui/icons-material/ImportContactsTwoTone';
 // ----------------------------------------------------------------------
 
 const icon = (name) => (
@@ -13,17 +8,17 @@ const icon = (name) => (
 
 const navConfig = [
   {
-    title: 'Dashboard',
+    title: 'dashboard',
     path: '/',
     icon: icon('ic_analytics'),
   },
   {
-    title: 'Pending Dives',
+    title: 'user',
     path: '/user',
     icon: icon('ic_user'),
   },
   {
-    title: 'Product',
+    title: 'product',
     path: '/products',
     icon: icon('ic_cart'),
   },
@@ -33,12 +28,7 @@ const navConfig = [
     icon: icon('ic_blog'),
   },
   {
-    title: 'Insert Data',
-    path: '/insert-data',
-    icon: icon('ic_addData'),
-  },
-  {
-    title: 'Login',
+    title: 'login',
     path: '/login',
     icon: icon('ic_lock'),
   },
@@ -52,22 +42,6 @@ const navConfig = [
     path: '/404',
     icon: icon('ic_disabled'),
   },
-  {
-    title: 'Dive Sites Map',
-    path: '/map',
-    icon: <RoomTwoToneIcon/>,
-  },
-  {
-    title: 'Articles',
-    path: '/article-view',
-    icon: <ImportContactsTwoToneIcon/>,
-  },
-  {
-    title: 'Import Posts',
-    path: '/import-posts',
-    icon: <ShareTwoToneIcon/>,
-  },
-
 ];
 
 export default navConfig;
