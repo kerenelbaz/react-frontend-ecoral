@@ -11,8 +11,6 @@ import ThemeProvider from 'src/theme';
 export default function App() {
   useScrollToTop();
 
-  
-
   return (
     <ThemeProvider>
       <Router />
