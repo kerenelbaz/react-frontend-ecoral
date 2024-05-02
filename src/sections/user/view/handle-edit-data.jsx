@@ -335,6 +335,7 @@ export default function EditData({ open, handleClose, userData }) {
                         id="maxDepth"
                         name="maxDepth"
                         className="fieldInput"
+                        defaultValue={userData.maxDepth}
                         // onChange={handleInputChange}
                         // className="numbersField"
                       />
@@ -348,6 +349,7 @@ export default function EditData({ open, handleClose, userData }) {
                           shrink: true,
                         }}
                         className="fieldInput"
+                        defaultValue={userData.distance}
                         // onChange={handleInputChange}
                         // className="numbersField"
                       />
@@ -359,6 +361,7 @@ export default function EditData({ open, handleClose, userData }) {
                         name="temp"
                         id="standard-number"
                         className="fieldInput"
+                        defaultValue={userData.temp}
                         // onChange={handleInputChange}
                         // className="numbersField"
                       />
