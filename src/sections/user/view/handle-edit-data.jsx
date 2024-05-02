@@ -50,6 +50,28 @@ export default function EditData({ open, handleClose, userData }) {
     //   setOpenImageDialog(false);
     // };
 
+    const formatDateTime = (dateTimeString) => {
+      const dateTime = new Date(dateTimeString);
+      
+      // Format the date
+      const dateFormatter = new Intl.DateTimeFormat('en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      });
+      const formattedDate = dateFormatter.format(dateTime);
+      
+      // Format the time
+      const timeFormatter = new Intl.DateTimeFormat('en-GB', {
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+      const formattedTime = timeFormatter.format(dateTime);
+      
+      // Combine date and time
+      return `${formattedDate}, ${formattedTime}`;
+    };
+
 
 // export default function EditData({ open, handleClose }) {
   return (
@@ -242,6 +264,51 @@ export default function EditData({ open, handleClose, userData }) {
                         </ButtonGroup>
 
                     </div> */}
+                      <div className="dateContainer">
+                        <div
+                          // component="form"
+                          // sx={{
+                          //   '& > :not(style)': { m: 1, width: '25ch' },
+                          // }}
+                          // noValidate
+                          // autoComplete="off"
+                        >
+                          <TextField
+                            InputProps={{
+                              readOnly: true,
+                            }}
+                            id="standard-read-only-input"
+                            label="Data logged at: "
+                            defaultValue={formatDateTime(userData.loggingDate)}
+                            variant="standard"
+                            className="dateStyle" 
+                          />
+                          <TextField
+                            InputProps={{
+                              readOnly: true,
+                            }}
+                            id="standard-read-only-input"
+                            label="Date dive: "
+                            defaultValue={formatDateTime(userData.date)} 
+                            variant="standard"
+                            className="dateStyle"
+                          />
+
+                          <TextField
+                            // InputProps={{
+                            //   readOnly: true,
+                            // }}
+                            id="standard-read-only-input"
+                            label="Dive took place during: "
+                            defaultValue={userData.time} 
+                            variant="standard"
+                            className="dateStyle"
+                          />
+
+                        </div>
+                      </div>
+
+
 
                 </form>
             </div>

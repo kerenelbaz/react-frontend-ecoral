@@ -68,3 +68,27 @@
   object-fit: cover;
   border-radius: 5px;
 }
+
+
+.dateContainer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dateStyle label{
+  
+  color: rgb(0, 130, 251) !important;
+  font-size: 25px;
+  margin-bottom:3%;
+
+}
+.dateStyle input {
+  color: rgb(0, 130, 251) !important;
+  font-size: 20px;
+  padding-top:5%;
+
+}
+.dateStyle .MuiInput-underline:before {
+  border-bottom: none;
+}
