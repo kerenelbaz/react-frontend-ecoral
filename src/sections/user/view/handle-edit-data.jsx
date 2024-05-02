@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import { useState } from "react";
 import PropTypes from 'prop-types';
 
@@ -16,6 +17,11 @@ import DialogActions from '@mui/material/DialogActions';
 import './style.css';
 // eslint-disable-next-line import/no-unresolved
 import dataLists from '../../insertData/view/dataLists.json';
+
+
+const initialGroupCodes = ['D1', 'D2', 'D4', 'FD2', 'N1', 'N3', 'NA', 'S'];
+
+const humanWildInterList = ['Between 3 to 10 M', 'Closer than 10 M', 'Forther than 10 M', 'Macro', 'NA'];
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -36,10 +42,15 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-
 export default function EditData({ open, handleClose, userData }) {
     // eslint-disable-next-line no-unused-vars
     const [openImageDialog, setOpenImageDialog] = useState(false);
+    const [adminData, setAdminData] = useState({
+      groupCode: '',
+      humanWildIner: '',
+      adminDescription: '',
+      idSharks: '',
+    });
 
     const handleImageClick = () => {
 
@@ -72,6 +83,14 @@ export default function EditData({ open, handleClose, userData }) {
       return `${formattedDate}, ${formattedTime}`;
     };
 
+    const handleTextareaChange = (value) => {
+      // Update the state with the value of the textarea
+      setAdminData(prevData => ({
+        ...prevData,
+        adminDescription: value
+      }));
+    };
+
 
 // export default function EditData({ open, handleClose }) {
   return (
@@ -82,7 +101,7 @@ export default function EditData({ open, handleClose, userData }) {
       
     >
       <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-        Modal title
+        Dive Code: 2
       </DialogTitle>
       <IconButton
         aria-label="close"
@@ -99,53 +118,74 @@ export default function EditData({ open, handleClose, userData }) {
       <DialogContent dividers >
         {userData && (
           <>
-            <Button style={{display: 'flex', justifyContent:'center', alignItems: 'center' }} onClick={handleImageClick}>
-              <div className="wrapImg" >
-                <img className="imageB" src={userData.file} alt="Preview" /> 
-              </div>
+          <div style={{display: 'flex', justifyContent:'center', alignItems: 'center' }} >
+              <Button onClick={handleImageClick}>
+                  <div className="wrapImg" >
+                    <img className="imageB" src={userData.file} alt="Preview" /> 
+                  </div>
 
-            </Button>
-            {/* <Dialog open={openImageDialog} onClose={handleCloseImageDialog}>
-            <div>
+              </Button>
+          </div>          
+            <div className='containerEd'>
+              <form>
+                <div>
 
-            <Zoom>
-              <img src={userData.file} alt="Preview" />
-            </Zoom>
-            
-              </div>
-            </Dialog> */}
-            <p>objectGroup: {console.log('userDate is', userData)}</p>
-
-            <p>loggingDate: {userData.loggingDate}</p>
-            
-            <div className='container'>
-                <form>
-                   
-                    {/* <div className="image-placeholder">
-                      <img src={userData.file} alt="Preview" />
-                    </div> */}
-
-                    <div className="inLine">
-                        <Autocomplete
-                            options={dataLists.diveSite}
-                            // specifies how to render the options in the dropdown list - returns the option itself
-                            defaultValue={userData.diveSite}
-                            getOptionLabel={(option) => option}
-                            // onChange={(e, value) =>
-                            //   handleAutocompleteChange("site", value || "")
-                            // }
-                            renderInput={(params) => (
-                            <TextField
-                                {...params}
-                                required
-                                label="Dive Site"
-                                name="diveSite"
-                                autoComplete="diveSite"
-                                className="fieldInput"
-
-                            />
-                            )}
-                        />
+                
+                <div className="txtContainer">
+                  <div>
+                    <TextField
+                      InputProps={{readOnly: true}}
+                      id="standard-read-only-input"
+                      label="Data logged at: "
+                      defaultValue={formatDateTime(userData.loggingDate)}
+                      variant="standard"
+                      className="dateStyle" 
+                    />
+                    <TextField
+                      InputProps={{readOnly: true}}
+                      id="standard-read-only-input"
+                      label="Date dive: "
+                      defaultValue={formatDateTime(userData.date)} 
+                      variant="standard"
+                      className="dateStyle"
+                    />
+                    <TextField
+                      id="standard-read-only-input"
+                      label="Dive took place during: "
+                      defaultValue={userData.time} 
+                      variant="standard"
+                      className="dateStyle"
+                    />
+                    <TextField
+                      id="standard-read-only-input"
+                      label="Photo took in AR: "
+                      defaultValue={userData.AR} 
+                      variant="standard"
+                      className="dateStyle"
+                    />
+                  </div>
+                </div>
+              <br/>
+              <br/>
+                <div className="inLine">
+                  <Autocomplete
+                    options={dataLists.diveSite}
+                    defaultValue={userData.diveSite}
+                    getOptionLabel={(option) => option}
+                    // onChange={(e, value) =>
+                    //   handleAutocompleteChange("site", value || "")
+                    // }
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        required
+                        label="Dive Site"
+                        name="diveSite"
+                        autoComplete="diveSite"
+                        className="fieldInput"
+                      />
+                    )}
+                  />
 
                         <Autocomplete
                             options={dataLists.objectGroupList}
@@ -248,68 +288,117 @@ export default function EditData({ open, handleClose, userData }) {
                         
                     
                     </div>
-                    {/* <div >
+                    
 
-                        <label className="lblButtonsGroup">Photo Took In Artificial Reef:</label>
-
-                        <ButtonGroup size="large" color="inherit" aria-label="Large button group">
-                            {isArButtonGroup.map((button, index) => (
-                            <Button key={index} onClick={() => handleButtonClick(button, 'reef')}
-                                variant={selectedReef === button ? "contained" : "outlined"}
-
-                            >
-                                {button}
-                            </Button>
-                            ))}
-                        </ButtonGroup>
-
-                    </div> */}
-                      <div className="dateContainer">
-                        <div
-                          // component="form"
-                          // sx={{
-                          //   '& > :not(style)': { m: 1, width: '25ch' },
-                          // }}
-                          // noValidate
-                          // autoComplete="off"
-                        >
+                    <div className="inLine">
+                      <Autocomplete
+                        options={initialGroupCodes}
+                        getOptionLabel={(option) => (option)}
+                        // onChange={(e, value) =>
+                        //   handleAutocompleteChange("objectGroup", value || "")
+                        // }
+                        renderInput={(params) => (
                           <TextField
-                            InputProps={{
-                              readOnly: true,
-                            }}
-                            id="standard-read-only-input"
-                            label="Data logged at: "
-                            defaultValue={formatDateTime(userData.loggingDate)}
-                            variant="standard"
-                            className="dateStyle" 
+                            {...params}
+                            // value={insertData.specieName}
+                            label="Group Code"
+                            name="groupCode"
+                            autoComplete='groupCode'
+                            className="fieldInput"
                           />
-                          <TextField
-                            InputProps={{
-                              readOnly: true,
-                            }}
-                            id="standard-read-only-input"
-                            label="Date dive: "
-                            defaultValue={formatDateTime(userData.date)} 
-                            variant="standard"
-                            className="dateStyle"
-                          />
+                        )}
+                      />
+                      <Autocomplete
+                        options={humanWildInterList}
+                        getOptionLabel={(option) => (option)}
+                        // onChange={(e, value) =>
+                        //   handleAutocompleteChange("objectGroup", value || "")
+                        // }
+                        renderInput={(params) => (
+                        <TextField
+                            {...params}
+                            // value={insertData.specieName}
+                            label="Human-wildlife interaction"
+                            name="humanWildInter"
+                            autoComplete='humanWildInter'
+                            className="fieldInput"
+                        />
+                        )}
+                        />
+    
+                    </div>
 
-                          <TextField
-                            // InputProps={{
-                            //   readOnly: true,
-                            // }}
-                            id="standard-read-only-input"
-                            label="Dive took place during: "
-                            defaultValue={userData.time} 
-                            variant="standard"
-                            className="dateStyle"
-                          />
+                    <div className="inLine">
+                      <TextField
+                        label='Max Depth (meters)'
+                        type="text"
+                        id="maxDepth"
+                        name="maxDepth"
+                        className="fieldInput"
+                        // onChange={handleInputChange}
+                        // className="numbersField"
+                      />
 
-                        </div>
+                      <TextField
+                        label='Distance (meters)'
+                        type="number"
+                        id="standard-number"
+                        name="distance"
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        className="fieldInput"
+                        // onChange={handleInputChange}
+                        // className="numbersField"
+                      />
+                      
+
+                      <TextField
+                        label='Temperature (celsius)'
+                        type="text"
+                        name="temp"
+                        id="standard-number"
+                        className="fieldInput"
+                        // onChange={handleInputChange}
+                        // className="numbersField"
+                      />
+                      
+                      
+                    </div>
+                    <div className="inLine">
+                    <TextField
+                        label='ID Code'
+                        type="text"
+                        name="idCode"
+                        className="fieldInput"
+                        // onChange={handleInputChange}
+                        // className="numbersField"
+                      />
+                      
+                      <TextField
+                        label='ID sharks'
+                        type="text"
+                        name="idSharks"
+                        className="fieldInput"
+                        // onChange={handleInputChange}
+                        // className="numbersField"
+                      />
+
+                    </div>
+                      
+                      <div>
+                        <label className="lblDesc">User dives description:</label>
+                        <p className="lblDesc">{`"${userData.userDescription}"`}</p>
+                        
+                      </div>
+
+                      <div>
+                        <label className="lblDesc" htmlFor="adminDescription">Tell us about your diving trip:</label>
+                        <textarea id="adminDescription" name="adminDescription" rows={3} className="admin-textarea" onChange={(e) => handleTextareaChange(e.target.value)} />
                       </div>
 
 
-
+                      </div>
                 </form>
             </div>
           </>
@@ -317,7 +406,7 @@ export default function EditData({ open, handleClose, userData }) {
       </DialogContent>
 
       <DialogActions>
-        <Button autoFocus onClick={handleClose}>
+        <Button style={{fontSize:"20px"}} autoFocus onClick={handleClose}>
           Save changes
         </Button>
       </DialogActions>
