@@ -4,6 +4,8 @@ import ShareTwoToneIcon from '@mui/icons-material/ShareTwoTone';
 import ImportContactsTwoToneIcon from '@mui/icons-material/ImportContactsTwoTone';
 import PendingActionsTwoToneIcon from '@mui/icons-material/PendingActionsTwoTone';
 import AddLocationAltTwoToneIcon from '@mui/icons-material/AddLocationAltTwoTone';
+
+import SvgColor from 'src/components/svg-color';
 // ----------------------------------------------------------------------
 
 const icon = (name) => (
