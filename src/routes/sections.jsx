@@ -14,6 +14,7 @@ export const InsertDataPage = lazy(() => import('src/pages/insert-data'));
 export const ArticleViewPage = lazy(() => import('src/pages/article-view'));
 export const ImportPostsPage = lazy(() => import('src/pages/import-posts'));
 export const AddDiveSitePage = lazy(() => import('src/pages/add-dive-site'));
+export const RegisterPage = lazy(() => import('src/pages/register'));
 
 // ----------------------------------------------------------------------
 
@@ -46,6 +47,10 @@ export default function Router() {
     {
       path: '404',
       element: <Page404 />,
+    },
+    {
+      path: 'register',
+      element: <RegisterPage />,
     },
     {
       path: '*',

@@ -1,9 +1,6 @@
-import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+// import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import RoomTwoToneIcon from '@mui/icons-material/RoomTwoTone';
-
-import SvgColor from 'src/components/svg-color';
 import ShareTwoToneIcon from '@mui/icons-material/ShareTwoTone';
-
 import ImportContactsTwoToneIcon from '@mui/icons-material/ImportContactsTwoTone';
 import PendingActionsTwoToneIcon from '@mui/icons-material/PendingActionsTwoTone';
 import AddLocationAltTwoToneIcon from '@mui/icons-material/AddLocationAltTwoTone';
@@ -38,6 +35,11 @@ const navConfig = [
     title: 'Login',
     path: '/login',
     icon: icon('ic_lock'),
+  },
+  {
+    title: 'Register',
+    path: '/register',
+    icon: icon('register'),
   },
   {
     title: 'Not found',
