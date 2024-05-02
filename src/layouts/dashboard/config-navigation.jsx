@@ -5,6 +5,8 @@ import SvgColor from 'src/components/svg-color';
 import ShareTwoToneIcon from '@mui/icons-material/ShareTwoTone';
 
 import ImportContactsTwoToneIcon from '@mui/icons-material/ImportContactsTwoTone';
+import PendingActionsTwoToneIcon from '@mui/icons-material/PendingActionsTwoTone';
+import AddLocationAltTwoToneIcon from '@mui/icons-material/AddLocationAltTwoTone';
 // ----------------------------------------------------------------------
 
 const icon = (name) => (
@@ -16,11 +18,6 @@ const navConfig = [
     title: 'Dashboard',
     path: '/',
     icon: icon('ic_analytics'),
-  },
-  {
-    title: 'Pending Dives',
-    path: '/user',
-    icon: icon('ic_user'),
   },
   {
     title: 'Product',
@@ -50,19 +47,28 @@ const navConfig = [
   {
     title: 'Dive Sites Map',
     path: '/map',
-    icon: <RoomTwoToneIcon/>,
+    icon: <RoomTwoToneIcon />,
   },
   {
     title: 'Articles',
     path: '/article-view',
-    icon: <ImportContactsTwoToneIcon/>,
+    icon: <ImportContactsTwoToneIcon />,
+  },
+  {
+    title: 'Pending Dives',
+    path: '/pending-dives',
+    icon: <PendingActionsTwoToneIcon />,
   },
   {
     title: 'Import Posts',
     path: '/import-posts',
-    icon: <ShareTwoToneIcon/>,
+    icon: <ShareTwoToneIcon />,
   },
-
+  {
+    title: 'Add Dive Site',
+    path: '/add-dive-site',
+    icon: <AddLocationAltTwoToneIcon />,
+  },
 ];
 
 export default navConfig;

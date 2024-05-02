@@ -109,7 +109,7 @@
     return (
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4">Admin Approves</Typography>
+          <Typography variant="h4">{`Pending Dives For Admin's Approval`}</Typography>
           <Button variant="contained" color="inherit" startIcon={<DatasetIcon icon="eva:plus-fill" />}>
             All Data
           </Button>

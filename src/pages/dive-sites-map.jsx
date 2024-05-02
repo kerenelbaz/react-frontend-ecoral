@@ -1,10 +1,11 @@
+
 import { Helmet } from 'react-helmet-async';
 
 import { DiveSitesMapView } from 'src/sections/diveSitesMap';
 
 // ----------------------------------------------------------------------
 
-export default function Dive_sites_map() {
+export default function DiveSitesMapPage() {
   return (
     <>
       <Helmet>
@@ -15,3 +16,4 @@ export default function Dive_sites_map() {
     </>
   );
 }
+

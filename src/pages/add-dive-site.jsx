@@ -1,17 +1,17 @@
 import { Helmet } from 'react-helmet-async';
 
-import { ImportPostsView } from 'src/sections/importPosts';
+import { AddDiveSiteView } from 'src/sections/addDiveSite';
 
 // ----------------------------------------------------------------------
 
-export default function ImportPostsPage() {
+export default function AddDiveSitePage() {
   return (
     <>
       <Helmet>
-        <title> Import Posts </title>
+        <title> Add Dive Site </title>
       </Helmet>
 
-      <ImportPostsView />
+      <AddDiveSiteView />
     </>
   );
 }
