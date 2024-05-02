@@ -106,9 +106,10 @@ export default function AppView() {
 
         <Grid xs={12} md={6} lg={4}>
           <AppCurrentVisits
-            title="Current Visits"
+            title="Data by image location"
             chart={{
-              series: [
+              series: [ 
+                // object group
                 { label: 'America', value: 4344 },
                 { label: 'Asia', value: 5435 },
                 { label: 'Europe', value: 1443 },
