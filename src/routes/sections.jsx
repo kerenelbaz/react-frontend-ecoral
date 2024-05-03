@@ -5,7 +5,8 @@ import DashboardLayout from 'src/layouts/dashboard';
 
 export const IndexPage = lazy(() => import('src/pages/app'));
 export const BlogPage = lazy(() => import('src/pages/blog'));
-export const UserPage = lazy(() => import('src/pages/user'));
+export const PendingAdminView = lazy(() => import('src/pages/pending-admin'));
+export const AllDataPage = lazy(() => import('src/pages/all-data'));
 export const LoginPage = lazy(() => import('src/pages/login'));
 export const ProductsPage = lazy(() => import('src/pages/products'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
@@ -32,7 +33,8 @@ export default function Router() {
       ),
       children: [
         { element: <IndexPage />, index: true },
-        { path: 'pending-dives', element: <UserPage /> },
+        { path: 'pending-dives', element: <PendingAdminView /> },
+        { path: 'all-data', element: <AllDataPage /> },
         { path: 'products', element: <ProductsPage /> },
         { path: 'blog', element: <BlogPage /> },
         { path: 'insert-data', element: <InsertDataPage /> },

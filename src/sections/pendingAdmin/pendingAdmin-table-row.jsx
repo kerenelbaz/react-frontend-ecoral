@@ -81,7 +81,7 @@ export default function UserTableRow({
         <TableCell>{site}</TableCell>
         <TableCell>{objectGroup}</TableCell>
         <TableCell>{reportType}</TableCell>
-        <TableCell>{file}</TableCell>
+        {/* <TableCell>{file}</TableCell> */}
         {/* <TableCell>{imgLocation}</TableCell>
         <TableCell>{specie}</TableCell>
         <TableCell>{arReef}</TableCell>

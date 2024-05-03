@@ -1,17 +1,17 @@
 import { Helmet } from 'react-helmet-async';
 
-import { UserView } from 'src/sections/user/view';
+import AllDataView from 'src/sections/allData/view/allData-view';
 
 // ----------------------------------------------------------------------
 
-export default function UserPage() {
+export default function AllDataPage() {
   return (
     <>
       <Helmet>
-        <title> Pending Dives - Admin | Ecoral </title>
+        <title> All Data - Admin | Ecoral </title>
       </Helmet>
      
-      <UserView />
+      <AllDataView />
     </>
   );
 }

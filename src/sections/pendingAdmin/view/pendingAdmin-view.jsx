@@ -1,6 +1,6 @@
   import { useState, useEffect } from 'react';
 
- import Card from '@mui/material/Card';
+  import Card from '@mui/material/Card';
   import Stack from '@mui/material/Stack';
   import Table from '@mui/material/Table';
   import Button from '@mui/material/Button';
@@ -8,19 +8,19 @@
   import TableBody from '@mui/material/TableBody';
   import Typography from '@mui/material/Typography';
   import DatasetIcon from '@mui/icons-material/Dataset';
-  import TableContainer from '@mui/material/TableContainer';
-  import TablePagination from '@mui/material/TablePagination';
+  import TableContainer from '@mui/material/TableContainer'; import TablePagination from '@mui/material/TablePagination';
 
   import Scrollbar from 'src/components/scrollbar';
 
-  import EditData from './handle-edit-data'; // import TableNoData from '../table-no-data';
-  import UserTableRow from '../user-table-row';
-  import UserTableHead from '../user-table-head';
-  import TableEmptyRows from '../table-empty-rows';
-  // import UserTableToolbar from '../user-table-toolbar';
+  // import AllDataPage from 'src/sections/allData/view/allData-view';
+
+  import EditData from './handle-edit-data'; import TableEmptyRows from '../table-empty-rows';
+  import UserTableRow from '../pendingAdmin-table-row'; import UserTableHead from '../pendingAdmin-table-head';
+// import UserTableToolbar from '../user-table-toolbar';
   import { emptyRows, applyFilter, getComparator } from '../utils';
 
-  export default function UserPage() {
+
+  export default function PendingAdminView() {
     const [page, setPage] = useState(0);
     const [order, setOrder] = useState('asc');
     // const [selected, setSelected] = useState([]);
@@ -106,13 +106,20 @@
       // console.log("file", userData.file);
     };
 
+    const handleAllDataButtonClick = () => {
+      window.open('/all-data', '_blank'); // Replace '/all-data-page-url' with the actual URL of your All Data page
+    };
+
     return (
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4">{`Pending Dives For Admin's Approval`}</Typography>
-          <Button variant="contained" color="inherit" startIcon={<DatasetIcon icon="eva:plus-fill" />}>
+
+
+          <Button variant="contained" color="inherit" startIcon={<DatasetIcon icon="eva:plus-fill" />} onClick={handleAllDataButtonClick}>
             All Data
           </Button>
+          
         </Stack>
 
         <Card>
