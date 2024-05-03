@@ -167,17 +167,19 @@ export default function RegisterView() {
         })
        })
        .then(res =>{
-          console.log('res = ', res);
-          return res.json()
-        })
-        .then(
-          (result) =>{
-            console.log('fetch POST = ', result);
+            if (res.ok) {
+                return res.json(); // Process the response if it's OK.
+            } 
+            throw new Error(`Registration failed: ${res.status}`); // Throw an error if the response isn't OK.
             
+        })
+        .then((result) => {         
+            console.log('fetch POST = ', result);
             router.push('/login');
-        },
-        (error) =>{
+        })
+        .catch( (error) => {
           console.log("err POST=", error);
+          setEmailError("Registration failed, please try a different email."); // Show an error message on failure.
         });
         
        
@@ -250,7 +252,10 @@ export default function RegisterView() {
               onChange={(event, newValue) => {
                 setGender(newValue);
               }}
-              renderInput={(params) => <TextField {...params} label="Gender" />}
+              renderInput={(params) => <TextField {...params} 
+                                                    label="Gender" 
+                                                    error={!!genderError}
+                                                    helperText={genderError}/>}
               
         />
         <LocalizationProvider dateAdapter={AdapterDayjs}>
