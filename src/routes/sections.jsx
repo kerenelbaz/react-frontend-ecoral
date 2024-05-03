@@ -17,6 +17,7 @@ export const ImportPostsPage = lazy(() => import('src/pages/import-posts'));
 export const AddDiveSitePage = lazy(() => import('src/pages/add-dive-site'));
 export const RegisterPage = lazy(() => import('src/pages/register'));
 export const AddArticlePage = lazy(() => import('src/pages/add-article'));
+export const ManageUsersPage = lazy(() => import('src/pages/manage-users'));
 
 // ----------------------------------------------------------------------
 
@@ -43,6 +44,7 @@ export default function Router() {
         { path: 'import-posts', element: <ImportPostsPage /> },
         { path: 'add-dive-site', element: <AddDiveSitePage /> },
         { path: 'add-article', element: <AddArticlePage/>},
+        { path: 'manage-users', element: <ManageUsersPage/>},
       ],
     },
     {

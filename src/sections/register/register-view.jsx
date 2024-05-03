@@ -160,7 +160,7 @@ export default function RegisterView() {
       console.log(userToAdd);
        // Your form submission logic here
        console.log('Form submitted');
-       fetch(`https://localhost:7215/api/User/registration`,{
+       fetch(`https://proj.ruppin.ac.il/cgroup11/test2/tar1/api/User/registration`,{
           method: 'POST',
           body: JSON.stringify(userToAdd),
           headers: new Headers({'Content-type': 'application/json; charset=UTF-8'
@@ -327,37 +327,7 @@ export default function RegisterView() {
 
           
 
-          <Stack direction="row" spacing={2}>
-            <Button
-              fullWidth
-              size="large"
-              color="inherit"
-              variant="outlined"
-              sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
-            >
-              <Iconify icon="eva:google-fill" color="#DF3E30" />
-            </Button>
-
-            <Button
-              fullWidth
-              size="large"
-              color="inherit"
-              variant="outlined"
-              sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
-            >
-              <Iconify icon="eva:facebook-fill" color="#1877F2" />
-            </Button>
-
-            <Button
-              fullWidth
-              size="large"
-              color="inherit"
-              variant="outlined"
-              sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
-            >
-              <Iconify icon="eva:twitter-fill" color="#1C9CEA" />
-            </Button>
-          </Stack>
+          
 
           <Divider sx={{ my: 3 }}/>
             

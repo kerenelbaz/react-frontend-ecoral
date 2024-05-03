@@ -9,6 +9,8 @@ import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
+import { useRouter } from 'src/routes/hooks';
+
 import { account } from 'src/_mock/account';
 
 // ----------------------------------------------------------------------
@@ -33,12 +35,22 @@ const MENU_OPTIONS = [
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
 
+  const router = useRouter();
+
+  const user = JSON.parse(localStorage.getItem('user'));
+
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
   };
 
   const handleClose = () => {
     setOpen(null);
+  };
+
+  const handleLogOut = () =>{
+    localStorage.removeItem('user');
+    window.location.reload();
+
   };
 
   return (
@@ -100,12 +112,21 @@ export default function AccountPopover() {
           </MenuItem>
         ))}
 
-        <Divider sx={{ borderStyle: 'dashed', m: 0 }} />
+        {user && user.email === 'admin@admin.com' && (
+          <>
+            <Divider />
+            <MenuItem onClick={()=>{router.push('/manage-users')}}>
+              Manage Users
+            </MenuItem>
+          </>
+        )}
 
+        <Divider sx={{ borderStyle: 'dashed', m: 0 }} />
+        
         <MenuItem
           disableRipple
           disableTouchRipple
-          onClick={handleClose}
+          onClick={handleLogOut}
           sx={{ typography: 'body2', color: 'error.main', py: 1.5 }}
         >
           Logout
