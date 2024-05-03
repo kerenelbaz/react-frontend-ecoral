@@ -251,8 +251,8 @@ export default function AddArticleView() {
           <input
             type="file"
             onChange={onSelectFile}
-            id="uploadeImage"
-            name="uploadeImage"
+            id="uploadePDF"
+            name="uploadePDF"
             required
           />
         </div>

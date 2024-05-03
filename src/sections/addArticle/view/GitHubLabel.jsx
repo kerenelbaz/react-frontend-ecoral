@@ -134,7 +134,7 @@ export default function GitHubLabel({onTagsChange}) {
 
   useEffect(() => {
     onTagsChange(value)
-  }, [value, onTagsChange]);
+  }, [value]);
 
   const handleNewLabel = () => {
     if (newLabel.name.trim() && newLabel.color.trim()) {
