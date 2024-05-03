@@ -65,6 +65,7 @@ export default function AllDataView() {
     };
 
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); 
 
   if (loading) {
@@ -132,6 +133,7 @@ export default function AllDataView() {
     filterName,
   });
 
+  // eslint-disable-next-line no-unused-vars
   const formatDateTime = (dateTimeString) => {
     const dateTime = new Date(dateTimeString);
 

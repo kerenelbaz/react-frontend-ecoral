@@ -15,6 +15,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -102,6 +103,7 @@ export default function InsertDataView() {
   }, []); // Empty dependency array to run effect only once on component mount
 
   
+  
   // Update button states when selectedTime or selectedReef changes
   useEffect(() => {
     setInsertData(prevData => ({
@@ -156,7 +158,7 @@ export default function InsertDataView() {
     // Update the form data with the valid dive date
     setInsertData(prevFormData => ({
       ...prevFormData,
-      dateDive: date, // Updated from birthDate to diveDate
+      dateDive: date, 
       errors: {
         ...prevFormData.errors,
         dateDive: false // Corrected from birthDate to diveDate
@@ -164,51 +166,56 @@ export default function InsertDataView() {
     }));
   };
 
+  // function isAppropriateDate(diveDate) {
+  //   const today = new Date();
+  //   return (
+  //     (diveDate.$y >= 2014 &&
+  //     diveDate.$D <= today.getDate() &&
+  //     diveDate.$M <= today.getMonth() &&
+  //     diveDate.$y <= today.getFullYear()
+  //     )||
+  //     (
+  //       diveDate.$y >= 2014 &&
+  //       diveDate.$M < today.getMonth() &&
+  //       diveDate.$y <= today.getFullYear()
+  //     )||
+  //     (
+  //       diveDate.$y > 2013 &&
+  //       diveDate.$M < today.getMonth() 
+  //     )
+  //   );
+  // }
+
   function isAppropriateDate(diveDate) {
     const today = new Date();
+  
+    // Extracting the year, month, and day from the diveDate
+    const diveYear = diveDate.$y;
+    const diveMonth = diveDate.$M;
+    const diveDay = diveDate.$D;
+  
+    // Extracting the year, month, and day from today's date
+    const currentYear = today.getFullYear();
+    const currentMonth = today.getMonth();
+    const currentDay = today.getDate();
+  
+    // Check if the dive date is not older than January 1, 2014, and not later than today
     return (
-      diveDate.$y >= 2014 &&
-      diveDate.$D <= today.getDate() &&
-      diveDate.$M <= today.getMonth() &&
-      diveDate.$y <= today.getFullYear()
+      diveYear >= 2014 && // Check if the year of the dive date is greater than or equal to 2014
+      (
+        diveYear < currentYear || // Check if the dive year is less than the current year
+        (diveYear === currentYear && diveMonth < currentMonth) || // Or if it's the same year but the month is less than the current month
+        (diveYear === currentYear && diveMonth === currentMonth && diveDay <= currentDay) // Or if it's the same year and month but the day is less than or equal to the current day
+      )
     );
   }
+  
 
   const timeButtons = ['Light', 'Night'];
 
   const isArButtonGroup = ['Yes', 'No', 'Maybe'];
 
-  // const handleInputChange = (e) => {
-  //   const { name, value } = e.target;
-  //   let isValid = true;
-  //   const numericRegex = /^[0-9]*$/;
-
-  //   switch (name) {
-  //     case 'rank':
-  //       isValid = parseInt(value) > 0 && parseInt(value) < 6;
-  //       break;
-  //     case 'maxDepth':
-  //       isValid = parseInt(value) > 0;
-  //       break;
-  //     case 'distance':
-  //       isValid = parseInt(value) > 0;
-  //       break;
-  //     case 'temp':
-  //       isValid = parseInt(value) > 0;
-  //       break;
-
-  //     default:
-  //       break;
-  //   }
-  //   setInsertData((prevFormData) => ({
-  //     ...prevFormData,
-  //     [name]: value,
-  //     errors: {
-  //       ...prevFormData.errors,
-  //       [name]: !isValid,
-  //     },
-  //   }));
-  // }
+  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -271,7 +278,20 @@ export default function InsertDataView() {
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent default form submission behavior
    
-    console.log(insertData.file)
+    const userJsonString = localStorage.getItem('user');
+    const user = JSON.parse(userJsonString.replace(/^"(.*)"$/, '$1'));
+    // Extracting age from birth date
+    const birthDate = new Date(user.birthDate);
+    const currentDate = new Date();
+    let age = currentDate.getFullYear() - birthDate.getFullYear();
+    if(currentDate.getMonth()> birthDate.getMonth())
+      age +=1;
+    // Retrieving gender
+    const {gender} = user;
+    
+    console.log('User Age:', age);
+    console.log('User Gender:', gender);
+    
     const entireDivingData = {
       diveCode,
       date: insertData.dateDive,
@@ -290,6 +310,8 @@ export default function InsertDataView() {
       maxDepth: insertData.maxDepth,
       distance: insertData.distance,
       temp: insertData.temp,
+      age,
+      gender,
 
     };
 
@@ -316,15 +338,6 @@ export default function InsertDataView() {
       return;
     }
 
-    console.log(diveCode)
-    const tosend = {
-      "diveCode": diveCode,
-      "time": "night"
-    }
-    console.log(JSON.stringify(tosend));
-    console.log(JSON.stringify(entireDivingData));
-    console.log("before the try");
-
     try {
       // Send form data to the server
       const response = await fetch('http://localhost:8000/api/pendings_dives', {
@@ -334,6 +347,7 @@ export default function InsertDataView() {
         },
         body: JSON.stringify(entireDivingData)
       });
+
       console.log(response);
       if (response.ok) {
         console.log('Data saved successfully');
