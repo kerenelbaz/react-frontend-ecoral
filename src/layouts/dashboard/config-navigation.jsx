@@ -1,4 +1,4 @@
-// import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import RoomTwoToneIcon from '@mui/icons-material/RoomTwoTone';
 import ShareTwoToneIcon from '@mui/icons-material/ShareTwoTone';
 import ImportContactsTwoToneIcon from '@mui/icons-material/ImportContactsTwoTone';
@@ -72,6 +72,11 @@ const navConfig = [
     title: 'Add Dive Site',
     path: '/add-dive-site',
     icon: <AddLocationAltTwoToneIcon />,
+  },
+  {
+    title: 'Add Articles',
+    path: '/add-article',
+    icon: <AutoStoriesIcon/>,
   },
 ];
 
