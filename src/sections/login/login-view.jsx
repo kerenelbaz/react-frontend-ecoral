@@ -65,7 +65,7 @@ export default function LoginView() {
       
        // Your form submission logic here
        console.log('Form submitted');
-       fetch(`https://localhost:7215/api/User/login?email=${userEmail}`,{
+       fetch(`https://proj.ruppin.ac.il/cgroup11/test2/tar1/api/User/login?email=${userEmail}`,{
           method: 'POST',
           body: JSON.stringify(password),
           headers: new Headers({'Content-type': 'application/json; charset=UTF-8'
