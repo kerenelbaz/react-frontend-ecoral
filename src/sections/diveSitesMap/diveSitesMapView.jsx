@@ -33,7 +33,6 @@ export default function DiveSitesMapView() {
   });
 
   useEffect(() => {
-    // Fetch user's position
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (currentPosition) => {

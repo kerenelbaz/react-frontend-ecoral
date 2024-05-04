@@ -5,6 +5,8 @@
   width: 80%;
   border-radius: 10px;
   border: 1px solid #cccccc4f;
+  align-content: center;
+  padding: 2.5em;
 }
 
 .container2 h1,
@@ -15,6 +17,10 @@
 }
 .p {
   font-size: 1.1em;
+  color: #212b36;
+  font-weight: 400;
+  padding-left: 1.3%;
+  padding-right: 4%;
 }
 
 .addSiteButton {
@@ -47,13 +53,6 @@
   font-weight: 400;
 }
 
-.lblButtonsGroup {
-  color: #212b36;
-  font-size: 25px;
-  font-weight: 400;
-  padding-left: 1.3%;
-  padding-right: 4%;
-}
 
 .TextField {
   margin: 10px;
@@ -66,3 +65,13 @@
   align-items: center;
   background-color: rgb(180, 214, 162);
 }
+
+.ButtonGroup {
+  margin: 9px;
+}
+
+
+.formRow{
+  display: flex;
+}
+

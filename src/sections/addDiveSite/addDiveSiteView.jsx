@@ -90,86 +90,72 @@ export default function AddDiveSiteView() {
 
   return (
     <div className="container2">
-      <h1>Add Dive Site To Map</h1>
-      <br />
-      <form onSubmit={handleSubmit}>
-        <div>
-          <p>Type:</p>
-          <ButtonGroup size="large" color="inherit" aria-label="Large button group">
-            {['Dive site', 'Animal', 'Plant'].map((type, index) => (
-              <Button
-                key={index}
-                onClick={() => handleButtonClick(type)}
-                variant={selectedType === type ? 'contained' : 'outlined'}
-              >
-                {type}
-              </Button>
-            ))}
-          </ButtonGroup>
-        </div>
-        <br />
-        <TextField
-          label="Name"
-          type="text"
-          id="Name"
-          name="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="TextField"
-        />
-        <TextField
-          label="Latitude"
-          type="text"
-          id="latitude"
-          name="latitude"
-          value={latitude}
-          onChange={handleLatitudeChange}
-          className="TextField"
-        />
-        <TextField
-          label="Longitude"
-          type="text"
-          id="Longitude"
-          name="Longitude"
-          value={longitude}
-          onChange={handleLongitudeChange}
-          className="TextField"
-        />
-        <div>
-          <p>Site Description:</p>
-          <textarea
-            className="siteDescription"
-            value={description}
-            onChange={handleDescriptionChange}
-          />
-        </div>
-        <Snackbar
-          open={openSnackbar}
-          autoHideDuration={100000000}
-          onClose={handleCloseSnackbar}
-          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        >
-          <Alert
-            className="Alert"
-            onClose={handleCloseSnackbar}
-            severity="success"
-            sx={{ width: '100%' }}
-          >
-            Dive Site Added!
-          </Alert>
-        </Snackbar>
-        <div className="addSiteButton">
+  <h1>Add Dive Site To Map</h1>
+  <br />
+  <form onSubmit={handleSubmit} className="formContainer">
+    <div className="formRow">
+      <p className='p'>Type:</p>
+      <ButtonGroup className='ButtonGroup' size="medium" color='inherit' aria-label="Large button group">
+        {['Dive site', 'Animal', 'Plant'].map((type, index) => (
           <Button
-            size="large"
-            type="submit"
-            variant="outlined"
-            endIcon={<AddLocationTwoToneIcon />}
+            key={index}
+            onClick={() => handleButtonClick(type)}
+            variant={selectedType === type ? 'contained' : 'outlined'}
           >
-            Add Dive Site
+            {type}
           </Button>
-        </div>
-        <br />
-      </form>
+        ))}
+      </ButtonGroup>
     </div>
+    <div className="formRow">
+      <TextField
+        label="Name"
+        type="text"
+        id="Name"
+        name="Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        className="TextField"
+      />
+      <TextField
+        label="Latitude"
+        type="text"
+        id="latitude"
+        name="latitude"
+        value={latitude}
+        onChange={handleLatitudeChange}
+        className="TextField"
+      />
+      <TextField
+        label="Longitude"
+        type="text"
+        id="Longitude"
+        name="Longitude"
+        value={longitude}
+        onChange={handleLongitudeChange}
+        className="TextField"
+      />
+    </div>
+    <div>
+      <p className="p">Site Description:</p>
+      <textarea
+        className="siteDescription"
+        value={description}
+        onChange={handleDescriptionChange}
+      />
+    </div>
+    <div className="addSiteButton">
+      <Button
+        size="large"
+        type="submit"
+        variant="outlined"
+        endIcon={<AddLocationTwoToneIcon />}
+      >
+        Add Dive Site
+      </Button>
+    </div>
+  </form>
+</div>
+
   );
 }
