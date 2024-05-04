@@ -40,11 +40,11 @@ export default function Router() {
           path:'/',
           element: (
             <ProtectedRoute>
-              <DashboardLayout>
+              
                 <Suspense fallback={<div>Loading...</div>}>
                   <Outlet />
                 </Suspense>
-              </DashboardLayout>
+              
             </ProtectedRoute>
             
           ),

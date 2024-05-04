@@ -41,23 +41,39 @@ export default function UserTableRow({
   //   onEditClick(); // Call the function passed from the parent component
   // };
 
+  const handleDeleteBtn = (emailToDelete) => {
+    // Construct the URL with the emailToDelete
+    const url = `https://localhost:7215/api/User/${emailToDelete}`;
+  
+    // Perform the fetch request
+    fetch(url, {
+      method: 'DELETE', // Specify the method to use
+      headers: {
+        'Content-Type': 'application/json' // Set appropriate headers if needed
+      }
+    })
+    .then(response => {
+      if (!response.ok) {
+        // If the response is not OK, throw an error
+        throw new Error('Network response was not ok');
+      }
+      return response.json(); // Parse JSON response
+    })
+    .then(data => {
+      console.log('User deleted:', data); // Handle success
+    })
+    .catch(error => {
+      console.error('There was a problem with the fetch operation:', error); // Handle errors
+    });
+  };
   
 
   return (
     <>
-      {/* <TableRow hover tabIndex={-1} role="checkbox" selected={selected}> */}
+      
       <TableRow>
-        {/* <TableCell padding="checkbox">
-          <Checkbox disableRipple checked={selected} onChange={handleClick} />
-        </TableCell> */}
-        {/* <IconButton aria-label="delete" size="small" color='success'>
-            <DeleteIcon fontSize="small" color='red' />
-          </IconButton> */}
+      
         <TableCell padding="checkbox">
-          {/* <Button onClick={handleClick} variant="outlined" startIcon={<EditIcon/>}>
-            Edit
-          </Button> */}
-          {/* <IconButton aria-label="edit" size="small" color='primary' onClick={handleEditClick}> */}
           <IconButton aria-label="edit" size="small" color='primary' >
             <EditIcon fontSize="small" />
           </IconButton>
@@ -70,7 +86,7 @@ export default function UserTableRow({
         
         
          <TableCell>
-          <IconButton aria-label="delete" size="small" color='error'>
+          <IconButton aria-label="delete" size="small" color='error' onClick = {(e)=>{handleDeleteBtn(email)}}>
             <DeleteIcon fontSize="small" color='red' />
           </IconButton>
           
