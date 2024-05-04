@@ -2,6 +2,9 @@ import { useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import Alert from '@mui/material/Alert';
+
+import Snackbar from '@mui/material/Snackbar';
 import AddLocationTwoToneIcon from '@mui/icons-material/AddLocationTwoTone';
 import './addDiveSiteStyle.css';
 
@@ -11,6 +14,7 @@ export default function AddDiveSiteView() {
   const [latitude, setLatitude] = useState('');
   const [longitude, setLongitude] = useState('');
   const [description, setDescription] = useState('');
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const handleButtonClick = (value) => {
     setSelectedType(value === selectedType ? null : value);
@@ -36,6 +40,13 @@ export default function AddDiveSiteView() {
     setDescription(event.target.value);
   };
 
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+        return;
+    }
+    setOpenSnackbar(false);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const newDiveSite = {
@@ -43,10 +54,10 @@ export default function AddDiveSiteView() {
       name,
       latitude,
       longitude,
-      description, // Adding description to the object
+      description,
     };
 
-    // Make a POST request to your server
+    // a POST request to server
     fetch('http://localhost:8000/api/dive_sites_map', {
       method: 'POST',
       headers: {
@@ -54,10 +65,15 @@ export default function AddDiveSiteView() {
       },
       body: JSON.stringify(newDiveSite),
     })
-      .then((response) => {
+      .then((response) => 
+      {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
+        setOpenSnackbar(true);
+        setTimeout(() => {
+          window.location.reload() 
+        }, 3000);
         return response.json();
       })
       .then((data) => {
@@ -67,6 +83,8 @@ export default function AddDiveSiteView() {
         console.error('Error while sending data to server:', error);
       });
   };
+
+
 
   return (
     <div className="container2">
@@ -123,6 +141,15 @@ export default function AddDiveSiteView() {
             onChange={handleDescriptionChange}
           />
         </div>
+        <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+                    <Alert
+                        onClose={handleCloseSnackbar}
+                        severity="success"
+                        sx={{ width: '100%' }}
+                    >
+                        Your Diving Details Saved, Thank You
+                    </Alert>
+                </Snackbar>
         <div className="addSiteButton">
           <Button
             size="large"

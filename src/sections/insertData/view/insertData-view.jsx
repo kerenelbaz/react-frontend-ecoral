@@ -402,7 +402,7 @@ export default function InsertDataView() {
         return;
     }
     setOpenSnackbar(false);
-};
+  };
   
 
   return (
@@ -696,7 +696,7 @@ export default function InsertDataView() {
                         severity="success"
                         sx={{ width: '100%' }}
                     >
-                        Your Diving Details - Saved, Thank You
+                        Your Diving Details Saved, Thank You
                     </Alert>
                 </Snackbar>
         <div className="insideContiner">
