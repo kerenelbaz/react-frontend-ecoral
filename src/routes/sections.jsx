@@ -36,6 +36,8 @@ export default function Router() {
       children: [
         // IndexPage is outside the ProtectedRoute, making it accessible to everyone
         { element: <IndexPage />, index: true },
+        { path: 'map', element: <DiveSitesMapPage /> },
+        { path: 'article-view', element: <ArticleViewPage /> },
         {
           path:'/',
           element: (
@@ -55,8 +57,8 @@ export default function Router() {
             { path: 'products', element: <ProductsPage /> },
             { path: 'blog', element: <BlogPage /> },
             { path: 'insert-data', element: <InsertDataPage /> },
-            { path: 'map', element: <DiveSitesMapPage /> },
-            { path: 'article-view', element: <ArticleViewPage /> },
+            
+            
             { path: 'import-posts', element: <ImportPostsPage /> },
             { path: 'add-dive-site', element: <AddDiveSitePage /> },
             { path: 'add-article', element: <AddArticlePage/>},
