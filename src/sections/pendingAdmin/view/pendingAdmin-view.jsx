@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
   import { useState, useEffect } from 'react';
 
   import Card from '@mui/material/Card';
@@ -49,6 +50,7 @@
           const responseData = await response.json();
           const { pendingDives } = responseData.data;
           setUsersData(pendingDives); // Set the fetched data to state
+          
         } catch (error) {
           console.error('Error fetching data:', error);
         }
@@ -98,12 +100,13 @@
       // filterName,
     });
 
-    const handleEditClick = (userData) => {
+    const handleEditClick = (pendingData) => {
       console.log("hello");
       setOpenEditData(true);
-      setSelectedRow(userData);
+      setSelectedRow(pendingData);
+      console.log(pendingData)
       // console.log("selected row", selectedRow);
-      // console.log("file", userData.file);
+      // console.log("file", pendingData.file);
     };
 
     const handleAllDataButtonClick = () => {
@@ -206,7 +209,7 @@
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Card>
-        <EditData open={openEditData} handleClose={() => setOpenEditData(false)} userData={selectedRow} />
+        <EditData open={openEditData} handleClose={() => setOpenEditData(false)} pendingData={selectedRow} />
 
       </Container>
     );
