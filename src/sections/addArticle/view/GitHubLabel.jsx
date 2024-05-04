@@ -135,7 +135,7 @@ export default function GitHubLabel({onTagsChange}) {
 
   useEffect(() => {
     onTagsChange(value)
-  }, [value]);
+  }, [value, onTagsChange]);
 
   const handleNewLabel = () => {
     if (newLabel.name.trim() && newLabel.color.trim()) {
@@ -292,7 +292,7 @@ export default function GitHubLabel({onTagsChange}) {
               renderTags={() => null}
               noOptionsText="No labels"
               renderOption={(props, option, { selected }) => (
-                <li {...props}>
+                <li key={option.name} {...props}>
                   <Box
                     component={DoneIcon}
                     sx={{ width: 17, height: 17, mr: '5px', ml: '-2px' }}

@@ -1,10 +1,10 @@
-import { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import {useState, useEffect} from 'react';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
+// import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import { alpha } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
@@ -15,29 +15,46 @@ import { RouterLink } from 'src/routes/components';
 
 import { useResponsive } from 'src/hooks/use-responsive';
 
-import { account } from 'src/_mock/account';
+// import { account } from 'src/_mock/account';
 
 import Logo from 'src/components/logo';
 import Scrollbar from 'src/components/scrollbar';
 
 import { NAV } from './config-layout';
-import navConfig from './config-navigation';
+// Import configurations from where they are defined
+import { baseNavConfig, fullNavConfig } from './config-navigation';
+
 
 // ----------------------------------------------------------------------
 
 export default function Nav({ openNav, onCloseNav }) {
   const pathname = usePathname();
 
+  // State to hold the logged-in user data
+  const [user, setUser] = useState(null);
+  const [navConfig, setNavConfig] = useState(baseNavConfig);  // default to baseNavConfig
+
   const upLg = useResponsive('up', 'lg');
 
   useEffect(() => {
+    // Retrieve user data from local storage
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      setUser(JSON.parse(userData));
+      setNavConfig(fullNavConfig); // Logged in: use full navigation
+    } else {
+      setUser(null);
+      setNavConfig(baseNavConfig); // Not logged in: use base navigation
+    }
+
+    // Close nav drawer when path changes
     if (openNav) {
       onCloseNav();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
-  const renderAccount = (
+  const renderAccount = user ? (
     <Box
       sx={{
         my: 3,
@@ -50,15 +67,38 @@ export default function Nav({ openNav, onCloseNav }) {
         bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
       }}
     >
-      <Avatar src={account.photoURL} alt="photoURL" />
+      <Avatar src='/assets/images/avatars/avatar_25.jpg' alt="photoURL" />
 
       <Box sx={{ ml: 2 }}>
-        <Typography variant="subtitle2">{account.displayName}</Typography>
-
+        <Typography variant="subtitle2">{user.name}</Typography>
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          {account.role}
+          {user.role}
         </Typography>
       </Box>
+    </Box>
+  ) : (
+    <Box
+      sx={{
+        my: 3,
+        mx: 2.5,
+        py: 2,
+        px: 2.5,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 1.5,
+        textAlign: 'center',
+        bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
+      }}
+    >
+      <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+      
+        <Typography variant="h6">Want to see more?</Typography>
+          <RouterLink to="/login" style={{ marginRight: 8, textDecoration: 'none', color: 'inherit' }}>Sign in</RouterLink>
+          |
+          <RouterLink to="/register" style={{ marginLeft: 8, textDecoration: 'none', color: 'inherit' }}>Sign up</RouterLink>
+      </Typography>
+      
     </Box>
   );
 
@@ -68,35 +108,6 @@ export default function Nav({ openNav, onCloseNav }) {
         <NavItem key={item.title} item={item} />
       ))}
     </Stack>
-  );
-
-  const renderUpgrade = (
-    <Box sx={{ px: 2.5, pb: 3, mt: 10 }}>
-      <Stack alignItems="center" spacing={3} sx={{ pt: 5, borderRadius: 2, position: 'relative' }}>
-        <Box
-          component="img"
-          src="/assets/illustrations/illustration_avatar.png"
-          sx={{ width: 100, position: 'absolute', top: -50 }}
-        />
-
-        <Box sx={{ textAlign: 'center' }}>
-          <Typography variant="h6">Get more?</Typography>
-
-          <Typography variant="body2" sx={{ color: 'text.secondary', mt: 1 }}>
-            From only $69
-          </Typography>
-        </Box>
-
-        <Button
-          href="https://material-ui.com/store/items/minimal-dashboard/"
-          target="_blank"
-          variant="contained"
-          color="inherit"
-        >
-          Upgrade to Pro
-        </Button>
-      </Stack>
-    </Box>
   );
 
   const renderContent = (
@@ -118,7 +129,7 @@ export default function Nav({ openNav, onCloseNav }) {
 
       <Box sx={{ flexGrow: 1 }} />
 
-      {renderUpgrade}
+      
     </Scrollbar>
   );
 

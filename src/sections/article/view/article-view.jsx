@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -10,7 +10,9 @@ import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 
-import { users } from 'src/_mock/user';
+// import { users } from 'src/_mock/user';
+import { faker } from '@faker-js/faker';
+import { sample } from 'lodash';
 
 // import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
@@ -35,9 +37,53 @@ export default function ArticleView() {
 
   const [filterName, setFilterName] = useState('');
 
-  const [filterDateFrom, setFilterDateFrom] = useState('')
+  const [filterDateFrom, setFilterDateFrom] = useState('');
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const [users, setUsersData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/api/articles');
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
+        }
+        const responseData = await response.json();
+        const { articles } = responseData.data;
+        const mappedUsers = articles.map((article, index) => ({
+          id: article.id || faker.string.uuid(), // Use server ID if available, fallback to generated UUID
+          avatarUrl: article.avatarUrl || `/assets/images/avatars/avatar_${index + 1}.jpg`, // Use server avatar URL if available, fallback to placeholder
+          name: article.name || faker.person.fullName(),
+          company: article.company || faker.company.name(),
+          isVerified: typeof article.isVerified === 'boolean' ? article.isVerified : faker.datatype.boolean(), // Use server value if possible, fallback to generated boolean
+          status: sample(['active', 'banned']) || article.status, // Use server status if available, fallback to sample
+          role: sample([
+            'Leader',
+            'Hr Manager',
+            'UI Designer',
+            'UX Designer',
+            'UI/UX Designer',
+            'Project Manager',
+            'Backend Developer',
+            'Full Stack Designer',
+            'Front End Developer',
+            'Full Stack Developer',
+          ]) || article.role, // Use server role if available, fallback to sample
+          date: sample(['13/11/2222', '14/11/2233']) || article.date, // Use server date if available, fallback to sample
+        }));
+        setUsersData(mappedUsers); // Set the fetched data to state
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  // useEffect(() => {
+  //   console.log(users);
+  // }, [users]);
 
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
@@ -89,15 +135,15 @@ export default function ArticleView() {
   };
 
   const handleFilterDateFrom = (date) => {
-    setPage(0)
-    setFilterDateFrom(date)
-  }
+    setPage(0);
+    setFilterDateFrom(date);
+  };
 
   const dataFiltered = applyFilter({
     inputData: users,
     comparator: getComparator(order, orderBy),
     filterName,
-    filterDateFrom
+    filterDateFrom,
   });
 
   const notFound = !dataFiltered.length && !!filterName;
@@ -118,9 +164,7 @@ export default function ArticleView() {
           filterName={filterName}
           onFilterName={handleFilterByName}
           onFilterDateFrom={handleFilterDateFrom}
-          classNames={[
-            {value: 'class', label: 'label'}
-          ]}
+          classNames={[{ value: 'class', label: 'label' }]}
         />
 
         <Scrollbar>
@@ -139,7 +183,7 @@ export default function ArticleView() {
                   { id: 'role', label: 'Role' },
                   { id: 'isVerified', label: 'Verified', align: 'center' },
                   { id: 'status', label: 'Status' },
-                  { id: 'date', label: 'Date'},
+                  { id: 'date', label: 'Date' },
                   { id: '' },
                 ]}
               />
