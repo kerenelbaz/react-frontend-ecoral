@@ -45,3 +45,9 @@
 .leaflet-popup .leaflet-popup-tip {
   background-color: var(--color-dark--1);
 }
+
+
+.leaflet-container.leaflet-touch-drag.leaflet-touch-zoom{
+  border-top-left-radius: 20px;
+  border-bottom-left-radius:20px;
+}

@@ -1,12 +1,13 @@
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import RoomTwoToneIcon from '@mui/icons-material/RoomTwoTone';
+
+import SvgColor from 'src/components/svg-color';
 import ShareTwoToneIcon from '@mui/icons-material/ShareTwoTone';
+
 import ImportContactsTwoToneIcon from '@mui/icons-material/ImportContactsTwoTone';
 import PendingActionsTwoToneIcon from '@mui/icons-material/PendingActionsTwoTone';
 import AddLocationAltTwoToneIcon from '@mui/icons-material/AddLocationAltTwoTone';
-
-import SvgColor from 'src/components/svg-color';
-// ----------------------------------------------------------------------
+// -------------------------------------------------------------------------------
 
 const icon = (name) => (
   <SvgColor src={`/assets/icons/navbar/${name}.svg`} sx={{ width: 1, height: 1 }} />
@@ -39,11 +40,6 @@ const navConfig = [
     icon: icon('ic_lock'),
   },
   {
-    title: 'Register',
-    path: '/register',
-    icon: icon('register'),
-  },
-  {
     title: 'Not found',
     path: '/404',
     icon: icon('ic_disabled'),
@@ -72,11 +68,6 @@ const navConfig = [
     title: 'Add Dive Site',
     path: '/add-dive-site',
     icon: <AddLocationAltTwoToneIcon />,
-  },
-  {
-    title: 'Add Articles',
-    path: '/add-article',
-    icon: <AutoStoriesIcon/>,
   },
 ];
 

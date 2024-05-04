@@ -1,18 +1,19 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
-import { useTheme, styled } from '@mui/material/styles';
-import Popper from '@mui/material/Popper';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
-// import SettingsIcon from '@mui/icons-material/Settings';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import CloseIcon from '@mui/icons-material/Close';
-import DoneIcon from '@mui/icons-material/Done';
-import Autocomplete, { autocompleteClasses } from '@mui/material/Autocomplete';
-import ButtonBase from '@mui/material/ButtonBase';
-import InputBase from '@mui/material/InputBase';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
 import { useEffect } from 'react';
+import PropTypes from 'prop-types';
+
+import Box from '@mui/material/Box';
+import Popper from '@mui/material/Popper';
+import InputBase from '@mui/material/InputBase';
+import TextField from '@mui/material/TextField';
+// import SettingsIcon from '@mui/icons-material/Settings';
+import DoneIcon from '@mui/icons-material/Done';
+import CloseIcon from '@mui/icons-material/Close';
+import ButtonBase from '@mui/material/ButtonBase';
+import {styled, useTheme  } from '@mui/material/styles';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import Autocomplete, { autocompleteClasses } from '@mui/material/Autocomplete';
 
 const StyledAutocompletePopper = styled('div')(({ theme }) => ({
   [`& .${autocompleteClasses.paper}`]: {
@@ -134,7 +135,7 @@ export default function GitHubLabel({onTagsChange}) {
 
   useEffect(() => {
     onTagsChange(value)
-  }, [value]);
+  }, [value, onTagsChange]);
 
   const handleNewLabel = () => {
     if (newLabel.name.trim() && newLabel.color.trim()) {
@@ -291,7 +292,7 @@ export default function GitHubLabel({onTagsChange}) {
               renderTags={() => null}
               noOptionsText="No labels"
               renderOption={(props, option, { selected }) => (
-                <li {...props}>
+                <li key={option.name} {...props}>
                   <Box
                     component={DoneIcon}
                     sx={{ width: 17, height: 17, mr: '5px', ml: '-2px' }}

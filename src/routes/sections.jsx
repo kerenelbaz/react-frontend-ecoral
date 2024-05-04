@@ -3,6 +3,8 @@ import { Outlet, Navigate, useRoutes } from 'react-router-dom';
 
 import DashboardLayout from 'src/layouts/dashboard';
 
+import ProtectedRoute from './protectedRoutes'; 
+
 export const IndexPage = lazy(() => import('src/pages/app'));
 export const BlogPage = lazy(() => import('src/pages/blog'));
 export const PendingAdminView = lazy(() => import('src/pages/pending-admin'));
@@ -24,50 +26,68 @@ export const ManageUsersPage = lazy(() => import('src/pages/manage-users'));
 export default function Router() {
   const routes = useRoutes([
     {
-      element: (
-          <DashboardLayout>
-            <Suspense>
-              <Outlet />
-            </Suspense>
-          </DashboardLayout>
-        
-      ),
+      element:  (
+                  <DashboardLayout>
+                    <Suspense fallback={<div>Loading...</div>}>
+                      <Outlet />
+                    </Suspense>
+                  </DashboardLayout>
+                ),
       children: [
+        // IndexPage is outside the ProtectedRoute, making it accessible to everyone
         { element: <IndexPage />, index: true },
-        { path: 'pending-dives', element: <PendingAdminView /> },
-        { path: 'all-data', element: <AllDataPage /> },
-        { path: 'products', element: <ProductsPage /> },
-        { path: 'blog', element: <BlogPage /> },
-        { path: 'insert-data', element: <InsertDataPage /> },
         { path: 'map', element: <DiveSitesMapPage /> },
         { path: 'article-view', element: <ArticleViewPage /> },
-        { path: 'import-posts', element: <ImportPostsPage /> },
-        { path: 'add-dive-site', element: <AddDiveSitePage /> },
-        { path: 'add-article', element: <AddArticlePage/>},
-        { path: 'manage-users', element: <ManageUsersPage/>},
+        {
+          path:'/',
+          element: (
+            <ProtectedRoute>
+              
+                <Suspense fallback={<div>Loading...</div>}>
+                  <Outlet />
+                </Suspense>
+              
+            </ProtectedRoute>
+            
+          ),
+          children: [
+            { element: <IndexPage />, index: true },
+            { path: 'pending-dives', element: <PendingAdminView /> },
+            { path: 'all-data', element: <AllDataPage /> },
+            { path: 'products', element: <ProductsPage /> },
+            { path: 'blog', element: <BlogPage /> },
+            { path: 'insert-data', element: <InsertDataPage /> },
+            
+            
+            { path: 'import-posts', element: <ImportPostsPage /> },
+            { path: 'add-dive-site', element: <AddDiveSitePage /> },
+            { path: 'add-article', element: <AddArticlePage/>},
+            { path: 'manage-users', element: <ManageUsersPage/>},
+          ],
+        },    
+        {
+          path: 'login',
+          element: <LoginPage />,
+        },
+        {
+          path: 'register',
+          element: <RegisterPage />,
+        },
+        {
+          path: '404',
+          element: <Page404 />,
+        },
+        {
+          path: 'register',
+          element: <RegisterPage />,
+        },
+        {
+          path: '*',
+          element: <Navigate to="/404" replace />,
+        },
       ],
-    },
-    {
-      path: 'login',
-      element: <LoginPage />,
-    },
-    {
-      path: 'register',
-      element: <RegisterPage />,
-    },
-    {
-      path: '404',
-      element: <Page404 />,
-    },
-    {
-      path: 'register',
-      element: <RegisterPage />,
-    },
-    {
-      path: '*',
-      element: <Navigate to="/404" replace />,
-    },
-  ]);
+    }
+]);
 
   return routes;
 }

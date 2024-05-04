@@ -1,8 +1,12 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-
-// import Button from '@mui/material/Button'; 
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+ import Button from '@mui/material/Button'; 
 import Popover from '@mui/material/Popover';
 import TableRow from '@mui/material/TableRow';
 // import MenuItem from '@mui/material/MenuItem';
@@ -23,43 +27,75 @@ export default function UserTableRow({
   gender,
   birthDate,
   
-  handleClick,
-  onEditClick,
+  // handleClick,
+  // onEditClick,
 }) {
   const [open, setOpen] = useState(null);
 
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   // const handleOpenMenu = (event) => {
   //   setOpen(event.currentTarget);
   // };
 
+  const handleOpenDialog = () => {
+    setDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setDialogOpen(false);
+  };
+
   const handleCloseMenu = () => {
     setOpen(null);
   };
 
-  const handleEditClick = () => {
-    onEditClick(); // Call the function passed from the parent component
-  };
+  // const handleEditClick = () => {
+  //   onEditClick(); // Call the function passed from the parent component
+  // };
 
+  const handleDeleteBtn = (emailToDelete) => {
+    // Construct the URL with the emailToDelete
+    const url = `https://localhost:7215/api/User/${emailToDelete}`;
   
+    // Perform the fetch request
+    fetch(url, {
+      method: 'DELETE', // Specify the method to use
+      headers: {
+        'Content-Type': 'application/json' // Set appropriate headers if needed
+      }
+    })
+    .then(response => {
+      if (!response.ok) {
+        // If the response is not OK, throw an error
+        throw new Error('Network response was not ok');
+      }
+      window.location.reload();
+      return response.json(); // Parse JSON response
+
+    })
+    .then(data => {
+      console.log('User deleted:', data); // Handle success
+    })
+    .catch(error => {
+      console.error('There was a problem with the fetch operation:', error); // Handle errors
+    });
+  };
+  
+  const handleConfirmDelete = () => {
+    handleDeleteBtn(email);
+    setDialogOpen(false);
+  };
 
   return (
     <>
-      {/* <TableRow hover tabIndex={-1} role="checkbox" selected={selected}> */}
+      
       <TableRow>
-        {/* <TableCell padding="checkbox">
-          <Checkbox disableRipple checked={selected} onChange={handleClick} />
-        </TableCell> */}
-        {/* <IconButton aria-label="delete" size="small" color='success'>
-            <DeleteIcon fontSize="small" color='red' />
-          </IconButton> */}
+      
         <TableCell padding="checkbox">
-          {/* <Button onClick={handleClick} variant="outlined" startIcon={<EditIcon/>}>
-            Edit
-          </Button> */}
-          <IconButton aria-label="edit" size="small" color='primary' onClick={handleEditClick}>
+          {/* <IconButton aria-label="edit" size="small" color='primary' >
             <EditIcon fontSize="small" />
-          </IconButton>
+          </IconButton> */}
         </TableCell>
         
         <TableCell>{email}</TableCell>
@@ -69,7 +105,7 @@ export default function UserTableRow({
         
         
          <TableCell>
-          <IconButton aria-label="delete" size="small" color='error'>
+          <IconButton aria-label="delete" size="small" color='error' onClick = {(e)=>{handleOpenDialog(email)}}>
             <DeleteIcon fontSize="small" color='red' />
           </IconButton>
           
@@ -87,9 +123,25 @@ export default function UserTableRow({
         PaperProps={{
           sx: { width: 140 },
         }}
-      >
+      />
      
-      </Popover>
+     <Dialog
+        open={dialogOpen}
+        onClose={handleCloseDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">Confirm Deletion</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure you want to delete this user?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog}>Cancel</Button>
+          <Button onClick={handleConfirmDelete} color="error">Delete</Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }
