@@ -2,7 +2,7 @@ import { Icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
-import { Popup,  useMap, Marker, TileLayer, MapContainer} from 'react-leaflet';
+import { Popup, useMap, Marker, TileLayer, MapContainer } from 'react-leaflet';
 
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
@@ -10,6 +10,7 @@ import FormControl from '@mui/material/FormControl';
 
 import './diveSitesMapStyle.css';
 import markerIcon from './markerIcon.png';
+import youAreHereIcon from './youAreHereIcon.png';
 
 export default function DiveSitesMapView() {
   const [position, setPosition] = useState([0, 0]);
@@ -23,7 +24,12 @@ export default function DiveSitesMapView() {
   const [showCurrentPosition, setShowCurrentPosition] = useState(false);
   const diveSiteIcon = new Icon({
     iconUrl: markerIcon,
-    iconSize: [60, 60],
+    iconSize: [40, 40],
+    iconAnchor: [19, 65],
+  });
+  const here = new Icon({
+    iconUrl: youAreHereIcon,
+    iconSize: [80, 90],
   });
 
   useEffect(() => {
@@ -75,29 +81,29 @@ export default function DiveSitesMapView() {
           onChange={handleChange}
         >
           <option aria-label="None" value="" key="none" />
-          <optgroup label="Site">
+          <optgroup label="Dive site">
             {diveSites
-              .filter((site) => site.type === 'diveSite')
+              .filter((site) => site.type === 'Dive site')
               .map((site) => (
-                <option key={`diveSite_${site.name}`} value={site.name}>
+                <option key={`Dive site_${site.name}`} value={site.name}>
                   {site.name}
                 </option>
               ))}
           </optgroup>
           <optgroup label="Animal">
             {diveSites
-              .filter((site) => site.type === 'animal')
+              .filter((site) => site.type === 'Animal')
               .map((site) => (
-                <option key={`animal_${site.name}`} value={site.name}>
+                <option key={`Animal_${site.name}`} value={site.name}>
                   {site.name}
                 </option>
               ))}
           </optgroup>
           <optgroup label="Plant">
             {diveSites
-              .filter((site) => site.type === 'plant')
+              .filter((site) => site.type === 'Plant')
               .map((site) => (
-                <option key={`plant_${site.name}`} value={site.name}>
+                <option key={`Plant_${site.name}`} value={site.name}>
                   {site.name}
                 </option>
               ))}
@@ -121,7 +127,7 @@ export default function DiveSitesMapView() {
                 url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
               />
               {showCurrentPosition && position[0] !== 0 && (
-                <Marker position={position}>
+                <Marker position={position} icon={here}>
                   <Popup>You are here!</Popup>
                 </Marker>
               )}
@@ -129,7 +135,6 @@ export default function DiveSitesMapView() {
                 <Marker
                   key={`site_${site.name}`}
                   position={[parseFloat(site.latitude), parseFloat(site.longitude)]}
-                  icon={diveSiteIcon}
                 >
                   <Popup>{site.name}</Popup>
                 </Marker>
@@ -137,6 +142,7 @@ export default function DiveSitesMapView() {
               {selectedSite.latitude !== 0 && (
                 <Marker
                   position={[parseFloat(selectedSite.latitude), parseFloat(selectedSite.longitude)]}
+                  icon={diveSiteIcon}
                 >
                   <Popup>{selectedSite.name}</Popup>
                 </Marker>

@@ -1,87 +1,140 @@
 import { useState } from 'react';
-
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import AddLocationTwoToneIcon from '@mui/icons-material/AddLocationTwoTone';
-
 import './addDiveSiteStyle.css';
 
 export default function AddDiveSiteView() {
   const [selectedType, setSelectedType] = useState(null);
+  const [name, setName] = useState('');
+  const [latitude, setLatitude] = useState('');
+  const [longitude, setLongitude] = useState('');
+  const [description, setDescription] = useState('');
 
-  function handleButtonClick() {
-    return null;
-  }
+  const handleButtonClick = (value) => {
+    setSelectedType(value === selectedType ? null : value);
+  };
+
+  const handleLatitudeChange = (event) => {
+    // Validate input to allow only float/double numbers
+    const value = event.target.value;
+    if (/^[-+]?\d*\.?\d*$/.test(value) || value === '') {
+      setLatitude(value);
+    }
+  };
+
+  const handleLongitudeChange = (event) => {
+    // Validate input to allow only float/double numbers
+    const value = event.target.value;
+    if (/^[-+]?\d*\.?\d*$/.test(value) || value === '') {
+      setLongitude(value);
+    }
+  };
+
+  const handleDescriptionChange = (event) => {
+    setDescription(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const newDiveSite = {
+      type: selectedType,
+      name,
+      latitude,
+      longitude,
+      description, // Adding description to the object
+    };
+
+    // Make a POST request to your server
+    fetch('http://localhost:8000/api/dive_sites_map', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newDiveSite),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Server response:', data);
+      })
+      .catch((error) => {
+        console.error('Error while sending data to server:', error);
+      });
+  };
 
   return (
-   
-      <div className="container2">
-        <h1>Add Dive Site To Map</h1>
+    <div className="container2">
+      <h1>Add Dive Site To Map</h1>
+      <br />
+      <form onSubmit={handleSubmit}>
+        <div>
+          <p>Type:</p>
+          <ButtonGroup size="large" color="inherit" aria-label="Large button group">
+            {['Dive site', 'Animal', 'Plant'].map((type, index) => (
+              <Button
+                key={index}
+                onClick={() => handleButtonClick(type)}
+                variant={selectedType === type ? 'contained' : 'outlined'}
+              >
+                {type}
+              </Button>
+            ))}
+          </ButtonGroup>
+        </div>
         <br />
-        <form>
-          <div>
-            <p>Type:</p>
-            <ButtonGroup size="large" color="inherit" aria-label="Large button group">
-              {['Dive Site', 'Animal', 'Plant'].map((type, index) => (
-                <Button
-                  key={index}
-                  onClick={() => handleButtonClick(type)}
-                  variant={selectedType === type ? 'contained' : 'outlined'}
-                >
-                  {type}
-                </Button>
-              ))}
-            </ButtonGroup>
-          </div>
-          <br />
-          <TextField
-            label='Name'
-            type="text"
-            id="Name"
-            name="Name"
-            // onChange={handleInputChange}
-            // error={insertData.errors.distance}
-            // helperText={insertData.errors.distance && 'number higher than 0'}
-            className="TextField"
+        <TextField
+          label="Name"
+          type="text"
+          id="Name"
+          name="Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="TextField"
+        />
+        <TextField
+          label="Latitude"
+          type="text"
+          id="latitude"
+          name="latitude"
+          value={latitude}
+          onChange={handleLatitudeChange}
+          className="TextField"
+        />
+        <TextField
+          label="Longitude"
+          type="text"
+          id="Longitude"
+          name="Longitude"
+          value={longitude}
+          onChange={handleLongitudeChange}
+          className="TextField"
+        />
+        <div>
+          <p>Site Description:</p>
+          <textarea
+            className="siteDescription"
+            value={description}
+            onChange={handleDescriptionChange}
           />
-          <TextField
-            label='Latitude'
-            type="floate"
-            id="latitude"
-            name="latitude"
-            // onChange={handleInputChange}
-            // error={insertData.errors.distance}
-            // helperText={insertData.errors.distance && 'number higher than 0'}
-            className="TextField"
-          />
-          <TextField
-            label='Longitude'
-            type="float"
-            id="Longitude"
-            name="Longitude"
-            // onChange={handleInputChange}
-            // error={insertData.errors.distance}
-            // helperText={insertData.errors.distance && 'number higher than 0'}
-            className="TextField"
-          />
-          <div>
-            <p>Site Description:</p>
-            <textarea className="siteDescription" />
-          </div>
-          <div className="addSiteButton">
-            <Button
-              size="large"
-              type="submit"
-              variant="outlined"
-              endIcon={<AddLocationTwoToneIcon />}
-            >
-              Add Dive Site
-            </Button>
-          </div>
-          <br />
-        </form>
-      </div>
-   
+        </div>
+        <div className="addSiteButton">
+          <Button
+            size="large"
+            type="submit"
+            variant="outlined"
+            endIcon={<AddLocationTwoToneIcon />}
+          >
+            Add Dive Site
+          </Button>
+        </div>
+        <br />
+      </form>
+    </div>
   );
 }
