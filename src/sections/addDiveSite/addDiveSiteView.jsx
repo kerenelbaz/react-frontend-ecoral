@@ -3,7 +3,6 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Alert from '@mui/material/Alert';
-
 import Snackbar from '@mui/material/Snackbar';
 import AddLocationTwoToneIcon from '@mui/icons-material/AddLocationTwoTone';
 import './addDiveSiteStyle.css';
@@ -42,7 +41,7 @@ export default function AddDiveSiteView() {
 
   const handleCloseSnackbar = (event, reason) => {
     if (reason === 'clickaway') {
-        return;
+      return;
     }
     setOpenSnackbar(false);
   };
@@ -65,15 +64,20 @@ export default function AddDiveSiteView() {
       },
       body: JSON.stringify(newDiveSite),
     })
-      .then((response) => 
-      {
+      .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
         setOpenSnackbar(true);
+
         setTimeout(() => {
-          window.location.reload() 
-        }, 3000);
+          setOpenSnackbar(false);
+          setName('');
+          setLatitude('');
+          setLongitude('');
+          setDescription('');
+        }, 2500);
+
         return response.json();
       })
       .then((data) => {
@@ -83,8 +87,6 @@ export default function AddDiveSiteView() {
         console.error('Error while sending data to server:', error);
       });
   };
-
-
 
   return (
     <div className="container2">
@@ -141,15 +143,21 @@ export default function AddDiveSiteView() {
             onChange={handleDescriptionChange}
           />
         </div>
-        <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
-                    <Alert
-                        onClose={handleCloseSnackbar}
-                        severity="success"
-                        sx={{ width: '100%' }}
-                    >
-                        Your Diving Details Saved, Thank You
-                    </Alert>
-                </Snackbar>
+        <Snackbar
+          open={openSnackbar}
+          autoHideDuration={100000000}
+          onClose={handleCloseSnackbar}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        >
+          <Alert
+            className="Alert"
+            onClose={handleCloseSnackbar}
+            severity="success"
+            sx={{ width: '100%' }}
+          >
+            Dive Site Added!
+          </Alert>
+        </Snackbar>
         <div className="addSiteButton">
           <Button
             size="large"
