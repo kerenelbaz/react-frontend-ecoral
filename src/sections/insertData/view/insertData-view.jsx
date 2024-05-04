@@ -694,7 +694,9 @@ export default function InsertDataView() {
                     <Alert
                         onClose={handleCloseSnackbar}
                         severity="success"
-                        sx={{ width: '100%' }}
+                        sx={{ width: '100%', 
+                        minHeight: '64px',
+                        padding: '20px'}}
                     >
                         Your Diving Details Saved, Thank You
                     </Alert>
