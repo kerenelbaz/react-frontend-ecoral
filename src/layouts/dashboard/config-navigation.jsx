@@ -1,37 +1,24 @@
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import RoomTwoToneIcon from '@mui/icons-material/RoomTwoTone';
+
+import SvgColor from 'src/components/svg-color';
 import ShareTwoToneIcon from '@mui/icons-material/ShareTwoTone';
+
 import ImportContactsTwoToneIcon from '@mui/icons-material/ImportContactsTwoTone';
 import PendingActionsTwoToneIcon from '@mui/icons-material/PendingActionsTwoTone';
 import AddLocationAltTwoToneIcon from '@mui/icons-material/AddLocationAltTwoTone';
-
-import SvgColor from 'src/components/svg-color';
-// ----------------------------------------------------------------------
+// -------------------------------------------------------------------------------
 
 const icon = (name) => (
   <SvgColor src={`/assets/icons/navbar/${name}.svg`} sx={{ width: 1, height: 1 }} />
 );
 
-export const baseNavConfig = [
+const navConfig = [
   {
     title: 'Dashboard',
     path: '/',
     icon: icon('ic_analytics'),
   },
-  {
-    title: 'Dive Sites Map',
-    path: '/map',
-    icon: <RoomTwoToneIcon />,
-  },
-  {
-    title: 'Articles',
-    path: '/article-view',
-    icon: <ImportContactsTwoToneIcon />,
-  }
-];
-
-export const fullNavConfig = [
-  ...baseNavConfig,
   {
     title: 'Product',
     path: '/products',
@@ -53,14 +40,19 @@ export const fullNavConfig = [
     icon: icon('ic_lock'),
   },
   {
-    title: 'Register',
-    path: '/register',
-    icon: icon('register'),
-  },
-  {
     title: 'Not found',
     path: '/404',
     icon: icon('ic_disabled'),
+  },
+  {
+    title: 'Dive Sites Map',
+    path: '/map',
+    icon: <RoomTwoToneIcon />,
+  },
+  {
+    title: 'Articles',
+    path: '/article-view',
+    icon: <ImportContactsTwoToneIcon />,
   },
   {
     title: 'Pending Dives',
@@ -77,17 +69,6 @@ export const fullNavConfig = [
     path: '/add-dive-site',
     icon: <AddLocationAltTwoToneIcon />,
   },
-  {
-    title: 'Add Articles',
-    path: '/add-article',
-    icon: <AutoStoriesIcon/>,
-  }
 ];
-
-const isUserLoggedIn = () => {
-  return Boolean(localStorage.getItem('user'));
-};
-
-const navConfig = isUserLoggedIn() ? fullNavConfig : baseNavConfig;
 
 export default navConfig;

@@ -3,10 +3,10 @@ import 'leaflet/dist/leaflet.css';
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import { Popup, useMap, Marker, TileLayer, MapContainer } from 'react-leaflet';
-
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
+// import {Scrollbar} from '../../components/scrollbar/scrollbar';
 
 import './diveSitesMapStyle.css';
 import markerIcon from './markerIcon.png';
@@ -109,10 +109,10 @@ export default function DiveSitesMapView() {
           </optgroup>
         </Select>
       </FormControl>
-      <div style={{ display: 'flex', width: '100%', marginTop: '20px' }}>
-        <div style={{ flex: '70%' }}>
-          <div id="map" style={{ height: '500px', width: '100%' }}>
-            <MapContainer center={position} style={{ height: '100%', width: '100%' }}>
+      <div style={{ display: 'flex', width: '100%', marginTop: '20px', borderRadius: '20px', border: '1px solid #cccccc4f'}}>
+        <div style={{ flex: '70%' ,  borderRadius: '10px'}}>
+          <div id="map" style={{ height: '500px', width: '100%' ,  borderRadius: '20px'}}>
+            <MapContainer center={position} style={{ height: '100%', width: '100%'}}>
               <ChangeView
                 center={
                   selectedSite.latitude !== 0
@@ -149,9 +149,11 @@ export default function DiveSitesMapView() {
             </MapContainer>
           </div>
         </div>
-        <div style={{ flex: '30%', marginLeft: '20px' }}>
+        <div style={{ flex: '30%', marginLeft: '10px', borderRadius: '20px' }}>
           <h3>{selectedSite.name}</h3>
-          <p>{selectedSite.description}</p>
+          <div style={{ maxHeight: '470px', overflowY: 'auto' }}>
+            <p>{selectedSite.description}</p>
+          </div>
         </div>
       </div>
     </div>

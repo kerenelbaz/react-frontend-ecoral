@@ -93,7 +93,7 @@ export default function AddDiveSiteView() {
   <h1>Add Dive Site To Map</h1>
   <br />
   <form onSubmit={handleSubmit} className="formContainer">
-    <div className="formRow">
+    <div className="ButtonGroup">
       <p className='p'>Type:</p>
       <ButtonGroup className='ButtonGroup' size="medium" color='inherit' aria-label="Large button group">
         {['Dive site', 'Animal', 'Plant'].map((type, index) => (
@@ -107,7 +107,7 @@ export default function AddDiveSiteView() {
         ))}
       </ButtonGroup>
     </div>
-    <div className="formRow">
+    <div>
       <TextField
         label="Name"
         type="text"
