@@ -12,12 +12,26 @@ const icon = (name) => (
   <SvgColor src={`/assets/icons/navbar/${name}.svg`} sx={{ width: 1, height: 1 }} />
 );
 
-const navConfig = [
+export const baseNavConfig = [
   {
     title: 'Dashboard',
     path: '/',
     icon: icon('ic_analytics'),
   },
+  {
+    title: 'Dive Sites Map',
+    path: '/map',
+    icon: <RoomTwoToneIcon />,
+  },
+  {
+    title: 'Articles',
+    path: '/article-view',
+    icon: <ImportContactsTwoToneIcon />,
+  }
+];
+
+export const fullNavConfig = [
+  ...baseNavConfig,
   {
     title: 'Product',
     path: '/products',
@@ -49,16 +63,6 @@ const navConfig = [
     icon: icon('ic_disabled'),
   },
   {
-    title: 'Dive Sites Map',
-    path: '/map',
-    icon: <RoomTwoToneIcon />,
-  },
-  {
-    title: 'Articles',
-    path: '/article-view',
-    icon: <ImportContactsTwoToneIcon />,
-  },
-  {
     title: 'Pending Dives',
     path: '/pending-dives',
     icon: <PendingActionsTwoToneIcon />,
@@ -77,7 +81,13 @@ const navConfig = [
     title: 'Add Articles',
     path: '/add-article',
     icon: <AutoStoriesIcon/>,
-  },
+  }
 ];
+
+const isUserLoggedIn = () => {
+  return Boolean(localStorage.getItem('user'));
+};
+
+const navConfig = isUserLoggedIn() ? fullNavConfig : baseNavConfig;
 
 export default navConfig;

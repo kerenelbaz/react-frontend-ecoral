@@ -3,11 +3,11 @@ import { useState, useEffect } from 'react';
 import Card from '@mui/material/Card';
  import Stack from '@mui/material/Stack';
  import Table from '@mui/material/Table';
- import Button from '@mui/material/Button';
+ // import Button from '@mui/material/Button';
  import Container from '@mui/material/Container';
  import TableBody from '@mui/material/TableBody';
  import Typography from '@mui/material/Typography';
- import DatasetIcon from '@mui/icons-material/Dataset';
+ // import DatasetIcon from '@mui/icons-material/Dataset';
  import TableContainer from '@mui/material/TableContainer';
  import TablePagination from '@mui/material/TablePagination';
 
@@ -110,10 +110,10 @@ import Card from '@mui/material/Card';
    return (
      <Container>
        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-         <Typography variant="h4">{`Pending Dives For Admin's Approval`}</Typography>
-         <Button variant="contained" color="inherit" startIcon={<DatasetIcon icon="eva:plus-fill" />}>
+         <Typography variant="h4">Registered Users</Typography>
+         {/* <Button variant="contained" color="inherit" startIcon={<DatasetIcon icon="eva:plus-fill" />}>
            All Data
-         </Button>
+         </Button> */}
        </Stack>
 
        <Card>
