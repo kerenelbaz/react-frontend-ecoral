@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import Box from '@mui/material/Box';
 // import Input from '@mui/material/Input';
-import FormControl from '@mui/material/FormControl';
+// import FormControl from '@mui/material/FormControl';
 // import InputLabel from '@mui/material/InputLabel';
 // import FormHelperText from '@mui/material/FormHelperText';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -17,19 +17,19 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
-import ButtonGroup from '@mui/material/ButtonGroup';
+// import ButtonGroup from '@mui/material/ButtonGroup';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import Rating from '@mui/material/Rating';
-import Stack from '@mui/material/Stack';
-import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+// import Rating from '@mui/material/Rating';
+// import Stack from '@mui/material/Stack';
+// import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import IconButton from '@mui/material/IconButton';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import dataLists from './dataLists.json';
 import './styleByMe.css';
 
 import GitHubLabel from './GitHubLabel';
-import { string } from 'prop-types';
+// import { string } from 'prop-types';
 // import PDFViewer from './PDFViewer';
 
 export default function AddArticleView() {

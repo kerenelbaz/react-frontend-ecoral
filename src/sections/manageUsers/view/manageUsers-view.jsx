@@ -18,7 +18,7 @@ import Card from '@mui/material/Card';
  import UserTableHead from '../user-table-head';
  import TableEmptyRows from '../table-empty-rows';
  // import UserTableToolbar from '../user-table-toolbar';
- import { emptyRows, applyFilter, getComparator } from '../../user/utils';
+ import { emptyRows, applyFilter, getComparator } from '../utils';
 
  export default function ManageUsersView() {
    const [page, setPage] = useState(0);

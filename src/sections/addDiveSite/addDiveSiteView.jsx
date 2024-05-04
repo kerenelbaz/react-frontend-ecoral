@@ -1,10 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
-import AddLocationTwoToneIcon from '@mui/icons-material/AddLocationTwoTone';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-
 import ButtonGroup from '@mui/material/ButtonGroup';
+import AddLocationTwoToneIcon from '@mui/icons-material/AddLocationTwoTone';
 
 import './addDiveSiteStyle.css';
 
@@ -16,7 +15,7 @@ export default function AddDiveSiteView() {
   }
 
   return (
-    <>
+   
       <div className="container2">
         <h1>Add Dive Site To Map</h1>
         <br />
@@ -83,6 +82,6 @@ export default function AddDiveSiteView() {
           <br />
         </form>
       </div>
-    </>
+   
   );
 }

@@ -23,8 +23,8 @@ export default function UserTableRow({
   gender,
   birthDate,
   
-  handleClick,
-  onEditClick,
+  // handleClick,
+  // onEditClick,
 }) {
   const [open, setOpen] = useState(null);
 
@@ -37,9 +37,9 @@ export default function UserTableRow({
     setOpen(null);
   };
 
-  const handleEditClick = () => {
-    onEditClick(); // Call the function passed from the parent component
-  };
+  // const handleEditClick = () => {
+  //   onEditClick(); // Call the function passed from the parent component
+  // };
 
   
 
@@ -57,7 +57,8 @@ export default function UserTableRow({
           {/* <Button onClick={handleClick} variant="outlined" startIcon={<EditIcon/>}>
             Edit
           </Button> */}
-          <IconButton aria-label="edit" size="small" color='primary' onClick={handleEditClick}>
+          {/* <IconButton aria-label="edit" size="small" color='primary' onClick={handleEditClick}> */}
+          <IconButton aria-label="edit" size="small" color='primary' >
             <EditIcon fontSize="small" />
           </IconButton>
         </TableCell>
@@ -87,9 +88,9 @@ export default function UserTableRow({
         PaperProps={{
           sx: { width: 140 },
         }}
-      >
+      />
      
-      </Popover>
+     
     </>
   );
 }

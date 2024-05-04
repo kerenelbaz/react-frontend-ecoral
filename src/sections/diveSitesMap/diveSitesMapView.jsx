@@ -1,15 +1,15 @@
+import { Icon } from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
+import { Popup,  useMap, Marker, TileLayer, MapContainer} from 'react-leaflet';
+
+import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet';
-import { Icon } from 'leaflet';
-import markerIcon from './markerIcon.png';
-
-import 'leaflet/dist/leaflet.css';
 
 import './diveSitesMapStyle.css';
+import markerIcon from './markerIcon.png';
 
 export default function DiveSitesMapView() {
   const [position, setPosition] = useState([0, 0]);
