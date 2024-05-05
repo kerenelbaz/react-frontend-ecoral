@@ -1,11 +1,14 @@
 /* eslint-disable no-unused-vars */
+import PropTypes from 'prop-types';
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useState, useEffect } from "react";
-import PropTypes from 'prop-types';
 
+import Slide from '@mui/material/Slide';
+import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import { styled } from '@mui/material/styles';
+import Snackbar from '@mui/material/Snackbar';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
@@ -42,9 +45,13 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function EditData({ open, handleClose, pendingData, updateData }) {
+export default function EditData({ open, handleClose, pendingData }) {
     // eslint-disable-next-line no-unused-vars
     const [openImageDialog, setOpenImageDialog] = useState(false);
+    const [stateSnackbar, setStateSnackbar] = useState({
+      open: false,
+      Transition: Slide,
+    });
     // const [formData, setFormData] = useState({
     //   // diveCode:pendingData.diveCode,
     //   date: pendingData.dateDive,
@@ -67,46 +74,52 @@ export default function EditData({ open, handleClose, pendingData, updateData })
     //   gender:pendingData.gender,
     // });
     const [formData, setFormData] = useState({
+      ...pendingData,
       objectCode: '',
       idCode:'',
       humanWildInter: '',
       researcherDesc: '',
       loggedBy: '',
-      dateDive: '',
-      
-      timeDive: '',
-      site: '',
-      objectGroup: '',
-      specie: '',
-      file: '',
-      imgLocation: '',
-      uploadeImage: '',
-      arReef: '',
-      reportType: '',
-      typeOfDive: '',
-      rank: '',
-      userDescription: '',
-      maxDepth: '',
-      distance: '',
-      temp: ''
     });
+
+    useEffect(() => {
+      // Update formData with all properties from pendingData
+      setFormData(prevData => ({
+        ...prevData,
+        ...pendingData
+      }));
+    }, [pendingData]);
+
     const [diveCodeState, setDiveCodeState] = useState('');
+    // const [editPandingData, setPandingData] = useState({...pendingData});
 
     useEffect(() => {
       if (pendingData && pendingData.diveCode) {
         setDiveCodeState(pendingData.diveCode);
       }
+      // console.log("useddcsc", editPandingData)
     }, [pendingData]);
+    
+    
 
     // Define a function to update form data
     const handleInputChange = (e) => {
+      // console.log("the copied data", editPandingData);
       const { name, value } = e.target;
-      // Update the formData state with the new value
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
+      setFormData((prevData) => ({
+          ...prevData,
+          [name]: value,
+      }));
     };
+
+    const handleFormInputChange = (e) => {
+      const { name, value } = e.target;
+      setFormData((prevData) => ({
+          ...prevData,
+          [name]: value,
+      }));
+    }
+
     const handleImageClick = () => {
 
       setOpenImageDialog(true);
@@ -154,14 +167,88 @@ export default function EditData({ open, handleClose, pendingData, updateData })
       }));
     };
 
-    const handleSaveChanges = () => {
+    const handleAutocompleteChange = (name, value) => {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    };
+
+    const handleClickSnack =  () => {
+      setStateSnackbar({
+        open: true,
+        Transition: Slide,
+      });
+    };
+
+    const handleCloseSnack = () => {
+      setStateSnackbar({
+        ...stateSnackbar,
+        open: false,
+      });
+    };
+
+    const handleSaveChanges = async () => {
       // Log the formData obje  ct
-      console.log(dataLists);
-      const updatedData = { ...pendingData };
-      updateData(updatedData);
-      // Optionally, you can perform additional actions here, such as sending the data to a server
-      // After saving, close the dialog
-      handleClose();
+      // console.log("editPandingData",editPandingData);
+      console.log("formData",formData);
+      
+
+      const objectDiveToServer = {
+        diveCode: formData.diveCode,
+        objectCode: formData.objectCode,
+        date: formData.dateDive,
+        time: formData.timeDive,
+        diveSite: formData.site,
+        objectGroup: formData.objectGroup,
+        specie: formData.specie,
+        idCode_photographerName: formData.idCode,
+        imageLocation: formData.imgLocation,
+        AR: formData.arReef,
+        humanWildlifeInteraction:formData.humanWildInter,
+        reportType: formData.reportType,
+        typeOfDive: formData.typeOfDive,
+        rankOfDive: formData.rank,
+        media:'Website',
+        documentation: 'P',
+        ageOfDiver: formData.age,
+        sexOfDiver: formData.gender,
+        maxDepth: formData.maxDepth,
+        distance: formData.distance,
+        temp: formData.temp,
+        userDescription: formData.userDescription,
+        researcherComment: formData.researcherComment,
+        linkURL: formData.file,
+        loggedBy: formData.loggedBy,
+        loggingDate: formData.loggingDate,
+  
+      };
+      console.log(JSON.stringify(objectDiveToServer))
+   
+      try {
+        // Send form data to the server
+        const response = await fetch('http://localhost:8000/api/dives', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+          },
+          body: JSON.stringify(objectDiveToServer)
+        });
+  
+        console.log(response);
+        if (response.ok) {
+          console.log('Data saved successfully');
+          
+          handleClickSnack()
+          handleClose();
+         
+        } else {
+          console.error('Failed to save data:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error saving data:', error.message);
+      }
+
     };
 
 // export default function EditData({ open, handleClose }) {
@@ -230,7 +317,7 @@ export default function EditData({ open, handleClose, pendingData, updateData })
                         label="Logged By: "
                         variant="standard"
                         className="dateStyle"
-                        onChange={(e) => handleFieldChange("loggedBy", e.target.value)}
+                        onChange={handleFormInputChange}
                       />
                     <TextField
                         label="Photo took in AR: "
@@ -238,7 +325,7 @@ export default function EditData({ open, handleClose, pendingData, updateData })
                         name="arReef"
                         variant="standard"
                         className="dateStyle"
-                        onChange={(e) => handleFieldChange("arReef", e.target.value)}
+                        onChange={handleFormInputChange}
                       /> 
                       <TextField
                         id="standard-read-only-input"
@@ -246,7 +333,8 @@ export default function EditData({ open, handleClose, pendingData, updateData })
                         defaultValue={pendingData.time} 
                         variant="standard"
                         className="dateStyle"
-                        onChange={(e) => handleFieldChange("time", e.target.value)}
+                        onChange={handleFormInputChange}
+                        
                       />
                       <TextField
                         id="standard-read-only-input"
@@ -254,7 +342,7 @@ export default function EditData({ open, handleClose, pendingData, updateData })
                         defaultValue={pendingData.rankOfDive} 
                         variant="standard"
                         className="dateStyle"
-                        onChange={(e) => handleFieldChange("rankOfDive", e.target.value)}
+                        onChange={handleFormInputChange}
                       />
                   </div>
                 </div>
@@ -265,9 +353,9 @@ export default function EditData({ open, handleClose, pendingData, updateData })
                     options={dataLists.diveSite}
                     defaultValue={pendingData.diveSite}
                     getOptionLabel={(option) => option}
-                    // onChange={(e, value) =>
-                    //   handleAutocompleteChange("site", value || "")
-                    // }
+                    onChange={(e, value) =>
+                      handleAutocompleteChange("diveSite", value || "")
+                    }
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -276,6 +364,7 @@ export default function EditData({ open, handleClose, pendingData, updateData })
                         name="diveSite"
                         autoComplete="diveSite"
                         className="fieldInput"
+                        value={formData.diveSite}
                       />
                     )}
                   />
@@ -284,9 +373,9 @@ export default function EditData({ open, handleClose, pendingData, updateData })
                             options={dataLists.objectGroupList}
                             getOptionLabel={(option) => (option)}
                             defaultValue={pendingData.objectGroup}
-                            // onChange={(e, value) =>
-                            // handleAutocompleteChange("objectGroup", value || "")
-                            // }
+                            onChange={(e, value) =>
+                            handleAutocompleteChange("objectGroup", value || "")
+                            }
                             renderInput={(params) => (
                             <TextField
                                 {...params}
@@ -303,9 +392,9 @@ export default function EditData({ open, handleClose, pendingData, updateData })
                             options={dataLists.specieName}
                             getOptionLabel={(option) => (option)}
                             defaultValue={pendingData.specie}
-                            // onChange={(e, value) =>
-                            //   handleAutocompleteChange("objectGroup", value || "")
-                            // }
+                            onChange={(e, value) =>
+                              handleAutocompleteChange("specie", value || "")
+                            }
                             renderInput={(params) => (
                             <TextField
                                 {...params}
@@ -326,9 +415,9 @@ export default function EditData({ open, handleClose, pendingData, updateData })
                             options={dataLists.imageLocation}
                             getOptionLabel={(option) => option}
                             defaultValue={pendingData.imageLocation}
-                            // onChange={(e, value) =>
-                            //   handleAutocompleteChange("site", value || "")
-                            // }
+                            onChange={(e, value) =>
+                              handleAutocompleteChange("imageLocation", value || "")
+                            }
                             renderInput={(params) => (
                             <TextField
                                 {...params}
@@ -346,9 +435,9 @@ export default function EditData({ open, handleClose, pendingData, updateData })
                             options={dataLists.ReportType}
                             getOptionLabel={(option) => (option)}
                             defaultValue={pendingData.reportType}
-                            // onChange={(e, value) =>
-                            //   handleAutocompleteChange("objectGroup", value || "")
-                            // }
+                            onChange={(e, value) =>
+                              handleAutocompleteChange("reportType", value || "")
+                            }
                             renderInput={(params) => (
                             <TextField
                                 {...params}
@@ -364,9 +453,9 @@ export default function EditData({ open, handleClose, pendingData, updateData })
                             options={dataLists.typeOfDive}
                             getOptionLabel={(option) => (option)}
                             defaultValue={pendingData.typeOfDive}
-                            // onChange={(e, value) =>
-                            //   handleAutocompleteChange("objectGroup", value || "")
-                            // }
+                            onChange={(e, value) =>
+                              handleAutocompleteChange("typeOfDive", value || "")
+                            }
                             renderInput={(params) => (
                             <TextField
                                 {...params}
@@ -388,9 +477,9 @@ export default function EditData({ open, handleClose, pendingData, updateData })
                       <Autocomplete
                         options={humanWildInterList}
                         getOptionLabel={(option) => (option)}
-                        // onChange={(e, value) =>
-                        //   handleAutocompleteChange("objectGroup", value || "")
-                        // }
+                        onChange={(e, value) =>
+                          handleAutocompleteChange("humanWildInter", value || "")
+                        }
                         renderInput={(params) => (
                         <TextField
                             {...params}
@@ -413,8 +502,8 @@ export default function EditData({ open, handleClose, pendingData, updateData })
                         name="maxDepth"
                         className="fieldInput"
                         defaultValue={pendingData.maxDepth}
-                        // onChange={handleInputChange}
-                        // className="numbersField"
+                        onChange={handleFormInputChange}
+x
                       />
 
                       <TextField
@@ -427,8 +516,8 @@ export default function EditData({ open, handleClose, pendingData, updateData })
                         }}
                         className="fieldInput"
                         defaultValue={pendingData.distance}
-                        // onChange={handleInputChange}
-                        // className="numbersField"
+                        onChange={handleInputChange}
+                        // value={formData.distance}
                       />
                       
 
@@ -439,8 +528,8 @@ export default function EditData({ open, handleClose, pendingData, updateData })
                         id="standard-number"
                         className="fieldInput"
                         defaultValue={pendingData.temp}
-                        // onChange={handleInputChange}
-                        // className="numbersField"
+                        onChange={handleInputChange}
+                        // value={formData.temp}
                       />
                       
                       
@@ -451,8 +540,8 @@ export default function EditData({ open, handleClose, pendingData, updateData })
                         type="text"
                         name="idCode"
                         className="fieldInput"
-                        // onChange={handleInputChange}
-                        // className="numbersField"
+                        onChange={handleFormInputChange}
+                        value={formData.idCode}
                       />
                       
                       
@@ -463,6 +552,8 @@ export default function EditData({ open, handleClose, pendingData, updateData })
                         name="objectCode"
                         autoComplete='objectCode'
                         className="fieldInput"
+                        onChange={handleFormInputChange}
+                        value={formData.objectCode}
                       />
 
                       
@@ -477,12 +568,28 @@ export default function EditData({ open, handleClose, pendingData, updateData })
 
                       <div>
                         <label className="lblDesc" htmlFor="researcherDesc">Researcher Comments:</label>
-                        <textarea id="researcherDesc" name="researcherDesc" rows={3} className="admin-textarea" onChange={(e) => handleTextareaChange(e.target.value)} />
+                        <textarea 
+                          id="researcherDesc" name="researcherDesc" rows={3} className="admin-textarea" onChange={(e) => handleTextareaChange(e.target.value)} />
                       </div>
 
 
                       </div>
                 </form>
+                <Snackbar
+                  open={stateSnackbar.open}
+                  onClose={handleCloseSnack}
+                  TransitionComponent={stateSnackbar.Transition}
+                  key={stateSnackbar.Transition.name}
+                  autoHideDuration={1500}
+                >
+                  <Alert
+                    onClose={handleClose}
+                    severity="success"
+                    variant="filled"
+                    sx={{ width: '100%' , fontSize: '25px' }}
+                  >🐠 Dive saved, removed from pending table 🐠</Alert>
+                  
+                </Snackbar>
             </div>
           </>
         )}
@@ -501,5 +608,4 @@ EditData.propTypes = {
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
   pendingData: PropTypes.object,
-  updateData: PropTypes.func.isRequired,
 };

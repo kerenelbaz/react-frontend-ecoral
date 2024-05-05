@@ -138,13 +138,14 @@
 
     };
 
-    const handleAllDataButtonClick = () => {
-      window.open('/all-data', '_blank'); // Replace '/all-data-page-url' with the actual URL of your All Data page
+    const handleCloseEditData = () => {
+      setOpenEditData(false);
+      handleDeleteClick(selectedRow); // Update pendingData with the latest selectedRow
     };
 
-    const updateData = (updatedData) => {
-      setUsersData(updatedData);
-      console.log(usersData);
+
+    const handleAllDataButtonClick = () => {
+      window.open('/all-data', '_blank'); // Replace '/all-data-page-url' with the actual URL of your All Data page
     };
 
     return (
@@ -235,7 +236,7 @@
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Card>
-        <EditData open={openEditData} handleClose={() => setOpenEditData(false)} pendingData={selectedRow} updateDataLists={updateData} />
+        <EditData open={openEditData} handleClose={handleCloseEditData} pendingData={selectedRow} />
 
       </Container>
     );
