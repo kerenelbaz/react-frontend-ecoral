@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 
 import Button from '@mui/material/Button';
@@ -18,6 +18,7 @@ import DialogActions from '@mui/material/DialogActions';
 import './style.css';
 // eslint-disable-next-line import/no-unresolved
 import dataLists from '../../insertData/view/dataLists.json';
+
 
 
 const humanWildInterList = ['Between 3 to 10 M', 'Closer than 10 M', 'Forther than 10 M', 'Macro', 'NA'];
@@ -41,7 +42,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function EditData({ open, handleClose, pendingData }) {
+export default function EditData({ open, handleClose, pendingData, updateData }) {
     // eslint-disable-next-line no-unused-vars
     const [openImageDialog, setOpenImageDialog] = useState(false);
     // const [formData, setFormData] = useState({
@@ -89,6 +90,14 @@ export default function EditData({ open, handleClose, pendingData }) {
       distance: '',
       temp: ''
     });
+    const [diveCodeState, setDiveCodeState] = useState('');
+
+    useEffect(() => {
+      if (pendingData && pendingData.diveCode) {
+        setDiveCodeState(pendingData.diveCode);
+      }
+    }, [pendingData]);
+
     // Define a function to update form data
     const handleInputChange = (e) => {
       const { name, value } = e.target;
@@ -146,8 +155,10 @@ export default function EditData({ open, handleClose, pendingData }) {
     };
 
     const handleSaveChanges = () => {
-      // Log the formData object
-      console.log(formData);
+      // Log the formData obje  ct
+      console.log(dataLists);
+      const updatedData = { ...pendingData };
+      updateData(updatedData);
       // Optionally, you can perform additional actions here, such as sending the data to a server
       // After saving, close the dialog
       handleClose();
@@ -162,7 +173,7 @@ export default function EditData({ open, handleClose, pendingData }) {
       
     >
       <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-        Dive Code: 2
+        Dive Code: {diveCodeState}
       </DialogTitle>
       <IconButton
         aria-label="close"
@@ -490,4 +501,5 @@ EditData.propTypes = {
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
   pendingData: PropTypes.object,
+  updateData: PropTypes.func.isRequired,
 };
