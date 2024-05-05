@@ -23,17 +23,11 @@ import NotificationsPopover from './common/notifications-popover';
 
 export default function Header({ onOpenNav }) {
   const theme = useTheme();
-  const [user, setUser] = useState(null);
 
   const lgUp = useResponsive('up', 'lg');
 
-  // Check local storage for user data on component mount
-  useEffect(() => {
-    const userData = localStorage.getItem('user');
-    if (userData) {
-      setUser(JSON.parse(userData));
-    }
-  }, []);
+  // Check local storage for user data
+  const userData = localStorage.getItem('user');
 
   const renderContent = (
     <>
@@ -50,8 +44,8 @@ export default function Header({ onOpenNav }) {
       <Stack direction="row" alignItems="center" spacing={1}>
         {/* <LanguagePopover />
         <NotificationsPopover /> */}
-        {user ? (
-          <AccountPopover user={user} />
+        {userData ? (
+          <AccountPopover user={JSON.parse(userData)} />
         ) : (
           <Typography variant="body2" sx={{ color: 'text.secondary' }}>
             <RouterLink to="/login" style={{ marginRight: 8, textDecoration: 'none', color: 'inherit' }}>Sign in</RouterLink>
