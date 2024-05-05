@@ -376,6 +376,7 @@ export default function AddArticleView() {
 
           <input
             type="file"
+            accept='.pdf'
             onChange={onSelectFile}
             id="uploadePDF"
             name="uploadePDF"

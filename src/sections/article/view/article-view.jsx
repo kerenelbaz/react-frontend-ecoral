@@ -24,6 +24,7 @@ import TableEmptyRows from '../table-empty-rows';
 import UserTableToolbar from '../user-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
 
+
 // ----------------------------------------------------------------------
 
 export default function ArticleView() {
@@ -43,6 +44,8 @@ export default function ArticleView() {
 
   const [users, setUsersData] = useState([]);
 
+  const [allTags, setTags] = useState([])
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -52,34 +55,37 @@ export default function ArticleView() {
         }
         const responseData = await response.json();
         const { articles } = responseData.data;
+        console.log(articles);
         const mappedUsers = articles.map((article, index) => ({
-          id: article.id || faker.string.uuid(), // Use server ID if available, fallback to generated UUID
-          avatarUrl: article.avatarUrl || `/assets/images/avatars/avatar_${index + 1}.jpg`, // Use server avatar URL if available, fallback to placeholder
-          name: article.name || faker.person.fullName(),
-          company: article.company || faker.company.name(),
-          isVerified: typeof article.isVerified === 'boolean' ? article.isVerified : faker.datatype.boolean(), // Use server value if possible, fallback to generated boolean
-          status: sample(['active', 'banned']) || article.status, // Use server status if available, fallback to sample
-          role: sample([
-            'Leader',
-            'Hr Manager',
-            'UI Designer',
-            'UX Designer',
-            'UI/UX Designer',
-            'Project Manager',
-            'Backend Developer',
-            'Full Stack Designer',
-            'Front End Developer',
-            'Full Stack Developer',
-          ]) || article.role, // Use server role if available, fallback to sample
-          date: sample(['13/11/2222', '14/11/2233']) || article.date, // Use server date if available, fallback to sample
+          id: article.articleCode || faker.string.uuid(),
+          name: article.name,
+          doi: article.doi,
+          author: article.author,
+          date: article.dateArticle || 'No Date Knowen',
+          file: article.file,
+          link: article.link,
+          tags: article.tags,
         }));
-        setUsersData(mappedUsers); // Set the fetched data to state
+        setUsersData(mappedUsers);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
     fetchData();
   }, []);
+
+  useEffect (() => {
+    users.map((article) => (
+      article.tags.forEach(tag => {
+        if (!allTags.includes(tag.name)) {
+          setTags((prevData) => ([
+            ...prevData,
+            tag.name
+          ]))
+        }
+      })
+    ))
+  }, [users, allTags])
 
   // useEffect(() => {
   //   console.log(users);
@@ -164,7 +170,8 @@ export default function ArticleView() {
           filterName={filterName}
           onFilterName={handleFilterByName}
           onFilterDateFrom={handleFilterDateFrom}
-          classNames={[{ value: 'class', label: 'label' }]}
+          // classNames={[{ value: 'class', label: 'label' }]}
+          classNames={allTags}
         />
 
         <Scrollbar>
@@ -179,26 +186,27 @@ export default function ArticleView() {
                 onSelectAllClick={handleSelectAllClick}
                 headLabel={[
                   { id: 'name', label: 'Name' },
-                  { id: 'company', label: 'Company' },
-                  { id: 'role', label: 'Role' },
-                  { id: 'isVerified', label: 'Verified', align: 'center' },
-                  { id: 'status', label: 'Status' },
-                  { id: 'date', label: 'Date' },
+                  { id: 'doi', label: 'DOI' },
+                  { id: 'author', label: 'Author' },
+                  { id: 'date', label: 'Date', align: 'center' },
+                  { id: '',  label: 'Tags', align: 'center'},
                   { id: '' },
                 ]}
               />
               <TableBody>
                 {dataFiltered
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row) => (
+                  .map((row, index) => (
                     <UserTableRow
-                      key={row.id}
-                      name={row.name}
-                      role={row.role}
-                      status={row.status}
-                      company={row.company}
-                      isVerified={row.isVerified}
-                      date={row.date}
+                      key={index}
+                      // name={row.name}
+                      // doi={row.doi}
+                      // author={row.author}
+                      // date={row.dateArticle}
+                      // tags={row.tags}
+                      // file={row.file}
+                      // link={row.link}
+                      data={row}
                       selected={selected.indexOf(row.name) !== -1}
                       handleClick={(event) => handleClick(event, row.name)}
                     />
