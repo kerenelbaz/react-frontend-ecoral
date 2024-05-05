@@ -23,7 +23,7 @@ import Scrollbar from 'src/components/scrollbar';
 
 import { NAV } from './config-layout';
 // Import configurations from where they are defined
-import { baseNavConfig, fullNavConfig } from './config-navigation';
+import { baseNavConfig, fullNavConfig, limitedNavConfig } from './config-navigation';
 
 
 // ----------------------------------------------------------------------
@@ -41,9 +41,15 @@ export default function Nav({ openNav, onCloseNav }) {
     // Retrieve user data from local storage
     const userData = localStorage.getItem('user');
     if (userData) {
+      if (JSON.parse(userData).email === 'admin@admin.com'){
+        setUser(JSON.parse(userData));
+        setNavConfig(fullNavConfig);
+      }
+      else {
       setUser(JSON.parse(userData));
-      setNavConfig(fullNavConfig); // Logged in: use full navigation
-    } else {
+      setNavConfig(limitedNavConfig);  // Logged in: use full navigation
+      }  
+    }else{
       setUser(null);
       setNavConfig(baseNavConfig); // Not logged in: use base navigation
     }
