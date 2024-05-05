@@ -38,6 +38,7 @@ export default function UserTableRow({
   status,
   handleClick,
   onEditClick,
+  onDeleteClick,
 }) {
   const [open, setOpen] = useState(null);
 
@@ -53,6 +54,10 @@ export default function UserTableRow({
   const handleEditClick = () => {
     onEditClick(); // Call the function passed from the parent component
   };
+
+  const handleDeleteClick = ()=>{
+    onDeleteClick();
+  }
 
   
 
@@ -81,19 +86,9 @@ export default function UserTableRow({
         <TableCell>{site}</TableCell>
         <TableCell>{objectGroup}</TableCell>
         <TableCell>{reportType}</TableCell>
-        {/* <TableCell>{file}</TableCell> */}
-        {/* <TableCell>{imgLocation}</TableCell>
-        <TableCell>{specie}</TableCell>
-        <TableCell>{arReef}</TableCell>
-        <TableCell>{typeOfDive}</TableCell>
-        <TableCell>{rank}</TableCell>
-        <TableCell>{userDescription}</TableCell>
-        <TableCell>{maxDepth}</TableCell>
-        <TableCell>{distance}</TableCell>
-        <TableCell>{temp}</TableCell>
-         */}
+   
          <TableCell>
-          <IconButton aria-label="delete" size="small" color='error'>
+          <IconButton aria-label="delete" size="small" color='error' onClick={handleDeleteClick}>
             <DeleteIcon fontSize="small" color='red' />
           </IconButton>
           
@@ -138,6 +133,7 @@ UserTableRow.propTypes = {
   objectGroup: PropTypes.string,
   specie: PropTypes.string,
   onEditClick: PropTypes.func,
+  onDeleteClick: PropTypes.func,
   file: PropTypes.string,
   imgLocation: PropTypes.string,
   uploadeImage: PropTypes.string,

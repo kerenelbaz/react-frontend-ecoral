@@ -92,8 +92,6 @@
       return `${formattedDate}, ${formattedTime}`;
     };
     
-
-
     const dataFiltered = applyFilter({
       inputData: usersData,
       comparator: getComparator(order, orderBy),
@@ -109,8 +107,44 @@
       // console.log("file", pendingData.file);
     };
 
+    const handleDeleteClick = async (pendingData) => {
+      console.log(usersData)
+      console.log(pendingData._id);
+      try {
+        // Make a request to your server to delete the row
+        const response = await fetch(`http://localhost:8000/api/pendings_dives/${pendingData._id}`, {
+          method: 'DELETE',
+        });
+        if (!response.ok) {
+          throw new Error('Failed to delete row');
+        }
+
+        // Remove the deleted row from the usersData state variable
+        setUsersData(prevData => prevData.filter(row => row._id !== pendingData._id));
+        // Find the index of the object with the targetId
+        const index = usersData.findIndex(obj => obj._id === pendingData._id);
+
+        // Remove the object if found
+        if (index !== -1) {
+          usersData.splice(index, 1);
+}
+        // You might want to reload the data or remove the row from the state directly
+      } catch (error) {
+        console.error('Error deleting row:', error);
+      }
+ 
+      
+      console.log(usersData)
+
+    };
+
     const handleAllDataButtonClick = () => {
       window.open('/all-data', '_blank'); // Replace '/all-data-page-url' with the actual URL of your All Data page
+    };
+
+    const updateData = (updatedData) => {
+      setUsersData(updatedData);
+      console.log(usersData);
     };
 
     return (
@@ -165,7 +199,6 @@
                     .map((row) => (
                       
                       <UserTableRow
-                    
                         key={row._id}
                         loggingDate={formatDateTime(row.loggingDate)}
                         dateDive={formatDateTime(row.date)}
@@ -173,19 +206,12 @@
                         site={row.diveSite}
                         objectGroup={row.objectGroup}
                         specie={row.specie}
-                        // arReef={row.AR}
-                        // imgLocation={row.imageLocation}
                         reportType={row.reportType}
-                        // typeOfDive={row.typeOfDive}
-                        // rank={row.rankOfDive}
-                        // userDescription={row.userDescription}
-                        // maxDepth={row.maxDepth}
-                        // distance={row.distance}
-                        // temp={row.temp}
                         
                         // handleClick={(event) => handleClick(event, row.name)}
                         // onEditClick={handleEditClick} // passed as a prop
                         onEditClick={() => handleEditClick(row)}
+                        onDeleteClick={() => handleDeleteClick(row)}
                       />
                     ))}
 
@@ -209,7 +235,7 @@
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Card>
-        <EditData open={openEditData} handleClose={() => setOpenEditData(false)} pendingData={selectedRow} />
+        <EditData open={openEditData} handleClose={() => setOpenEditData(false)} pendingData={selectedRow} updateDataLists={updateData} />
 
       </Container>
     );

@@ -72,36 +72,69 @@ export default function InsertDataView() {
   const fileInputRef = useRef(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('http://localhost:8000/api/pendings_dives');
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch('http://localhost:8000/api/pendings_dives');
+  //       if (!response.ok) {
+  //         throw new Error('Network response was not ok');
+  //       }
 
-        const responseData = await response.json();
-        const { pendingDives } = responseData.data;
+  //       const responseData = await response.json();
+  //       const { pendingDives } = responseData.data;
 
-        const diveCodes = pendingDives.map(pendingDive => pendingDive.diveCode).filter(code => code);
+  //       const diveCodes = pendingDives.map(pendingDive => pendingDive.diveCode).filter(code => code);
 
-        let newDiveCode;
-        if (diveCodes.length === 0) {
-          newDiveCode = 0;
-        } else {
-          const lastDiveCode = Math.max(...diveCodes);
-          newDiveCode = lastDiveCode + 1;
-        }
+  //       let newDiveCode;
+  //       if (diveCodes.length === 0) {
+  //         newDiveCode = 0;
+  //       } else {
+  //         const lastDiveCode = Math.max(...diveCodes);
+  //         newDiveCode = lastDiveCode + 1;
+  //       }
 
-        console.log('New dive code:', newDiveCode);
-        setDiveCode(newDiveCode); // Set the state with the new dive code
+  //       console.log('New dive code:', newDiveCode);
+  //       setDiveCode(newDiveCode); // Set the state with the new dive code
 
-      } catch (error) {
-        console.error('Error fetching documents:', error.message);
+  //     } catch (error) {
+  //       console.error('Error fetching documents:', error.message);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []); // Empty dependency array to run effect only once on component mount
+  const fetchData = async () => {
+    try {
+      const response = await fetch('http://localhost:8000/api/dives');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
       }
-    };
 
-    fetchData();
-  }, []); // Empty dependency array to run effect only once on component mount
+      const responseData = await response.json();
+      const { dives } = responseData.data;
+      console.log(dives)
+
+      const numericDiveCodes = dives.map(dive => dive.diveCode)
+      .filter(code => !Number.isNaN(parseInt(code, 10))); // Check if parse-able to integer
+      console.log(numericDiveCodes);
+
+      let newDiveCode;
+      if (numericDiveCodes.length === 0) {
+        newDiveCode = 0;
+      } else {
+        const lastDiveCode = Math.max(...numericDiveCodes);
+        newDiveCode = lastDiveCode + 1;
+      }
+
+      console.log('New dive code:', newDiveCode);
+      setDiveCode(newDiveCode); // Set the state with the new dive code
+
+    } catch (error) {
+      console.error('Error fetching documents:', error.message);
+    }
+  };
+
+  fetchData();
+}, []); // Empty dependency array to run effect only once on component mount
 
   
   
