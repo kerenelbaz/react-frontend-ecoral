@@ -19,6 +19,7 @@ import { bgGradient } from 'src/theme/css';
 
 import Logo from 'src/components/logo';
 import Iconify from 'src/components/iconify';
+import { RouterLink } from 'src/routes/components';
 
 // ----------------------------------------------------------------------
 
@@ -61,32 +62,37 @@ export default function LoginView() {
      }
  
      // Submit the form if valid
-     if (isValid) {
-      
-       // Your form submission logic here
-       console.log('Form submitted');
-       fetch(`https://proj.ruppin.ac.il/cgroup11/test2/tar1/api/User/login?email=${userEmail}`,{
-          method: 'POST',
-          body: JSON.stringify(password),
-          headers: new Headers({'Content-type': 'application/json; charset=UTF-8'
-        })
-       })
-       .then(res =>{
-          console.log('res = ', res);
-          return res.json()
-        })
-        .then(
-          (result) =>{
-            console.log('fetch POST = ', result);
-            localStorage.setItem('user', JSON.stringify(result));
-            router.push('/');
-        },
-        (error) =>{
-          console.log("err POST=", error);
-        });
-        
-       
-     }
+  if (isValid) {
+    fetch(`https://proj.ruppin.ac.il/cgroup11/test2/tar1/api/User/login?email=${userEmail}`, {
+      method: 'POST',
+      body: JSON.stringify({ password }), // Sending password as JSON object
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return res.json();
+      })
+      .then((result) => {
+        localStorage.setItem('user', JSON.stringify(result));
+        router.push('/');
+      })
+      .catch((error) => {
+        console.error('Error during login fetch:', error);
+        // Set error message based on error type
+        if (error instanceof TypeError) {
+          // Network error
+          setEmailError('Network error occurred, please try again later.');
+        } else {
+          // Other errors
+          setEmailError('One or more fields are not correct, please try again.');
+          setPasswordError('One or more fields are not correct, please try again.');
+        }
+      });
+    }
   };
 
   const renderForm = (
@@ -162,48 +168,15 @@ export default function LoginView() {
 
           <Typography variant="body2" sx={{ mt: 2, mb: 5 }}>
             Don’t have an account?
-            <Link variant="subtitle2" sx={{ ml: 0.5 }}>
+            <RouterLink to="/register" variant="subtitle2" sx={{ ml: 0.5 }}>
               Get started
-            </Link>
+            </RouterLink>
           </Typography>
 
-          <Stack direction="row" spacing={2}>
-            <Button
-              fullWidth
-              size="large"
-              color="inherit"
-              variant="outlined"
-              sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
-            >
-              <Iconify icon="eva:google-fill" color="#DF3E30" />
-            </Button>
+          
 
-            <Button
-              fullWidth
-              size="large"
-              color="inherit"
-              variant="outlined"
-              sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
-            >
-              <Iconify icon="eva:facebook-fill" color="#1877F2" />
-            </Button>
-
-            <Button
-              fullWidth
-              size="large"
-              color="inherit"
-              variant="outlined"
-              sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
-            >
-              <Iconify icon="eva:twitter-fill" color="#1C9CEA" />
-            </Button>
-          </Stack>
-
-          <Divider sx={{ my: 3 }}>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              OR
-            </Typography>
-          </Divider>
+          <Divider sx={{ my: 3 }}/>
+          
 
           {renderForm}
         </Card>
