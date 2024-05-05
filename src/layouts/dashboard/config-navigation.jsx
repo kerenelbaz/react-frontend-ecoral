@@ -84,8 +84,25 @@ export const fullNavConfig = [
   }
 ];
 
-const isUserLoggedIn = () => Boolean(localStorage.getItem('user'));
+export const limitedNavConfig = fullNavConfig.filter(item => !['Pending Dives', 'Import Posts', 'Add Dive Site', 'Add Articles'].includes(item.title));
 
-const navConfig = isUserLoggedIn() ? fullNavConfig : baseNavConfig;
+const getUser = () => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  console.log("User from localStorage:", user);
+  return user;
+};
+
+const navConfig = () => {
+  const user = getUser();
+  console.log("Email of the user:", user ? user.email : "No user logged in");
+  
+  if (!user) {
+    return baseNavConfig;
+  } else if (user.email !== 'admin@admin.com') {
+    return limitedNavConfig;
+  } else {
+    return fullNavConfig;
+  }
+};
 
 export default navConfig;
