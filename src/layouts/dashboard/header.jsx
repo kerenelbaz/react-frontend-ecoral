@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-
+import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import AppBar from '@mui/material/AppBar';
@@ -8,9 +8,9 @@ import { useTheme } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 
 import { useResponsive } from 'src/hooks/use-responsive';
-
+import Typography from '@mui/material/Typography';
 import { bgBlur } from 'src/theme/css';
-
+import { RouterLink } from 'src/routes/components';
 import Iconify from 'src/components/iconify';
 
 // import Searchbar from './common/searchbar';
@@ -23,8 +23,17 @@ import NotificationsPopover from './common/notifications-popover';
 
 export default function Header({ onOpenNav }) {
   const theme = useTheme();
+  const [user, setUser] = useState(null);
 
   const lgUp = useResponsive('up', 'lg');
+
+  // Check local storage for user data on component mount
+  useEffect(() => {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      setUser(JSON.parse(userData));
+    }
+  }, []);
 
   const renderContent = (
     <>
@@ -39,9 +48,17 @@ export default function Header({ onOpenNav }) {
       <Box sx={{ flexGrow: 1 }} />
 
       <Stack direction="row" alignItems="center" spacing={1}>
-        <LanguagePopover />
-        <NotificationsPopover />
-        <AccountPopover />
+        {/* <LanguagePopover />
+        <NotificationsPopover /> */}
+        {user ? (
+          <AccountPopover user={user} />
+        ) : (
+          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+            <RouterLink to="/login" style={{ marginRight: 8, textDecoration: 'none', color: 'inherit' }}>Sign in</RouterLink>
+            |
+            <RouterLink to="/register" style={{ marginLeft: 8, textDecoration: 'none', color: 'inherit' }}>Sign up</RouterLink>
+          </Typography>
+        )}
       </Stack>
     </>
   );
