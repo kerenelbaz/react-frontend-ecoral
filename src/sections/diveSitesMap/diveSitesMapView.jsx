@@ -6,7 +6,6 @@ import { Popup, useMap, Marker, TileLayer, MapContainer } from 'react-leaflet';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
-// import {Scrollbar} from '../../components/scrollbar/scrollbar';
 
 import './diveSitesMapStyle.css';
 import markerIcon from './markerIcon.png';

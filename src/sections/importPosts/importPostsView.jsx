@@ -9,24 +9,25 @@ export default function ImportPostsView() {
 
   const handleImport = async (event) => {
     event.preventDefault();
-    console.log(code);
 
     try {
       const response = await fetch('http://kirilldevs.pythonanywhere.com/api/html-analyze', {
         method: 'POST',
         headers: {
-          'Content-Type': 'text/plain'
+          'Content-Type': 'text/plain',
         },
-        body: code
+        body: code,
       });
 
       if (!response.ok) {
+        console.log(response);
         throw new Error('Failed to import data'); // Handle server errors
       }
 
       // If response is OK, do something, like showing a success message
       console.log('Data imported successfully');
-
+      const data = await response.json();
+      console.log(data.data);
     } catch (error) {
       console.error('Error importing data:', error.message);
       // Handle errors, like showing an error message to the user
