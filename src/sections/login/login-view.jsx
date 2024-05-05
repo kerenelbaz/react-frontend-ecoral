@@ -65,7 +65,7 @@ export default function LoginView() {
   if (isValid) {
     fetch(`https://proj.ruppin.ac.il/cgroup11/test2/tar1/api/User/login?email=${userEmail}`, {
       method: 'POST',
-      body: JSON.stringify({ password }), // Sending password as JSON object
+      body: JSON.stringify( password ), // Sending password as JSON object
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
       },
