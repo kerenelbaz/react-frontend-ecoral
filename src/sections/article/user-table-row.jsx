@@ -21,7 +21,7 @@ import Iconify from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
-export default function UserTableRow({ key,data, selected, handleClick, handleDelete }) {
+export default function UserTableRow({ key,data, selected, handleClick, handleDelete, isAdmin }) {
   const [open, setOpen] = useState(null);
   const [formattedDate, setDateFormat] = useState(null);
   const theme = useTheme();
@@ -156,10 +156,10 @@ export default function UserTableRow({ key,data, selected, handleClick, handleDe
           Edit
         </MenuItem> */}
 
-        <MenuItem onClick={handleDeleteRow} sx={{ color: 'error.main' }}>
+        {isAdmin && <MenuItem onClick={handleDeleteRow} sx={{ color: 'error.main' }}>
           <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
           Delete
-        </MenuItem>
+        </MenuItem>}
       </Popover>
     </>
   );
@@ -171,4 +171,5 @@ UserTableRow.propTypes = {
   handleClick: PropTypes.func,
   handleDelete: PropTypes.func,
   selected: PropTypes.any,
+  isAdmin: PropTypes.bool,
 };
