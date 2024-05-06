@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
+import useEffect from 'react';
 import * as React from 'react';
-import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
