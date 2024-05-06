@@ -66,8 +66,11 @@
   background-color: rgb(180, 214, 162);
 }
 
-.ButtonGroup {
-  margin: 9px;
+.ButtonGroupType {
+  /* margin: 9px; */
   display: flex;
 }
 
+.type{
+  display: flex;
+}

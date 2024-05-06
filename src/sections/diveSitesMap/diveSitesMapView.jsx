@@ -63,20 +63,13 @@ export default function DiveSitesMapView(props) {
         throw new Error('Failed to fetch dive sites');
       }
       const data = await response.json();
-      console.log(data);
       setDiveSites(data.data.diveSites);
     } catch (error) {
       console.error('Error fetching dive sites:', error.message);
     }
   };
 
-  // const handleChange = (event) => {
-  //   const selectedOption = event.target.value;
-  //   const selectedDiveSite = diveSites.find((site) => site.name === selectedOption);
-  //   setSelectedSite(selectedDiveSite || { name: '', latitude: 0, longitude: 0, description: '' });
-  // };
-
-  const [valueTab, setValueTab] = React.useState('1');
+  const [valueTab, setValueTab] = React.useState('Dive site'); // Set initial value to 'Dive site'
 
   const handleTabChange = (event, newValue) => {
     setValueTab(newValue);
@@ -89,94 +82,54 @@ export default function DiveSitesMapView(props) {
       <br />
 
       <FormControl sx={{ m: 1, minWidth: 120, width: '50' }}>
-        {/* <InputLabel htmlFor="grouped-native-select">Search By</InputLabel>
-        <Select
-          native
-          defaultValue=""
-          id="grouped-native-select"
-          label="Grouping"
-          onChange={handleChange}
-        >
-          <option aria-label="None" value="" key="none" />
-          <optgroup label="Dive site">
-            {diveSites
-              .filter((site) => site.type === 'Dive site')
-              .map((site) => (
-                <option key={`Dive site_${site.name}`} value={site.name}>
-                  {site.name}
-                </option>
-              ))}
-          </optgroup>
-          <optgroup label="Animal">
-            {diveSites
-              .filter((site) => site.type === 'Animal')
-              .map((site) => (
-                <option key={`Animal_${site.name}`} value={site.name}>
-                  {site.name}
-                </option>
-              ))}
-          </optgroup>
-          <optgroup label="Plant">
-            {diveSites
-              .filter((site) => site.type === 'Plant')
-              .map((site) => (
-                <option key={`Plant_${site.name}`} value={site.name}>
-                  {site.name}
-                </option>
-              ))}
-          </optgroup>
-        </Select> */}
-
         <Box sx={{ width: '100%', typography: 'body1' }}>
-  <TabContext value={valueTab}>
-    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-      <TabList onChange={handleTabChange} aria-label="lab API tabs example">
-        {diveSiteTypes.map(type => (
-          <Tab key={type} label={type} value={type} />
-        ))}
-      </TabList>
-    </Box>
-    {diveSiteTypes.map(type => (
-      <TabPanel key={type} value={type}>
-        <FormControl fullWidth>
-          <InputLabel
-            htmlFor={`select-${type}`}
-            sx={{
-              position: 'absolute',
-              top: '1px', 
-              left: '1px', 
-              backgroundColor: '#f9fafb', 
-              padding: '0 5px', 
-              zIndex: 1, 
-            }}
-          >{`Select ${type}`}</InputLabel>
-          <Select
-            value={selectedSite.name}
-            onChange={event => {
-              const selectedOption = event.target.value;
-              const selectedDiveSite = diveSites.find(site => site.name === selectedOption);
-              setSelectedSite(selectedDiveSite || { name: '', latitude: 0, longitude: 0, description: '' });
-            }}
-            inputProps={{
-              name: `select-${type}`,
-              id: `select-${type}`,
-            }}
-          >
-            {diveSites
-              .filter(site => site.type === type)
-              .map(site => (
-                <MenuItem key={site.name} value={site.name}>
-                  {site.name}
-                </MenuItem>
-              ))}
-          </Select>
-        </FormControl>
-      </TabPanel>
-    ))}
-  </TabContext>
-</Box>
-
-
+          <TabContext value={valueTab}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+              <TabList onChange={handleTabChange} aria-label="lab API tabs example">
+                {diveSiteTypes.map(type => (
+                  <Tab key={type} label={type} value={type} />
+                ))}
+              </TabList>
+            </Box>
+            {diveSiteTypes.map(type => (
+              <TabPanel key={type} value={type}>
+                <FormControl fullWidth>
+                  <InputLabel
+                    htmlFor={`select-${type}`}
+                    sx={{
+                      position: 'absolute',
+                      top: '1px', 
+                      left: '1px', 
+                      backgroundColor: '#f9fafb', 
+                      padding: '0 5px', 
+                      zIndex: 1, 
+                    }}
+                  >{`Select ${type}`}</InputLabel>
+                  <Select
+                    value={selectedSite.name}
+                    onChange={event => {
+                      const selectedOption = event.target.value;
+                      const selectedDiveSite = diveSites.find(site => site.name === selectedOption);
+                      setSelectedSite(selectedDiveSite || { name: '', latitude: 0, longitude: 0, description: '' });
+                    }}
+                    inputProps={{
+                      name: `select-${type}`,
+                      id: `select-${type}`,
+                    }}
+                  >
+                    {diveSites
+                      .filter(site => site.type === type)
+                      .map(site => (
+                        <MenuItem key={site.name} value={site.name}>
+                          {site.name}
+                        </MenuItem>
+                      ))}
+                  </Select>
+                </FormControl>
+              </TabPanel>
+            ))}
+          </TabContext>
+        </Box>
       </FormControl>
       <div style={{ display: 'flex', width: '100%', marginTop: '20px', borderRadius: '20px', border: '1px solid #cccccc4f', backgroundColor:'white'}}>
         <div style={{ flex: '70%' ,  borderRadius: '10px'}}>
