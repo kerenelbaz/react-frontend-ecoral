@@ -42,63 +42,42 @@ export default function UserTableRow({
 }) {
   const [open, setOpen] = useState(null);
 
-
-  // const handleOpenMenu = (event) => {
-  //   setOpen(event.currentTarget);
-  // };
-
   const handleCloseMenu = () => {
     setOpen(null);
   };
 
   const handleEditClick = () => {
-    onEditClick(); // Call the function passed from the parent component
+    onEditClick();
   };
 
-  const handleDeleteClick = ()=>{
+  const handleDeleteClick = () => {
     onDeleteClick();
   }
 
-  
+
 
   return (
     <>
-      {/* <TableRow hover tabIndex={-1} role="checkbox" selected={selected}> */}
       <TableRow>
-        {/* <TableCell padding="checkbox">
-          <Checkbox disableRipple checked={selected} onChange={handleClick} />
-        </TableCell> */}
-        {/* <IconButton aria-label="delete" size="small" color='success'>
-            <DeleteIcon fontSize="small" color='red' />
-          </IconButton> */}
         <TableCell padding="checkbox">
-          {/* <Button onClick={handleClick} variant="outlined" startIcon={<EditIcon/>}>
-            Edit
-          </Button> */}
           <IconButton aria-label="edit" size="small" color='primary' onClick={handleEditClick}>
             <EditIcon fontSize="small" />
           </IconButton>
         </TableCell>
-        
+
         <TableCell>{loggingDate}</TableCell>
         <TableCell>{dateDive}</TableCell>
         <TableCell>{timeDive}</TableCell>
         <TableCell>{site}</TableCell>
         <TableCell>{objectGroup}</TableCell>
         <TableCell>{reportType}</TableCell>
-   
-         <TableCell>
+
+        <TableCell>
           <IconButton aria-label="delete" size="small" color='error' onClick={handleDeleteClick}>
             <DeleteIcon fontSize="small" color='red' />
           </IconButton>
-          
-         </TableCell>
-        
-        {/* <TableCell align="right">
-          <IconButton onClick={handleOpenMenu}>
-            <Iconify icon="eva:more-vertical-fill" />
-          </IconButton>
-        </TableCell> */}
+
+        </TableCell>
       </TableRow>
 
       <Popover
@@ -145,7 +124,6 @@ UserTableRow.propTypes = {
   maxDepth: PropTypes.string,
   distance: PropTypes.string,
   temp: PropTypes.string,
-  // selected: PropTypes.bool,
   handleClick: PropTypes.func,
   status: PropTypes.string,
 };

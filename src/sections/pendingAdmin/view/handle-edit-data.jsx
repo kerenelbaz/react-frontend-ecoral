@@ -36,8 +36,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
   // Apply custom width to the dialog
   '& .MuiDialog-paper': {
-    maxWidth: '90%', 
-    width:'1400px',
+    maxWidth: '90%',
+    width: '1400px',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -46,200 +46,192 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 export default function EditData({ open, handleClose, pendingData, onDeleteClick }) {
-    // eslint-disable-next-line no-unused-vars
-    const [openImageDialog, setOpenImageDialog] = useState(false);
-    const [stateSnackbar, setStateSnackbar] = useState({
-      open: false,
-      Transition: Slide,
-    });
-   
-    const [formData, setFormData] = useState({
-      ...pendingData,
-      objectCode: '',
-      idCode:'',
-      humanWildInter: '',
-      researcherDesc: '',
-      loggedBy: '',
-    });
+  // eslint-disable-next-line no-unused-vars
+  const [openImageDialog, setOpenImageDialog] = useState(false);
+  const [stateSnackbar, setStateSnackbar] = useState({
+    open: false,
+    Transition: Slide,
+  });
 
-    useEffect(() => {
-      // Update formData with all properties from pendingData
-      setFormData(prevData => ({
-        ...prevData,
-        ...pendingData
-      }));
-    }, [pendingData]);
+  const [formData, setFormData] = useState({
+    ...pendingData,
+    objectCode: '',
+    idCode: '',
+    humanWildInter: '',
+    researcherDesc: '',
+    loggedBy: '',
+  });
 
-    const [diveCodeState, setDiveCodeState] = useState('');
-    // const [editPandingData, setPandingData] = useState({...pendingData});
+  useEffect(() => {
+    setFormData(prevData => ({
+      ...prevData,
+      ...pendingData
+    }));
+  }, [pendingData]);
 
-    useEffect(() => {
-      if (pendingData && pendingData.diveCode) {
-        setDiveCodeState(pendingData.diveCode);
-      }
-      // console.log("useddcsc", editPandingData)
-    }, [pendingData]);
-    
-    
+  const [diveCodeState, setDiveCodeState] = useState('');
+  // const [editPandingData, setPandingData] = useState({...pendingData});
 
-    // Define a function to update form data
-    const handleInputChange = (e) => {
-      // console.log("the copied data", editPandingData);
-      const { name, value } = e.target;
-      setFormData((prevData) => ({
-          ...prevData,
-          [name]: value,
-      }));
-    };
+  useEffect(() => {
+    if (pendingData && pendingData.diveCode) {
+      setDiveCodeState(pendingData.diveCode);
+    }
+  }, [pendingData]);
 
-    const handleFormInputChange = (e) => {
-      const { name, value } = e.target;
-      setFormData((prevData) => ({
-          ...prevData,
-          [name]: value,
-      }));
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleFormInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  }
+
+  const handleImageClick = () => {
+
+    setOpenImageDialog(true);
+  };
+
+  const handleFieldChange = (name, value) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const formatDateTime = (dateTimeString) => {
+    // Regular expressions to match the expected date formats
+    const dateFormatRegex1 = /^\w{3} \w{3} \d{2} \d{4} \d{2}:\d{2}:\d{2} GMT[+-]\d{4} \([\w\s]+\)$/;
+    const dateFormatRegex2 = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/;
+
+    if (!dateFormatRegex1.test(dateTimeString) && !dateFormatRegex2.test(dateTimeString)) {
+      return dateTimeString; // Return the original string if the format doesn't match
     }
 
-    const handleImageClick = () => {
 
-      setOpenImageDialog(true);
+    const dateTime = new Date(dateTimeString);
+
+    // Format the date
+    const dateFormatter = new Intl.DateTimeFormat('en-GB', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    });
+    const formattedDate = dateFormatter.format(dateTime);
+
+    // Format the time
+    const timeFormatter = new Intl.DateTimeFormat('en-GB', {
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+    const formattedTime = timeFormatter.format(dateTime);
+
+    // Combine date and time
+    return `${formattedDate}, ${formattedTime}`;
+  };
+
+  const handleTextareaChange = (value) => {
+    // Update the state with the value of the textarea
+    setFormData(prevData => ({
+      ...prevData,
+      researcherDesc: value
+    }));
+  };
+
+  const handleAutocompleteChange = (name, value) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleClickSnack = () => {
+    setStateSnackbar({
+      open: true,
+      Transition: Slide,
+    });
+  };
+
+  const handleCloseSnack = () => {
+    setStateSnackbar({
+      ...stateSnackbar,
+      open: false,
+    });
+  };
+
+  const handleSaveChanges = async () => {
+
+    const objectDiveToServer = {
+      diveCode: formData.diveCode,
+      objectCode: formData.objectCode,
+      date: formData.date,
+      time: formData.time,
+      diveSite: formData.diveSite,
+      objectGroup: formData.objectGroup,
+      specie: formData.specie,
+      idCode_photographerName: formData.idCode_photographerName,
+      imageLocation: formData.imageLocation,
+      AR: formData.AR,
+      humanWildlifeInteraction: formData.humanWildlifeInteraction,
+      reportType: formData.reportType,
+      typeOfDive: formData.typeOfDive,
+      rankOfDive: formData.rankOfDive,
+      media: formData.media,
+      documentation: formData.documentation,
+      ageOfDiver: formData.ageOfDiver,
+      sexOfDiver: formData.sexOfDiver,
+      maxDepth: formData.maxDepth,
+      distance: formData.distance,
+      temp: formData.temp,
+      userDescription: formData.userDescription,
+      researcherComment: formData.researcherComment,
+      linkURL: formData.linkURL,
+      loggedBy: formData.loggedBy,
+      loggingDate: formData.loggingDate,
+
     };
 
-    const handleFieldChange = (name, value) => {
-      setFormData((prevData) => ({
-        ...prevData,
-        [name]: value,
-      }));
-    };
-
-    const formatDateTime = (dateTimeString) => {
-      // Regular expressions to match the expected date formats
-       const dateFormatRegex1 = /^\w{3} \w{3} \d{2} \d{4} \d{2}:\d{2}:\d{2} GMT[+-]\d{4} \([\w\s]+\)$/;
-       const dateFormatRegex2 = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/;
-   
-       if (!dateFormatRegex1.test(dateTimeString) && !dateFormatRegex2.test(dateTimeString)) {
-         return dateTimeString; // Return the original string if the format doesn't match
-       }
-   
-   
-       const dateTime = new Date(dateTimeString);
-       
-       // Format the date
-       const dateFormatter = new Intl.DateTimeFormat('en-GB', {
-         year: 'numeric',
-         month: '2-digit',
-         day: '2-digit',
-       });
-       const formattedDate = dateFormatter.format(dateTime);
-       
-       // Format the time
-       const timeFormatter = new Intl.DateTimeFormat('en-GB', {
-         hour: '2-digit',
-         minute: '2-digit',
-       });
-       const formattedTime = timeFormatter.format(dateTime);
-       
-       // Combine date and time
-       return `${formattedDate}, ${formattedTime}`;
-     };
-
-    const handleTextareaChange = (value) => {
-      // Update the state with the value of the textarea
-      setFormData(prevData => ({
-        ...prevData,
-        researcherDesc: value
-      }));
-    };
-
-    const handleAutocompleteChange = (name, value) => {
-      setFormData((prevData) => ({
-        ...prevData,
-        [name]: value,
-      }));
-    };
-
-    const handleClickSnack =  () => {
-      setStateSnackbar({
-        open: true,
-        Transition: Slide,
+    try {
+      // Send form data to the server
+      const response = await fetch('http://localhost:8000/api/dives', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify(objectDiveToServer)
       });
-    };
 
-    const handleCloseSnack = () => {
-      setStateSnackbar({
-        ...stateSnackbar,
-        open: false,
-      });
-    };
+      console.log(response);
+      if (response.ok) {
+        console.log('Data saved successfully');
 
-    const handleSaveChanges = async () => {
+        handleClickSnack()
+        onDeleteClick(formData);
+        handleClose();
 
-      const objectDiveToServer = {
-        diveCode: formData.diveCode,
-        objectCode: formData.objectCode,
-        date: formData.date,
-        time: formData.time,
-        diveSite: formData.diveSite,
-        objectGroup: formData.objectGroup,
-        specie: formData.specie,
-        idCode_photographerName: formData.idCode_photographerName,
-        imageLocation: formData.imageLocation,
-        AR: formData.AR,
-        humanWildlifeInteraction:formData.humanWildlifeInteraction,
-        reportType: formData.reportType,
-        typeOfDive: formData.typeOfDive,
-        rankOfDive: formData.rankOfDive,
-        media:formData.media,
-        documentation: formData.documentation,
-        ageOfDiver: formData.ageOfDiver,
-        sexOfDiver: formData.sexOfDiver,
-        maxDepth: formData.maxDepth,
-        distance: formData.distance,
-        temp: formData.temp,
-        userDescription: formData.userDescription,
-        researcherComment: formData.researcherComment,
-        linkURL: formData.linkURL,
-        loggedBy: formData.loggedBy,
-        loggingDate: formData.loggingDate,
-  
-      };
-      console.log(objectDiveToServer)
-
-   
-      try {
-        // Send form data to the server
-        const response = await fetch('http://localhost:8000/api/dives', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-          },
-          body: JSON.stringify(objectDiveToServer)
-        });
-  
-        console.log(response);
-        if (response.ok) {
-          console.log('Data saved successfully');
-          
-          handleClickSnack()
-          onDeleteClick(formData);
-          handleClose();
-
-        } else {
-          console.error('Failed to save data:', response.statusText);
-        }
-      } catch (error) {
-        console.error('Error saving data:', error.message);
+      } else {
+        console.error('Failed to save data:', response.statusText);
       }
-      
-    };
+    } catch (error) {
+      console.error('Error saving data:', error.message);
+    }
 
-// export default function EditData({ open, handleClose }) {
+  };
+
+  // export default function EditData({ open, handleClose }) {
   return (
     <BootstrapDialog
       onClose={handleClose}
       aria-labelledby="customized-dialog-title"
       open={open}
-      
+
     >
       <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
         Dive Code: {diveCodeState}
@@ -259,321 +251,319 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
       <DialogContent dividers >
         {pendingData && (
           <>
-          <div style={{display: 'flex', justifyContent:'center', alignItems: 'center' }} >
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
               <Button onClick={handleImageClick}>
-                  <div className="wrapImg" >
-                    <img className="imageB" src={pendingData.file} alt="Preview" /> 
-                  </div>
-
-              </Button>
-          </div>          
-            <div className='containerEd'>
-              <form>
-                <div>                                
-                <div className="txtContainer">
-                  <div>
-                    <TextField
-                      InputProps={{readOnly: true}}
-                      id="standard-read-only-input"
-                      label="Data logged at: "
-                      defaultValue={formatDateTime(pendingData.loggingDate)}
-                      variant="standard"
-                      className="dateStyle" 
-                    />
-                    <TextField
-                      InputProps={{readOnly: true}}
-                      id="standard-read-only-input"
-                      label="Date dive: "
-                      defaultValue={formatDateTime(pendingData.date)} 
-                      variant="standard"
-                      className="dateStyle"
-                    />
-                    
-                  </div>
+                <div className="wrapImg" >
+                  <img className="imageB" src={pendingData.file} alt="Preview" />
                 </div>
 
-                <br />
-                <div className="txtContainer">
-                  <div>
-                    <TextField
+              </Button>
+            </div>
+            <div className='containerEd'>
+              <form>
+                <div>
+                  <div className="txtContainer">
+                    <div>
+                      <TextField
+                        InputProps={{ readOnly: true }}
+                        id="standard-read-only-input"
+                        label="Data logged at: "
+                        defaultValue={formatDateTime(pendingData.loggingDate)}
+                        variant="standard"
+                        className="dateStyle"
+                      />
+                      <TextField
+                        InputProps={{ readOnly: true }}
+                        id="standard-read-only-input"
+                        label="Date dive: "
+                        defaultValue={formatDateTime(pendingData.date)}
+                        variant="standard"
+                        className="dateStyle"
+                      />
+
+                    </div>
+                  </div>
+
+                  <br />
+                  <div className="txtContainer">
+                    <div>
+                      <TextField
                         label="Logged By: "
                         variant="standard"
                         className="dateStyle"
                         onChange={handleFormInputChange}
                       />
-                    <TextField
+                      <TextField
                         label="Photo took in AR: "
-                        defaultValue={pendingData.AR} 
+                        defaultValue={pendingData.AR}
                         name="arReef"
                         variant="standard"
                         className="dateStyle"
                         onChange={handleFormInputChange}
-                      /> 
+                      />
                       <TextField
                         id="standard-read-only-input"
                         label="Dive took place during: "
-                        defaultValue={pendingData.time} 
+                        defaultValue={pendingData.time}
                         variant="standard"
                         className="dateStyle"
                         onChange={handleFormInputChange}
-                        
+
                       />
                       <TextField
                         id="standard-read-only-input"
                         label="Dive Rank: "
-                        defaultValue={pendingData.rankOfDive} 
+                        defaultValue={pendingData.rankOfDive}
                         variant="standard"
                         className="dateStyle"
                         onChange={handleFormInputChange}
                       />
+                    </div>
                   </div>
-                </div>
-              <br/>
-              <br/>
-                <div className="inLine">
-                  <Autocomplete
-                    options={dataLists.diveSite}
-                    defaultValue={pendingData.diveSite}
-                    getOptionLabel={(option) => option}
-                    onChange={(e, value) =>
-                      handleAutocompleteChange("diveSite", value || "")
-                    }
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        required
-                        label="Dive Site"
-                        name="diveSite"
-                        autoComplete="diveSite"
-                        className="fieldInput"
-                        value={formData.diveSite}
-                      />
-                    )}
-                  />
-
-                        <Autocomplete
-                            options={dataLists.objectGroupList}
-                            getOptionLabel={(option) => (option)}
-                            defaultValue={pendingData.objectGroup}
-                            onChange={(e, value) =>
-                            handleAutocompleteChange("objectGroup", value || "")
-                            }
-                            renderInput={(params) => (
-                            <TextField
-                                {...params}
-                                required
-                                label="Object Group"
-                                name="objectGroup"
-                                autoComplete='objectGroup'
-                                className="fieldInput"
-                            />
-                            )}
-                        />
-
-                        <Autocomplete
-                            options={dataLists.specieName}
-                            getOptionLabel={(option) => (option)}
-                            defaultValue={pendingData.specie}
-                            onChange={(e, value) =>
-                              handleAutocompleteChange("specie", value || "")
-                            }
-                            renderInput={(params) => (
-                            <TextField
-                                {...params}
-                                // value={insertData.specieName}
-                                label="Specie Name"
-                                name="specie"
-                                autoComplete='specie'
-                                className="fieldInput"
-                            />
-                            )}
-                        />
-                        
-                    
-                    </div>
-
-                    <div className="inLine">
-                        <Autocomplete
-                            options={dataLists.imageLocation}
-                            getOptionLabel={(option) => option}
-                            defaultValue={pendingData.imageLocation}
-                            onChange={(e, value) =>
-                              handleAutocompleteChange("imageLocation", value || "")
-                            }
-                            renderInput={(params) => (
-                            <TextField
-                                {...params}
-                                required
-                                label="Image Location"
-                                name="imageLocation"
-                                autoComplete="imageLocation"
-                                className="fieldInput"
-
-                            />
-                            )}
-                        />
-
-                        <Autocomplete
-                            options={dataLists.ReportType}
-                            getOptionLabel={(option) => (option)}
-                            defaultValue={pendingData.reportType}
-                            onChange={(e, value) =>
-                              handleAutocompleteChange("reportType", value || "")
-                            }
-                            renderInput={(params) => (
-                            <TextField
-                                {...params}
-                                required
-                                label="Report Type"
-                                name="reportType"
-                                autoComplete='reportType'
-                                className="fieldInput"
-                            />
-                            )}
-                        />
-                        <Autocomplete
-                            options={dataLists.typeOfDive}
-                            getOptionLabel={(option) => (option)}
-                            defaultValue={pendingData.typeOfDive}
-                            onChange={(e, value) =>
-                              handleAutocompleteChange("typeOfDive", value || "")
-                            }
-                            renderInput={(params) => (
-                            <TextField
-                                {...params}
-                                required
-                                label="Type Of Dive"
-                                name="typeOfDive"
-                                autoComplete='typeOfDive'
-                                className="fieldInput"
-                            />
-                            )}
-                        />
-                        
-                    
-                    </div>
-                    
-
-                    <div className="inLine">
-                      
-                      <Autocomplete
-                        options={humanWildInterList}
-                        getOptionLabel={(option) => (option)}
-                        onChange={(e, value) =>
-                          handleAutocompleteChange("humanWildInter", value || "")
-                        }
-                        renderInput={(params) => (
+                  <br />
+                  <br />
+                  <div className="inLine">
+                    <Autocomplete
+                      options={dataLists.diveSite}
+                      defaultValue={pendingData.diveSite}
+                      getOptionLabel={(option) => option}
+                      onChange={(e, value) =>
+                        handleAutocompleteChange("diveSite", value || "")
+                      }
+                      renderInput={(params) => (
                         <TextField
-                            {...params}
-                            // value={insertData.specieName}
-                            label="Human-wildlife interaction"
-                            name="humanWildInter"
-                            autoComplete='humanWildInter'
-                            className="fieldInput"
+                          {...params}
+                          required
+                          label="Dive Site"
+                          name="diveSite"
+                          autoComplete="diveSite"
+                          className="fieldInput"
+                          value={formData.diveSite}
                         />
-                        )}
+                      )}
+                    />
+
+                    <Autocomplete
+                      options={dataLists.objectGroupList}
+                      getOptionLabel={(option) => (option)}
+                      defaultValue={pendingData.objectGroup}
+                      onChange={(e, value) =>
+                        handleAutocompleteChange("objectGroup", value || "")
+                      }
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          required
+                          label="Object Group"
+                          name="objectGroup"
+                          autoComplete='objectGroup'
+                          className="fieldInput"
                         />
-    
-                    </div>
+                      )}
+                    />
 
-                    <div className="inLine">
-                      <TextField
-                        label='Max Depth (meters)'
-                        type="text"
-                        id="maxDepth"
-                        name="maxDepth"
-                        className="fieldInput"
-                        defaultValue={pendingData.maxDepth}
-                        onChange={handleFormInputChange}
-x
-                      />
+                    <Autocomplete
+                      options={dataLists.specieName}
+                      getOptionLabel={(option) => (option)}
+                      defaultValue={pendingData.specie}
+                      onChange={(e, value) =>
+                        handleAutocompleteChange("specie", value || "")
+                      }
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Specie Name"
+                          name="specie"
+                          autoComplete='specie'
+                          className="fieldInput"
+                        />
+                      )}
+                    />
 
-                      <TextField
-                        label='Distance (meters)'
-                        type="number"
-                        id="standard-number"
-                        name="distance"
-                        InputLabelProps={{
-                          shrink: true,
-                        }}
-                        className="fieldInput"
-                        defaultValue={pendingData.distance}
-                        onChange={handleInputChange}
-                        // value={formData.distance}
-                      />
-                      
 
-                      <TextField
-                        label='Temperature (celsius)'
-                        type="text"
-                        name="temp"
-                        id="standard-number"
-                        className="fieldInput"
-                        defaultValue={pendingData.temp}
-                        onChange={handleInputChange}
-                        // value={formData.temp}
-                      />
-                      
-                      
-                    </div>
-                    <div className="inLine">
+                  </div>
+
+                  <div className="inLine">
+                    <Autocomplete
+                      options={dataLists.imageLocation}
+                      getOptionLabel={(option) => option}
+                      defaultValue={pendingData.imageLocation}
+                      onChange={(e, value) =>
+                        handleAutocompleteChange("imageLocation", value || "")
+                      }
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          required
+                          label="Image Location"
+                          name="imageLocation"
+                          autoComplete="imageLocation"
+                          className="fieldInput"
+
+                        />
+                      )}
+                    />
+
+                    <Autocomplete
+                      options={dataLists.ReportType}
+                      getOptionLabel={(option) => (option)}
+                      defaultValue={pendingData.reportType}
+                      onChange={(e, value) =>
+                        handleAutocompleteChange("reportType", value || "")
+                      }
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          required
+                          label="Report Type"
+                          name="reportType"
+                          autoComplete='reportType'
+                          className="fieldInput"
+                        />
+                      )}
+                    />
+                    <Autocomplete
+                      options={dataLists.typeOfDive}
+                      getOptionLabel={(option) => (option)}
+                      defaultValue={pendingData.typeOfDive}
+                      onChange={(e, value) =>
+                        handleAutocompleteChange("typeOfDive", value || "")
+                      }
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          required
+                          label="Type Of Dive"
+                          name="typeOfDive"
+                          autoComplete='typeOfDive'
+                          className="fieldInput"
+                        />
+                      )}
+                    />
+
+
+                  </div>
+
+
+                  <div className="inLine">
+
+                    <Autocomplete
+                      options={humanWildInterList}
+                      getOptionLabel={(option) => (option)}
+                      onChange={(e, value) =>
+                        handleAutocompleteChange("humanWildInter", value || "")
+                      }
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Human-wildlife interaction"
+                          name="humanWildInter"
+                          autoComplete='humanWildInter'
+                          className="fieldInput"
+                        />
+                      )}
+                    />
+
+                  </div>
+
+                  <div className="inLine">
                     <TextField
-                        label='ID Code'
-                        type="text"
-                        name="idCode"
-                        className="fieldInput"
-                        onChange={handleFormInputChange}
-                        value={formData.idCode}
-                      />
-                      
-                      <TextField
-                        label="Object Code"
-                        name="objectCode"
-                        autoComplete='objectCode'
-                        className="fieldInput"
-                        onChange={handleFormInputChange}
-                        value={formData.objectCode}
-                      />
+                      label='Max Depth (meters)'
+                      type="text"
+                      id="maxDepth"
+                      name="maxDepth"
+                      className="fieldInput"
+                      defaultValue={pendingData.maxDepth}
+                      onChange={handleFormInputChange}
+                      x
+                    />
 
-                    </div>
-                      
-                      <div>
-                        <label className="lblDesc">User dives description:</label>
-                        <p className="lblDesc">{`"${pendingData.userDescription}"`}</p>
-                        
-                      </div>
-
-                      <div>
-                        <label className="lblDesc" htmlFor="researcherDesc">Researcher Comments:</label>
-                        <textarea 
-                          id="researcherDesc" name="researcherDesc" rows={3} className="admin-textarea" onChange={(e) => handleTextareaChange(e.target.value)} />
-                      </div>
+                    <TextField
+                      label='Distance (meters)'
+                      type="number"
+                      id="standard-number"
+                      name="distance"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      className="fieldInput"
+                      defaultValue={pendingData.distance}
+                      onChange={handleInputChange}
+                    // value={formData.distance}
+                    />
 
 
-                      </div>
-                </form>
-                <Snackbar
-                  open={stateSnackbar.open}
-                  onClose={handleCloseSnack}
-                  TransitionComponent={stateSnackbar.Transition}
-                  key={stateSnackbar.Transition.name}
-                  autoHideDuration={1500}
-                >
-                  <Alert
-                    onClose={handleClose}
-                    severity="success"
-                    variant="filled"
-                    sx={{ width: '100%' , fontSize: '25px' }}
-                  >🐠 Dive saved, removed from pending table 🐠</Alert>
-                  
-                </Snackbar>
+                    <TextField
+                      label='Temperature (celsius)'
+                      type="text"
+                      name="temp"
+                      id="standard-number"
+                      className="fieldInput"
+                      defaultValue={pendingData.temp}
+                      onChange={handleInputChange}
+                    // value={formData.temp}
+                    />
+
+
+                  </div>
+                  <div className="inLine">
+                    <TextField
+                      label='ID Code'
+                      type="text"
+                      name="idCode"
+                      className="fieldInput"
+                      onChange={handleFormInputChange}
+                      value={formData.idCode}
+                    />
+
+                    <TextField
+                      label="Object Code"
+                      name="objectCode"
+                      autoComplete='objectCode'
+                      className="fieldInput"
+                      onChange={handleFormInputChange}
+                      value={formData.objectCode}
+                    />
+
+                  </div>
+
+                  <div>
+                    <label className="lblDesc">User dives description:</label>
+                    <p className="lblDesc">{`"${pendingData.userDescription}"`}</p>
+
+                  </div>
+
+                  <div>
+                    <label className="lblDesc" htmlFor="researcherDesc">Researcher Comments:</label>
+                    <textarea
+                      id="researcherDesc" name="researcherDesc" rows={3} className="admin-textarea" onChange={(e) => handleTextareaChange(e.target.value)} />
+                  </div>
+
+
+                </div>
+              </form>
+              <Snackbar
+                open={stateSnackbar.open}
+                onClose={handleCloseSnack}
+                TransitionComponent={stateSnackbar.Transition}
+                key={stateSnackbar.Transition.name}
+                autoHideDuration={1500}
+              >
+                <Alert
+                  onClose={handleClose}
+                  severity="success"
+                  variant="filled"
+                  sx={{ width: '100%', fontSize: '25px' }}
+                >🐠 Dive saved, removed from pending table 🐠</Alert>
+
+              </Snackbar>
             </div>
           </>
         )}
       </DialogContent>
 
       <DialogActions>
-        <Button style={{fontSize:"20px"}} autoFocus onClick={handleSaveChanges}>
+        <Button style={{ fontSize: "20px" }} autoFocus onClick={handleSaveChanges}>
           Save changes
         </Button>
       </DialogActions>
