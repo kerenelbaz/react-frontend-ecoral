@@ -92,8 +92,7 @@ export default function InsertDataView() {
 
         const numericDiveCodes = dives
           .map((dive) => dive.diveCode)
-          .filter((code) => !Number.isNaN(parseInt(code, 10))); // Check if parse-able to integer
-        console.log(numericDiveCodes);
+          .filter((code) => !Number.isNaN(parseInt(code, 10))); 
 
         let newDiveCode;
         if (numericDiveCodes.length === 0) {
@@ -297,9 +296,6 @@ export default function InsertDataView() {
     // Retrieving gender
     const { gender } = user;
 
-    console.log('User Age:', age);
-    console.log('User Gender:', gender);
-
     const entireDivingData = {
       diveCode,
       date: insertData.dateDive,
@@ -458,7 +454,6 @@ export default function InsertDataView() {
             renderInput={(params) => (
               <TextField
                 {...params}
-                // value={insertData.specieName}
                 label="Specie Name"
                 name="specie"
                 autoComplete="specie"
@@ -573,10 +568,7 @@ export default function InsertDataView() {
                 key={index}
                 onClick={() => handleButtonClick(button, 'time')}
                 variant={selectedTime === button ? 'contained' : 'outlined'}
-                // style={{
-                //   backgroundColor: selectedTime === button ? "red" : "transparent",
-                //   color: selectedTime === button ? "#fff" : "#000"
-                // }}
+               
               >
                 {button}
               </Button>
@@ -588,14 +580,10 @@ export default function InsertDataView() {
           <label className="lblButtonsGroup">Dive Rank:</label>
           <Stack spacing={1}>
             <Rating
-              // sx={{ color: 'red' }}
               name="size-large"
               defaultValue={insertData.rank}
               size="large"
-              onChange={handleRankChange} // Attach the event handler here
-              // onChange={(event, newValue) => {
-              //   setInsertData.rank(newValue);
-              // }}
+              onChange={handleRankChange} 
             />
           </Stack>
         </div>
@@ -674,30 +662,6 @@ export default function InsertDataView() {
               )}
             </Stack>
           )}
-          {/* {currentView === 'image' && (
-            <input
-              ref={fileInputRef}
-              type="file"
-              onChange={onSelectFile}
-              id="uploadeImage"
-              name="uploadeImage"
-              required
-            />
-          )}
-
-          {currentView === 'image' && (
-            <div className="image-placeholder">
-              {imagePreview ? (
-                <img src={imagePreview} alt="Preview" />
-              ) : (
-                <div className="placeholder-icon">
-                  <IconButton size="large" onClick={() => fileInputRef.current.click()}>
-                    <AddAPhotoIcon fontSize="inherit" />
-                  </IconButton>
-                </div>
-              )}
-            </div>
-          )} */}
         </div>
         <br />
         <div>

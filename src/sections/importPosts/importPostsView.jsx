@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState  , useEffect} from 'react';
 
 import Box from '@mui/material/Box';
 import Slide from '@mui/material/Slide';
@@ -13,17 +13,60 @@ import GetAppTwoToneIcon from '@mui/icons-material/GetAppTwoTone';
 
 import './importPostsStyle.css';
 
-const Transition = React.forwardRef((props, ref) => (
-  <Slide direction="up" ref={ref} {...props} />
-));
+const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
 export default function ImportPostsView() {
   const [code, setCode] = useState('');
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [postsAboutDiving, setPostsAboutDiving] = useState([]);
   const [postsNumber, setPostsNumber] = useState(0);
   const [divinPostsNumber, setDivinPostsNumber] = useState(0);
   const [errorMessage, setErrorMessage] = useState('');
+
+
+
+
+  useEffect(() => {
+    if (divinPostsNumber > 0) {
+      const sendDivingPostsToServer = async () => {
+        try {
+          const fetchPromises = postsAboutDiving.map(async ( post, index) => {
+            const postToSend={
+              AR: post.AR,
+              date: post.date , 
+              diveSite: post.diveSite , 
+              imageLocation: post.imageLocation , 
+              objectGroup: post.objectGroup , 
+              specie: post.specie , 
+              time: post.time , 
+              linkURL: post.linkURL , 
+              video: post.video , 
+            };
+
+            const divingResponse = await fetch('http://localhost:8000/api/pendings_dives', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(postToSend),
+            });
+            if (!divingResponse.ok) {
+              throw new Error('Failed to send diving post');
+            }
+          });
+          await Promise.all(fetchPromises);
+          setOpen(true);
+        } catch (error) {
+          console.error('Error sending diving posts:', error.message);
+          setErrorMessage(error.message);
+        } finally {
+          setLoading(false);
+        }
+      };
+      sendDivingPostsToServer();
+    }
+  }, [postsAboutDiving , divinPostsNumber ]);
 
   const handleClose = () => {
     setOpen(false);
@@ -42,16 +85,13 @@ export default function ImportPostsView() {
         return;
       }
 
-      const response = await fetch(
-        'http://kirilldevs.pythonanywhere.com/api/html-analyze',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'text/plain',
-          },
-          body: code,
-        }
-      );
+      const response = await fetch('http://kirilldevs.pythonanywhere.com/api/html-analyze', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain',
+        },
+        body: code,
+      });
 
       if (!response.ok) {
         setLoading(false); // Stop showing the loading indicator
@@ -59,14 +99,16 @@ export default function ImportPostsView() {
       }
 
       // If response is OK
-      setOpen(true);
+      // setOpen(true);
       const data = await response.json();
       console.log(data.data);
       setPostsNumber(data.data.length);
-      const postsAboutDiving = data.data.filter(
+      const releventPosts = data.data.filter(
         (post) => !Object.prototype.hasOwnProperty.call(post, 'no data')
       );
-      setDivinPostsNumber(postsAboutDiving.length);
+      console.log(releventPosts);
+      setPostsAboutDiving(releventPosts);
+      setDivinPostsNumber(releventPosts.length);
     } catch (error) {
       console.error('Error importing data:', error.message);
       setErrorMessage(error.message);
@@ -117,8 +159,8 @@ export default function ImportPostsView() {
           <DialogTitle>Data Imported Successfully</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-slide-description">
-              {postsNumber} posts were found, {divinPostsNumber} of them about diving.
-              Currently, they are awaiting admin approval.
+              {postsNumber} posts were found, {divinPostsNumber} of them about diving. Currently,
+              they are awaiting admin approval.
             </DialogContentText>
           </DialogContent>
           <DialogActions>

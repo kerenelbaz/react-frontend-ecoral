@@ -24,6 +24,7 @@ import dataLists from '../../insertData/view/dataLists.json';
 
 
 
+
 const humanWildInterList = ['Between 3 to 10 M', 'Closer than 10 M', 'Forther than 10 M', 'Macro', 'NA'];
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -45,6 +46,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
+
+
 export default function EditData({ open, handleClose, pendingData, onDeleteClick }) {
     // eslint-disable-next-line no-unused-vars
     const [openImageDialog, setOpenImageDialog] = useState(false);
@@ -61,6 +64,46 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
       researcherDesc: '',
       loggedBy: '',
     });
+
+    const [diveCode, setDiveCode] = useState(null);
+
+    
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const response = await fetch(`http://localhost:8000/api/dives`);
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+  
+          const responseData = await response.json();
+          const { dives } = responseData.data;
+          console.log(dives);
+  
+          const numericDiveCodes = dives
+            .map((dive) => dive.diveCode)
+            .filter((code) => !Number.isNaN(parseInt(code, 10))); // Check if parse-able to integer
+          console.log(numericDiveCodes);
+  
+          let newDiveCode;
+          if (numericDiveCodes.length === 0) {
+            newDiveCode = 0;
+          } else {
+            const lastDiveCode = Math.max(...numericDiveCodes);
+            newDiveCode = lastDiveCode + 1;
+          }
+  
+          console.log('New dive code:', newDiveCode);
+          setDiveCode(newDiveCode); // Set the state with the new dive code
+        } catch (error) {
+          console.error('Error fetching documents:', error.message);
+        }
+      };
+  
+      fetchData();
+    }, []); // Empty dependency array to run effect only once on component mount
+  
 
     useEffect(() => {
       // Update formData with all properties from pendingData
@@ -113,10 +156,6 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
     };
     
   
-    // const handleCloseImageDialog = () => {
-    //   setOpenImageDialog(false);
-    // };
-
     const formatDateTime = (dateTimeString) => {
       // Regular expressions to match the expected date formats
        const dateFormatRegex1 = /^\w{3} \w{3} \d{2} \d{4} \d{2}:\d{2}:\d{2} GMT[+-]\d{4} \([\w\s]+\)$/;
@@ -178,13 +217,11 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
     };
 
     const handleSaveChanges = async () => {
-      // Log the formData obje  ct
-      // console.log("editPandingData",editPandingData);
       console.log("formData",formData);
       
 
       const objectDiveToServer = {
-        diveCode: formData.diveCode,
+        diveCode,
         objectCode: formData.objectCode,
         date: formData.dateDive,
         time: formData.timeDive,
@@ -212,7 +249,6 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
         loggingDate: formData.loggingDate,
   
       };
-      console.log(JSON.stringify(objectDiveToServer))
    
       try {
         // Send form data to the server
@@ -230,7 +266,6 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
           
           handleClickSnack()
           handleClose();
-          // deleteeeeeee
           onDeleteClick(formData);
          
         } else {
