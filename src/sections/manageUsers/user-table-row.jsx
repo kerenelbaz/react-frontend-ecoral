@@ -57,7 +57,7 @@ export default function UserTableRow({
 
   const handleDeleteBtn = (emailToDelete) => {
     // Construct the URL with the emailToDelete
-    const url = `https://localhost:7215/api/User/${emailToDelete}`;
+    const url = `https://proj.ruppin.ac.il/cgroup11/test2/tar1/api/User/${emailToDelete}`;
   
     // Perform the fetch request
     fetch(url, {
