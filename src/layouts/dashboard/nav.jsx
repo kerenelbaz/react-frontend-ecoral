@@ -129,8 +129,8 @@ export default function Nav({ openNav, onCloseNav }) {
         },
       }}
     >
-      <Box sx={{ flexGrow: 1 }} />
-    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
+     
+    <Box sx={{  mt: 3, ml:4 }}>
       <Logo />
     </Box>
 

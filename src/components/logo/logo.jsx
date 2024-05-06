@@ -12,11 +12,11 @@ import { RouterLink } from 'src/routes/components';
 const Logo = forwardRef(({ disabledLink = false, sx, ...other }, ref) => {
   const theme = useTheme();
 
-  const PRIMARY_LIGHT = theme.palette.primary.light;
+  // const PRIMARY_LIGHT = theme.palette.primary.light;
 
-  const PRIMARY_MAIN = theme.palette.primary.main;
+  // const PRIMARY_MAIN = theme.palette.primary.main;
 
-  const PRIMARY_DARK = theme.palette.primary.dark;
+  // const PRIMARY_DARK = theme.palette.primary.dark;
 
   // OR using local (public folder)
   // -------------------------------------------------------
@@ -75,7 +75,7 @@ const Logo = forwardRef(({ disabledLink = false, sx, ...other }, ref) => {
           />
         </g>
       </svg> */}
-            <img src="BigLogo2.png" alt="Logo" style={{ width: '100%', height: '100%' }} />
+            <img src="Biglogonotextcircle.png" alt="Logo" style={{ width: '100%', height: '100%' }} />
 
     </Box>
   );

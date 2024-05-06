@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker';
 import { useState, useEffect } from 'react';
 
 import Card from '@mui/material/Card';
@@ -11,8 +12,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 
 // import { users } from 'src/_mock/user';
-import { faker } from '@faker-js/faker';
-import { sample } from 'lodash';
+// import { sample } from 'lodash';
 
 // import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
