@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { element } from 'prop-types';
 
 import Box from '@mui/material/Box';
 import Popper from '@mui/material/Popper';
@@ -10,7 +10,7 @@ import TextField from '@mui/material/TextField';
 import DoneIcon from '@mui/icons-material/Done';
 import CloseIcon from '@mui/icons-material/Close';
 import ButtonBase from '@mui/material/ButtonBase';
-import {styled, useTheme  } from '@mui/material/styles';
+import { styled, useTheme } from '@mui/material/styles';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import Autocomplete, { autocompleteClasses } from '@mui/material/Autocomplete';
@@ -107,44 +107,63 @@ const Button = styled(ButtonBase)(({ theme }) => ({
   },
 }));
 
-export default function GitHubLabel({onTagsChange}) {
+export default function GitHubLabel({ onTagsChange, labels }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [value, setValue] = React.useState([labels[1], labels[11]]);
+  // const [value, setValue] = React.useState([labels[1], labels[11]]);
+  const [value, setValue] = React.useState([]);
   const [pendingValue, setPendingValue] = React.useState([]);
   const [newLabel, setNewLabel] = React.useState({
     name: '',
-    color: `#${Math.random().toString(16).substring(7)}`,
-    // color: `#${getRandomColor()}`,
+    // color: `#${Math.random().toString(16).substring(7)}`,
+    color: getRandomColor(),
     description: '',
   });
   const theme = useTheme();
-
-  //   const getRandomColor = () => {
-  //     const letters = '0123456789ABCDEF'.split('');
-  //     let color = '#';
-  //     for (let i = 0; i < 6; i + 1) {
-  //       color += letters[Math.round(Math.random() * 15)];
-  //     }
-  //     return color;
-  //   };
 
   const handleClick = (event) => {
     setPendingValue(value);
     setAnchorEl(event.currentTarget);
   };
 
+  function getRandomColor() {
+    const red = Math.floor(Math.random() * 256)
+      .toString(16)
+      .padStart(2, '0');
+    const green = Math.floor(Math.random() * 256)
+      .toString(16)
+      .padStart(2, '0');
+    const blue = Math.floor(Math.random() * 256)
+      .toString(16)
+      .padStart(2, '0');
+
+    // Ensure brightness by checking the average light value
+    const brightness = (parseInt(red, 16) + parseInt(green, 16) + parseInt(blue, 16)) / 3;
+
+    return brightness < 128 ? `#${red}${green}${blue}` : getRandomColor();
+  }
+  // useEffect(() => {
+  //   console.log(tags);
+  // }, [tags])
+
   useEffect(() => {
-    onTagsChange(value)
+    onTagsChange(value);
   }, [value, onTagsChange]);
 
   const handleNewLabel = () => {
+    if (
+      value.some((e) => e.name === newLabel.name) ||
+      labels.some((e) => e.name === newLabel.name)
+    ) {
+      return;
+    }
     if (newLabel.name.trim() && newLabel.color.trim()) {
       const updatedLabels = [...labels, newLabel];
       setValue([...value, newLabel]);
       setPendingValue([...pendingValue, newLabel]);
       setNewLabel({
         name: '',
-        color: `#${Math.random().toString(16).substring(7)}`,
+        // color: `#${Math.random().toString(16).substring(7)}`,
+        color: getRandomColor(),
         description: '',
       });
       console.log(newLabel);
@@ -189,7 +208,9 @@ export default function GitHubLabel({onTagsChange}) {
               // justifyContent: 'space-evenly',
             }}
           >
-            <span>Tages <AddCircleOutlineIcon fontSize="large"/></span>
+            <span>
+              Tages <AddCircleOutlineIcon fontSize="large" />
+            </span>
             {/* <AddCircleOutlineIcon fontSize="large"/> */}
           </Button>
         </div>
@@ -199,33 +220,29 @@ export default function GitHubLabel({onTagsChange}) {
             justifyContent: 'space-evenly',
           }}
         >
-          {value.map((label) => (
-            <Box
-              key={label.name}
-              sx={{
-                width: '33%',
-                mt: '3px',
-                height: 20,
-                padding: '.15em 4px',
-                fontWeight: 600,
-                lineHeight: '15px',
-                borderRadius: '2px',
-                cursor: 'pointer',
-              }}
-              style={{
-                backgroundColor: label.color,
-                color: theme.palette.getContrastText(label.color),
-              }}
-              onClick={() => handleRemoveLabel(label)}
-            >
-              {label.name}
-              {/* <CloseIcon
-                fontSize="small"
-                sx={{ cursor: 'pointer' }}
+          {value &&
+            value.map((label) => (
+              <Box
+                key={label.name}
+                sx={{
+                  width: '33%',
+                  mt: '3px',
+                  height: 20,
+                  padding: '.15em 4px',
+                  fontWeight: 600,
+                  lineHeight: '15px',
+                  borderRadius: '2px',
+                  cursor: 'pointer',
+                }}
+                style={{
+                  backgroundColor: label.color,
+                  color: theme.palette.getContrastText(label.color),
+                }}
                 onClick={() => handleRemoveLabel(label)}
-              /> */}
-            </Box>
-          ))}
+              >
+                {label.name}
+              </Box>
+            ))}
         </Box>
       </Box>
       <StyledPopper id={id} open={open} anchorEl={anchorEl} placement="bottom-start">
@@ -359,99 +376,6 @@ export default function GitHubLabel({onTagsChange}) {
 }
 
 GitHubLabel.propTypes = {
+  labels: PropTypes.any,
   onTagsChange: PropTypes.func,
 };
-
-// From https://github.com/abdonrd/github-labels
-const labels = [
-  {
-    name: 'good first issue',
-    color: '#7057ff',
-    description: 'Good for newcomers',
-  },
-  {
-    name: 'help wanted',
-    color: '#008672',
-    description: 'Extra attention is needed',
-  },
-  {
-    name: 'priority: critical',
-    color: '#b60205',
-    description: '',
-  },
-  {
-    name: 'priority: high',
-    color: '#d93f0b',
-    description: '',
-  },
-  {
-    name: 'priority: low',
-    color: '#0e8a16',
-    description: '',
-  },
-  {
-    name: 'priority: medium',
-    color: '#fbca04',
-    description: '',
-  },
-  {
-    name: "status: can't reproduce",
-    color: '#fec1c1',
-    description: '',
-  },
-  {
-    name: 'status: confirmed',
-    color: '#215cea',
-    description: '',
-  },
-  {
-    name: 'status: duplicate',
-    color: '#cfd3d7',
-    description: 'This issue or pull request already exists',
-  },
-  {
-    name: 'status: needs information',
-    color: '#fef2c0',
-    description: '',
-  },
-  {
-    name: 'status: wont do/fix',
-    color: '#eeeeee',
-    description: 'This will not be worked on',
-  },
-  {
-    name: 'type: bug',
-    color: '#d73a4a',
-    description: "Something isn't working",
-  },
-  {
-    name: 'type: discussion',
-    color: '#d4c5f9',
-    description: '',
-  },
-  {
-    name: 'type: documentation',
-    color: '#006b75',
-    description: '',
-  },
-  {
-    name: 'type: enhancement',
-    color: '#84b6eb',
-    description: '',
-  },
-  {
-    name: 'type: epic',
-    color: '#3e4b9e',
-    description: 'A theme of work that contain sub-tasks',
-  },
-  {
-    name: 'type: feature request',
-    color: '#fbca04',
-    description: 'New feature or request',
-  },
-  {
-    name: 'type: question',
-    color: '#d876e3',
-    description: 'Further information is requested',
-  },
-];

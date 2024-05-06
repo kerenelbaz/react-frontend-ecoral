@@ -51,7 +51,7 @@ export default function UserTableToolbar({ numSelected, filterName, onFilterName
       )}
       {/* <PostSort options={classNames} /> */}
 
-      <LocalizationProvider dateAdapter={AdapterDayjs} >
+      {/* <LocalizationProvider dateAdapter={AdapterDayjs} >
         <DemoContainer components={['DatePicker']} >
           <DatePicker label="From..." onChange={onFilterDateFrom} format="DD/MM/YYYY"/>
         </DemoContainer>
@@ -61,15 +61,15 @@ export default function UserTableToolbar({ numSelected, filterName, onFilterName
         <DemoContainer components={['DatePicker']}>
           <DatePicker label="To..." />
         </DemoContainer>
-      </LocalizationProvider>
+      </LocalizationProvider> */}
 
-      <PostSort
+      {/* <PostSort
         options={[
           { value: 'latest', label: 'Latest' },
           { value: 'popular', label: 'Popular' },
           { value: 'oldest', label: 'Oldest' },
         ]}
-      />
+      /> */}
       {numSelected > 0 ? (
         <Tooltip title="Delete">
           <IconButton>
