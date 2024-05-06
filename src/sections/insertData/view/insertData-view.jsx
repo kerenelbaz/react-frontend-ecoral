@@ -23,10 +23,10 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import './styleByMe.css';
-import dataLists from './dataLists.json';
 import CameraCapture from './camera';
+import dataLists from './dataLists.json';
 
-// const serverPath = http://localhost:8000
+const serverPath = `http://localhost:8000`
 
 export default function InsertDataView() {
   const [insertData, setInsertData] = useState({
@@ -78,39 +78,10 @@ export default function InsertDataView() {
   };
 
   useEffect(() => {
-    //   const fetchData = async () => {
-    //     try {
-    //       const response = await fetch('http://localhost:8000/api/pendings_dives');
-    //       if (!response.ok) {
-    //         throw new Error('Network response was not ok');
-    //       }
-
-    //       const responseData = await response.json();
-    //       const { pendingDives } = responseData.data;
-
-    //       const diveCodes = pendingDives.map(pendingDive => pendingDive.diveCode).filter(code => code);
-
-    //       let newDiveCode;
-    //       if (diveCodes.length === 0) {
-    //         newDiveCode = 0;
-    //       } else {
-    //         const lastDiveCode = Math.max(...diveCodes);
-    //         newDiveCode = lastDiveCode + 1;
-    //       }
-
-    //       console.log('New dive code:', newDiveCode);
-    //       setDiveCode(newDiveCode); // Set the state with the new dive code
-
-    //     } catch (error) {
-    //       console.error('Error fetching documents:', error.message);
-    //     }
-    //   };
-
-    //   fetchData();
-    // }, []); // Empty dependency array to run effect only once on component mount
+   
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/dives');
+        const response = await fetch(`${serverPath}/api/dives`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }

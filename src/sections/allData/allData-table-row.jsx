@@ -5,14 +5,15 @@ import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import Popover from '@mui/material/Popover';
 import TableRow from '@mui/material/TableRow';
-import Checkbox from '@mui/material/Checkbox';
-import MenuItem from '@mui/material/MenuItem';
 import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+
+import ImageDialog from './imageDialog';
 
 // import Label from 'src/components/label';
-import Iconify from 'src/components/iconify';
+// import Iconify from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
@@ -20,40 +21,53 @@ export default function AllDataTableRow({
   selected, name, avatarUrl, company, role, isVerified, status, handleClick,
   diveCode, diveDate,time, diveSite, objectGroup, specie, idCode, location, ar, humanWildInter, 
   reportType, typeOfDive, groupCode, media, fileType, reportRecivingDate, InvestDoc, diverAge, diverSex, rank,loggedBy, loggingDate,
-  idSharks, distance, temp,maxDepth, userDesc, researcherDesc ,fileLink,
+  idSharks, distance, temp,maxDepth, userDesc, researcherDesc ,fileLink,onDeleteClicked,
 }) {
   const [open, setOpen] = useState(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
-  const handleOpenMenu = (event) => {
-    setOpen(event.currentTarget);
-  };
 
   const handleCloseMenu = () => {
     setOpen(null);
   };
 
+  const handleDelete = ()=>{
+    onDeleteClicked();
+  }
+
+  const handleAvatarClick = () => {
+    setDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setDialogOpen(false);
+  };
+
+
   return (
     <>
-      <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
-        <TableCell padding="checkbox">
-          <Checkbox disableRipple checked={selected} onChange={handleClick} />
+      <TableRow >
+        <TableCell padding="checkbox" >
+        <IconButton aria-label="delete" size="small" color='error' onClick={handleDelete}>
+          <DeleteIcon />
+          </IconButton>
         </TableCell>
 
-        <TableCell component="th" scope="row" padding="none">
-          <Stack direction="row" alignItems="center" spacing={2}>
-            <Avatar alt={diveCode} src={avatarUrl} />
+        <TableCell component="th" scope="row" padding="3px">
+
+          <Stack direction="row" alignItems="center" spacing={4}>
+            {/* <Avatar alt={diveCode} src={avatarUrl} /> */}
             <Typography variant="subtitle2" noWrap>
               {diveCode}
             </Typography>
           </Stack>
         </TableCell>
-
-        <TableCell>{objectGroup}</TableCell>
-        {/* <TableCell>{diveDate}</TableCell> */}
-
+        <TableCell>{loggingDate}</TableCell>
+        <TableCell>{groupCode}</TableCell>
+        <TableCell>{diveDate}</TableCell>
         <TableCell>{time}</TableCell>
         <TableCell>{diveSite}</TableCell>
-        <TableCell>{groupCode}</TableCell>
+        <TableCell>{objectGroup}</TableCell>
         <TableCell>{specie}</TableCell>
         <TableCell>{idCode}</TableCell>
         <TableCell>{location}</TableCell>
@@ -71,8 +85,13 @@ export default function AllDataTableRow({
         <TableCell>{temp}</TableCell>
         <TableCell>{userDesc}</TableCell>
         <TableCell>{researcherDesc}</TableCell>
-        <TableCell>{fileLink}</TableCell>
         <TableCell>{loggedBy}</TableCell>
+        {/* <TableCell>{fileLink}</TableCell> */}
+        <TableCell>
+          <Stack direction="row" alignItems="center" spacing={4}>
+            <Avatar alt={diveCode} src={fileLink} onClick={handleAvatarClick} sx={{ cursor: 'pointer' }} />
+          </Stack>  
+        </TableCell>
         {/* <TableCell>{loggingDate}</TableCell>
         <TableCell>{reportRecivingDate}</TableCell> */}
         
@@ -82,12 +101,13 @@ export default function AllDataTableRow({
           <Label color={(status === 'banned' && 'error') || 'success'}>{status}</Label>
         </TableCell> */}
 
-        <TableCell align="right">
+        {/* <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>
             <Iconify icon="eva:more-vertical-fill" />
           </IconButton>
-        </TableCell>
+        </TableCell> */}
       </TableRow>
+      <ImageDialog open={dialogOpen} onClose={handleCloseDialog} fileLink={fileLink} />
 
       <Popover
         open={!!open}
@@ -99,7 +119,7 @@ export default function AllDataTableRow({
           sx: { width: 140 },
         }}
       >
-        <MenuItem onClick={handleCloseMenu}>
+        {/* <MenuItem onClick={handleCloseMenu}>
           <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
           Edit
         </MenuItem>
@@ -107,7 +127,7 @@ export default function AllDataTableRow({
         <MenuItem onClick={handleCloseMenu} sx={{ color: 'error.main' }}>
           <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
           Delete
-        </MenuItem>
+        </MenuItem> */}
       </Popover>
     </>
   );
@@ -151,4 +171,5 @@ AllDataTableRow.propTypes = {
   loggedBy:PropTypes.string,
   loggingDate:PropTypes.string,
   time:PropTypes.string,
+  onDeleteClicked:PropTypes.func,
 };

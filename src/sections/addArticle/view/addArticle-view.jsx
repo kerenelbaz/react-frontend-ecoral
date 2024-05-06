@@ -1,12 +1,13 @@
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+
 import Box from '@mui/material/Box';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import Button from '@mui/material/Button';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import SendIcon from '@mui/icons-material/Send';
 import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
+// import IconButton from '@mui/material/IconButton';
 import Autocomplete from '@mui/material/Autocomplete';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -14,11 +15,11 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 // eslint-disable-next-line import/no-extraneous-dependencies
 // import ButtonGroup from '@mui/material/ButtonGroup';
-import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+// import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 // import dataLists from './dataLists.json';
-import './styleByMe.css';
+import './styleByMeArticle.css';
 import GitHubLabel from './GitHubLabel';
-import dataLists from './dataLists.json';
+// import dataLists from './dataLists.json';
 // import { string } from 'prop-types';
 // import PDFViewer from './PDFViewer';
 
@@ -42,6 +43,7 @@ export default function AddArticleView() {
     },
   });
   const [articleCode, setArticleCode] = useState(null);
+  // eslint-disable-next-line no-unused-vars
   const [pdfPreview, setPDFPreview] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [allTags, setAllTags] = useState([{ name: 'temp', color: '#FFFFFF', description: 'temp' }]);
@@ -331,6 +333,7 @@ export default function AddArticleView() {
                 autoComplete="author"
                 className="fieldInput"
                 onBlur={(e) => {
+                  // eslint-disable-next-line prefer-destructuring
                   const value = e.target.value;
                   handleAutocompleteChange('author', value);
                 }}

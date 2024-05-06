@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
-import Button from '@mui/material/Button';
+// import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
@@ -13,18 +13,17 @@ import TablePagination from '@mui/material/TablePagination';
 // import { users } from 'src/_mock/user';
 
 
-import Iconify from 'src/components/iconify';
+// import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 
+// eslint-disable-next-line no-unused-vars, unused-imports/no-unused-imports
+import tableStyle from './tableStyle.css';
 import AllDataTableRow from '../allData-table-row';
 import TableNoData from '../allData-table-no-data';
 import AllDataTableHead from '../allData-table-head';
 import TableEmptyRows from '../allData-table-empty-rows';
-import AllDataTableTollbar from '../allData-table-toolbar';
+// import AllDataTableTollbar from '../allData-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
-
-
-
 // ----------------------------------------------------------------------
 
 
@@ -37,13 +36,13 @@ export default function AllDataView() {
 
   const [orderBy, setOrderBy] = useState('name');
 
-  const [filterName, setFilterName] = useState('');
+  const [filterName] = useState('');
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const [allDataDives, setAllDataDives] = useState([]);
   const [loading, setLoading] = useState(true); // Define loading state
-
+  const [setEditingRow] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,6 +54,9 @@ export default function AllDataView() {
         const responseData = await response.json();
         console.log(responseData.data);
         const { dives } = responseData.data;
+        
+        dives.sort((a, b) => new Date(b.logginDate) - new Date(a.logginDate));
+
         setAllDataDives(dives);
         console.log("inside useEffect the allDataDives is:", allDataDives)
         setLoading(false); // Data fetched successfully
@@ -78,11 +80,29 @@ export default function AllDataView() {
   }
 
 
+  // const handleSort = (event, id) => {
+  //   const isAsc = orderBy === id && order === 'asc';
+  //   if (id !== '') {
+  //     setOrder(isAsc ? 'desc' : 'asc');
+  //     setOrderBy(id);
+  //   }
+  // };
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
     if (id !== '') {
       setOrder(isAsc ? 'desc' : 'asc');
       setOrderBy(id);
+  
+      // Sort the allDataDives array based on the selected column and order
+      const sortedData = allDataDives.slice().sort((a, b) => {
+        if (isAsc) {
+          return a[id] > b[id] ? 1 : -1;
+        } 
+          return a[id] < b[id] ? 1 : -1;
+        
+      });
+  
+      setAllDataDives(sortedData);
     }
   };
 
@@ -122,10 +142,6 @@ export default function AllDataView() {
     setRowsPerPage(parseInt(event.target.value, 10));
   };
 
-  const handleFilterByName = (event) => {
-    setPage(0);
-    setFilterName(event.target.value);
-  };
 
   const dataFiltered = applyFilter({
     inputData: allDataDives,
@@ -135,50 +151,79 @@ export default function AllDataView() {
 
   // eslint-disable-next-line no-unused-vars
   const formatDateTime = (dateTimeString) => {
-    const dateTime = new Date(dateTimeString);
+   // Regular expressions to match the expected date formats
+    const dateFormatRegex1 = /^\w{3} \w{3} \d{2} \d{4} \d{2}:\d{2}:\d{2} GMT[+-]\d{4} \([\w\s]+\)$/;
+    const dateFormatRegex2 = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/;
 
+    if (!dateFormatRegex1.test(dateTimeString) && !dateFormatRegex2.test(dateTimeString)) {
+      return dateTimeString; // Return the original string if the format doesn't match
+    }
+
+
+    const dateTime = new Date(dateTimeString);
+    
     // Format the date
-    const dateFormatter = new Intl.DateTimeFormat('en-US', {
+    const dateFormatter = new Intl.DateTimeFormat('en-GB', {
       year: 'numeric',
-      month: 'short',
+      month: '2-digit',
       day: '2-digit',
     });
     const formattedDate = dateFormatter.format(dateTime);
-
+    
     // Format the time
-    const timeFormatter = new Intl.DateTimeFormat('en-US', {
+    const timeFormatter = new Intl.DateTimeFormat('en-GB', {
       hour: '2-digit',
       minute: '2-digit',
     });
     const formattedTime = timeFormatter.format(dateTime);
-
+    
     // Combine date and time
     return `${formattedDate}, ${formattedTime}`;
   };
 
+  const handleDeleteClick = async (rowClicked) => {
+    console.log(rowClicked)
+    console.log(rowClicked._id);
+    try {
+    
+      const response = await fetch(`http://localhost:8000/api/Dives/${rowClicked._id}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error('Failed to delete row');
+      }
 
+      setAllDataDives(prevData => prevData.filter(row => row._id !== rowClicked._id));
+
+    } catch (error) {
+      console.error('Error deleting row:', error);
+    }
+
+  };
+
+  const handleEditClick = (row) => {
+    setEditingRow(row);
+  };
+  
   const notFound = !dataFiltered.length && !!filterName;
 
   return (
-    <Container>
+    <Container className="custom-container">
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">All Dives Data</Typography>
 
-        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
-          New User
-        </Button>
       </Stack>
 
       <Card>
-        <AllDataTableTollbar
+        {/* <AllDataTableTollbar
           numSelected={selected.length}
           filterName={filterName}
           onFilterName={handleFilterByName}
-        />
+        /> */}
 
         <Scrollbar>
-          <TableContainer sx={{ overflow: 'unset', maxWidth: 2500 }}>
-            <Table sx={{ minWidth: 800, width: '100%' }}>
+          <TableContainer sx={{ overflow: 'unset', maxWiwdth: '2500px' }}>
+            <Table sx={{ minWidth: '2000px', width: '100%' }}>
               <AllDataTableHead
                 order={order}
                 orderBy={orderBy}
@@ -188,11 +233,12 @@ export default function AllDataView() {
                 onSelectAllClick={handleSelectAllClick}
                 headLabel={[
                   { id: 'diveCode', label: 'Dive Code' },
-                  { id: 'objectGroup', label: 'Object Group', align: 'center' },
-                  // { id: 'diveDate', label: 'Dive Date' },
+                  { id: 'loggingDate', label: 'Logging Date' },
+                  { id: 'groupCode', label: 'Group Code' },
+                  { id: 'diveDate', label: 'Dive Date' },
                   { id: 'time', label: 'Time' },
                   { id: 'diveSite', label: 'Dive Site' },
-                  { id: 'groupCode', label: 'Group Code' },
+                  { id: 'objectGroup', label: 'Object Group', align: 'center' },
                   { id: 'specie', label: 'specie' },
                   { id: 'idCode', label: 'ID Code' },
                   { id: 'Location', label: 'location' },
@@ -210,9 +256,8 @@ export default function AllDataView() {
                   { id: 'temp', label: 'Temperature' },
                   { id: 'userDesc', label: 'User Description' },
                   { id: 'researcherDesc', label: 'Researcher Comments' },
+                  { id: 'logged By', label: 'Logged By' },
                   { id: 'fileLink', label: 'Link' },
-                  { id: 'loggedBy', label: 'Logged By' },
-                  // { id: 'loggingDate', label: 'Logging Date' },
                   // { id: 'reportRecivingDate', label: 'Report reciving Date' },
                   { id: '' },
 
@@ -226,35 +271,38 @@ export default function AllDataView() {
                     <AllDataTableRow
                       key={row._id}
                       diveCode={row.diveCode}
-                      objectGroup={row.objectGroup}
-                      // diveDate={formatDateTime(row.diveDate)}
+                      loggingDate={formatDateTime(row.loggingDate)}
+                      groupCode={row.objectCode}
+                      diveDate={row.date}
                       time={row.time}
                       diveSite={row.diveSite}
+                      objectGroup={row.objectGroup}
                       specie={row.specie}
-                      idCode={row.idCode}
-                      location={row.location}
-                      ar={row.ar}
-                      humanWildInter={row.humanWildInter}
+                      idCode={row.idCode_photographerName}
+                      location={row.imageLocation}
+                      ar={row.AR}
+                      humanWildInter={row.humanWildlifeInteraction}
                       reportType={row.reportType}
                       typeOfDive={row.typeOfDive}
-                      rank={row.rank}
+                      rank={row.rankOfDive}
                       media={row.media}
-                      fileType={row.fileType}
-                      diverAge={row.diverAge}
-                      diverSex={row.diverSex}
+                      fileType={row.documentation}
+                      diverAge={row.ageOfDiver}
+                      diverSex={row.sexOfDiver}
                       maxDepth={row.maxDepth}
                       distance={row.distance}
                       temp={row.temp}
-                      userDesc={row.userDesc}
-                      researcherDesc={row.researcherDesc}
-                      fileLink={row.fileLink}
+                      userDesc={row.userDescription}
+                      researcherDesc={row.researcherComment}
                       loggedBy={row.loggedBy}
-                      // loggingDate={formatDateTime(row.loggingDate)}
+                      fileLink={row.linkURL}
                       // reportRecivingDate={formatDateTime(row.reportRecivingDate)}
                       // avatarUrl={row.avatarUrl}
                       // isVerified={row.isVerified}
                       // selected={selected.indexOf(row.name) !== -1}
                       handleClick={(event) => handleClick(event, row.name)}
+                      onDeleteClicked={()=> handleDeleteClick(row)}
+                      onEditClicked={() => handleEditClick(row)}
                     />
                   ))}
 

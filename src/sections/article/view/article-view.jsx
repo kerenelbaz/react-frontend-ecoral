@@ -24,7 +24,6 @@ import TableEmptyRows from '../table-empty-rows';
 import UserTableToolbar from '../user-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
 
-
 // ----------------------------------------------------------------------
 
 export default function ArticleView() {
@@ -44,11 +43,21 @@ export default function ArticleView() {
 
   const [users, setUsersData] = useState([]);
 
-  const [allTags, setTags] = useState([])
+  const [allTags, setTags] = useState([]);
+
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const userString = localStorage.getItem('user');
+        if (userString) {
+          const user = JSON.parse(userString);
+
+          // Check if user is admin with email admin@admin.com
+          setIsAdmin(user?.email === 'admin@admin.com');
+        };
+
         const response = await fetch('http://localhost:8000/api/articles');
         if (!response.ok) {
           throw new Error('Failed to fetch data');
@@ -65,7 +74,7 @@ export default function ArticleView() {
           file: article.file,
           link: article.link,
           tags: article.tags,
-          _id : article._id,
+          _id: article._id,
         }));
         setUsersData(mappedUsers);
       } catch (error) {
@@ -75,18 +84,15 @@ export default function ArticleView() {
     fetchData();
   }, []);
 
-  useEffect (() => {
-    users.map((article) => (
-      article.tags.forEach(tag => {
+  useEffect(() => {
+    users.map((article) =>
+      article.tags.forEach((tag) => {
         if (!allTags.includes(tag.name)) {
-          setTags((prevData) => ([
-            ...prevData,
-            tag.name
-          ]))
+          setTags((prevData) => [...prevData, tag.name]);
         }
       })
-    ))
-  }, [users, allTags])
+    );
+  }, [users, allTags]);
 
   // useEffect(() => {
   //   console.log(users);
@@ -139,15 +145,12 @@ export default function ArticleView() {
       }
 
       // Remove the deleted row from the usersData state variable
-      setUsersData(prevData => prevData.filter(row => row._id !== article._id))
-
+      setUsersData((prevData) => prevData.filter((row) => row._id !== article._id));
     } catch (error) {
       console.error('Error deleting row:', error);
     }
 
-    
-    console.log(users)
-
+    console.log(users);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -213,7 +216,7 @@ export default function ArticleView() {
                   { id: 'doi', label: 'DOI' },
                   { id: 'author', label: 'Author' },
                   { id: 'date', label: 'Date', align: 'center' },
-                  { id: '',  label: 'Tags', align: 'center'},
+                  { id: '', label: 'Tags', align: 'center' },
                   { id: '' },
                 ]}
               />
@@ -234,6 +237,7 @@ export default function ArticleView() {
                       selected={selected.indexOf(row.name) !== -1}
                       handleClick={(event) => handleClick(event, row.name)}
                       handleDelete={(event) => handleDeleteClick(row)}
+                      isAdmin={isAdmin}
                     />
                   ))}
 
