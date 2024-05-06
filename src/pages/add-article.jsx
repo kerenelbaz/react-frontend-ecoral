@@ -8,7 +8,7 @@ export default function AddArticlePage() {
     return (
       <>
         <Helmet>
-          <title> Add Article | Minimal UI </title>
+          <title> Add Article  </title>
         </Helmet>
   
         <AddArticle />
