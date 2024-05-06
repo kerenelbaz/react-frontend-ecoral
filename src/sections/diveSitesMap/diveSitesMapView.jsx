@@ -77,7 +77,7 @@ export default function DiveSitesMapView(props) {
   const diveSiteTypes = [...new Set(diveSites.map(site => site.type))];
 
   return (
-    <div>
+    <div className='diveDiteMapContainer'>
       <h1>Dive Sites map</h1>
       <br />
 
