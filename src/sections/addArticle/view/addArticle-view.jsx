@@ -15,7 +15,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 // eslint-disable-next-line import/no-extraneous-dependencies
 // import ButtonGroup from '@mui/material/ButtonGroup';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
-import dataLists from './dataLists.json';
+// import dataLists from './dataLists.json';
 import './styleByMe.css';
 import GitHubLabel from './GitHubLabel';
 import dataLists from './dataLists.json';
