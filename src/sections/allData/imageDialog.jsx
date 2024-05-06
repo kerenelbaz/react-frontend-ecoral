@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 
-
 // eslint-disable-next-line arrow-body-style
 export default function ImageDialog ({ open, onClose, fileLink }) {
 
