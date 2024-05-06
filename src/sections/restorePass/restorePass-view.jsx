@@ -15,7 +15,6 @@ import { alpha, useTheme } from '@mui/material/styles';
 import InputAdornment from '@mui/material/InputAdornment';
 
 import { useRouter } from 'src/routes/hooks';
-import { RouterLink } from 'src/routes/components';
 
 import { bgGradient } from 'src/theme/css';
 
@@ -25,7 +24,7 @@ import Iconify from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
-export default function RestorePassView(email) {
+export default function RestorePassView({email}) {
   const theme = useTheme();
 
   const router = useRouter();
@@ -44,7 +43,10 @@ export default function RestorePassView(email) {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Perform validation
-    let isValid = true;
+    const isValid = true;
+    
+
+    console.log(email);
 
     // Password validation
     if (!insertData.pass.trim()) {
@@ -57,16 +59,15 @@ export default function RestorePassView(email) {
         },
       }));
       return;
-    } else {
-      setInsertData((prevFormData) => ({
-        ...prevFormData,
-        errors: {
-          ...prevFormData.errors,
-          pass: '',
-          passAgain: '',
-        },
-      }));
     }
+    setInsertData((prevFormData) => ({
+      ...prevFormData,
+      errors: {
+        ...prevFormData.errors,
+        pass: '',
+        passAgain: '',
+      },
+    }));
 
     if (insertData.pass !== insertData.passAgain) {
       setInsertData((prevFormData) => ({
@@ -80,11 +81,9 @@ export default function RestorePassView(email) {
       return;
     }
 
-    console.log(email.email);
-
     // // Submit the form if valid
     if (isValid) {
-      fetch(`https://proj.ruppin.ac.il/cgroup11/test2/tar1/api/User/${email.email}`, {
+      fetch(`https://proj.ruppin.ac.il/cgroup11/test2/tar1/api/User/${email}`, {
         method: 'PUT',
         body: JSON.stringify(insertData.pass), // Sending password as JSON object
         headers: {
@@ -95,10 +94,11 @@ export default function RestorePassView(email) {
           if (!res.ok) {
             throw new Error('Network response was not ok');
           }
+          window.location.href = '/';
           return res.json();
         })
         .then((result) => {
-          router.push('/');
+          window.location.href = '/';
         })
         .catch((error) => {
           // console.error('Error during login fetch:', error);
@@ -128,7 +128,7 @@ export default function RestorePassView(email) {
               pass: e.target.value,
               errors: {
                 pass: '',
-                passAgain: ''
+                passAgain: '',
               },
             }))
           }
@@ -155,7 +155,7 @@ export default function RestorePassView(email) {
               passAgain: e.target.value,
               errors: {
                 pass: '',
-                passAgain: ''
+                passAgain: '',
               },
             }))
           }

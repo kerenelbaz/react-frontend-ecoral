@@ -8,13 +8,10 @@ import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { alpha, useTheme } from '@mui/material/styles';
-import InputAdornment from '@mui/material/InputAdornment';
 
 import { useRouter } from 'src/routes/hooks';
-import { RouterLink } from 'src/routes/components';
 
 import { bgGradient } from 'src/theme/css';
 import emailjs from '@emailjs/browser';
@@ -45,9 +42,9 @@ export default function ForgotPassEmailView() {
     })
       .then(res => res.json())
       .then((result) => {
-        console.log(`/restore-pass/${email}`);
         if (result.email && result.email === email) {
-          // emailjs.sendForm('service_nl3uy7m', 'template_kaxaqke', e.target, 'HuHxQVmUk_UHuY6V9')
+          emailjs.sendForm('service_nl3uy7m', 'template_kaxaqke', e.target, 'HuHxQVmUk_UHuY6V9')
+          window.location.href = '/';
         } else {
           console.log("wrong email");
         }
