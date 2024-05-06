@@ -19,8 +19,12 @@ export default function AllDataTableHead({
   numSelected,
   onRequestSort,
   onSelectAllClick,
+  // onRequestSort,
 }) {
   const onSort = (property) => (event) => {
+    onRequestSort(event, property);
+  };
+  const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
 
@@ -28,11 +32,11 @@ export default function AllDataTableHead({
     <TableHead>
       <TableRow>
         <TableCell padding="checkbox">
-          <Checkbox
+          {/* "<Checkbox
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
-          />
+          />" */}
         </TableCell>
 
         {headLabel.map((headCell) => (
@@ -46,7 +50,8 @@ export default function AllDataTableHead({
               hideSortIcon
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={onSort(headCell.id)}
+              // onClick={onSort(headCell.id)}
+              onClick={createSortHandler(headCell.id)}
             >
               {headCell.label}
               {orderBy === headCell.id ? (
@@ -70,4 +75,5 @@ AllDataTableHead.propTypes = {
   numSelected: PropTypes.number,
   onRequestSort: PropTypes.func,
   onSelectAllClick: PropTypes.func,
+  // onRequestSort: PropTypes.func,
 };

@@ -39,6 +39,7 @@
         setOrderBy(id);
       }
     };
+    
 
     useEffect(() => {
       const fetchData = async () => {
@@ -74,15 +75,15 @@
       const dateTime = new Date(dateTimeString);
       
       // Format the date
-      const dateFormatter = new Intl.DateTimeFormat('en-US', {
+      const dateFormatter = new Intl.DateTimeFormat('en-GB', {
         year: 'numeric',
-        month: 'short',
+        month: '2-digit',
         day: '2-digit',
       });
       const formattedDate = dateFormatter.format(dateTime);
       
       // Format the time
-      const timeFormatter = new Intl.DateTimeFormat('en-US', {
+      const timeFormatter = new Intl.DateTimeFormat('en-GB', {
         hour: '2-digit',
         minute: '2-digit',
       });
@@ -127,7 +128,7 @@
         // Remove the object if found
         if (index !== -1) {
           usersData.splice(index, 1);
-}
+        }
         // You might want to reload the data or remove the row from the state directly
       } catch (error) {
         console.error('Error deleting row:', error);
