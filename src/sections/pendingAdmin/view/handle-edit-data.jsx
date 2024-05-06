@@ -138,36 +138,27 @@ export default function EditData({ open, handleClose, pendingData }) {
     // };
 
     const formatDateTime = (dateTimeString) => {
-      // Regular expressions to match the expected date formats
-       const dateFormatRegex1 = /^\w{3} \w{3} \d{2} \d{4} \d{2}:\d{2}:\d{2} GMT[+-]\d{4} \([\w\s]+\)$/;
-       const dateFormatRegex2 = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/;
-   
-       if (!dateFormatRegex1.test(dateTimeString) && !dateFormatRegex2.test(dateTimeString)) {
-         return dateTimeString; // Return the original string if the format doesn't match
-       }
-   
-   
-       const dateTime = new Date(dateTimeString);
-       
-       // Format the date
-       const dateFormatter = new Intl.DateTimeFormat('en-GB', {
-         year: 'numeric',
-         month: '2-digit',
-         day: '2-digit',
-       });
-       const formattedDate = dateFormatter.format(dateTime);
-       
-       // Format the time
-       const timeFormatter = new Intl.DateTimeFormat('en-GB', {
-         hour: '2-digit',
-         minute: '2-digit',
-       });
-       const formattedTime = timeFormatter.format(dateTime);
-       
-       // Combine date and time
-       return `${formattedDate}, ${formattedTime}`;
-     };
-     
+      const dateTime = new Date(dateTimeString);
+      
+      // Format the date
+      const dateFormatter = new Intl.DateTimeFormat('en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      });
+      const formattedDate = dateFormatter.format(dateTime);
+      
+      // Format the time
+      const timeFormatter = new Intl.DateTimeFormat('en-GB', {
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+      const formattedTime = timeFormatter.format(dateTime);
+      
+      // Combine date and time
+      return `${formattedDate}, ${formattedTime}`;
+    };
+
     const handleTextareaChange = (value) => {
       // Update the state with the value of the textarea
       setFormData(prevData => ({
