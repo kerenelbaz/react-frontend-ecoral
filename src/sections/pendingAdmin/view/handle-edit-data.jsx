@@ -111,11 +111,6 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
         [name]: value,
       }));
     };
-    
-  
-    // const handleCloseImageDialog = () => {
-    //   setOpenImageDialog(false);
-    // };
 
     const formatDateTime = (dateTimeString) => {
       // Regular expressions to match the expected date formats
@@ -178,11 +173,6 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
     };
 
     const handleSaveChanges = async () => {
-      // Log the formData obje  ct
-      // console.log("editPandingData",editPandingData);
-      console.log("before changes",formData);
-      console.log('diveSiute', formData.diveSite);
-      
 
       const objectDiveToServer = {
         diveCode: formData.diveCode,
@@ -231,7 +221,6 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
           console.log('Data saved successfully');
           
           handleClickSnack()
-          console.log(formData)
           onDeleteClick(formData);
           handleClose();
 
@@ -537,10 +526,7 @@ x
                         value={formData.idCode}
                       />
                       
-                      
-                      {/* this isnt dropdown its textbox - change the name to Object Code */}
                       <TextField
-                        // value={insertData.specieName}
                         label="Object Code"
                         name="objectCode"
                         autoComplete='objectCode'
@@ -548,8 +534,6 @@ x
                         onChange={handleFormInputChange}
                         value={formData.objectCode}
                       />
-
-                      
 
                     </div>
                       
