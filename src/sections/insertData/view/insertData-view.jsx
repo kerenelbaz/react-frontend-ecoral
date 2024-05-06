@@ -671,7 +671,7 @@ export default function InsertDataView() {
             {currentView === 'image'
               ? 'Switch to Camera'
               : currentView === 'camera'
-                ? 'Back to Filess'
+                ? 'Back to Files'
                 : 'Add Image'}
           </Button>
 
