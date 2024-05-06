@@ -8,7 +8,7 @@ export default function InsertDataPage() {
     return (
       <>
         <Helmet>
-          <title> Insert Data | Minimal UI </title>
+          <title> Insert Data  </title>
         </Helmet>
   
         <InsertDataView />

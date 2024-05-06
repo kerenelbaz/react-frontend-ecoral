@@ -125,10 +125,14 @@ export default function Nav({ openNav, onCloseNav }) {
           height: 1,
           display: 'flex',
           flexDirection: 'column',
+          
         },
       }}
     >
-      <Logo sx={{ mt: 3, ml: 4 }} />
+      <Box sx={{ flexGrow: 1 }} />
+    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
+      <Logo />
+    </Box>
 
       {renderAccount}
 

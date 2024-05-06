@@ -57,6 +57,7 @@ export default function InsertDataView() {
       temp: false,
       uploadeImage: false,
     }
+
   });
 
   const [diveCode, setDiveCode] = useState(null);
@@ -346,7 +347,8 @@ export default function InsertDataView() {
       temp: insertData.temp,
       age,
       gender,
-
+      media:"Website",
+      documentation:"P",
     };
 
     // Check if the Date Of Dive field is empty
@@ -645,7 +647,7 @@ export default function InsertDataView() {
             <Rating
               // sx={{ color: 'red' }}
               name="size-large"
-              defaultValue={2}
+              defaultValue={insertData.rank}
               size="large"
               onChange={handleRankChange} // Attach the event handler here
             // onChange={(event, newValue) => {

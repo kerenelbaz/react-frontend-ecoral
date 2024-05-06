@@ -3,14 +3,23 @@ import 'leaflet/dist/leaflet.css';
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import { Popup, useMap, Marker, TileLayer, MapContainer } from 'react-leaflet';
+
+import Box from '@mui/material/Box';
+import Tab from '@mui/material/Tab';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
 import Select from '@mui/material/Select';
+import TabContext from '@mui/lab/TabContext';
+import MenuItem from '@mui/material/MenuItem'
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import './diveSitesMapStyle.css';
 import markerIcon from './markerIcon.png';
 import youAreHereIcon from './youAreHereIcon.png';
 
-export default function DiveSitesMapView() {
+
+
+export default function DiveSitesMapView(props) {
   const [position, setPosition] = useState([0, 0]);
   const [selectedSite, setSelectedSite] = useState({
     name: '',
@@ -45,7 +54,8 @@ export default function DiveSitesMapView() {
     }
     fetchDiveSitesFromServer();
   }, []);
-
+  
+ 
   const fetchDiveSitesFromServer = async () => {
     try {
       const response = await fetch('http://localhost:8000/api/dive_sites_map');
@@ -60,17 +70,26 @@ export default function DiveSitesMapView() {
     }
   };
 
-  const handleChange = (event) => {
-    const selectedOption = event.target.value;
-    const selectedDiveSite = diveSites.find((site) => site.name === selectedOption);
-    setSelectedSite(selectedDiveSite || { name: '', latitude: 0, longitude: 0, description: '' });
+  // const handleChange = (event) => {
+  //   const selectedOption = event.target.value;
+  //   const selectedDiveSite = diveSites.find((site) => site.name === selectedOption);
+  //   setSelectedSite(selectedDiveSite || { name: '', latitude: 0, longitude: 0, description: '' });
+  // };
+
+  const [valueTab, setValueTab] = React.useState('1');
+
+  const handleTabChange = (event, newValue) => {
+    setValueTab(newValue);
   };
+  const diveSiteTypes = [...new Set(diveSites.map(site => site.type))];
 
   return (
     <div>
       <h1>Dive Sites map</h1>
-      <FormControl sx={{ m: 1, minWidth: 120, width: '17%' }}>
-        <InputLabel htmlFor="grouped-native-select">Search By</InputLabel>
+      <br />
+
+      <FormControl sx={{ m: 1, minWidth: 120, width: '50' }}>
+        {/* <InputLabel htmlFor="grouped-native-select">Search By</InputLabel>
         <Select
           native
           defaultValue=""
@@ -106,20 +125,63 @@ export default function DiveSitesMapView() {
                 </option>
               ))}
           </optgroup>
-        </Select>
+        </Select> */}
+
+        <Box sx={{ width: '100%', typography: 'body1' }}>
+  <TabContext value={valueTab}>
+    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+      <TabList onChange={handleTabChange} aria-label="lab API tabs example">
+        {diveSiteTypes.map(type => (
+          <Tab key={type} label={type} value={type} />
+        ))}
+      </TabList>
+    </Box>
+    {diveSiteTypes.map(type => (
+      <TabPanel key={type} value={type}>
+        <FormControl fullWidth>
+          <InputLabel
+            htmlFor={`select-${type}`}
+            sx={{
+              position: 'absolute',
+              top: '1px', 
+              left: '1px', 
+              backgroundColor: '#f9fafb', 
+              padding: '0 5px', 
+              zIndex: 1, 
+            }}
+          >{`Select ${type}`}</InputLabel>
+          <Select
+            value={selectedSite.name}
+            onChange={event => {
+              const selectedOption = event.target.value;
+              const selectedDiveSite = diveSites.find(site => site.name === selectedOption);
+              setSelectedSite(selectedDiveSite || { name: '', latitude: 0, longitude: 0, description: '' });
+            }}
+            inputProps={{
+              name: `select-${type}`,
+              id: `select-${type}`,
+            }}
+          >
+            {diveSites
+              .filter(site => site.type === type)
+              .map(site => (
+                <MenuItem key={site.name} value={site.name}>
+                  {site.name}
+                </MenuItem>
+              ))}
+          </Select>
+        </FormControl>
+      </TabPanel>
+    ))}
+  </TabContext>
+</Box>
+
+
       </FormControl>
-      <div
-        style={{
-          display: 'flex',
-          width: '100%',
-          marginTop: '20px',
-          borderRadius: '20px',
-          border: '1px solid #cccccc4f',
-        }}
-      >
-        <div style={{ flex: '70%', borderRadius: '10px' }}>
-          <div id="map" style={{ height: '500px', width: '100%', borderRadius: '20px' }}>
-            <MapContainer center={position} style={{ height: '100%', width: '100%' }}>
+      <div style={{ display: 'flex', width: '100%', marginTop: '20px', borderRadius: '20px', border: '1px solid #cccccc4f', backgroundColor:'white'}}>
+        <div style={{ flex: '70%' ,  borderRadius: '10px'}}>
+          <div id="map" style={{ height: '500px', width: '100%' ,  borderRadius: '20px'}}>
+            <MapContainer center={position} style={{ height: '100%', width: '100%'}}>
               <ChangeView
                 center={
                   selectedSite.latitude !== 0

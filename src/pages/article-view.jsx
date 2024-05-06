@@ -8,7 +8,7 @@ export default function ArticleViewPage() {
     return (
       <>
         <Helmet>
-          <title> Article View | Minimal UI </title>
+          <title> Article View  </title>
         </Helmet>
   
         <ArticleView />
