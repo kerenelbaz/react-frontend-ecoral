@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useState, useEffect } from 'react';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -9,18 +9,19 @@ import TableRow from '@mui/material/TableRow';
 // import Checkbox from '@mui/material/Checkbox';
 import MenuItem from '@mui/material/MenuItem';
 import TableCell from '@mui/material/TableCell';
+import LinkIcon from '@mui/icons-material/Link';
+import {  useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import { styled, useTheme } from '@mui/material/styles';
+// import { styled, useTheme } from '@mui/material/styles';
+import DownloadIcon from '@mui/icons-material/Download';
 
 import Iconify from 'src/components/iconify';
-import { isOverflown } from '@mui/x-data-grid/utils/domUtils';
-import DownloadIcon from '@mui/icons-material/Download';
-import LinkIcon from '@mui/icons-material/Link';
+// import { isOverflown } from '@mui/x-data-grid/utils/domUtils';
 
 // ----------------------------------------------------------------------
 
-export default function UserTableRow({ key,data, selected, handleClick }) {
+export default function UserTableRow({ key,data, selected, handleClick, handleDelete }) {
   const [open, setOpen] = useState(null);
   const [formattedDate, setDateFormat] = useState(null);
   const theme = useTheme();
@@ -47,6 +48,7 @@ export default function UserTableRow({ key,data, selected, handleClick }) {
     setOpen(null);
   };
 
+
   const handleDownloadFile = () => {
     const link = document.createElement('a');
     link.href = data.file;
@@ -59,6 +61,11 @@ export default function UserTableRow({ key,data, selected, handleClick }) {
     link.href = data.link;
     link.click();
   };
+
+  const handleDeleteRow = () => {
+    handleDelete(data._id)
+    handleCloseMenu()
+  }
 
   return (
     <>
@@ -77,7 +84,7 @@ export default function UserTableRow({ key,data, selected, handleClick }) {
         <TableCell component="th" scope="row" padding="none" onClick={handleClick}>
           <Stack direction="row" alignItems="center" spacing={2}>
             {/* <Avatar alt={name} src={avatarUrl} /> */}
-            <Typography variant="subtitle2" noWrap>
+            <Typography variant="subtitle2" noWrap sx={{maxWidth: '150px', overflow: 'ellipsis'}}>
               {data.name}
             </Typography>
           </Stack>
@@ -86,13 +93,13 @@ export default function UserTableRow({ key,data, selected, handleClick }) {
         <TableCell onClick={handleClick}>{data.doi}</TableCell>
         <TableCell onClick={handleClick}>{data.author}</TableCell>
         <TableCell onClick={handleClick}>{formattedDate}</TableCell>
-        <TableCell onClick={handleClick} sx={{ display: 'flex', padding: '16px' }}>
+        <TableCell onClick={handleClick} sx={{ display: 'flex', maxWidth: '400px', padding: '16px', overflow: 'auto' }}>
           {data.tags.map((tag) => (
             <Box
               key={tag.name}
               sx={{
                 height: '36px',
-                width: '100%',
+                width: '100px',
                 margin: '0px 5px',
                 padding: '.15em 4px',
                 fontWeight: 600,
@@ -144,12 +151,12 @@ export default function UserTableRow({ key,data, selected, handleClick }) {
           Link
         </MenuItem>
 
-        <MenuItem onClick={handleCloseMenu}>
+        {/* <MenuItem onClick={handleCloseMenu}>
           <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
           Edit
-        </MenuItem>
+        </MenuItem> */}
 
-        <MenuItem onClick={handleCloseMenu} sx={{ color: 'error.main' }}>
+        <MenuItem onClick={handleDeleteRow} sx={{ color: 'error.main' }}>
           <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
           Delete
         </MenuItem>
@@ -162,5 +169,6 @@ UserTableRow.propTypes = {
   key: PropTypes.number,
   data: PropTypes.any,
   handleClick: PropTypes.func,
+  handleDelete: PropTypes.func,
   selected: PropTypes.any,
 };

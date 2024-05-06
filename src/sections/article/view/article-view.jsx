@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker';
 import { useState, useEffect } from 'react';
 
 import Card from '@mui/material/Card';
@@ -11,8 +12,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 
 // import { users } from 'src/_mock/user';
-import { faker } from '@faker-js/faker';
-import { sample } from 'lodash';
+// import { sample } from 'lodash';
 
 // import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
@@ -65,6 +65,7 @@ export default function ArticleView() {
           file: article.file,
           link: article.link,
           tags: article.tags,
+          _id : article._id,
         }));
         setUsersData(mappedUsers);
       } catch (error) {
@@ -124,6 +125,29 @@ export default function ArticleView() {
       );
     }
     setSelected(newSelected);
+  };
+
+  const handleDeleteClick = async (article) => {
+    console.log(article._id);
+    try {
+      // Make a request to your server to delete the row
+      const response = await fetch(`http://localhost:8000/api/articles/${article._id}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error('Failed to delete row');
+      }
+
+      // Remove the deleted row from the usersData state variable
+      setUsersData(prevData => prevData.filter(row => row._id !== article._id))
+
+    } catch (error) {
+      console.error('Error deleting row:', error);
+    }
+
+    
+    console.log(users)
+
   };
 
   const handleChangePage = (event, newPage) => {
@@ -209,6 +233,7 @@ export default function ArticleView() {
                       data={row}
                       selected={selected.indexOf(row.name) !== -1}
                       handleClick={(event) => handleClick(event, row.name)}
+                      handleDelete={(event) => handleDeleteClick(row)}
                     />
                   ))}
 

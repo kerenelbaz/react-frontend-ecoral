@@ -1,36 +1,76 @@
 import React, { useState } from 'react';
+
 import Button from '@mui/material/Button';
 import GetAppTwoToneIcon from '@mui/icons-material/GetAppTwoTone';
-
+import Box from '@mui/material/Box';
+import LinearProgress from '@mui/material/LinearProgress';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
 import './importPostsStyle.css';
+
+const Transition = React.forwardRef((props, ref) => (
+  <Slide direction="up" ref={ref} {...props} />
+));
 
 export default function ImportPostsView() {
   const [code, setCode] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [postsNumber, setPostsNumber] = useState(0);
+  const [divinPostsNumber, setDivinPostsNumber] = useState(0);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleClose = () => {
+    setOpen(false);
+    setCode('');
+  };
 
   const handleImport = async (event) => {
     event.preventDefault();
+    setLoading(true); // Start showing the loading indicator
+    setErrorMessage('');
 
     try {
-      const response = await fetch('http://kirilldevs.pythonanywhere.com/api/html-analyze', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'text/plain',
-        },
-        body: code,
-      });
+      // checking if the required field is not empty
+      if (!code) {
+        setLoading(false); // Stop showing the loading indicator
+        return;
+      }
+
+      const response = await fetch(
+        'http://kirilldevs.pythonanywhere.com/api/html-analyze',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'text/plain',
+          },
+          body: code,
+        }
+      );
 
       if (!response.ok) {
-        console.log(response);
+        setLoading(false); // Stop showing the loading indicator
         throw new Error('Failed to import data'); // Handle server errors
       }
 
-      // If response is OK, do something, like showing a success message
-      console.log('Data imported successfully');
+      // If response is OK
+      setOpen(true);
       const data = await response.json();
       console.log(data.data);
+      setPostsNumber(data.data.length);
+      const postsAboutDiving = data.data.filter(
+        (post) => !Object.prototype.hasOwnProperty.call(post, 'no data')
+      );
+      setDivinPostsNumber(postsAboutDiving.length);
     } catch (error) {
       console.error('Error importing data:', error.message);
-      // Handle errors, like showing an error message to the user
+      setErrorMessage(error.message);
+    } finally {
+      setLoading(false); // Stop showing the loading indicator after response is received
     }
   };
 
@@ -39,24 +79,53 @@ export default function ImportPostsView() {
   };
 
   return (
-    <div className="container1">
+    <div className="importContainer">
       <h1>Import Data From Social Media Posts</h1>
       <br />
 
       <form onSubmit={handleImport}>
-        {' '}
-        {/* Call handleImport function when the form is submitted */}
         <div>
           <p className="p">Paste HTML Code:</p>
-          <textarea className="codeField" value={code} onChange={handleChange} />{' '}
-          {/* Bind value and onChange */}
+          <textarea className="codeField" value={code} onChange={handleChange} />
         </div>
+        {loading && ( // Show the progress indicator only when loading is true
+          <Box sx={{ width: '100%', marginTop: '10px' }}>
+            <LinearProgress />
+          </Box>
+        )}
+        <br />
+        {errorMessage && <p className="errorMessage">{errorMessage}</p>}
         <div className="importButton">
-          <Button size="large" type="submit" variant="outlined" endIcon={<GetAppTwoToneIcon />}>
+          <Button
+            size="large"
+            type="submit"
+            variant="outlined"
+            endIcon={<GetAppTwoToneIcon />}
+            disabled={loading} // Disable the button while loading
+          >
             import
           </Button>
         </div>
-        <br />
+        <Dialog
+          open={open}
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={handleClose}
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogTitle>Data Imported Successfully</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+              {postsNumber} posts were found, {divinPostsNumber} of them about diving.
+              Currently, they are awaiting admin approval.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              OK
+            </Button>
+          </DialogActions>
+        </Dialog>
       </form>
     </div>
   );

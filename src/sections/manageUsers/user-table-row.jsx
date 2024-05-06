@@ -1,17 +1,18 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+
+import Button from '@mui/material/Button'; 
 import Dialog from '@mui/material/Dialog';
+import Popover from '@mui/material/Popover';
+import TableRow from '@mui/material/TableRow';
+import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
- import Button from '@mui/material/Button'; 
-import Popover from '@mui/material/Popover';
-import TableRow from '@mui/material/TableRow';
 // import MenuItem from '@mui/material/MenuItem';
 // import Checkbox from '@mui/material/Checkbox';
-import EditIcon from '@mui/icons-material/Edit';
+// import EditIcon from '@mui/icons-material/Edit';
 import TableCell from '@mui/material/TableCell';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -56,7 +57,7 @@ export default function UserTableRow({
 
   const handleDeleteBtn = (emailToDelete) => {
     // Construct the URL with the emailToDelete
-    const url = `https://localhost:7215/api/User/${emailToDelete}`;
+    const url = `https://proj.ruppin.ac.il/cgroup11/test2/tar1/api/User/${emailToDelete}`;
   
     // Perform the fetch request
     fetch(url, {

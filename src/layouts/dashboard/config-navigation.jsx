@@ -32,36 +32,36 @@ export const baseNavConfig = [
 
 export const fullNavConfig = [
   ...baseNavConfig,
-  {
-    title: 'Product',
-    path: '/products',
-    icon: icon('ic_cart'),
-  },
-  {
-    title: 'blog',
-    path: '/blog',
-    icon: icon('ic_blog'),
-  },
+  // {
+  //   title: 'Product',
+  //   path: '/products',
+  //   icon: icon('ic_cart'),
+  // },
+  // {
+  //   title: 'blog',
+  //   path: '/blog',
+  //   icon: icon('ic_blog'),
+  // },
   {
     title: 'Insert Data',
     path: '/insert-data',
     icon: icon('ic_addData'),
   },
-  {
-    title: 'Login',
-    path: '/login',
-    icon: icon('ic_lock'),
-  },
-  {
-    title: 'Register',
-    path: '/register',
-    icon: icon('register'),
-  },
-  {
-    title: 'Not found',
-    path: '/404',
-    icon: icon('ic_disabled'),
-  },
+  // {
+  //   title: 'Login',
+  //   path: '/login',
+  //   icon: icon('ic_lock'),
+  // },
+  // {
+  //   title: 'Register',
+  //   path: '/register',
+  //   icon: icon('register'),
+  // },
+  // {
+  //   title: 'Not found',
+  //   path: '/404',
+  //   icon: icon('ic_disabled'),
+  // },
   {
     title: 'Pending Dives',
     path: '/pending-dives',

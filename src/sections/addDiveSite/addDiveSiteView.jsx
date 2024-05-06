@@ -1,10 +1,12 @@
 import { useState } from 'react';
+
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import AddLocationTwoToneIcon from '@mui/icons-material/AddLocationTwoTone';
+
 import './addDiveSiteStyle.css';
 
 export default function AddDiveSiteView() {
@@ -48,6 +50,11 @@ export default function AddDiveSiteView() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    // Checking if any of the required fields are empty
+    if (!selectedType || !name || !latitude || !longitude || !description) {
+      return;
+    }
     const newDiveSite = {
       type: selectedType,
       name,
@@ -72,11 +79,12 @@ export default function AddDiveSiteView() {
 
         setTimeout(() => {
           setOpenSnackbar(false);
+          setSelectedType(null);
           setName('');
           setLatitude('');
           setLongitude('');
           setDescription('');
-        }, 2500);
+        }, 2700);
 
         return response.json();
       })
@@ -90,72 +98,86 @@ export default function AddDiveSiteView() {
 
   return (
     <div className="container2">
-  <h1>Add Dive Site To Map</h1>
-  <br />
-  <form onSubmit={handleSubmit} className="formContainer">
-    <div className="ButtonGroup">
-      <p className='p'>Type:</p>
-      <ButtonGroup className='ButtonGroup' size="medium" color='inherit' aria-label="Large button group">
-        {['Dive site', 'Animal', 'Plant'].map((type, index) => (
-          <Button
-            key={index}
-            onClick={() => handleButtonClick(type)}
-            variant={selectedType === type ? 'contained' : 'outlined'}
+      <h1>Add Dive Site To Map</h1>
+      <br />
+      <form onSubmit={handleSubmit}>
+        <div className='type'>
+          <p className='p'>Type:</p>
+          <ButtonGroup className= 'ButtonGroupType' size="medium" color="inherit" aria-label="Medium-sized button group">
+            {['Dive site', 'Animal', 'Plant'].map((type, index) => (
+              <Button
+                key={index}
+                onClick={() => handleButtonClick(type)}
+                variant={selectedType === type ? 'contained' : 'outlined'}
+              >
+                {type}
+              </Button>
+            ))}
+          </ButtonGroup>
+        </div>
+        <br />
+        <TextField
+          label="Name"
+          type="text"
+          id="Name"
+          name="Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="TextField"
+        />
+        <TextField
+          label="Latitude"
+          type="text"
+          id="latitude"
+          name="latitude"
+          value={latitude}
+          onChange={handleLatitudeChange}
+          className="TextField"
+        />
+        <TextField
+          label="Longitude"
+          type="text"
+          id="Longitude"
+          name="Longitude"
+          value={longitude}
+          onChange={handleLongitudeChange}
+          className="TextField"
+        />
+        <div>
+          <p className='p'>Site Description:</p>
+          <textarea
+            className="siteDescription"
+            value={description}
+            onChange={handleDescriptionChange}
+          />
+        </div>
+        <Snackbar
+          open={openSnackbar}
+          autoHideDuration={2700}
+          onClose={handleCloseSnackbar}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        >
+          <Alert
+            className="Alert"
+            onClose={handleCloseSnackbar}
+            severity="success"
+            sx={{ width: '100%' }}
           >
-            {type}
+            Dive Site Added!
+          </Alert>
+        </Snackbar>
+        <div className="addSiteButton">
+          <Button
+            size="large"
+            type="submit"
+            variant="outlined"
+            endIcon={<AddLocationTwoToneIcon />}
+          >
+            Add Dive Site
           </Button>
-        ))}
-      </ButtonGroup>
+        </div>
+        <br />
+      </form>
     </div>
-    <div>
-      <TextField
-        label="Name"
-        type="text"
-        id="Name"
-        name="Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        className="TextField"
-      />
-      <TextField
-        label="Latitude"
-        type="text"
-        id="latitude"
-        name="latitude"
-        value={latitude}
-        onChange={handleLatitudeChange}
-        className="TextField"
-      />
-      <TextField
-        label="Longitude"
-        type="text"
-        id="Longitude"
-        name="Longitude"
-        value={longitude}
-        onChange={handleLongitudeChange}
-        className="TextField"
-      />
-    </div>
-    <div>
-      <p className="p">Site Description:</p>
-      <textarea
-        className="siteDescription"
-        value={description}
-        onChange={handleDescriptionChange}
-      />
-    </div>
-    <div className="addSiteButton">
-      <Button
-        size="large"
-        type="submit"
-        variant="outlined"
-        endIcon={<AddLocationTwoToneIcon />}
-      >
-        Add Dive Site
-      </Button>
-    </div>
-  </form>
-</div>
-
   );
 }
