@@ -47,7 +47,6 @@ export default function AllDataTableHead({
               hideSortIcon
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
-              // onClick={onSort(headCell.id)}
               onClick={createSortHandler(headCell.id)}
             >
               {headCell.label}
