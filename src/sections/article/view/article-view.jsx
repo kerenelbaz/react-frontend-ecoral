@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker';
 import { useState, useEffect } from 'react';
 
 import Card from '@mui/material/Card';
@@ -11,8 +12,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 
 // import { users } from 'src/_mock/user';
-import { faker } from '@faker-js/faker';
-import { sample } from 'lodash';
+// import { sample } from 'lodash';
 
 // import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
@@ -131,7 +131,7 @@ export default function ArticleView() {
     console.log(article._id);
     try {
       // Make a request to your server to delete the row
-      const response = await fetch(`http://localhost:8000/api/pendings_dives/${article._id}`, {
+      const response = await fetch(`http://localhost:8000/api/articles/${article._id}`, {
         method: 'DELETE',
       });
       if (!response.ok) {

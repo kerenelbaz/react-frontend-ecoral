@@ -6,11 +6,11 @@ import DashboardLayout from 'src/layouts/dashboard';
 import ProtectedRoute from './protectedRoutes'; 
 
 export const IndexPage = lazy(() => import('src/pages/app'));
-export const BlogPage = lazy(() => import('src/pages/blog'));
+// export const BlogPage = lazy(() => import('src/pages/blog'));
 export const PendingAdminView = lazy(() => import('src/pages/pending-admin'));
 export const AllDataPage = lazy(() => import('src/pages/all-data'));
 export const LoginPage = lazy(() => import('src/pages/login'));
-export const ProductsPage = lazy(() => import('src/pages/products'));
+// export const ProductsPage = lazy(() => import('src/pages/products'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
 export const DiveSitesMapPage = lazy(() => import('src/pages/dive-sites-map'));
 export const InsertDataPage = lazy(() => import('src/pages/insert-data'));
@@ -54,11 +54,9 @@ export default function Router() {
             { element: <IndexPage />, index: true },
             { path: 'pending-dives', element: <PendingAdminView /> },
             { path: 'all-data', element: <AllDataPage /> },
-            { path: 'products', element: <ProductsPage /> },
-            { path: 'blog', element: <BlogPage /> },
+            // { path: 'products', element: <ProductsPage /> },
+            // { path: 'blog', element: <BlogPage /> },
             { path: 'insert-data', element: <InsertDataPage /> },
-            
-            
             { path: 'import-posts', element: <ImportPostsPage /> },
             { path: 'add-dive-site', element: <AddDiveSitePage /> },
             { path: 'add-article', element: <AddArticlePage/>},

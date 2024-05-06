@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from 'react';
 
 import Stack from '@mui/material/Stack';
 import Alert from '@mui/material/Alert';
@@ -24,6 +24,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import './styleByMe.css';
 import dataLists from './dataLists.json';
+import CameraCapture from './camera';
 
 // const serverPath = http://localhost:8000
 
@@ -56,8 +57,7 @@ export default function InsertDataView() {
       distance: false,
       temp: false,
       uploadeImage: false,
-    }
-
+    },
   });
 
   const [diveCode, setDiveCode] = useState(null);
@@ -71,83 +71,85 @@ export default function InsertDataView() {
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const fileInputRef = useRef(null);
+  const [currentView, setCurrentView] = useState(imagePreview ? 'image' : 'placeholder');
 
-  useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch('http://localhost:8000/api/pendings_dives');
-  //       if (!response.ok) {
-  //         throw new Error('Network response was not ok');
-  //       }
-
-  //       const responseData = await response.json();
-  //       const { pendingDives } = responseData.data;
-
-  //       const diveCodes = pendingDives.map(pendingDive => pendingDive.diveCode).filter(code => code);
-
-  //       let newDiveCode;
-  //       if (diveCodes.length === 0) {
-  //         newDiveCode = 0;
-  //       } else {
-  //         const lastDiveCode = Math.max(...diveCodes);
-  //         newDiveCode = lastDiveCode + 1;
-  //       }
-
-  //       console.log('New dive code:', newDiveCode);
-  //       setDiveCode(newDiveCode); // Set the state with the new dive code
-
-  //     } catch (error) {
-  //       console.error('Error fetching documents:', error.message);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []); // Empty dependency array to run effect only once on component mount
-  const fetchData = async () => {
-    try {
-      const response = await fetch('http://localhost:8000/api/dives');
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const responseData = await response.json();
-      const { dives } = responseData.data;
-      console.log(dives)
-
-      const numericDiveCodes = dives.map(dive => dive.diveCode)
-      .filter(code => !Number.isNaN(parseInt(code, 10))); // Check if parse-able to integer
-      console.log(numericDiveCodes);
-
-      let newDiveCode;
-      if (numericDiveCodes.length === 0) {
-        newDiveCode = 0;
-      } else {
-        const lastDiveCode = Math.max(...numericDiveCodes);
-        newDiveCode = lastDiveCode + 1;
-      }
-
-      console.log('New dive code:', newDiveCode);
-      setDiveCode(newDiveCode); // Set the state with the new dive code
-
-    } catch (error) {
-      console.error('Error fetching documents:', error.message);
-    }
+  const handleViewChange = () => {
+    setCurrentView(currentView === 'image' ? 'camera' : 'image');
   };
 
-  fetchData();
-}, []); // Empty dependency array to run effect only once on component mount
+  useEffect(() => {
+    //   const fetchData = async () => {
+    //     try {
+    //       const response = await fetch('http://localhost:8000/api/pendings_dives');
+    //       if (!response.ok) {
+    //         throw new Error('Network response was not ok');
+    //       }
 
-  
-  
+    //       const responseData = await response.json();
+    //       const { pendingDives } = responseData.data;
+
+    //       const diveCodes = pendingDives.map(pendingDive => pendingDive.diveCode).filter(code => code);
+
+    //       let newDiveCode;
+    //       if (diveCodes.length === 0) {
+    //         newDiveCode = 0;
+    //       } else {
+    //         const lastDiveCode = Math.max(...diveCodes);
+    //         newDiveCode = lastDiveCode + 1;
+    //       }
+
+    //       console.log('New dive code:', newDiveCode);
+    //       setDiveCode(newDiveCode); // Set the state with the new dive code
+
+    //     } catch (error) {
+    //       console.error('Error fetching documents:', error.message);
+    //     }
+    //   };
+
+    //   fetchData();
+    // }, []); // Empty dependency array to run effect only once on component mount
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/api/dives');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const responseData = await response.json();
+        const { dives } = responseData.data;
+        console.log(dives);
+
+        const numericDiveCodes = dives
+          .map((dive) => dive.diveCode)
+          .filter((code) => !Number.isNaN(parseInt(code, 10))); // Check if parse-able to integer
+        console.log(numericDiveCodes);
+
+        let newDiveCode;
+        if (numericDiveCodes.length === 0) {
+          newDiveCode = 0;
+        } else {
+          const lastDiveCode = Math.max(...numericDiveCodes);
+          newDiveCode = lastDiveCode + 1;
+        }
+
+        console.log('New dive code:', newDiveCode);
+        setDiveCode(newDiveCode); // Set the state with the new dive code
+      } catch (error) {
+        console.error('Error fetching documents:', error.message);
+      }
+    };
+
+    fetchData();
+  }, []); // Empty dependency array to run effect only once on component mount
+
   // Update button states when selectedTime or selectedReef changes
   useEffect(() => {
-    setInsertData(prevData => ({
+    setInsertData((prevData) => ({
       ...prevData,
       timeDive: selectedTime,
       arReef: selectedReef,
     }));
   }, [selectedTime, selectedReef]);
-
 
   const onSelectFile = (e) => {
     const file = e.target.files[0];
@@ -155,32 +157,39 @@ export default function InsertDataView() {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result);
-        console.log("previwe is: ",reader.result)
-        setInsertData(prevData => ({
+        console.log('previwe is: ', reader.result);
+        setInsertData((prevData) => ({
           ...prevData,
           file: reader.result,
         }));
       };
       reader.readAsDataURL(file);
-
     } else {
       setImagePreview(null);
     }
   };
 
+  const sendImage = (image) => {
+    setImagePreview(image);
+    setInsertData((prevData) => ({
+      ...prevData,
+      file: image,
+    }));
+  };
+
   const handleRankChange = (event, newValue) => {
     // Update the rank value in the insertData state
-    setInsertData(prevData => ({
+    setInsertData((prevData) => ({
       ...prevData,
       rank: newValue,
     }));
   };
 
   const handleDateChange = (date) => {
-    const isValidYear = isAppropriateDate(date)
+    const isValidYear = isAppropriateDate(date);
     if (!isValidYear) {
-      // Mark the date as invalid 
-      setInsertData(prevFormData => ({
+      // Mark the date as invalid
+      setInsertData((prevFormData) => ({
         ...prevFormData,
         errors: {
           ...prevFormData.errors,
@@ -191,12 +200,12 @@ export default function InsertDataView() {
       return;
     }
     // Update the form data with the valid dive date
-    setInsertData(prevFormData => ({
+    setInsertData((prevFormData) => ({
       ...prevFormData,
-      dateDive: date, 
+      dateDive: date,
       errors: {
         ...prevFormData.errors,
-        dateDive: false // Corrected from birthDate to diveDate
+        dateDive: false, // Corrected from birthDate to diveDate
       },
     }));
   };
@@ -216,41 +225,36 @@ export default function InsertDataView() {
   //     )||
   //     (
   //       diveDate.$y > 2013 &&
-  //       diveDate.$M < today.getMonth() 
+  //       diveDate.$M < today.getMonth()
   //     )
   //   );
   // }
 
   function isAppropriateDate(diveDate) {
     const today = new Date();
-  
+
     // Extracting the year, month, and day from the diveDate
     const diveYear = diveDate.$y;
     const diveMonth = diveDate.$M;
     const diveDay = diveDate.$D;
-  
+
     // Extracting the year, month, and day from today's date
     const currentYear = today.getFullYear();
     const currentMonth = today.getMonth();
     const currentDay = today.getDate();
-  
+
     // Check if the dive date is not older than January 1, 2014, and not later than today
     return (
       diveYear >= 2014 && // Check if the year of the dive date is greater than or equal to 2014
-      (
-        diveYear < currentYear || // Check if the dive year is less than the current year
+      (diveYear < currentYear || // Check if the dive year is less than the current year
         (diveYear === currentYear && diveMonth < currentMonth) || // Or if it's the same year but the month is less than the current month
-        (diveYear === currentYear && diveMonth === currentMonth && diveDay <= currentDay) // Or if it's the same year and month but the day is less than or equal to the current day
-      )
+        (diveYear === currentYear && diveMonth === currentMonth && diveDay <= currentDay)) // Or if it's the same year and month but the day is less than or equal to the current day
     );
   }
-  
 
   const timeButtons = ['Light', 'Night'];
 
   const isArButtonGroup = ['Yes', 'No', 'Maybe'];
-
-  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -274,8 +278,7 @@ export default function InsertDataView() {
         [name]: !isValid,
       },
     }));
-  }
-
+  };
 
   const handleAutocompleteChange = (name, value) => {
     setInsertData((prevData) => ({
@@ -288,14 +291,14 @@ export default function InsertDataView() {
     if (group === 'time') {
       setSelectedTime(value === selectedTime ? null : value);
       // Update the timeDive value in the insertData state
-      setInsertData(prevData => ({
+      setInsertData((prevData) => ({
         ...prevData,
         timeDive: value,
       }));
     } else if (group === 'reef') {
       setSelectedReef(value === selectedReef ? null : value);
       // Update the arReef value in the insertData state
-      setInsertData(prevData => ({
+      setInsertData((prevData) => ({
         ...prevData,
         arReef: value,
       }));
@@ -304,29 +307,28 @@ export default function InsertDataView() {
 
   const handleTextareaChange = (value) => {
     // Update the state with the value of the textarea
-    setInsertData(prevData => ({
+    setInsertData((prevData) => ({
       ...prevData,
-      userDescription: value
+      userDescription: value,
     }));
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent default form submission behavior
-   
+
     const userJsonString = localStorage.getItem('user');
     const user = JSON.parse(userJsonString.replace(/^"(.*)"$/, '$1'));
     // Extracting age from birth date
     const birthDate = new Date(user.birthDate);
     const currentDate = new Date();
     let age = currentDate.getFullYear() - birthDate.getFullYear();
-    if(currentDate.getMonth()> birthDate.getMonth())
-      age +=1;
+    if (currentDate.getMonth() > birthDate.getMonth()) age += 1;
     // Retrieving gender
-    const {gender} = user;
-    
+    const { gender } = user;
+
     console.log('User Age:', age);
     console.log('User Gender:', gender);
-    
+
     const entireDivingData = {
       diveCode,
       date: insertData.dateDive,
@@ -347,14 +349,14 @@ export default function InsertDataView() {
       temp: insertData.temp,
       age,
       gender,
-      media:"Website",
-      documentation:"P",
+      media: 'Website',
+      documentation: 'P',
     };
 
     // Check if the Date Of Dive field is empty
     if (!insertData.dateDive) {
       // Set error for Date Of Dive field
-      setInsertData(prevFormData => ({
+      setInsertData((prevFormData) => ({
         ...prevFormData,
         errors: {
           ...prevFormData.errors,
@@ -366,7 +368,7 @@ export default function InsertDataView() {
     }
 
     // Check if any errors are true
-    const hasErrors = Object.values(insertData.errors).some(error => error);
+    const hasErrors = Object.values(insertData.errors).some((error) => error);
 
     // If any error is true, return without saving the data
     if (hasErrors) {
@@ -381,7 +383,7 @@ export default function InsertDataView() {
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
         },
-        body: JSON.stringify(entireDivingData)
+        body: JSON.stringify(entireDivingData),
       });
 
       console.log(response);
@@ -389,7 +391,7 @@ export default function InsertDataView() {
         console.log('Data saved successfully');
         setOpenSnackbar(true);
         setTimeout(() => {
-          window.location.reload() 
+          window.location.reload();
         }, 2500);
 
         // Reset form data after successful submission
@@ -421,7 +423,7 @@ export default function InsertDataView() {
             distance: false,
             temp: false,
             uploadeImage: false,
-          }
+          },
         });
       } else {
         console.error('Failed to save data:', response.statusText);
@@ -429,35 +431,26 @@ export default function InsertDataView() {
     } catch (error) {
       console.error('Error saving data:', error.message);
     }
-
-
-  }
+  };
   const handleCloseSnackbar = (event, reason) => {
     if (reason === 'clickaway') {
-        return;
+      return;
     }
     setOpenSnackbar(false);
   };
-  
 
   return (
     <div className="container">
-
       <h2>Input the details from your recents dives</h2>
 
       <form onSubmit={handleSubmit}>
-
-
         <br />
         <div className="twoInLine">
-
           <Autocomplete
             options={dataLists.diveSite}
             // specifies how to render the options in the dropdown list - returns the option itself
             getOptionLabel={(option) => option}
-            onChange={(e, value) =>
-              handleAutocompleteChange("site", value || "")
-            }
+            onChange={(e, value) => handleAutocompleteChange('site', value || '')}
             renderInput={(params) => (
               <TextField
                 {...params}
@@ -466,44 +459,38 @@ export default function InsertDataView() {
                 name="site"
                 autoComplete="site"
                 className="fieldInput"
-
               />
             )}
           />
 
           <Autocomplete
             options={dataLists.objectGroupList}
-            getOptionLabel={(option) => (option)}
-            onChange={(e, value) =>
-              handleAutocompleteChange("objectGroup", value || "")
-            }
+            getOptionLabel={(option) => option}
+            onChange={(e, value) => handleAutocompleteChange('objectGroup', value || '')}
             renderInput={(params) => (
               <TextField
                 {...params}
                 required
                 label="Object Group"
                 name="objectGroup"
-                autoComplete='objectGroup'
+                autoComplete="objectGroup"
                 className="fieldInput"
               />
             )}
           />
-
         </div>
         <div className="twoInLine">
           <Autocomplete
             options={dataLists.specieName}
-            getOptionLabel={(option) => (option)}
-            onChange={(e, value) =>
-              handleAutocompleteChange("specie", value || "")
-            }
+            getOptionLabel={(option) => option}
+            onChange={(e, value) => handleAutocompleteChange('specie', value || '')}
             renderInput={(params) => (
               <TextField
                 {...params}
                 // value={insertData.specieName}
                 label="Specie Name"
                 name="specie"
-                autoComplete='specie'
+                autoComplete="specie"
                 className="fieldInput"
               />
             )}
@@ -511,77 +498,67 @@ export default function InsertDataView() {
 
           <Autocomplete
             options={dataLists.imageLocation}
-            getOptionLabel={(option) => (option)}
-            onChange={(e, value) =>
-              handleAutocompleteChange("imgLocation", value || "")
-            }
+            getOptionLabel={(option) => option}
+            onChange={(e, value) => handleAutocompleteChange('imgLocation', value || '')}
             renderInput={(params) => (
               <TextField
                 {...params}
                 label="Image Location"
                 name="imgLocation"
-                autoComplete='imgLocation'
+                autoComplete="imgLocation"
                 className="fieldInput"
               />
             )}
           />
         </div>
         <br />
-        <div >
-
+        <div>
           <label className="lblButtonsGroup">Photo Took In Artificial Reef:</label>
 
           <ButtonGroup size="large" color="inherit" aria-label="Large button group">
             {isArButtonGroup.map((button, index) => (
-              <Button key={index} onClick={() => handleButtonClick(button, 'reef')}
-                variant={selectedReef === button ? "contained" : "outlined"}
-
+              <Button
+                key={index}
+                onClick={() => handleButtonClick(button, 'reef')}
+                variant={selectedReef === button ? 'contained' : 'outlined'}
               >
                 {button}
               </Button>
             ))}
           </ButtonGroup>
-
         </div>
         <br />
         <div className="twoInLine">
           <Autocomplete
             options={dataLists.ReportType}
-            getOptionLabel={(option) => (option)}
-            onChange={(e, value) =>
-              handleAutocompleteChange("reportType", value || "")
-            }
+            getOptionLabel={(option) => option}
+            onChange={(e, value) => handleAutocompleteChange('reportType', value || '')}
             renderInput={(params) => (
               <TextField
                 {...params}
                 required
                 label="Report Type"
                 name="reportType"
-                autoComplete='reportType'
+                autoComplete="reportType"
                 className="fieldInput"
               />
             )}
           />
-
 
           <Autocomplete
             options={dataLists.typeOfDive}
-            getOptionLabel={(option) => (option)}
-            onChange={(e, value) =>
-              handleAutocompleteChange("typeOfDive", value || "")
-            }
+            getOptionLabel={(option) => option}
+            onChange={(e, value) => handleAutocompleteChange('typeOfDive', value || '')}
             renderInput={(params) => (
               <TextField
                 {...params}
-
                 label="Type Of Dive"
                 name="typeOfDive"
-                autoComplete='typeOfDive'
+                autoComplete="typeOfDive"
                 className="fieldInput"
               />
             )}
           />
-
         </div>
 
         <div className="parentContainer">
@@ -589,56 +566,51 @@ export default function InsertDataView() {
             <DemoContainer components={['DatePicker']} valueType="date">
               <div>
                 <DatePicker
-
                   label="Date Of Dive"
                   id="dateDive"
                   name="dateDive"
                   onChange={handleDateChange}
                   format="DD/MM/YYYY"
                   required
-
                   inputStyle={{
-                    color: insertData.errors.dateDive ? 'red' : (selectedDate ? 'blue' : '#1675E8'),
+                    color: insertData.errors.dateDive ? 'red' : selectedDate ? 'blue' : '#1675E8',
                   }}
                   slotProps={{
                     textField: {
                       error: insertData.errors.dateDive,
-                      helperText: insertData.errors.dateDive && 'Invalid dive date'
+                      helperText: insertData.errors.dateDive && 'Invalid dive date',
                     },
                     InputProps: {
                       style: {
                         color: selectedDate ? 'blue' : '#1675E8',
                         fontWeight: selectedDate ? 'bold' : 'normal',
-                      }
-                    }
+                      },
+                    },
                   }}
-
                 />
-
               </div>
             </DemoContainer>
           </LocalizationProvider>
-
         </div>
         <br />
         <div>
-
           <label className="lblButtonsGroup">Dive Took Place During:</label>
 
           <ButtonGroup size="large" color="inherit" aria-label="Large button group">
             {timeButtons.map((button, index) => (
-              <Button key={index} onClick={() => handleButtonClick(button, 'time')}
-                variant={selectedTime === button ? "contained" : "outlined"}
-              // style={{
-              //   backgroundColor: selectedTime === button ? "red" : "transparent",
-              //   color: selectedTime === button ? "#fff" : "#000"
-              // }}
+              <Button
+                key={index}
+                onClick={() => handleButtonClick(button, 'time')}
+                variant={selectedTime === button ? 'contained' : 'outlined'}
+                // style={{
+                //   backgroundColor: selectedTime === button ? "red" : "transparent",
+                //   color: selectedTime === button ? "#fff" : "#000"
+                // }}
               >
                 {button}
               </Button>
             ))}
           </ButtonGroup>
-
         </div>
         <br />
         <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -650,17 +622,16 @@ export default function InsertDataView() {
               defaultValue={insertData.rank}
               size="large"
               onChange={handleRankChange} // Attach the event handler here
-            // onChange={(event, newValue) => {
-            //   setInsertData.rank(newValue);
-            // }}
+              // onChange={(event, newValue) => {
+              //   setInsertData.rank(newValue);
+              // }}
             />
           </Stack>
-
         </div>
         <br />
         <div>
           <TextField
-            label='Max Depth (meters)'
+            label="Max Depth (meters)"
             type="text"
             id="maxDepth"
             name="maxDepth"
@@ -671,7 +642,7 @@ export default function InsertDataView() {
           />
 
           <TextField
-            label='Distance (meters)'
+            label="Distance (meters)"
             type="text"
             id="distance"
             name="distance"
@@ -682,7 +653,7 @@ export default function InsertDataView() {
           />
 
           <TextField
-            label='Temperature (celsius)'
+            label="Temperature (celsius)"
             type="text"
             id="temp"
             name="temp"
@@ -696,60 +667,105 @@ export default function InsertDataView() {
           <label htmlFor="uploadeImage" className="lblButtonsGroup">
             Upload an image
           </label>
-          <input
-            ref={fileInputRef}
-            type="file"
-            onChange={onSelectFile}
-            id="uploadeImage"
-            name="uploadeImage"
-            required
-          />
+          <Button onClick={handleViewChange}>
+            {currentView === 'image'
+              ? 'Switch to Camera'
+              : currentView === 'camera'
+                ? 'Back to Files'
+                : 'Add Image'}
+          </Button>
 
-          {/* Conditional rendering for image preview */}
-          <div className="image-placeholder">
-            {imagePreview ? (
-              <img src={imagePreview} alt="Preview" />
-            ) : (
-              <div className="placeholder-icon">
-                <IconButton size="large" onClick={() => fileInputRef.current.click()}>
-                  <AddAPhotoIcon fontSize="inherit" />
-                </IconButton>
-              </div>
-            )}
-          </div>
+          {currentView === 'camera' && <CameraCapture sendImage={sendImage} />}
+          {currentView === 'image' && (
+            <Stack sx={{alignContent: 'center'}}>
+              {currentView === 'image' && (
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  onChange={onSelectFile}
+                  id="uploadeImage"
+                  name="uploadeImage"
+                  required
+                />
+              )}
+              {currentView === 'image' && (
+                <div className="image-placeholder">
+                  {imagePreview ? (
+                    <img src={imagePreview} alt="Preview" />
+                  ) : (
+                    <div className="placeholder-icon">
+                      <IconButton size="large" onClick={() => fileInputRef.current.click()}>
+                        <AddAPhotoIcon fontSize="inherit" />
+                      </IconButton>
+                    </div>
+                  )}
+                </div>
+              )}
+            </Stack>
+          )}
+          {/* {currentView === 'image' && (
+            <input
+              ref={fileInputRef}
+              type="file"
+              onChange={onSelectFile}
+              id="uploadeImage"
+              name="uploadeImage"
+              required
+            />
+          )}
 
+          {currentView === 'image' && (
+            <div className="image-placeholder">
+              {imagePreview ? (
+                <img src={imagePreview} alt="Preview" />
+              ) : (
+                <div className="placeholder-icon">
+                  <IconButton size="large" onClick={() => fileInputRef.current.click()}>
+                    <AddAPhotoIcon fontSize="inherit" />
+                  </IconButton>
+                </div>
+              )}
+            </div>
+          )} */}
         </div>
         <br />
         <div>
-          <label className="lblButtonsGroup" htmlFor="userDescription">Tell us about your diving trip:</label>
-          <textarea id="userDescription" name="userDescription" rows={3} className="custom-textarea" onChange={(e) => handleTextareaChange(e.target.value)} />
+          <label className="lblButtonsGroup" htmlFor="userDescription">
+            Tell us about your diving trip:
+          </label>
+          <textarea
+            id="userDescription"
+            name="userDescription"
+            rows={3}
+            className="custom-textarea"
+            onChange={(e) => handleTextareaChange(e.target.value)}
+          />
         </div>
         <br />
-        <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
-                    <Alert
-                        onClose={handleCloseSnackbar}
-                        severity="success"
-                        sx={{ width: '100%', 
-                        minHeight: '64px',
-                        padding: '20px'}}
-                    >
-                        Your Diving Details Saved, Thank You
-                    </Alert>
-                </Snackbar>
+        <Snackbar
+          open={openSnackbar}
+          autoHideDuration={6000}
+          onClose={handleCloseSnackbar}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        >
+          <Alert
+            onClose={handleCloseSnackbar}
+            severity="success"
+            sx={{ width: '100%', minHeight: '64px', padding: '20px' }}
+          >
+            Your Diving Details Saved, Thank You
+          </Alert>
+        </Snackbar>
         <div className="insideContiner">
           <Button size="large" type="submit" variant="outlined" endIcon={<SendIcon />}>
             Submit
           </Button>
-
         </div>
         <br />
-
       </form>
-
+      {/* <CameraCapture /> */}
 
       <h2>Thank you for your contribution!</h2>
     </div>
-
-
-  )
+  );
 }
