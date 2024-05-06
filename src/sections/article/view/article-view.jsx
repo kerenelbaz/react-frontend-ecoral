@@ -131,7 +131,7 @@ export default function ArticleView() {
     console.log(article._id);
     try {
       // Make a request to your server to delete the row
-      const response = await fetch(`http://localhost:8000/api/pendings_dives/${article._id}`, {
+      const response = await fetch(`http://localhost:8000/api/articles/${article._id}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
