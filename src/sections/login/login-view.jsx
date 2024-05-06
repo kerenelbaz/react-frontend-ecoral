@@ -96,6 +96,13 @@ export default function LoginView() {
     }
   };
 
+
+  const handleButtonClick = () => {
+    window.location.href = '/forgot-pass'
+    // window.open('/forgot-pass', '_blank'); // Replace '/all-data-page-url' with the actual URL of your All Data page
+  };
+
+
   const renderForm = (
     
       <form onSubmit={handleSubmit}>
@@ -126,7 +133,7 @@ export default function LoginView() {
         </Stack>
 
         <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 }}>
-          <Link variant="subtitle2" underline="hover">
+          <Link variant="subtitle2" underline="hover" onClick={handleButtonClick}>
             Forgot password?
           </Link>
         </Stack>
