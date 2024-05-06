@@ -1,8 +1,10 @@
 import { Helmet } from 'react-helmet-async';
 
+import { useLocation } from 'react-router-dom';
+
 import { RestorePass } from 'src/sections/restorePass';
 
-import { useLocation } from 'react-router-dom';
+
 
 // ----------------------------------------------------------------------
 

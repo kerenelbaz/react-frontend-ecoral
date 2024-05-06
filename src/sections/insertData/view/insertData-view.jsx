@@ -65,7 +65,7 @@ export default function InsertDataView() {
 
   const [imagePreview, setImagePreview] = useState(null);
 
-  const [selectedTime, setSelectedTime] = useState(null);
+  const [selectedTime, setSelectedTime] = useState(null)
   const [selectedReef, setSelectedReef] = useState(null);
 
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -88,7 +88,6 @@ export default function InsertDataView() {
 
         const responseData = await response.json();
         const { dives } = responseData.data;
-        console.log(dives);
 
         const numericDiveCodes = dives
           .map((dive) => dive.diveCode)
@@ -102,7 +101,7 @@ export default function InsertDataView() {
           newDiveCode = lastDiveCode + 1;
         }
 
-        console.log('New dive code:', newDiveCode);
+        
         setDiveCode(newDiveCode); // Set the state with the new dive code
       } catch (error) {
         console.error('Error fetching documents:', error.message);
@@ -127,7 +126,6 @@ export default function InsertDataView() {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result);
-        console.log('previwe is: ', reader.result);
         setInsertData((prevData) => ({
           ...prevData,
           file: reader.result,
@@ -353,9 +351,7 @@ export default function InsertDataView() {
         body: JSON.stringify(entireDivingData),
       });
 
-      console.log(response);
       if (response.ok) {
-        console.log('Data saved successfully');
         setOpenSnackbar(true);
         setTimeout(() => {
           window.location.reload();
