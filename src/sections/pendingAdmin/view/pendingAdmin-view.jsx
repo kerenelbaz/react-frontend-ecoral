@@ -151,7 +151,7 @@ export default function PendingAdminView() {
 
   const handleCloseEditData = () => {
     setOpenEditData(false);
-    handleDeleteClick(selectedRow); // Update pendingData with the latest selectedRow
+  
   };
 
 
