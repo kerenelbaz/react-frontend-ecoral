@@ -231,7 +231,7 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
           handleClickSnack()
           handleClose();
           // deleteeeeeee
-          onDeleteClick(pendingData);
+          onDeleteClick(formData);
          
         } else {
           console.error('Failed to save data:', response.statusText);
