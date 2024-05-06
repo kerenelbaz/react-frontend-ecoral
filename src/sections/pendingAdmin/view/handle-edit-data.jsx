@@ -45,34 +45,14 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function EditData({ open, handleClose, pendingData }) {
+export default function EditData({ open, handleClose, pendingData, onDeleteClick }) {
     // eslint-disable-next-line no-unused-vars
     const [openImageDialog, setOpenImageDialog] = useState(false);
     const [stateSnackbar, setStateSnackbar] = useState({
       open: false,
       Transition: Slide,
     });
-    // const [formData, setFormData] = useState({
-    //   // diveCode:pendingData.diveCode,
-    //   date: pendingData.dateDive,
-    //   time: pendingData.timeDive,
-    //   diveSite: pendingData.site,
-    //   objectGroup: pendingData.objectGroup,
-    //   specie: pendingData.specie,
-    //   file: pendingData.file,
-    //   imageLocation: pendingData.imgLocation,
-    //   uploadeImage: pendingData.uploadeImage,
-    //   AR: pendingData.arReef,
-    //   reportType: pendingData.reportType,
-    //   typeOfDive: pendingData.typeOfDive,
-    //   rankOfDive: pendingData.rank,
-    //   userDescription: pendingData.userDescription,
-    //   maxDepth: pendingData.maxDepth,
-    //   distance: pendingData.distance,
-    //   temp: pendingData.temp,
-    //   age: pendingData.age,
-    //   gender:pendingData.gender,
-    // });
+   
     const [formData, setFormData] = useState({
       ...pendingData,
       objectCode: '',
@@ -138,26 +118,35 @@ export default function EditData({ open, handleClose, pendingData }) {
     // };
 
     const formatDateTime = (dateTimeString) => {
-      const dateTime = new Date(dateTimeString);
-      
-      // Format the date
-      const dateFormatter = new Intl.DateTimeFormat('en-GB', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-      });
-      const formattedDate = dateFormatter.format(dateTime);
-      
-      // Format the time
-      const timeFormatter = new Intl.DateTimeFormat('en-GB', {
-        hour: '2-digit',
-        minute: '2-digit',
-      });
-      const formattedTime = timeFormatter.format(dateTime);
-      
-      // Combine date and time
-      return `${formattedDate}, ${formattedTime}`;
-    };
+      // Regular expressions to match the expected date formats
+       const dateFormatRegex1 = /^\w{3} \w{3} \d{2} \d{4} \d{2}:\d{2}:\d{2} GMT[+-]\d{4} \([\w\s]+\)$/;
+       const dateFormatRegex2 = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/;
+   
+       if (!dateFormatRegex1.test(dateTimeString) && !dateFormatRegex2.test(dateTimeString)) {
+         return dateTimeString; // Return the original string if the format doesn't match
+       }
+   
+   
+       const dateTime = new Date(dateTimeString);
+       
+       // Format the date
+       const dateFormatter = new Intl.DateTimeFormat('en-GB', {
+         year: 'numeric',
+         month: '2-digit',
+         day: '2-digit',
+       });
+       const formattedDate = dateFormatter.format(dateTime);
+       
+       // Format the time
+       const timeFormatter = new Intl.DateTimeFormat('en-GB', {
+         hour: '2-digit',
+         minute: '2-digit',
+       });
+       const formattedTime = timeFormatter.format(dateTime);
+       
+       // Combine date and time
+       return `${formattedDate}, ${formattedTime}`;
+     };
 
     const handleTextareaChange = (value) => {
       // Update the state with the value of the textarea
@@ -241,6 +230,8 @@ export default function EditData({ open, handleClose, pendingData }) {
           
           handleClickSnack()
           handleClose();
+          // deleteeeeeee
+          onDeleteClick(pendingData);
          
         } else {
           console.error('Failed to save data:', response.statusText);
@@ -248,7 +239,7 @@ export default function EditData({ open, handleClose, pendingData }) {
       } catch (error) {
         console.error('Error saving data:', error.message);
       }
-
+      
     };
 
 // export default function EditData({ open, handleClose }) {
@@ -608,4 +599,5 @@ EditData.propTypes = {
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
   pendingData: PropTypes.object,
+  onDeleteClick: PropTypes.func,
 };

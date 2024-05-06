@@ -71,27 +71,37 @@
       setRowsPerPage(parseInt(event.target.value, 10));
     };
 
-    const formatDateTime = (dateTimeString) => {
-      const dateTime = new Date(dateTimeString);
-      
-      // Format the date
-      const dateFormatter = new Intl.DateTimeFormat('en-GB', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-      });
-      const formattedDate = dateFormatter.format(dateTime);
-      
-      // Format the time
-      const timeFormatter = new Intl.DateTimeFormat('en-GB', {
-        hour: '2-digit',
-        minute: '2-digit',
-      });
-      const formattedTime = timeFormatter.format(dateTime);
-      
-      // Combine date and time
-      return `${formattedDate}, ${formattedTime}`;
-    };
+    // eslint-disable-next-line no-unused-vars
+  const formatDateTime = (dateTimeString) => {
+    // Regular expressions to match the expected date formats
+     const dateFormatRegex1 = /^\w{3} \w{3} \d{2} \d{4} \d{2}:\d{2}:\d{2} GMT[+-]\d{4} \([\w\s]+\)$/;
+     const dateFormatRegex2 = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/;
+ 
+     if (!dateFormatRegex1.test(dateTimeString) && !dateFormatRegex2.test(dateTimeString)) {
+       return dateTimeString; // Return the original string if the format doesn't match
+     }
+ 
+ 
+     const dateTime = new Date(dateTimeString);
+     
+     // Format the date
+     const dateFormatter = new Intl.DateTimeFormat('en-GB', {
+       year: 'numeric',
+       month: '2-digit',
+       day: '2-digit',
+     });
+     const formattedDate = dateFormatter.format(dateTime);
+     
+     // Format the time
+     const timeFormatter = new Intl.DateTimeFormat('en-GB', {
+       hour: '2-digit',
+       minute: '2-digit',
+     });
+     const formattedTime = timeFormatter.format(dateTime);
+     
+     // Combine date and time
+     return `${formattedDate}, ${formattedTime}`;
+   };
     
     const dataFiltered = applyFilter({
       inputData: usersData,
@@ -141,7 +151,7 @@
 
     const handleCloseEditData = () => {
       setOpenEditData(false);
-      handleDeleteClick(selectedRow); // Update pendingData with the latest selectedRow
+      // handleDeleteClick(selectedRow); // Update pendingData with the latest selectedRow
     };
 
 
@@ -202,8 +212,10 @@
                       
                       <UserTableRow
                         key={row._id}
-                        loggingDate={formatDateTime(row.loggingDate)}
-                        dateDive={formatDateTime(row.date)}
+                        loggingDate={row.loggingDate}
+                        dateDive={row.date}
+                        // loggingDate={formatDateTime(row.loggingDate)}
+                        // dateDive={formatDateTime(row.date)}
                         timeDive={row.time}
                         site={row.diveSite}
                         objectGroup={row.objectGroup}
