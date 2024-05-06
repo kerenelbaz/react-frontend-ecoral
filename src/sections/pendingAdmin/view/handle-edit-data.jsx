@@ -180,39 +180,41 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
     const handleSaveChanges = async () => {
       // Log the formData obje  ct
       // console.log("editPandingData",editPandingData);
-      console.log("formData",formData);
+      console.log("before changes",formData);
+      console.log('diveSiute', formData.diveSite);
       
 
       const objectDiveToServer = {
         diveCode: formData.diveCode,
         objectCode: formData.objectCode,
-        date: formData.dateDive,
-        time: formData.timeDive,
-        diveSite: formData.site,
+        date: formData.date,
+        time: formData.time,
+        diveSite: formData.diveSite,
         objectGroup: formData.objectGroup,
         specie: formData.specie,
-        idCode_photographerName: formData.idCode,
-        imageLocation: formData.imgLocation,
-        AR: formData.arReef,
-        humanWildlifeInteraction:formData.humanWildInter,
+        idCode_photographerName: formData.idCode_photographerName,
+        imageLocation: formData.imageLocation,
+        AR: formData.AR,
+        humanWildlifeInteraction:formData.humanWildlifeInteraction,
         reportType: formData.reportType,
         typeOfDive: formData.typeOfDive,
-        rankOfDive: formData.rank,
+        rankOfDive: formData.rankOfDive,
         media:formData.media,
         documentation: formData.documentation,
-        ageOfDiver: formData.age,
-        sexOfDiver: formData.gender,
+        ageOfDiver: formData.ageOfDiver,
+        sexOfDiver: formData.sexOfDiver,
         maxDepth: formData.maxDepth,
         distance: formData.distance,
         temp: formData.temp,
         userDescription: formData.userDescription,
         researcherComment: formData.researcherComment,
-        linkURL: formData.file,
+        linkURL: formData.linkURL,
         loggedBy: formData.loggedBy,
         loggingDate: formData.loggingDate,
   
       };
-      console.log(JSON.stringify(objectDiveToServer))
+      console.log(objectDiveToServer)
+
    
       try {
         // Send form data to the server
@@ -229,10 +231,10 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
           console.log('Data saved successfully');
           
           handleClickSnack()
-          handleClose();
-          // deleteeeeeee
+          console.log(formData)
           onDeleteClick(formData);
-         
+          handleClose();
+
         } else {
           console.error('Failed to save data:', response.statusText);
         }

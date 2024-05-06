@@ -119,7 +119,7 @@
     };
 
     const handleDeleteClick = async (pendingData) => {
-      console.log(usersData)
+      console.log("pending data recived function is:", pendingData)
       console.log(pendingData._id);
       try {
         // Make a request to your server to delete the row
@@ -249,7 +249,7 @@
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Card>
-        <EditData open={openEditData} handleClose={handleCloseEditData} pendingData={selectedRow} />
+        <EditData open={openEditData} handleClose={handleCloseEditData} pendingData={selectedRow} onDeleteClick={handleDeleteClick} />
 
       </Container>
     );
