@@ -6,7 +6,6 @@ import { Popup, useMap, Marker, TileLayer, MapContainer } from 'react-leaflet';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
-
 import './diveSitesMapStyle.css';
 import markerIcon from './markerIcon.png';
 import youAreHereIcon from './youAreHereIcon.png';
@@ -54,6 +53,7 @@ export default function DiveSitesMapView() {
         throw new Error('Failed to fetch dive sites');
       }
       const data = await response.json();
+      console.log(data);
       setDiveSites(data.data.diveSites);
     } catch (error) {
       console.error('Error fetching dive sites:', error.message);
@@ -108,10 +108,18 @@ export default function DiveSitesMapView() {
           </optgroup>
         </Select>
       </FormControl>
-      <div style={{ display: 'flex', width: '100%', marginTop: '20px', borderRadius: '20px', border: '1px solid #cccccc4f'}}>
-        <div style={{ flex: '70%' ,  borderRadius: '10px'}}>
-          <div id="map" style={{ height: '500px', width: '100%' ,  borderRadius: '20px'}}>
-            <MapContainer center={position} style={{ height: '100%', width: '100%'}}>
+      <div
+        style={{
+          display: 'flex',
+          width: '100%',
+          marginTop: '20px',
+          borderRadius: '20px',
+          border: '1px solid #cccccc4f',
+        }}
+      >
+        <div style={{ flex: '70%', borderRadius: '10px' }}>
+          <div id="map" style={{ height: '500px', width: '100%', borderRadius: '20px' }}>
+            <MapContainer center={position} style={{ height: '100%', width: '100%' }}>
               <ChangeView
                 center={
                   selectedSite.latitude !== 0
