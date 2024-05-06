@@ -12,8 +12,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 import ImageDialog from './imageDialog';
 
-// import Label from 'src/components/label';
-// import Iconify from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
@@ -92,20 +90,6 @@ export default function AllDataTableRow({
             <Avatar alt={diveCode} src={fileLink} onClick={handleAvatarClick} sx={{ cursor: 'pointer' }} />
           </Stack>  
         </TableCell>
-        {/* <TableCell>{loggingDate}</TableCell>
-        <TableCell>{reportRecivingDate}</TableCell> */}
-        
-        {/* <TableCell align="center">{isVerified ? 'Yes' : 'No'}</TableCell> */}
-
-        {/* <TableCell>
-          <Label color={(status === 'banned' && 'error') || 'success'}>{status}</Label>
-        </TableCell> */}
-
-        {/* <TableCell align="right">
-          <IconButton onClick={handleOpenMenu}>
-            <Iconify icon="eva:more-vertical-fill" />
-          </IconButton>
-        </TableCell> */}
       </TableRow>
       <ImageDialog open={dialogOpen} onClose={handleCloseDialog} fileLink={fileLink} />
 

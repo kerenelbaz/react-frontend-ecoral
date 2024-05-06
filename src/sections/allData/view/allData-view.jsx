@@ -156,28 +156,25 @@ export default function AllDataView() {
     const dateFormatRegex2 = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/;
 
     if (!dateFormatRegex1.test(dateTimeString) && !dateFormatRegex2.test(dateTimeString)) {
-      return dateTimeString; // Return the original string if the format doesn't match
+      return dateTimeString; 
     }
 
 
     const dateTime = new Date(dateTimeString);
-    
-    // Format the date
+
     const dateFormatter = new Intl.DateTimeFormat('en-GB', {
       year: 'numeric',
       month: '2-digit',
       day: '2-digit',
     });
     const formattedDate = dateFormatter.format(dateTime);
-    
-    // Format the time
+
     const timeFormatter = new Intl.DateTimeFormat('en-GB', {
       hour: '2-digit',
       minute: '2-digit',
     });
     const formattedTime = timeFormatter.format(dateTime);
-    
-    // Combine date and time
+
     return `${formattedDate}, ${formattedTime}`;
   };
 
@@ -215,11 +212,6 @@ export default function AllDataView() {
       </Stack>
 
       <Card>
-        {/* <AllDataTableTollbar
-          numSelected={selected.length}
-          filterName={filterName}
-          onFilterName={handleFilterByName}
-        /> */}
 
         <Scrollbar>
           <TableContainer sx={{ overflow: 'unset', maxWiwdth: '2500px' }}>
@@ -296,10 +288,6 @@ export default function AllDataView() {
                       researcherDesc={row.researcherComment}
                       loggedBy={row.loggedBy}
                       fileLink={row.linkURL}
-                      // reportRecivingDate={formatDateTime(row.reportRecivingDate)}
-                      // avatarUrl={row.avatarUrl}
-                      // isVerified={row.isVerified}
-                      // selected={selected.indexOf(row.name) !== -1}
                       handleClick={(event) => handleClick(event, row.name)}
                       onDeleteClicked={()=> handleDeleteClick(row)}
                       onEditClicked={() => handleEditClick(row)}
@@ -324,7 +312,7 @@ export default function AllDataView() {
           rowsPerPage={rowsPerPage}
           onPageChange={handleChangePage}
           rowsPerPageOptions={[5, 10, 25]}
-          sx={{ width: '100%' }} // Adjust the width here
+          sx={{ width: '100%' }} 
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Card>
