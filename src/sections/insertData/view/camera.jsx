@@ -1,7 +1,9 @@
-import { Button } from '@mui/base';
-import React, { useState, useRef } from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import Webcam from 'react-webcam';
 import PropTypes from 'prop-types';
+import React, { useRef, useState } from 'react';
+
+import { Button } from '@mui/base';
 
 
 export default function CameraCapture({sendImage}) {

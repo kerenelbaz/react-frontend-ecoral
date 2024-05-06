@@ -16,7 +16,7 @@ import TablePagination from '@mui/material/TablePagination';
 // import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line no-unused-vars, unused-imports/no-unused-imports
 import tableStyle from './tableStyle.css';
 import AllDataTableRow from '../allData-table-row';
 import TableNoData from '../allData-table-no-data';
@@ -36,13 +36,13 @@ export default function AllDataView() {
 
   const [orderBy, setOrderBy] = useState('name');
 
-  const [filterName, setFilterName] = useState('');
+  const [filterName] = useState('');
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const [allDataDives, setAllDataDives] = useState([]);
   const [loading, setLoading] = useState(true); // Define loading state
-  const [editingRow, setEditingRow] = useState(null);
+  const [setEditingRow] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -142,10 +142,6 @@ export default function AllDataView() {
     setRowsPerPage(parseInt(event.target.value, 10));
   };
 
-  const handleFilterByName = (event) => {
-    setPage(0);
-    setFilterName(event.target.value);
-  };
 
   const dataFiltered = applyFilter({
     inputData: allDataDives,

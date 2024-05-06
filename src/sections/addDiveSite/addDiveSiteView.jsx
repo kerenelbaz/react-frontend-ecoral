@@ -1,10 +1,11 @@
+/* eslint-disable prefer-destructuring */
 import { useState } from 'react';
 
+import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
 import TextField from '@mui/material/TextField';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import Alert from '@mui/material/Alert';
-import Snackbar from '@mui/material/Snackbar';
 import AddLocationTwoToneIcon from '@mui/icons-material/AddLocationTwoTone';
 
 import './addDiveSiteStyle.css';

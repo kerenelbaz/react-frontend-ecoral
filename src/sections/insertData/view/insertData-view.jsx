@@ -23,8 +23,8 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import './styleByMe.css';
-import dataLists from './dataLists.json';
 import CameraCapture from './camera';
+import dataLists from './dataLists.json';
 
 // const serverPath = http://localhost:8000
 

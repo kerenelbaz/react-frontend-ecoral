@@ -1,6 +1,7 @@
+/* eslint-disable no-unused-vars */
 import * as React from 'react';
 import { useEffect } from 'react';
-import PropTypes, { element } from 'prop-types';
+import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 import Popper from '@mui/material/Popper';
@@ -157,7 +158,7 @@ export default function GitHubLabel({ onTagsChange, labels }) {
       return;
     }
     if (newLabel.name.trim() && newLabel.color.trim()) {
-      const updatedLabels = [...labels, newLabel];
+      // const updatedLabels = [...labels, newLabel];
       setValue([...value, newLabel]);
       setPendingValue([...pendingValue, newLabel]);
       setNewLabel({

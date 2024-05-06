@@ -13,6 +13,7 @@ import TabContext from '@mui/lab/TabContext';
 import MenuItem from '@mui/material/MenuItem'
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
+
 import './diveSitesMapStyle.css';
 import markerIcon from './markerIcon.png';
 import youAreHereIcon from './youAreHereIcon.png';
