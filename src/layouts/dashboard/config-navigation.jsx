@@ -98,6 +98,7 @@ const navConfig = () => {
   
   if (!user) {
     return baseNavConfig;
+  // eslint-disable-next-line no-else-return
   } else if (user.email !== 'admin@admin.com') {
     return limitedNavConfig;
   } else {
