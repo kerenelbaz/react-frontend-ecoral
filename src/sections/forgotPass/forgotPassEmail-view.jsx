@@ -42,9 +42,10 @@ export default function ForgotPassEmailView() {
     })
       .then(res => res.json())
       .then((result) => {
+        emailjs.sendForm('service_nl3uy7m', 'template_kaxaqke', e.target, 'HuHxQVmUk_UHuY6V9')
         if (result.email && result.email === email) {
-          emailjs.sendForm('service_nl3uy7m', 'template_kaxaqke', e.target, 'HuHxQVmUk_UHuY6V9')
-          window.location.href = '/';
+          // emailjs.sendForm('service_nl3uy7m', 'template_kaxaqke', e.target, 'HuHxQVmUk_UHuY6V9')
+          // window.location.href = '/';
         } else {
           console.log("wrong email");
         }
