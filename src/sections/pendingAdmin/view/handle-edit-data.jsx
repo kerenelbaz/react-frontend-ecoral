@@ -79,12 +79,10 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
   
           const responseData = await response.json();
           const { dives } = responseData.data;
-          console.log(dives);
   
           const numericDiveCodes = dives
             .map((dive) => dive.diveCode)
-            .filter((code) => !Number.isNaN(parseInt(code, 10))); // Check if parse-able to integer
-          console.log(numericDiveCodes);
+            .filter((code) => !Number.isNaN(parseInt(code, 10))); 
   
           let newDiveCode;
           if (numericDiveCodes.length === 0) {
@@ -94,7 +92,6 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
             newDiveCode = lastDiveCode + 1;
           }
   
-          console.log('New dive code:', newDiveCode);
           setDiveCode(newDiveCode); // Set the state with the new dive code
         } catch (error) {
           console.error('Error fetching documents:', error.message);
@@ -251,10 +248,7 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
         body: JSON.stringify(objectDiveToServer)
       });
 
-      console.log(response);
       if (response.ok) {
-        console.log('Data saved successfully');
-
         handleClickSnack()
         onDeleteClick(formData);
         handleClose();

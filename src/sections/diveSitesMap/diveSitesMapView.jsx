@@ -185,7 +185,7 @@ export default function DiveSitesMapView(props) {
         <div style={{ flex: '30%', marginLeft: '10px', borderRadius: '20px' }}>
           <h3>{selectedSite.name}</h3>
           <div style={{ maxHeight: '470px', overflowY: 'auto' }}>
-            <p>{selectedSite.description}</p>
+            <p className='siteDescrioption'>{selectedSite.description}</p>
           </div>
         </div>
       </div>
