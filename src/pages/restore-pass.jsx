@@ -17,7 +17,7 @@ export default function ForgotPassPage() {
   return (
     <>
       <Helmet>
-        <title> Restore Password | Minimal UI </title>
+        <title> Restore Password | Ecoral </title>
       </Helmet>
 
       <RestorePass email={email}/>

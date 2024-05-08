@@ -4,6 +4,7 @@ import ShareTwoToneIcon from '@mui/icons-material/ShareTwoTone';
 import ImportContactsTwoToneIcon from '@mui/icons-material/ImportContactsTwoTone';
 import PendingActionsTwoToneIcon from '@mui/icons-material/PendingActionsTwoTone';
 import AddLocationAltTwoToneIcon from '@mui/icons-material/AddLocationAltTwoTone';
+import ScubaDivingTwoToneIcon from '@mui/icons-material/ScubaDivingTwoTone';
 
 import SvgColor from 'src/components/svg-color';
 // ----------------------------------------------------------------------
@@ -68,6 +69,11 @@ export const fullNavConfig = [
     icon: <PendingActionsTwoToneIcon />,
   },
   {
+    title: 'All Dives',
+    path: '/all-data',
+    icon: <ScubaDivingTwoToneIcon />,
+  },
+  {
     title: 'Import Posts',
     path: '/import-posts',
     icon: <ShareTwoToneIcon />,
@@ -84,7 +90,7 @@ export const fullNavConfig = [
   }
 ];
 
-export const limitedNavConfig = fullNavConfig.filter(item => !['Pending Dives', 'Import Posts', 'Add Dive Site', 'Add Articles'].includes(item.title));
+export const limitedNavConfig = fullNavConfig.filter(item => !['Pending Dives','All Dives', 'Import Posts', 'Add Dive Site', 'Add Articles'].includes(item.title));
 
 const getUser = () => {
   const user = JSON.parse(localStorage.getItem('user'));

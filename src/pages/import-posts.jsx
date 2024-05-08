@@ -8,7 +8,7 @@ export default function ImportPostsPage() {
   return (
     <>
       <Helmet>
-        <title> Import Posts </title>
+        <title> Import Posts - Admin | Ecoral </title>
       </Helmet>
 
       <ImportPostsView />

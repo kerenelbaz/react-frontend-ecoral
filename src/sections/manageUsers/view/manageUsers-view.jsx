@@ -111,9 +111,7 @@ import Card from '@mui/material/Card';
      <Container>
        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
          <Typography variant="h4">Registered Users</Typography>
-         {/* <Button variant="contained" color="inherit" startIcon={<DatasetIcon icon="eva:plus-fill" />}>
-           All Data
-         </Button> */}
+         
        </Stack>
 
        <Card>

@@ -5,6 +5,7 @@ import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import AddLocationTwoToneIcon from '@mui/icons-material/AddLocationTwoTone';
 
@@ -98,9 +99,11 @@ export default function AddDiveSiteView() {
   };
 
   return (
+    <div>
+    <Typography id='AddDiveSiteTitle' variant="h4">Add Dive Site</Typography>
+    <br/>
     <div className="container2">
-      <h1>Add Dive Site To Map</h1>
-      <br />
+
       <form onSubmit={handleSubmit}>
         <div className='type'>
           <p className='p'>Type:</p>
@@ -179,6 +182,7 @@ export default function AddDiveSiteView() {
         </div>
         <br />
       </form>
+    </div>
     </div>
   );
 }

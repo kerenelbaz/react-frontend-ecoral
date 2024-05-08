@@ -8,7 +8,7 @@ export default function RegisterPage() {
   return (
     <>
       <Helmet>
-        <title> Sign Up  </title>
+        <title> Sign Up | Ecoral  </title>
       </Helmet>
 
       <RegisterView />

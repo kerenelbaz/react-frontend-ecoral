@@ -146,7 +146,7 @@ export default function PendingAdminView() {
 
 
         <Button variant="contained" color="inherit" startIcon={<DatasetIcon icon="eva:plus-fill" />} onClick={handleAllDataButtonClick}>
-          All Data
+          All Aproved Dives
         </Button>
 
       </Stack>

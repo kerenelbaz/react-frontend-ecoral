@@ -13,12 +13,13 @@ import TabContext from '@mui/lab/TabContext';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
+import Typography from '@mui/material/Typography';
 
 import './diveSitesMapStyle.css';
 import markerIcon from './markerIcon.png';
 import youAreHereIcon from './youAreHereIcon.png';
 
-export default function DiveSitesMapView(props) {
+export default function DiveSitesMapView() {
   const [position, setPosition] = useState([0, 0]);
   const [selectedSite, setSelectedSite] = useState({
     name: '',
@@ -28,6 +29,8 @@ export default function DiveSitesMapView(props) {
   });
   const [diveSites, setDiveSites] = useState([]);
   const [showCurrentPosition, setShowCurrentPosition] = useState(false);
+  const [valueTab, setValueTab] = useState('Dive site');
+
   const diveSiteIcon = new Icon({
     iconUrl: markerIcon,
     iconSize: [40, 40],
@@ -67,8 +70,6 @@ export default function DiveSitesMapView(props) {
     }
   };
 
-  const [valueTab, setValueTab] = React.useState('Dive site'); // Set initial value to 'Dive site'
-
   const handleTabChange = (event, newValue) => {
     setValueTab(newValue);
   };
@@ -76,9 +77,10 @@ export default function DiveSitesMapView(props) {
 
   return (
     <div className="diveDiteMapContainer">
-      <h1>Dive Sites map</h1>
+      
+      
+      <Typography variant="h4">Dive Sites map</Typography>
       <br />
-
       <FormControl sx={{ m: 1, minWidth: 120, width: '50' }}>
         <Box sx={{ width: '100%', typography: 'body1' }}>
           <TabContext value={valueTab}>
@@ -185,7 +187,7 @@ export default function DiveSitesMapView(props) {
         <div style={{ flex: '30%', marginLeft: '10px', borderRadius: '20px' }}>
           <h3>{selectedSite.name}</h3>
           <div style={{ maxHeight: '470px', overflowY: 'auto' }}>
-            <p className='siteDescrioption'>{selectedSite.description}</p>
+            <p className="siteDescrioption">{selectedSite.description}</p>
           </div>
         </div>
       </div>

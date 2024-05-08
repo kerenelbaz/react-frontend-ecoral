@@ -8,7 +8,7 @@ export default function LoginPage() {
   return (
     <>
       <Helmet>
-        <title> Manage Users | ECORAL </title>
+        <title> Manage Users - Admin | Ecoral </title>
       </Helmet>
 
       <ManageUsersView />

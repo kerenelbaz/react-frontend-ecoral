@@ -8,7 +8,7 @@ export default function AddArticlePage() {
     return (
       <>
         <Helmet>
-          <title> Add Article  </title>
+          <title> Add Article - Admin | Ecoral  </title>
         </Helmet>
   
         <AddArticle />

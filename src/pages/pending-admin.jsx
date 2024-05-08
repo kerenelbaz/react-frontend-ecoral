@@ -8,7 +8,7 @@ export default function PandingAdminPage() {
   return (
     <>
       <Helmet>
-        <title> Pending Dives</title>
+        <title> Pending Dives - Admin | Ecoral </title>
       </Helmet>
      
       <PendingAdminView />

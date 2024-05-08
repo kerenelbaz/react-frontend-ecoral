@@ -8,7 +8,7 @@ export default function ArticleViewPage() {
   return (
     <>
       <Helmet>
-        <title> Article</title>
+        <title> Article | Ecoral </title>
       </Helmet>
 
       <ArticleView />

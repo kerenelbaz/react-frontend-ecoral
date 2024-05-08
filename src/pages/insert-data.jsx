@@ -8,7 +8,7 @@ export default function InsertDataPage() {
     return (
       <>
         <Helmet>
-          <title> Insert Data  </title>
+          <title> Insert Data | Ecoral  </title>
         </Helmet>
   
         <InsertDataView />

@@ -8,7 +8,7 @@ export default function ForgotPassPage() {
   return (
     <>
       <Helmet>
-        <title> Forgat Password | Minimal UI </title>
+        <title> Forgat Password | Ecoral  </title>
       </Helmet>
 
       <ForgotPass />

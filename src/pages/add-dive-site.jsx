@@ -8,7 +8,7 @@ export default function AddDiveSiteToMapPage() {
   return (
     <>
       <Helmet>
-        <title>Add Dive Site</title>
+        <title>Add Dive Site - Admin | Ecoral </title>
       </Helmet>
 
       <AddDiveSiteView />

@@ -99,10 +99,9 @@ export default function ImportPostsView() {
       }
 
       // If response is OK
-      // setOpen(true);
       const data = await response.json();
-      console.log(data.data);
       setPostsNumber(data.data.length);
+      console.log(data.data);
       const releventPosts = data.data.filter(
         (post) => !Object.prototype.hasOwnProperty.call(post, 'no data')
       );

@@ -9,7 +9,7 @@ export default function DiveSitesMapPage() {
   return (
     <>
       <Helmet>
-        <title> Dive Sites Map </title>
+        <title> Dive Sites Map | Ecoral  </title>
       </Helmet>
 
       <DiveSitesMapView />
