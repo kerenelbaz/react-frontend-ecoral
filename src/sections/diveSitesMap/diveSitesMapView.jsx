@@ -12,8 +12,8 @@ import Select from '@mui/material/Select';
 import TabContext from '@mui/lab/TabContext';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
 import Typography from '@mui/material/Typography';
+import FormControl from '@mui/material/FormControl';
 
 import './diveSitesMapStyle.css';
 import markerIcon from './markerIcon.png';

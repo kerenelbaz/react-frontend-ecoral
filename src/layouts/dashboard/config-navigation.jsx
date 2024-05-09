@@ -1,10 +1,10 @@
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import RoomTwoToneIcon from '@mui/icons-material/RoomTwoTone';
 import ShareTwoToneIcon from '@mui/icons-material/ShareTwoTone';
+import ScubaDivingTwoToneIcon from '@mui/icons-material/ScubaDivingTwoTone';
 import ImportContactsTwoToneIcon from '@mui/icons-material/ImportContactsTwoTone';
 import PendingActionsTwoToneIcon from '@mui/icons-material/PendingActionsTwoTone';
 import AddLocationAltTwoToneIcon from '@mui/icons-material/AddLocationAltTwoTone';
-import ScubaDivingTwoToneIcon from '@mui/icons-material/ScubaDivingTwoTone';
 
 import SvgColor from 'src/components/svg-color';
 // ----------------------------------------------------------------------

@@ -1,6 +1,9 @@
+/* eslint-disable no-unused-vars */
 import { useState } from 'react';
+import emailjs from '@emailjs/browser';
 
 import Box from '@mui/material/Box';
+// eslint-disable-next-line unused-imports/no-unused-imports
 import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -13,7 +16,6 @@ import { alpha, useTheme } from '@mui/material/styles';
 import { useRouter } from 'src/routes/hooks';
 
 import { bgGradient } from 'src/theme/css';
-import emailjs from '@emailjs/browser';
 
 
 // ----------------------------------------------------------------------
