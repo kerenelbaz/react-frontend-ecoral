@@ -5,7 +5,7 @@ import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
-import { alpha } from '@mui/material/styles';
+// import { alpha } from '@mui/material/styles';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 
@@ -17,12 +17,8 @@ import SvgColor from 'src/components/svg-color';
 
 // ----------------------------------------------------------------------
 
-export default function PostCard({ post, index }) {
+export default function PostCard({ post }) {
   const { cover, title, view, comment, share, author, createdAt } = post;
-
-  const latestPostLarge = index === 0;
-
-  const latestPost = index === 1 || index === 2;
 
   const renderAvatar = (
     <Avatar
@@ -35,13 +31,6 @@ export default function PostCard({ post, index }) {
         position: 'absolute',
         left: (theme) => theme.spacing(3),
         bottom: (theme) => theme.spacing(-2),
-        ...((latestPostLarge || latestPost) && {
-          zIndex: 9,
-          top: 24,
-          left: 24,
-          width: 40,
-          height: 40,
-        }),
       }}
     />
   );
@@ -52,15 +41,11 @@ export default function PostCard({ post, index }) {
       variant="subtitle2"
       underline="hover"
       sx={{
-        height: 44,
+        height: 120,
         overflow: 'hidden',
         WebkitLineClamp: 2,
         display: '-webkit-box',
         WebkitBoxOrient: 'vertical',
-        ...(latestPostLarge && { typography: 'h5', height: 60 }),
-        ...((latestPostLarge || latestPost) && {
-          color: 'common.white',
-        }),
       }}
     >
       {title}
@@ -86,12 +71,6 @@ export default function PostCard({ post, index }) {
         <Stack
           key={_index}
           direction="row"
-          sx={{
-            ...((latestPostLarge || latestPost) && {
-              opacity: 0.48,
-              color: 'common.white',
-            }),
-          }}
         >
           <Iconify width={16} icon={info.icon} sx={{ mr: 0.5 }} />
           <Typography variant="caption">{fShortenNumber(info.number)}</Typography>
@@ -122,10 +101,6 @@ export default function PostCard({ post, index }) {
       sx={{
         mb: 2,
         color: 'text.disabled',
-        ...((latestPostLarge || latestPost) && {
-          opacity: 0.48,
-          color: 'common.white',
-        }),
       }}
     >
       {fDate(createdAt)}
@@ -143,35 +118,17 @@ export default function PostCard({ post, index }) {
         bottom: -15,
         position: 'absolute',
         color: 'background.paper',
-        ...((latestPostLarge || latestPost) && { display: 'none' }),
       }}
     />
   );
 
   return (
-    <Grid xs={12} sm={latestPostLarge ? 12 : 6} md={latestPostLarge ? 6 : 3}>
+    <Grid xs={12} sm={6} md={4}>
       <Card>
         <Box
           sx={{
             position: 'relative',
             pt: 'calc(100% * 3 / 4)',
-            ...((latestPostLarge || latestPost) && {
-              pt: 'calc(100% * 4 / 3)',
-              '&:after': {
-                top: 0,
-                content: "''",
-                width: '100%',
-                height: '100%',
-                position: 'absolute',
-                bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72),
-              },
-            }),
-            ...(latestPostLarge && {
-              pt: {
-                xs: 'calc(100% * 4 / 3)',
-                sm: 'calc(100% * 3 / 4.66)',
-              },
-            }),
           }}
         >
           {renderShape}
@@ -184,11 +141,6 @@ export default function PostCard({ post, index }) {
         <Box
           sx={{
             p: (theme) => theme.spacing(4, 3, 3, 3),
-            ...((latestPostLarge || latestPost) && {
-              width: 1,
-              bottom: 0,
-              position: 'absolute',
-            }),
           }}
         >
           {renderDate}
@@ -204,5 +156,4 @@ export default function PostCard({ post, index }) {
 
 PostCard.propTypes = {
   post: PropTypes.object.isRequired,
-  index: PropTypes.number,
 };

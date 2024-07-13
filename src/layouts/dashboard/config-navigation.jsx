@@ -38,11 +38,11 @@ export const fullNavConfig = [
   //   path: '/products',
   //   icon: icon('ic_cart'),
   // },
-  // {
-  //   title: 'blog',
-  //   path: '/blog',
-  //   icon: icon('ic_blog'),
-  // },
+  {
+    title: 'blog',
+    path: '/blog',
+    icon: icon('ic_blog'),
+  },
   {
     title: 'Insert Data',
     path: '/insert-data',
