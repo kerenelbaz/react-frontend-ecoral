@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
@@ -8,6 +9,17 @@ import Avatar from '@mui/material/Avatar';
 // import { alpha } from '@mui/material/styles';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
+import SatelliteIcon from '@mui/icons-material/Satellite';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import TodayIcon from '@mui/icons-material/Today';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import ManRoundedIcon from '@mui/icons-material/ManRounded';
+import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
+import WomanRoundedIcon from '@mui/icons-material/WomanRounded';
+import QuestionMarkRoundedIcon from '@mui/icons-material/QuestionMarkRounded';
+import LanguageIcon from '@mui/icons-material/Language';
+import WbSunnyIcon from '@mui/icons-material/WbSunny';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
 
 import { fDate } from 'src/utils/format-time';
 import { fShortenNumber } from 'src/utils/format-number';
@@ -18,7 +30,7 @@ import SvgColor from 'src/components/svg-color';
 // ----------------------------------------------------------------------
 
 export default function PostCard({ post }) {
-  const { cover, title, view, comment, share, author, createdAt } = post;
+  const { cover, data,humanWild,ar,maxDepth, diveSite, view, comment, share, author, createdAt, diveCode, imageLocation, age, gender, linkURL, media, loggedBy, logginDate,time } = post;
 
   const renderAvatar = (
     <Avatar
@@ -35,8 +47,79 @@ export default function PostCard({ post }) {
     />
   );
 
-  const renderTitle = (
+  const renderDiveSite = (
     <Link
+      color="inherit"
+      variant="subtitle2"
+      underline="hover"
+      sx={{
+        height: 30,
+        overflow: 'hidden',
+        WebkitLineClamp: 2,
+        display: '-webkit-box',
+        WebkitBoxOrient: 'vertical',
+      }}
+    >
+      <LocationOnIcon sx={{ mr: 0.5, fontSize: 13 }} />
+      {diveSite}
+    </Link>
+  );
+  const renderUserInfo = (
+    <Typography
+      color="inherit"
+      variant="subtitle2"
+      sx={{
+        height: 30,
+        overflow: 'hidden',
+        WebkitLineClamp: 2,
+        display: 'flex',
+        alignItems: 'center',
+      }}
+    >
+      {gender === 'Male' ? (
+        <ManRoundedIcon sx={{ fontSize: 22 }} />
+      ) : gender === 'Female' ? (
+        <WomanRoundedIcon sx={{fontSize: 20 }} />
+      ) : (
+        <QuestionMarkRoundedIcon sx={{fontSize: 20 }} />
+      )}
+      {gender}
+      <Typography
+      color="inherit"
+      variant="subtitle2"
+      sx={{
+        ml: 1, // Add some margin between gender and age
+        fontSize: 'inherit',
+        height: 30,
+        overflow: 'hidden',
+        WebkitLineClamp: 2,
+        display: 'flex',
+        alignItems: 'center',
+      }}
+    >
+        {age}
+      </Typography>
+    </Typography>
+  );
+  
+  const renderData = (
+    <Stack
+      color="inherit"
+      variant="subtitle2"
+      underline="hover"
+      sx={{
+        height: 30,
+        overflow: 'hidden',
+        WebkitLineClamp: 2,
+        display: '-webkit-box',
+        WebkitBoxOrient: 'vertical',
+      }}
+    >
+      {data}
+    </Stack>
+  );
+  const renderBody = (
+    <Stack
       color="inherit"
       variant="subtitle2"
       underline="hover"
@@ -48,8 +131,8 @@ export default function PostCard({ post }) {
         WebkitBoxOrient: 'vertical',
       }}
     >
-      {title}
-    </Link>
+      {humanWild}
+    </Stack>
   );
 
   const renderInfo = (
@@ -57,32 +140,30 @@ export default function PostCard({ post }) {
       direction="row"
       flexWrap="wrap"
       spacing={1.5}
-      justifyContent="flex-end"
+      justifyContent="flex-start" // Align items to the left
       sx={{
         mt: 3,
         color: 'text.disabled',
       }}
     >
-      {[
-        { number: comment, icon: 'eva:message-circle-fill' },
-        { number: view, icon: 'eva:eye-fill' },
-        { number: share, icon: 'eva:share-fill' },
-      ].map((info, _index) => (
-        <Stack
-          key={_index}
-          direction="row"
-        >
-          <Iconify width={16} icon={info.icon} sx={{ mr: 0.5 }} />
-          <Typography variant="caption">{fShortenNumber(info.number)}</Typography>
-        </Stack>
-      ))}
+      <Stack direction="row" alignItems="center">
+        <Iconify icon="eva:person-fill" width={16} sx={{ mr: 0.5, color: 'green' }} />
+        <Typography variant="caption">{loggedBy}</Typography>
+      </Stack>
+      <Stack direction="row" alignItems="center">
+        <Iconify icon="eva:calendar-outline" width={16} sx={{ mr: 0.5, color: 'green' }} />
+        <Typography variant="caption">
+          {logginDate || 'Invalid Date'}
+        </Typography>
+      </Stack>
     </Stack>
   );
+  
 
   const renderCover = (
     <Box
       component="img"
-      alt={title}
+      alt={diveSite}
       src={cover}
       sx={{
         top: 0,
@@ -94,17 +175,65 @@ export default function PostCard({ post }) {
     />
   );
 
-  const renderDate = (
-    <Typography
-      variant="caption"
-      component="div"
-      sx={{
-        mb: 2,
-        color: 'text.disabled',
-      }}
-    >
-      {fDate(createdAt)}
-    </Typography>
+  const renderUpper = (
+    <Stack spacing={0.5}>
+      <Stack direction="row" justifyContent="space-between">
+        <Typography
+          variant="caption"
+          component="div"
+          sx={{
+            color: 'text.disabled',
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          <TodayIcon sx={{ mr: 0.5, fontSize: 13 }} />
+          {createdAt}
+        </Typography>
+        <Stack direction="row" alignItems="center">
+          {media === 'Website' ? (
+            <LanguageIcon
+              sx={{ cursor: 'pointer', fontSize: 18, color: 'text.disabled' }}
+              onClick={() => window.open(linkURL, '_blank')}
+            />
+          ) : (
+            <FacebookOutlinedIcon
+              sx={{ cursor: 'pointer', fontSize: 18, color: 'text.disabled' }}
+            />
+          )}
+          {time === 'Light' ? (
+            <WbSunnyIcon sx={{ ml: 1, fontSize: 18, color: 'text.disabled' }} />
+          ) : time === 'Night' ? (
+            <DarkModeIcon sx={{ ml: 1, fontSize: 18, color: 'text.disabled' }} />
+          ) : (
+            <QuestionMarkRoundedIcon sx={{ ml: 1, fontSize: 18, color: 'text.disabled' }} />
+          )}
+        </Stack>
+      </Stack>
+      <Typography
+        variant="caption"
+        component="div"
+        sx={{
+          color: 'text.disabled',
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
+        <SatelliteIcon sx={{ mr: 0.5, fontSize: 13 }} />
+        {imageLocation}
+      </Typography>
+      <Typography
+        variant="caption"
+        component="div"
+        sx={{
+          color: 'text.disabled',
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
+        {diveCode}
+      </Typography>
+    </Stack>
   );
 
   const renderShape = (
@@ -123,7 +252,7 @@ export default function PostCard({ post }) {
   );
 
   return (
-    <Grid xs={12} sm={6} md={4}>
+    <Grid xs={12} sm={6} md={3}>
       <Card>
         <Box
           sx={{
@@ -143,10 +272,12 @@ export default function PostCard({ post }) {
             p: (theme) => theme.spacing(4, 3, 3, 3),
           }}
         >
-          {renderDate}
-
-          {renderTitle}
-
+          {renderUpper}
+         
+          {renderDiveSite}
+          {renderData}
+          {renderBody}
+          {renderUserInfo}
           {renderInfo}
         </Box>
       </Card>
