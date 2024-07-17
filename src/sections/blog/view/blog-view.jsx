@@ -83,12 +83,13 @@ export default function BlogView() {
             {dives[index % dives.length]?.humanWildlifeInteraction || 'No information'}
           </span>
         ),
-        data: (
-          <span>
-            <span style={{ textDecoration: 'underline' }}>Human wild life interaction:</span>{' '}
-            {dives[index % dives.length]?.humanWildlifeInteraction || 'No information'}
-          </span>
-        ),
+        ar: dives[index % dives.length]?.AR || 'No AR data',
+        // data: (
+        //   <span>
+        //     <span style={{ textDecoration: 'underline' }}>Human wild life interaction:</span>{' '}
+        //     {dives[index % dives.length]?.humanWildlifeInteraction || 'No information'}
+        //   </span>
+        // ),
         // data: `is it AR ? ${dives[index % dives.length]?.diveSite || 'No site data'}`,
         author: {
           name: faker.person.fullName(),

@@ -30,7 +30,7 @@ import SvgColor from 'src/components/svg-color';
 // ----------------------------------------------------------------------
 
 export default function PostCard({ post }) {
-  const { cover, data,humanWild,ar,maxDepth, diveSite, view, comment, share, author, createdAt, diveCode, imageLocation, age, gender, linkURL, media, loggedBy, logginDate,time } = post;
+  const { cover, data,humanWild,ar,maxDepth,idCodePhotographerName, reportReceivingDate, reportType,typeOfDive,userDescription,objectCode,objectGroup, diveSite, view, comment, share, author, createdAt, diveCode, imageLocation, age, gender, linkURL, media, loggedBy, logginDate,time } = post;
 
   const renderAvatar = (
     <Avatar
@@ -119,20 +119,37 @@ export default function PostCard({ post }) {
     </Stack>
   );
   const renderBody = (
-    <Stack
+    <Stack>
+        <Stack
+        color="inherit"
+        variant="subtitle2"
+        underline="hover"
+        sx={{
+          height: 75,
+          overflow: 'hidden',
+          WebkitLineClamp: 2,
+          display: '-webkit-box',
+          WebkitBoxOrient: 'vertical',
+        }}
+      >
+        {humanWild}
+      </Stack>
+      <Stack
       color="inherit"
       variant="subtitle2"
       underline="hover"
       sx={{
-        height: 120,
+        height: 30,
         overflow: 'hidden',
         WebkitLineClamp: 2,
         display: '-webkit-box',
         WebkitBoxOrient: 'vertical',
       }}
     >
-      {humanWild}
+      {`Is artificaial reef? ${ar}`}
     </Stack>
+    </Stack>
+    
   );
 
   const renderInfo = (
