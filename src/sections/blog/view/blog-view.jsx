@@ -1,3 +1,4 @@
+import { format } from 'date-fns';
 import { faker } from '@faker-js/faker';
 import React, { useState, useEffect, useCallback } from 'react';
 
@@ -6,6 +7,7 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
+import Pagination from '@mui/material/Pagination';
 
 import Iconify from 'src/components/iconify';
 
@@ -13,37 +15,11 @@ import PostCard from '../post-card';
 import PostSort from '../post-sort';
 import PostSearch from '../post-search';
 
-
-// const POST_TITLES = [
-//   'Whiteboard Templates By Industry Leaders',
-//   'Tesla Cybertruck-inspired camper trailer for Tesla fans who can’t just wait for the truck!',
-//   'Designify Agency Landing Page Design',
-//   '✨What is Done is Done ✨',
-//   'Fresh Prince',
-//   'Six Socks Studio',
-//   'vincenzo de cotiis’ crossing over showcases a research on contamination',
-//   'Simple, Great Looking Animations in Your Project | Video Tutorial',
-//   '40 Free Serif Fonts for Digital Designers',
-//   'Examining the Evolution of the Typical Web Design Client',
-//   'Katie Griffin loves making that homey art',
-//   'The American Dream retold through mid-century railroad graphics',
-//   'Illustration System Design',
-//   'CarZio-Delivery Driver App SignIn/SignUp',
-//   'How to create a client-serverless Jamstack app using Netlify, Gatsby and Fauna',
-//   'Tylko Organise effortlessly -3D & Motion Design',
-//   'RAYO ?? A expanded visual arts festival identity',
-//   'Anthony Burrill and Wired mag’s Andrew Diprose discuss how they made January’s Change Everything cover',
-//   'Inside the Mind of Samuel Day',
-//   'Portfolio Review: Is This Portfolio Too Creative?',
-//   'Akkers van Margraten',
-//   'Gradient Ticket icon',
-//   'Here’s a Dyson motorcycle concept that doesn’t ‘suck’!',
-//   'How to Animate a SVG with border-image',
-// ];
-
 export default function BlogView() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   const fetchData = useCallback(async () => {
     try {
@@ -55,45 +31,86 @@ export default function BlogView() {
       const { dives } = responseData.data;
 
       dives.sort((a, b) => new Date(b.logginDate) - new Date(a.logginDate));
-      // console.log(dives);
 
-      
-
-      const fetchedPosts = [...Array(23)].map((_, index) => ({
+      const fetchedPosts = dives.map((dive, index) => ({
         id: faker.string.uuid(),
-        cover: `/assets/images/covers/cover_${index + 1}.jpg`,
-        imageLocation: dives[index % dives.length]?.imageLocation || 'No image location',
-        diveCode: `Dive Code:  ${dives[index % dives.length]?.diveCode || 'No dive code'}`,
-        loggedBy: `Logged By:  ${dives[index % dives.length]?.loggedBy || 'unknown'}`,
-        logginDate: `Loggin Date:  ${dives[index % dives.length]?.logginDate || 'unknown'}`,
-        createdAt: dives[index % dives.length]?.date || "no date",
-        age: `Age: ${dives[index % dives.length]?.ageOfDiver === 'NA' ? '-' : (dives[index % dives.length]?.ageOfDiver || 'Unknown')}`,
-        time: dives[index % dives.length]?.time || 'No time',
-        gender: dives[index % dives.length]?.sexOfDiver === 'NA' ? 'No Gender' : (dives[index % dives.length]?.sexOfDiver || 'No gender'),
-        linkURL: dives[index % dives.length]?.linkURL || 'No Link',
-        media: dives[index % dives.length]?.media || 'No media',
-        view: faker.number.int(99999),
-        comment: faker.number.int(99999),
-        share: faker.number.int(99999),
-        favorite: faker.number.int(99999),
-        diveSite: dives[index % dives.length]?.diveSite || 'No site data',
+        cover: `/assets/images/covers/cover_${(index % 24) + 1}.jpg`,
+        imageLocation: dive.imageLocation || 'No image location',
+        diveCode: `${dive.diveCode || 'No dive code'}`,
+        loggedBy: `Logged By: ${dive.loggedBy || 'unknown'}`,
+        logginDate: `Loggin Date: ${dive.logginDate || 'unknown'}`,
+        createdAt: dive.date || 'no date',
+        age: `Age: ${dive.ageOfDiver === 'NA' ? '-' : dive.ageOfDiver || 'Unknown'}`,
+        time: dive.time || 'No time',
+        gender: dive.sexOfDiver === 'NA' ? 'No Gender' : dive.sexOfDiver || 'No gender',
+        linkURL: dive.linkURL || 'No Link',
+        media: dive.media || 'No media',
+        reportReceivingDate: dive.reportReceivingDate
+          ? format(new Date(dive.reportReceivingDate), 'dd MMM yyyy')
+          : 'none',
+        idCodePhotographerName: dive.idCode_photographerName || '',
+        diveSite: dive.diveSite || 'No site data',
+        specie: dive.specie || 'No Specie',
         humanWild: (
           <span>
-            <span style={{ textDecoration: 'underline' }}>Human wild life interaction:</span>{' '}
-            {dives[index % dives.length]?.humanWildlifeInteraction || 'No information'}
+            <span style={{ color: 'black' }}>Human wild life interaction</span>{' '}
+            {dive.humanWildlifeInteraction || 'No info'}
           </span>
         ),
-        ar: dives[index % dives.length]?.AR || 'No AR data',
-        // data: (
-        //   <span>
-        //     <span style={{ textDecoration: 'underline' }}>Human wild life interaction:</span>{' '}
-        //     {dives[index % dives.length]?.humanWildlifeInteraction || 'No information'}
-        //   </span>
-        // ),
-        // data: `is it AR ? ${dives[index % dives.length]?.diveSite || 'No site data'}`,
+        ar: (
+          <span>
+            <span style={{ color: 'black' }}>Artifical Reef: </span> {dive.AR || 'No'}
+          </span>
+        ),
+        distance: (
+          <span>
+            <span style={{ color: 'black' }}>Distance:</span> {dive.distance || 'None'}
+          </span>
+        ),
+        maxDepth: (
+          <span>
+            <span style={{ color: 'black' }}>Max Depth: </span> {dive.maxDepth || '-'}
+          </span>
+        ),
+        temp: (
+          <span>
+            <span style={{ color: 'black' }}>Temp:</span> {dive.temp || '-'}
+          </span>
+        ),
+        rankOfDive: (
+          <span>
+            <span style={{ color: 'black' }}>Rank:</span> {dive.rankOfDive || '-'}
+          </span>
+        ),
+        userDescription: (
+          <span>
+            <span style={{ color: 'black', textDecoration: 'underline' }}>User Description</span>:{' '}
+            {dive.userDescription || '-'}
+          </span>
+        ),
+        objectGroup: (
+          <span>
+            <span style={{ color: 'black' }}>Object Group</span>: {dive.objectGroup || '-'}
+          </span>
+        ),
+        objectCode: (
+          <span>
+            <span style={{ color: 'black' }}>Object Code</span>: {dive.objectCode || '-'}
+          </span>
+        ),
+        reportType: (
+          <span>
+            <span style={{ color: 'black' }}>Report Type</span>: {dive.reportType || '-'}
+          </span>
+        ),
+        typeOfDive: (
+          <span>
+            <span style={{ color: 'black' }}>Type Of Dive</span>: {dive.typeOfDive || '-'}
+          </span>
+        ),
         author: {
           name: faker.person.fullName(),
-          avatarUrl: `/assets/images/avatars/avatar_${index + 1}.jpg`,
+          avatarUrl: `/assets/images/avatars/avatar_${(index % 25) + 1}.jpg`,
         },
       }));
 
@@ -112,6 +129,19 @@ export default function BlogView() {
   if (loading) {
     return <div>Loading...</div>;
   }
+
+  const indexOfLastPost = currentPage * itemsPerPage;
+  const indexOfFirstPost = indexOfLastPost - itemsPerPage;
+  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
+
+  const handleItemsPerPageChange = (event) => {
+    setItemsPerPage(parseInt(event.target.value, 10));
+    setCurrentPage(1); // Reset to first page
+  };
 
   return (
     <Container>
@@ -135,10 +165,27 @@ export default function BlogView() {
       </Stack>
 
       <Grid container spacing={3}>
-        {posts.map((post, index) => (
+        {currentPosts.map((post, index) => (
           <PostCard key={post.id} post={post} index={index} />
         ))}
       </Grid>
+
+      <Stack direction="row" alignItems="center" justifyContent="space-between" mt={5}>
+        <Typography variant="body2">
+          Items per page:
+          <select value={itemsPerPage} onChange={handleItemsPerPageChange}>
+            <option value={10}>10</option>
+            <option value={20}>20</option>
+          </select>
+        </Typography>
+
+        <Pagination
+          count={Math.ceil(posts.length / itemsPerPage)}
+          page={currentPage}
+          onChange={handlePageChange}
+          color="primary"
+        />
+      </Stack>
     </Container>
   );
 }

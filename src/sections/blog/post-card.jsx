@@ -6,31 +6,35 @@ import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
-// import { alpha } from '@mui/material/styles';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
+import TodayIcon from '@mui/icons-material/Today';
+import WbSunnyIcon from '@mui/icons-material/WbSunny';
+import LanguageIcon from '@mui/icons-material/Language';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import SatelliteIcon from '@mui/icons-material/Satellite';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import TodayIcon from '@mui/icons-material/Today';
-import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import ManRoundedIcon from '@mui/icons-material/ManRounded';
-import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import WomanRoundedIcon from '@mui/icons-material/WomanRounded';
+import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import QuestionMarkRoundedIcon from '@mui/icons-material/QuestionMarkRounded';
-import LanguageIcon from '@mui/icons-material/Language';
-import WbSunnyIcon from '@mui/icons-material/WbSunny';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
+// import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined';
 
-import { fDate } from 'src/utils/format-time';
-import { fShortenNumber } from 'src/utils/format-number';
+// import { fDate } from 'src/utils/format-time';
+// import { fShortenNumber } from 'src/utils/format-number';
 
 import Iconify from 'src/components/iconify';
 import SvgColor from 'src/components/svg-color';
 
+// import fishIcon from 'src/sections/blog/view/fish.png';
+
 // ----------------------------------------------------------------------
 
 export default function PostCard({ post }) {
-  const { cover, data,humanWild,ar,maxDepth,idCodePhotographerName, reportReceivingDate, reportType,typeOfDive,userDescription,objectCode,objectGroup, diveSite, view, comment, share, author, createdAt, diveCode, imageLocation, age, gender, linkURL, media, loggedBy, logginDate,time } = post;
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
+  const { cover, humanWild, ar, maxDepth, idCodePhotographerName, reportReceivingDate, reportType, typeOfDive, userDescription, objectCode, objectGroup, diveSite,rankOfDive,  specie, distance, temp, author, createdAt, diveCode, imageLocation, age, gender, linkURL, media, loggedBy, logginDate, time } = post;
 
   const renderAvatar = (
     <Avatar
@@ -48,22 +52,69 @@ export default function PostCard({ post }) {
   );
 
   const renderDiveSite = (
-    <Link
-      color="inherit"
+    <Stack>
+    <Stack direction="row" alignItems="center" justifyContent="center" spacing={1}>
+      <Link
+
+        variant="subtitle2"
+        underline="hover"
+        sx={{
+          overflow: 'hidden',
+          fontSize:'0.9rem',
+          WebkitBoxOrient: 'vertical',
+          textAlign: 'center',
+          fontWeight: 'bold'
+        }}
+      >
+        <LocationOnIcon sx={{ mr: 0.5, fontSize: 13 }} />
+        {diveSite}
+      </Link>
+      <Link
+
+        variant="subtitle2"
+        underline="none"
+        sx={{
+          overflow: 'hidden',
+          textAlign: 'center'
+        }}
+      >
+        {diveCode}
+      </Link>
+    </Stack>
+    <Stack direction="row" justifyContent="center" spacing={1}>
+    {/* <img
+      src={fishIcon}
+      alt="Fish Icon"
+      style={{
+        width: 15, 
+        height: 15, 
+      }}
+    /> */}
+    <Typography
       variant="subtitle2"
-      underline="hover"
+      height="20px"
       sx={{
-        height: 30,
-        overflow: 'hidden',
-        WebkitLineClamp: 2,
-        display: '-webkit-box',
-        WebkitBoxOrient: 'vertical',
+        display: 'flex',
+        alignItems: 'center',
       }}
     >
-      <LocationOnIcon sx={{ mr: 0.5, fontSize: 13 }} />
-      {diveSite}
-    </Link>
+    {specie}
+    </Typography>
+    <Typography
+      variant="subtitle2"
+      height="20px"
+      sx={{
+        display: 'flex',
+        height: 30,
+        alignItems: 'center',
+      }}
+    >
+    {/* {specie} */}
+    </Typography>
+  </Stack>
+  </Stack>
   );
+
   const renderUserInfo = (
     <Typography
       color="inherit"
@@ -79,88 +130,211 @@ export default function PostCard({ post }) {
       {gender === 'Male' ? (
         <ManRoundedIcon sx={{ fontSize: 22 }} />
       ) : gender === 'Female' ? (
-        <WomanRoundedIcon sx={{fontSize: 20 }} />
+        <WomanRoundedIcon sx={{ fontSize: 20 }} />
       ) : (
-        <QuestionMarkRoundedIcon sx={{fontSize: 20 }} />
+        <QuestionMarkRoundedIcon sx={{ fontSize: 20 }} />
       )}
       {gender}
       <Typography
-      color="inherit"
-      variant="subtitle2"
-      sx={{
-        ml: 1, // Add some margin between gender and age
-        fontSize: 'inherit',
-        height: 30,
-        overflow: 'hidden',
-        WebkitLineClamp: 2,
-        display: 'flex',
-        alignItems: 'center',
-      }}
-    >
+        color="inherit"
+        variant="subtitle2"
+        sx={{
+          ml: 1, // Add some margin between gender and age
+          fontSize: 'inherit',
+          height: 30,
+          overflow: 'hidden',
+          WebkitLineClamp: 2,
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
         {age}
       </Typography>
     </Typography>
   );
-  
-  const renderData = (
-    <Stack
-      color="inherit"
-      variant="subtitle2"
-      underline="hover"
-      sx={{
-        height: 30,
-        overflow: 'hidden',
-        WebkitLineClamp: 2,
-        display: '-webkit-box',
-        WebkitBoxOrient: 'vertical',
-      }}
-    >
-      {data}
-    </Stack>
-  );
+
+  const renderUserDescription =(
+    <Typography
+        variant="subtitle2"
+        sx={{
+          ml: 1, 
+          overflow: 'hidden',
+          WebkitLineClamp: 2,
+          display: 'flex',
+        }}
+      >
+        {userDescription}
+      </Typography>
+  )
+
+  // const renderData = (
+  //   <Stack
+  //     color="inherit"
+  //     variant="subtitle2"
+  //     underline="hover"
+  //     sx={{
+  //       height: 30,
+  //       overflow: 'hidden',
+  //       WebkitLineClamp: 2,
+  //       display: '-webkit-box',
+  //       WebkitBoxOrient: 'vertical',
+  //     }}
+  //   >
+  //     {data}
+  //   </Stack>
+  // );
+
   const renderBody = (
     <Stack>
-        <Stack
-        color="inherit"
+      <Link
+        variant="subtitle2"
+        underline="disable"
+        sx={{
+          overflow: 'hidden',
+          fontSize: '0.83rem',
+          display: '-webkit-box',
+          WebkitBoxOrient: 'vertical',
+        }}
+      >
+        {humanWild}
+      </Link>
+      <Link
         variant="subtitle2"
         underline="hover"
         sx={{
-          height: 75,
+          overflow: 'hidden',
+          fontSize: '0.83rem',
+          display: '-webkit-box',
+          WebkitBoxOrient: 'vertical',
+        }}
+      >
+        {ar}
+      </Link>
+      <Link
+        variant="subtitle2"
+        underline="hover"
+        sx={{
+          overflow: 'hidden',
+          fontSize: '0.83rem',
+          display: '-webkit-box',
+          WebkitBoxOrient: 'vertical',
+        }}
+      >
+        {maxDepth}
+      </Link>
+      <Link
+        variant="subtitle2"
+        underline="hover"
+        sx={{
+          overflow: 'hidden',
+          WebkitLineClamp: 2,
+          fontSize: '0.83rem',
+          display: '-webkit-box',
+          WebkitBoxOrient: 'vertical',
+        }}
+      >
+        {distance}
+      </Link>
+      <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Link
+          variant="subtitle2"
+          underline="hover"
+          sx={{
+            overflow: 'hidden',
+            WebkitLineClamp: 2,
+            fontSize: '0.83rem',
+            height: 30,
+            display: '-webkit-box',
+            WebkitBoxOrient: 'vertical',
+            flexGrow: 1, // Ensure it takes up available space
+          }}
+        >
+          {temp}
+        </Link>
+        <Link
+          variant="subtitle2"
+          underline="hover"
+          sx={{
+            overflow: 'hidden',
+            height: 30,
+            WebkitLineClamp: 2,
+            fontSize: '0.83rem',
+            display: '-webkit-box',
+            WebkitBoxOrient: 'vertical',
+            textAlign: 'right', // Align text to the right
+          }}
+        >
+          {rankOfDive}
+        </Link>
+      </Stack>
+    </Stack>
+  );
+  
+  
+
+  const renderDataCodes = (
+    <Stack>
+      <Link
+        variant="subtitle2"
+        underline="disable"
+        sx={{
+          overflow: 'hidden',
+          display: '-webkit-box',
+          fontSize: '0.83rem',
+          WebkitBoxOrient: 'vertical',
+        }}
+      >
+        {objectGroup}
+      </Link>
+      <Link
+        variant="subtitle2"
+        underline="hover"
+        sx={{
+          overflow: 'hidden',
+          fontSize: '0.83rem',
+          display: '-webkit-box',
+          WebkitBoxOrient: 'vertical',
+        }}
+      >
+        {objectCode}
+      </Link>
+      <Link
+        variant="subtitle2"
+        underline="hover"
+        sx={{
+          overflow: 'hidden',
+          fontSize: '0.83rem',
+          display: '-webkit-box',
+          WebkitBoxOrient: 'vertical',
+        }}
+      >
+        {reportType}
+      </Link>
+      <Link
+        variant="subtitle2"
+        underline="hover"
+        sx={{
+          fontSize: '0.83rem',
+          height: 30,
           overflow: 'hidden',
           WebkitLineClamp: 2,
           display: '-webkit-box',
           WebkitBoxOrient: 'vertical',
         }}
       >
-        {humanWild}
-      </Stack>
-      <Stack
-      color="inherit"
-      variant="subtitle2"
-      underline="hover"
-      sx={{
-        height: 30,
-        overflow: 'hidden',
-        WebkitLineClamp: 2,
-        display: '-webkit-box',
-        WebkitBoxOrient: 'vertical',
-      }}
-    >
-      {`Is artificaial reef? ${ar}`}
+        {typeOfDive}
+      </Link>
+      
     </Stack>
-    </Stack>
-    
   );
 
   const renderInfo = (
     <Stack
       direction="row"
       flexWrap="wrap"
-      spacing={1.5}
-      justifyContent="flex-start" // Align items to the left
+      justifyContent="flex-start" 
       sx={{
-        mt: 3,
-        color: 'text.disabled',
+        mt: 1
       }}
     >
       <Stack direction="row" alignItems="center">
@@ -175,7 +349,6 @@ export default function PostCard({ post }) {
       </Stack>
     </Stack>
   );
-  
 
   const renderCover = (
     <Box
@@ -204,10 +377,10 @@ export default function PostCard({ post }) {
             alignItems: 'center',
           }}
         >
-          <TodayIcon sx={{ mr: 0.5, fontSize: 13 }} />
+          <TodayIcon sx={{ mr: 0.5, fontSize: 16 }} />
           {createdAt}
         </Typography>
-        <Stack direction="row" alignItems="center">
+        <Stack direction="row" alignItems="center" sx={{ ml: 'auto' }}>
           {media === 'Website' ? (
             <LanguageIcon
               sx={{ cursor: 'pointer', fontSize: 18, color: 'text.disabled' }}
@@ -231,13 +404,20 @@ export default function PostCard({ post }) {
         variant="caption"
         component="div"
         sx={{
+          height:20,
           color: 'text.disabled',
           display: 'flex',
           alignItems: 'center',
         }}
       >
-        <SatelliteIcon sx={{ mr: 0.5, fontSize: 13 }} />
+        <SatelliteIcon sx={{ mr: 0.5, fontSize: 16 }} />
         {imageLocation}
+        {idCodePhotographerName && (
+          <>
+            &nbsp;|&nbsp;
+            {idCodePhotographerName}
+          </>
+        )}
       </Typography>
       <Typography
         variant="caption"
@@ -246,12 +426,17 @@ export default function PostCard({ post }) {
           color: 'text.disabled',
           display: 'flex',
           alignItems: 'center',
+          height: 40
         }}
       >
-        {diveCode}
+        <EventAvailableOutlinedIcon sx={{ mr: 0.5, fontSize: 16 }}/>
+        Report receiving date:
+        <br />
+        {reportReceivingDate}
       </Typography>
     </Stack>
   );
+  
 
   const renderShape = (
     <SvgColor
@@ -269,12 +454,20 @@ export default function PostCard({ post }) {
   );
 
   return (
-    <Grid xs={12} sm={6} md={3}>
-      <Card>
-        <Box
+    <Grid xs={12} sm={4} md={3}>
+      <Card
+        sx={{
+          height: isSmallScreen ? '70vh' : '30vh', // Adjust height for small screens
+          minHeight: isSmallScreen ? 200 : 300,
+          maxHeight: isSmallScreen ? 400 : 600,
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        <Box 
           sx={{
             position: 'relative',
-            pt: 'calc(100% * 3 / 4)',
+            pt: isSmallScreen ? 'calc(100% * 3 / 5)':'calc(100% * 3 / 4)',
           }}
         >
           {renderShape}
@@ -286,15 +479,18 @@ export default function PostCard({ post }) {
 
         <Box
           sx={{
-            p: (theme) => theme.spacing(4, 3, 3, 3),
+            p: (theme) => theme.spacing(4, 1, 3, 2),
+            overflowY: 'auto', // Make the inner content scrollable
+            flex: 1, // Allow the Box to grow to take up available space
           }}
         >
           {renderUpper}
-         
+
           {renderDiveSite}
-          {renderData}
           {renderBody}
+          {renderDataCodes}
           {renderUserInfo}
+          {renderUserDescription}
           {renderInfo}
         </Box>
       </Card>
