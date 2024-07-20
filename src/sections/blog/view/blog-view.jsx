@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { format, parseISO } from 'date-fns';
+import { parse, format, parseISO } from 'date-fns';
 import React, { useState, useEffect, useCallback } from 'react';
 
 import Stack from '@mui/material/Stack';
@@ -44,7 +44,11 @@ export default function BlogView() {
 
         let formattedCreatedAt;
         try {
-          formattedCreatedAt = format(parseISO(createdAt), 'dd/MM/yyyy');
+          if (createdAt.includes('-')) {
+            formattedCreatedAt = format(parseISO(createdAt), 'dd/MM/yyyy');
+          } else {
+            formattedCreatedAt = format(parse(createdAt, 'dd/MM/yyyy', new Date()), 'dd/MM/yyyy');
+          }
         } catch (error) {
           console.error('Error formatting date:', createdAt, error);
           formattedCreatedAt = 'Invalid date';
@@ -188,6 +192,11 @@ export default function BlogView() {
     setFilteredPosts(sortedPosts); // Ensure filtered posts are also sorted
   };
 
+  const handleNewDive = () => {
+    console.log("hello")
+    window.open('/insert-data', '_blank');
+  };
+
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between">
@@ -203,8 +212,8 @@ export default function BlogView() {
           ]}
           onSort={handleSort}
         />
-        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
-          New Post
+        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />} onClick={handleNewDive}>
+          Add Dive
         </Button>
       </Stack>
 
