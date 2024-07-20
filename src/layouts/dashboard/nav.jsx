@@ -1,6 +1,6 @@
 
 import PropTypes from 'prop-types';
-import {useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -11,11 +11,11 @@ import { alpha } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import ListItemButton from '@mui/material/ListItemButton';
 
+import DividerText from 'src/routes/divider';
 import { usePathname } from 'src/routes/hooks';
 import { RouterLink } from 'src/routes/components';
 
 import { useResponsive } from 'src/hooks/use-responsive';
-
 // import { account } from 'src/_mock/account';
 
 import Logo from 'src/components/logo';
@@ -111,10 +111,13 @@ export default function Nav({ openNav, onCloseNav }) {
 
   const renderMenu = (
     <Stack component="nav" spacing={0.5} sx={{ px: 2 }}>
-      {navConfig.map((item) => (
-        <NavItem key={item.title} item={item} />
-      ))}
-    </Stack>
+    {navConfig.map((item, index) => (
+      <React.Fragment key={item.title}>
+        <NavItem item={item} />
+        {item.title === 'Articles' && <DividerText />}
+      </React.Fragment>
+    ))}
+  </Stack>
   );
 
   const renderContent = (
@@ -192,7 +195,9 @@ function NavItem({ item }) {
   const active = item.path === pathname;
 
   return (
-    <ListItemButton
+    <div>
+      {/* <DividerText/> */}
+      <ListItemButton
       component={RouterLink}
       href={item.path}
       sx={{
@@ -218,6 +223,8 @@ function NavItem({ item }) {
 
       <Box component="span">{item.title} </Box>
     </ListItemButton>
+    </div>
+    
   );
 }
 
