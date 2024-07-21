@@ -39,11 +39,6 @@ export const fullNavConfig = [
   //   icon: icon('ic_cart'),
   // },
   {
-    title: 'blog',
-    path: '/blog',
-    icon: icon('ic_blog'),
-  },
-  {
     title: 'Insert Data',
     path: '/insert-data',
     icon: icon('ic_addData'),
@@ -63,10 +58,16 @@ export const fullNavConfig = [
   //   path: '/404',
   //   icon: icon('ic_disabled'),
   // },
+  
   {
     title: 'Pending Dives',
     path: '/pending-dives',
     icon: <PendingActionsTwoToneIcon />,
+  },
+  {
+    title: 'blog',
+    path: '/blog',
+    icon: icon('ic_blog'),
   },
   {
     title: 'All Dives',
