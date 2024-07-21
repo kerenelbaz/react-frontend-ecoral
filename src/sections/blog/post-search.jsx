@@ -59,6 +59,8 @@ export default function PostSearch({ posts, onFilter, setSearchCount }) {
     setQueries(newQueries);
 
     const filteredPosts = posts.filter(post => {
+    // console.log('post.temp:', post.temp);
+
       const isDiveCodeMatch = newQueries.diveCode ? post.diveCode.toLowerCase().includes(newQueries.diveCode.toLowerCase()) : true;
       const isDiveSiteMatch = newQueries.diveSite ? post.diveSite.toLowerCase().includes(newQueries.diveSite.toLowerCase()) : true;
       const isSpecieMatch = newQueries.specie ? post.specie.toLowerCase().includes(newQueries.specie.toLowerCase()) : true;
@@ -78,6 +80,8 @@ export default function PostSearch({ posts, onFilter, setSearchCount }) {
       const isDistanceMatch = newQueries.distance ? post.distance == newQueries.distance : true;
       const isMaxDepthMatch = newQueries.maxDepth ? post.maxDepth == newQueries.maxDepth : true;
       const isTempMatch = newQueries.temp ? post.temp == newQueries.temp : true;
+      // console.log(`post.temp: ${  post.temp}`);
+      // console.log(`temp: ${  isTempMatch}`);
       const isRankOfDiveMatch = newQueries.rankOfDive ? post.rankOfDive == newQueries.rankOfDive : true;
       const isUserDescriptionMatch = newQueries.userDescription ? post.userDescription.toLowerCase().includes(newQueries.userDescription.toLowerCase()) : true;
       const isObjectCodeMatch = newQueries.objectCode ? post.objectCode.toLowerCase().includes(newQueries.objectCode.toLowerCase()) : true;

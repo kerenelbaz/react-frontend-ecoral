@@ -196,76 +196,88 @@ export default function PostCard({ post }) {
           WebkitBoxOrient: 'vertical',
         }}
       >
-        {humanWild}
-      </Link>
-      <Link
+        <Typography fontWeight='bold' fontSize= '0.83rem' color="black">Human wild life interaction:
+        <Link
         variant="subtitle2"
-        underline="hover"
+        underline="disable"
         sx={{
           overflow: 'hidden',
           fontSize: '0.83rem',
           display: '-webkit-box',
           WebkitBoxOrient: 'vertical',
         }}
-      >
-        {ar}
+        >
+        {humanWild}</Link>
+        </Typography>
       </Link>
-      <Link
+      <Typography fontWeight='bold' fontSize= '0.83rem' color="black">Artificial Reef:
+        <Link
         variant="subtitle2"
-        underline="hover"
+        underline="disable"
         sx={{
           overflow: 'hidden',
           fontSize: '0.83rem',
           display: '-webkit-box',
           WebkitBoxOrient: 'vertical',
         }}
-      >
-        {maxDepth}
-      </Link>
-      <Link
+        >
+        {ar}</Link>
+        </Typography>
+        <Typography fontWeight='bold' fontSize= '0.83rem' color="black">Max Depth:
+        <Link
         variant="subtitle2"
-        underline="hover"
+        underline="disable"
         sx={{
           overflow: 'hidden',
-          WebkitLineClamp: 2,
           fontSize: '0.83rem',
           display: '-webkit-box',
           WebkitBoxOrient: 'vertical',
         }}
-      >
-        {distance}
-      </Link>
+        >
+        {maxDepth}</Link>
+        </Typography>
+      
+        <Typography fontWeight='bold' fontSize= '0.83rem' color="black">Distance:
+        <Link
+        variant="subtitle2"
+        underline="disable"
+        sx={{
+          overflow: 'hidden',
+          fontSize: '0.83rem',
+          display: '-webkit-box',
+          WebkitBoxOrient: 'vertical',
+        }}
+        >
+        {distance}</Link>
+        </Typography>
+   
       <Stack direction="row" justifyContent="space-between" alignItems="center">
+      <Typography fontWeight='bold' fontSize= '0.83rem' color="black">Temp:
         <Link
-          variant="subtitle2"
-          underline="hover"
-          sx={{
-            overflow: 'hidden',
-            WebkitLineClamp: 2,
-            fontSize: '0.83rem',
-            height: 30,
-            display: '-webkit-box',
-            WebkitBoxOrient: 'vertical',
-            flexGrow: 1, // Ensure it takes up available space
-          }}
+        variant="subtitle2"
+        underline="disable"
+        sx={{
+          overflow: 'hidden',
+          fontSize: '0.83rem',
+          display: '-webkit-box',
+          WebkitBoxOrient: 'vertical',
+        }}
         >
-          {temp}
-        </Link>
+        {temp}</Link>
+        </Typography>
+        <Typography fontWeight='bold' fontSize= '0.83rem' color="black">Rank:
         <Link
-          variant="subtitle2"
-          underline="hover"
-          sx={{
-            overflow: 'hidden',
-            height: 30,
-            WebkitLineClamp: 2,
-            fontSize: '0.83rem',
-            display: '-webkit-box',
-            WebkitBoxOrient: 'vertical',
-            textAlign: 'right', // Align text to the right
-          }}
+        variant="subtitle2"
+        underline="disable"
+        sx={{
+          overflow: 'hidden',
+          fontSize: '0.83rem',
+          display: '-webkit-box',
+          WebkitBoxOrient: 'vertical',
+        }}
         >
-          {rankOfDive}
-        </Link>
+        {rankOfDive}</Link>
+        </Typography>
       </Stack>
     </Stack>
   );

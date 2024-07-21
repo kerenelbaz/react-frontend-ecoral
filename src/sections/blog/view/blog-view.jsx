@@ -73,63 +73,28 @@ export default function BlogView() {
           idCodePhotographerName: dive.idCode_photographerName || '',
           diveSite: dive.diveSite || 'No site data',
           specie: dive.specie || 'No Specie',
-          humanWild: (
-            <span>
-              <span style={{ color: 'black' }}>Human wild life interaction</span>{' '}
-              {dive.humanWildlifeInteraction || 'No info'}
-            </span>
-          ),
-          ar: (
-            <span>
-              <span style={{ color: 'black' }}>Artifical Reef: </span> {dive.AR || 'No'}
-            </span>
-          ),
-          distance: (
-            <span>
-              <span style={{ color: 'black' }}>Distance:</span> {dive.distance || 'None'}
-            </span>
-          ),
-          maxDepth: (
-            <span>
-              <span style={{ color: 'black' }}>Max Depth: </span> {dive.maxDepth || '-'}
-            </span>
-          ),
-          temp: (
-            <span>
-              <span style={{ color: 'black' }}>Temp:</span> {dive.temp || '-'}
-            </span>
-          ),
-          rankOfDive: (
-            <span>
-              <span style={{ color: 'black' }}>Rank:</span> {dive.rankOfDive || '-'}
-            </span>
-          ),
+          // humanWild: (
+          //   <span>
+          //     <span style={{ color: 'black' }}>Human wild life interaction</span>{' '}
+          //     {dive.humanWildlifeInteraction || 'No info'}
+          //   </span>
+          // ),
+          humanWild: dive.humanWildlifeInteraction || 'No info',
+          ar: dive.AR || 'No',
+          distance: dive.distance || 'None',
+          maxDepth: dive.maxDepth || 'no m',
+          temp: dive.temp || 'no t',
+          rankOfDive: dive.rankOfDive || 'no r',
           userDescription: (
             <span>
               <span style={{ color: 'black', textDecoration: 'underline' }}>User Description</span>:{' '}
               {dive.userDescription || '-'}
             </span>
           ),
-          objectGroup: (
-            <span>
-              <span style={{ color: 'black' }}>Object Group</span>: {dive.objectGroup || '-'}
-            </span>
-          ),
-          objectCode: (
-            <span>
-              <span style={{ color: 'black' }}>Object Code</span>: {dive.objectCode || '-'}
-            </span>
-          ),
-          reportType: (
-            <span>
-              <span style={{ color: 'black' }}>Report Type</span>: {dive.reportType || '-'}
-            </span>
-          ),
-          typeOfDive: (
-            <span>
-              <span style={{ color: 'black' }}>Type Of Dive</span>: {dive.typeOfDive || '-'}
-            </span>
-          ),
+          objectGroup: dive.objectGroup || '-',
+          objectCode: dive.objectCode || '-',
+          reportType: dive.reportType || '-',
+          typeOfDive: dive.typeOfDive || '-',
           author: {
             name: faker.person.fullName(),
             avatarUrl: `/assets/images/avatars/avatar_${(index % 25) + 1}.jpg`,
