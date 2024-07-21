@@ -17,7 +17,7 @@ export default function DividerText() {
   return (
     <Root>
       <Divider>
-        <Chip label="Admin" size="small" />
+        <Chip label="Admin Privileges" size="small" />
       </Divider>
     </Root>
   );
