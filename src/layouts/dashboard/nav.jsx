@@ -100,7 +100,7 @@ export default function Nav({ openNav, onCloseNav }) {
     >
       <Typography variant="body2" sx={{ color: 'text.secondary' }}>
       
-        <Typography variant="h6">Want to see more?</Typography>
+        <Typography variant="h6">Want to contribute the research?</Typography>
           <RouterLink to="/login" style={{ marginRight: 8, textDecoration: 'none', color: 'inherit' }}>Sign in</RouterLink>
           |
           <RouterLink to="/register" style={{ marginLeft: 8, textDecoration: 'none', color: 'inherit' }}>Sign up</RouterLink>
