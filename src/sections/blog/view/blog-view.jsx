@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker';
+import { useNavigate } from 'react-router-dom';
 import { parse, format, parseISO } from 'date-fns';
 import React, { useState, useEffect, useCallback } from 'react';
 
@@ -8,6 +9,8 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import Pagination from '@mui/material/Pagination';
+
+import { useView } from 'src/viewContexts';
 
 import Iconify from 'src/components/iconify';
 
@@ -22,6 +25,8 @@ export default function BlogView() {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [searchCount, setSearchCount] = useState(0);
+  const { switchToTable } = useView();
+  const navigate = useNavigate();
 
   const fetchData = useCallback(async () => {
     try {
@@ -173,9 +178,13 @@ export default function BlogView() {
     window.open('/insert-data', '_blank');
   };
 
-  const handleAllDiveTable = () => {
-    window.open('/all-data', '_blank');
-  }
+  // const handleAllDiveTable = () => {
+  //   window.open('/all-data', '_blank');
+  // }
+  const handleSwitchToTable = () => {
+    switchToTable();
+    navigate('/dynamic-view');
+  };
 
   return (
     <Container>
@@ -195,7 +204,7 @@ export default function BlogView() {
         <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />} onClick={handleNewDive}>
           Add Dive
         </Button>
-        <Button variant="contained" color="inherit" startIcon={<Iconify icon="mdi:table" />} onClick={handleAllDiveTable}>
+        <Button variant="contained" color="inherit" startIcon={<Iconify icon="mdi:table" />} onClick={handleSwitchToTable}>
           As Table
         </Button>
       </Stack>

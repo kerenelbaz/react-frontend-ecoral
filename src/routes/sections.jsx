@@ -22,6 +22,7 @@ export const AddArticlePage = lazy(() => import('src/pages/add-article'));
 export const ManageUsersPage = lazy(() => import('src/pages/manage-users'));
 export const ForgotPassPage = lazy(() => import('src/pages/forgot-pass'));
 export const RestorePassPage = lazy(() => import('src/pages/restore-pass'));
+export const DynamicViewPage = lazy(() => import('src/pages/dynamic-view'));
 
 // ----------------------------------------------------------------------
 
@@ -62,6 +63,7 @@ export default function Router() {
             { path: 'add-dive-site', element: <AddDiveSitePage /> },
             { path: 'add-article', element: <AddArticlePage /> },
             { path: 'manage-users', element: <ManageUsersPage /> },
+            { path: 'dynamic-view', element: <DynamicViewPage /> },
           ],
         },
         {

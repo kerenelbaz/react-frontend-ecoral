@@ -1,18 +1,20 @@
 import { useState, useEffect } from 'react';
+// import { users } from 'src/_mock/user';
+import { useNavigate } from 'react-router-dom';
 
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
-// import Button from '@mui/material/Button';
+import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 
-// import { users } from 'src/_mock/user';
+import { useView } from 'src/viewContexts';
 
-
+import Iconify from 'src/components/iconify';
 // import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 
@@ -43,6 +45,8 @@ export default function AllDataView() {
   const [allDataDives, setAllDataDives] = useState([]);
   const [loading, setLoading] = useState(true); // Define loading state
   const [setEditingRow] = useState(null);
+  const { switchToBlog } = useView();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -79,6 +83,10 @@ export default function AllDataView() {
     return <div>No data available</div>; // Render message if data is empty
   }
 
+  const handleSwitchToBlog = () => {
+    switchToBlog();
+    navigate('/dynamic-view');
+  };
 
   // const handleSort = (event, id) => {
   //   const isAsc = orderBy === id && order === 'asc';
@@ -208,7 +216,9 @@ export default function AllDataView() {
     <Container className="custom-container">
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">All Dives Data</Typography>
-
+          <Button variant="contained" color="inherit" startIcon={<Iconify icon="mdi:table" />} onClick={handleSwitchToBlog}>
+            As Cards
+          </Button>
       </Stack>
 
       <Card>
