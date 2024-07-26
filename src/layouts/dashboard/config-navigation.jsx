@@ -1,7 +1,7 @@
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import RoomTwoToneIcon from '@mui/icons-material/RoomTwoTone';
 import ShareTwoToneIcon from '@mui/icons-material/ShareTwoTone';
-// import ScubaDivingTwoToneIcon from '@mui/icons-material/ScubaDivingTwoTone';
+import ScubaDivingTwoToneIcon from '@mui/icons-material/ScubaDivingTwoTone';
 import ImportContactsTwoToneIcon from '@mui/icons-material/ImportContactsTwoTone';
 import PendingActionsTwoToneIcon from '@mui/icons-material/PendingActionsTwoTone';
 import AddLocationAltTwoToneIcon from '@mui/icons-material/AddLocationAltTwoTone';
@@ -65,10 +65,9 @@ export const fullNavConfig = [
     icon: <PendingActionsTwoToneIcon />,
   },
   {
-    title: 'blog',
-    path: '/blog',
-    icon: icon('ic_blog'),
-  },
+    title: 'All Dives',
+    path: '/all-dives-cards',
+    icon: <ScubaDivingTwoToneIcon />,  },
   // {
   //   title: 'All Dives',
   //   path: '/all-data',

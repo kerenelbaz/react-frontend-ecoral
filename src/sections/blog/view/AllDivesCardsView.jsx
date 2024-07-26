@@ -18,11 +18,11 @@ import PostCard from '../post-card';
 import PostSort from '../post-sort';
 import PostSearch from '../post-search';
 
-export default function BlogView() {
+export default function AllDivesCardsView() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(12);
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [searchCount, setSearchCount] = useState(0);
   const { switchToTable } = useView();
@@ -116,7 +116,7 @@ export default function BlogView() {
   }, [fetchData]);
 
   const handleDeleteClick = async (postId) => {
-    console.log("Pending data received for deletion:", postId);
+    console.log('Pending data received for deletion:', postId);
     try {
       // Make a request to your server to delete the row
       const response = await fetch(`http://localhost:8000/api/pendings_dives/${postId}`, {
@@ -125,9 +125,9 @@ export default function BlogView() {
       if (!response.ok) {
         throw new Error('Failed to delete row');
       }
-      setPosts(prevData => prevData.filter(row => row.id !== postId));
-      setFilteredPosts(prevData => prevData.filter(row => row.id !== postId));
-      setSearchCount(prevCount => prevCount - 1);
+      setPosts((prevData) => prevData.filter((row) => row.id !== postId));
+      setFilteredPosts((prevData) => prevData.filter((row) => row.id !== postId));
+      setSearchCount((prevCount) => prevCount - 1);
     } catch (error) {
       console.error('Error deleting row:', error);
     }
@@ -153,8 +153,8 @@ export default function BlogView() {
   const handleSort = (event) => {
     const sortBy = event.target.value;
 
-    const validPosts = posts.filter(post => !Number.isNaN(Date.parse(post.createdAt)));
-    const invalidPosts = posts.filter(post => Number.isNaN(Date.parse(post.createdAt)));
+    const validPosts = posts.filter((post) => !Number.isNaN(Date.parse(post.createdAt)));
+    const invalidPosts = posts.filter((post) => Number.isNaN(Date.parse(post.createdAt)));
 
     const sortedValidPosts = validPosts.sort((a, b) => {
       const dateA = new Date(a.createdAt);
@@ -162,7 +162,8 @@ export default function BlogView() {
 
       if (sortBy === 'latest') {
         return dateB - dateA;
-      } if (sortBy === 'oldest') {
+      }
+      if (sortBy === 'oldest') {
         return dateA - dateB;
       }
       return 0;
@@ -183,13 +184,13 @@ export default function BlogView() {
   // }
   const handleSwitchToTable = () => {
     switchToTable();
-    navigate('/dynamic-view');
+    navigate('/all-dives');
   };
 
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between">
-        <Typography variant="h4">Blog</Typography>
+        <Typography variant="h4">All Dives</Typography>
       </Stack>
 
       <Stack direction="row" alignItems="center" justifyContent="flex-end" spacing={2}>
@@ -201,10 +202,20 @@ export default function BlogView() {
           ]}
           onSort={handleSort}
         />
-        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />} onClick={handleNewDive}>
+        <Button
+          variant="contained"
+          color="inherit"
+          startIcon={<Iconify icon="eva:plus-fill" />}
+          onClick={handleNewDive}
+        >
           Add Dive
         </Button>
-        <Button variant="contained" color="inherit" startIcon={<Iconify icon="mdi:table" />} onClick={handleSwitchToTable}>
+        <Button
+          variant="contained"
+          color="inherit"
+          startIcon={<Iconify icon="mdi:table" />}
+          onClick={handleSwitchToTable}
+        >
           As Table
         </Button>
       </Stack>
@@ -227,8 +238,9 @@ export default function BlogView() {
         <Typography variant="body2">
           Items per page:
           <select value={itemsPerPage} onChange={handleItemsPerPageChange}>
-            <option value={10}>10</option>
-            <option value={20}>20</option>
+            <option value={12}>12</option>
+            <option value={24}>24</option>
+            <option value={40}>40</option>
           </select>
         </Typography>
 

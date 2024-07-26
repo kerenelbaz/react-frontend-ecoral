@@ -6,7 +6,7 @@ import DashboardLayout from 'src/layouts/dashboard';
 import ProtectedRoute from './protectedRoutes';
 
 export const IndexPage = lazy(() => import('src/pages/app'));
-export const BlogPage = lazy(() => import('src/pages/blog'));
+export const AllDivesCardsPage = lazy(() => import('src/pages/all-dives-cards'));
 export const PendingAdminView = lazy(() => import('src/pages/pending-admin'));
 export const AllDataPage = lazy(() => import('src/pages/all-data'));
 export const LoginPage = lazy(() => import('src/pages/login'));
@@ -57,13 +57,13 @@ export default function Router() {
             { path: 'pending-dives', element: <PendingAdminView /> },
             { path: 'all-data', element: <AllDataPage /> },
             { path: 'products', element: <ProductsPage /> },
-            { path: 'blog', element: <BlogPage /> },
+            { path: 'all-dives-cards', element: <AllDivesCardsPage /> },
             { path: 'insert-data', element: <InsertDataPage /> },
             { path: 'import-posts', element: <ImportPostsPage /> },
             { path: 'add-dive-site', element: <AddDiveSitePage /> },
             { path: 'add-article', element: <AddArticlePage /> },
             { path: 'manage-users', element: <ManageUsersPage /> },
-            { path: 'dynamic-view', element: <DynamicViewPage /> },
+            { path: 'all-dives', element: <DynamicViewPage /> },
           ],
         },
         {

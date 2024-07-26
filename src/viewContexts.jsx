@@ -4,15 +4,15 @@ import React, { useMemo, useState, useContext, createContext } from 'react'; // 
 const ViewContext = createContext();
 
 export function ViewProvider({ children }) { // Destructure children from props
-  const [view, setView] = useState('blog'); // default view
+  const [view, setView] = useState('cards'); // default view
 
-  const switchToBlog = () => setView('blog');
+  const switchToCards = () => setView('cards');
   const switchToTable = () => setView('table');
 
   // Memoize the context value to prevent re-renders
   const contextValue = useMemo(() => ({
     view,
-    switchToBlog,
+    switchToCards,
     switchToTable
   }), [view]);
 

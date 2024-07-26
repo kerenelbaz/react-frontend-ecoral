@@ -1,17 +1,17 @@
 import { Helmet } from 'react-helmet-async';
 
-import { BlogView } from 'src/sections/blog/view';
+import { AllDivesCardsView } from 'src/sections/blog/view';
 
 // ----------------------------------------------------------------------
 
-export default function BlogPage() {
+export default function AllDivesCardsPage() {
   return (
     <>
       <Helmet>
-        <title> Blog | Minimal UI </title>
+        <title> All Dives - Admin | Ecoral  </title>
       </Helmet>
 
-      <BlogView/>
+      <AllDivesCardsView/>
     </>
   );
 }

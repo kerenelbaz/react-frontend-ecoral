@@ -40,7 +40,7 @@ export default function AllDataView() {
   const [loading, setLoading] = useState(true); // Define loading state
   const [editingRow, setEditingRow] = useState(null); // State for editing row
   const [editDialogOpen, setEditDialogOpen] = useState(false); // State for edit dialog
-  const { switchToBlog } = useView();
+  const { switchToCards } = useView();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -71,9 +71,9 @@ export default function AllDataView() {
     return <div>No data available</div>; // Render message if data is empty
   }
 
-  const handleSwitchToBlog = () => {
-    switchToBlog();
-    navigate('/dynamic-view');
+  const handleSwitchToCards = () => {
+    switchToCards();
+    navigate('/all-dives');
   };
 
   const handleSort = (event, id) => {
@@ -183,8 +183,8 @@ export default function AllDataView() {
   return (
     <Container className="custom-container">
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Typography variant="h4">All Dives Data</Typography>
-        <Button variant="contained" color="inherit" startIcon={<Iconify icon="mdi:table" />} onClick={handleSwitchToBlog}>
+        <Typography variant="h4">All Dives</Typography>
+        <Button variant="contained" color="inherit" startIcon={<Iconify icon="mdi:table" />} onClick={handleSwitchToCards}>
           As Cards
         </Button>
       </Stack>
