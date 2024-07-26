@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker';
+import { useNavigate } from 'react-router-dom';
 import { parse, format, parseISO } from 'date-fns';
 import React, { useState, useEffect, useCallback } from 'react';
 
@@ -8,6 +9,8 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import Pagination from '@mui/material/Pagination';
+
+import { useView } from 'src/viewContexts';
 
 import Iconify from 'src/components/iconify';
 
@@ -22,6 +25,8 @@ export default function BlogView() {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [searchCount, setSearchCount] = useState(0);
+  const { switchToTable } = useView();
+  const navigate = useNavigate();
 
   const fetchData = useCallback(async () => {
     try {
@@ -73,18 +78,12 @@ export default function BlogView() {
           idCodePhotographerName: dive.idCode_photographerName || '',
           diveSite: dive.diveSite || 'No site data',
           specie: dive.specie || 'No Specie',
-          // humanWild: (
-          //   <span>
-          //     <span style={{ color: 'black' }}>Human wild life interaction</span>{' '}
-          //     {dive.humanWildlifeInteraction || 'No info'}
-          //   </span>
-          // ),
           humanWild: dive.humanWildlifeInteraction || 'No info',
           ar: dive.AR || 'No',
           distance: dive.distance || 'None',
-          maxDepth: dive.maxDepth || 'no m',
-          temp: dive.temp || 'no t',
-          rankOfDive: dive.rankOfDive || 'no r',
+          maxDepth: dive.maxDepth || 'no depth',
+          temp: dive.temp || '-',
+          rankOfDive: dive.rankOfDive || '-',
           userDescription: (
             <span>
               <span style={{ color: 'black', textDecoration: 'underline' }}>User Description</span>:{' '}
@@ -115,6 +114,24 @@ export default function BlogView() {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  const handleDeleteClick = async (postId) => {
+    console.log("Pending data received for deletion:", postId);
+    try {
+      // Make a request to your server to delete the row
+      const response = await fetch(`http://localhost:8000/api/pendings_dives/${postId}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error('Failed to delete row');
+      }
+      setPosts(prevData => prevData.filter(row => row.id !== postId));
+      setFilteredPosts(prevData => prevData.filter(row => row.id !== postId));
+      setSearchCount(prevCount => prevCount - 1);
+    } catch (error) {
+      console.error('Error deleting row:', error);
+    }
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -158,8 +175,15 @@ export default function BlogView() {
   };
 
   const handleNewDive = () => {
-    console.log("hello")
     window.open('/insert-data', '_blank');
+  };
+
+  // const handleAllDiveTable = () => {
+  //   window.open('/all-data', '_blank');
+  // }
+  const handleSwitchToTable = () => {
+    switchToTable();
+    navigate('/dynamic-view');
   };
 
   return (
@@ -180,6 +204,9 @@ export default function BlogView() {
         <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />} onClick={handleNewDive}>
           Add Dive
         </Button>
+        <Button variant="contained" color="inherit" startIcon={<Iconify icon="mdi:table" />} onClick={handleSwitchToTable}>
+          As Table
+        </Button>
       </Stack>
 
       <Stack direction="row" alignItems="center" justifyContent="space-between">
@@ -192,7 +219,7 @@ export default function BlogView() {
 
       <Grid container spacing={3}>
         {currentPosts.map((post, index) => (
-          <PostCard key={post.id} post={post} index={index} />
+          <PostCard key={post.id} post={post} index={index} onDelete={handleDeleteClick} />
         ))}
       </Grid>
 

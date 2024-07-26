@@ -1,40 +1,70 @@
-/* eslint-disable no-nested-ternary */
+// post-card.jsx
 import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
+import Dialog from '@mui/material/Dialog';
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import TodayIcon from '@mui/icons-material/Today';
+import IconButton from '@mui/material/IconButton';
+import DialogTitle from '@mui/material/DialogTitle';
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
 import LanguageIcon from '@mui/icons-material/Language';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
 import SatelliteIcon from '@mui/icons-material/Satellite';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import ManRoundedIcon from '@mui/icons-material/ManRounded';
 import WomanRoundedIcon from '@mui/icons-material/WomanRounded';
+import DialogContentText from '@mui/material/DialogContentText';
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import QuestionMarkRoundedIcon from '@mui/icons-material/QuestionMarkRounded';
-// import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined';
-
-// import { fDate } from 'src/utils/format-time';
-// import { fShortenNumber } from 'src/utils/format-number';
 
 import Iconify from 'src/components/iconify';
 import SvgColor from 'src/components/svg-color';
 
-// import fishIcon from 'src/sections/blog/view/fish.png';
+import EditData from 'src/sections/pendingAdmin/view/handle-edit-data'; // Adjust the import path as needed
 
-// ----------------------------------------------------------------------
-
-export default function PostCard({ post }) {
+export default function PostCard({ post, onDelete }) {
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
-  const { cover, humanWild, ar, maxDepth, idCodePhotographerName, reportReceivingDate, reportType, typeOfDive, userDescription, objectCode, objectGroup, diveSite,rankOfDive,  specie, distance, temp, author, createdAt, diveCode, imageLocation, age, gender, linkURL, media, loggedBy, logginDate, time } = post;
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [editData, setEditData] = useState(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
+  const handleEditOpen = (data) => {
+    setEditData(data);
+    setEditDialogOpen(true);
+  };
+
+  const handleEditClose = () => {
+    setEditDialogOpen(false);
+    setEditData(null);
+  };
+
+  const handleDeleteOpen = () => {
+    setDeleteDialogOpen(true);
+  };
+
+  const handleDeleteClose = () => {
+    setDeleteDialogOpen(false);
+  };
+
+  const handleDeleteClick = () => {
+    onDelete(post.id);
+    setDeleteDialogOpen(false);
+  };
+
+  const { cover, humanWild, ar, maxDepth, idCodePhotographerName, reportReceivingDate, reportType, typeOfDive, userDescription, objectCode, objectGroup, diveSite, rankOfDive, specie, distance, temp, author, createdAt, diveCode, imageLocation, age, gender, linkURL, media, loggedBy, logginDate, time } = post;
 
   const renderAvatar = (
     <Avatar
@@ -53,67 +83,66 @@ export default function PostCard({ post }) {
 
   const renderDiveSite = (
     <Stack>
-    <Stack direction="row" alignItems="center" justifyContent="center" spacing={1}>
-      <Link
-
-        variant="subtitle2"
-        underline="hover"
-        sx={{
-          overflow: 'hidden',
-          fontSize:'0.9rem',
-          WebkitBoxOrient: 'vertical',
-          textAlign: 'center',
-          fontWeight: 'bold'
-        }}
-      >
-        <LocationOnIcon sx={{ mr: 0.5, fontSize: 13 }} />
-        {diveSite}
-      </Link>
-      <Link
-
-        variant="subtitle2"
-        underline="none"
-        sx={{
-          overflow: 'hidden',
-          textAlign: 'center'
-        }}
-      >
-        {diveCode}
-      </Link>
+      <Stack direction="row" alignItems="center" justifyContent="center" spacing={1}>
+        <Link
+          variant="subtitle2"
+          underline="hover"
+          sx={{
+            overflow: 'hidden',
+            fontSize: '0.9rem',
+            WebkitBoxOrient: 'vertical',
+            textAlign: 'center',
+            fontWeight: 'bold'
+          }}
+        >
+          <LocationOnIcon sx={{ mr: 0.5, fontSize: 13 }} />
+          {diveSite}
+        </Link>
+        <Link
+          variant="subtitle2"
+          underline="none"
+          sx={{
+            overflow: 'hidden',
+            textAlign: 'center'
+          }}
+        >
+          {diveCode}
+        </Link>
+      </Stack>
+      <Stack direction="row" justifyContent="center" spacing={1}>
+        <Typography
+          variant="subtitle2"
+          height="20px"
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          {specie}
+        </Typography>
+        <Typography
+          variant="subtitle2"
+          height="20px"
+          sx={{
+            display: 'flex',
+            height: 30,
+            alignItems: 'center',
+          }}
+        />
+      </Stack>
     </Stack>
-    <Stack direction="row" justifyContent="center" spacing={1}>
-    {/* <img
-      src={fishIcon}
-      alt="Fish Icon"
-      style={{
-        width: 15, 
-        height: 15, 
-      }}
-    /> */}
-    <Typography
-      variant="subtitle2"
-      height="20px"
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-      }}
-    >
-    {specie}
-    </Typography>
-    <Typography
-      variant="subtitle2"
-      height="20px"
-      sx={{
-        display: 'flex',
-        height: 30,
-        alignItems: 'center',
-      }}
-    >
-    {/* {specie} */}
-    </Typography>
-  </Stack>
-  </Stack>
   );
+
+  const getGenderIcon = (gen) => {
+    if (gen === 'Male') {
+      return <ManRoundedIcon sx={{ fontSize: 22 }} />;
+    }
+    if (gen === 'Female') {
+      return <WomanRoundedIcon sx={{ fontSize: 20 }} />;
+    } 
+    return <QuestionMarkRoundedIcon sx={{ fontSize: 20 }} />;
+    
+  };
 
   const renderUserInfo = (
     <Typography
@@ -127,19 +156,13 @@ export default function PostCard({ post }) {
         alignItems: 'center',
       }}
     >
-      {gender === 'Male' ? (
-        <ManRoundedIcon sx={{ fontSize: 22 }} />
-      ) : gender === 'Female' ? (
-        <WomanRoundedIcon sx={{ fontSize: 20 }} />
-      ) : (
-        <QuestionMarkRoundedIcon sx={{ fontSize: 20 }} />
-      )}
+      {getGenderIcon(gender)}
       {gender}
       <Typography
         color="inherit"
         variant="subtitle2"
         sx={{
-          ml: 1, // Add some margin between gender and age
+          ml: 1,
           fontSize: 'inherit',
           height: 30,
           overflow: 'hidden',
@@ -153,36 +176,56 @@ export default function PostCard({ post }) {
     </Typography>
   );
 
-  const renderUserDescription =(
+  const renderUserDescription = (
     <Typography
-        variant="subtitle2"
-        sx={{
-          ml: 1, 
-          overflow: 'hidden',
-          WebkitLineClamp: 2,
-          display: 'flex',
-        }}
-      >
-        {userDescription}
-      </Typography>
-  )
+      variant="subtitle2"
+      sx={{
+        ml: 1,
+        overflow: 'hidden',
+        WebkitLineClamp: 2,
+        display: 'flex',
+      }}
+    >
+      {userDescription}
+    </Typography>
+  );
 
-  // const renderData = (
-  //   <Stack
-  //     color="inherit"
-  //     variant="subtitle2"
-  //     underline="hover"
-  //     sx={{
-  //       height: 30,
-  //       overflow: 'hidden',
-  //       WebkitLineClamp: 2,
-  //       display: '-webkit-box',
-  //       WebkitBoxOrient: 'vertical',
-  //     }}
-  //   >
-  //     {data}
-  //   </Stack>
-  // );
+  const renderDeleteEdit = (
+    <>
+      <Tooltip title="Delete">
+        <IconButton
+          sx={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            color: 'white',
+            background: 'linear-gradient(to right, red, yellow)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+          }}
+          onClick={handleDeleteOpen}
+        >
+          <Iconify icon="eva:trash-2-fill" />
+        </IconButton>
+      </Tooltip>
+      <Tooltip title="Edit">
+        <IconButton
+          sx={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            color: 'white',
+            background: 'linear-gradient(to right, green, blue)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+          }}
+          onClick={() => handleEditOpen(post)}
+        >
+          <Iconify icon="eva:edit-fill" />
+        </IconButton>
+      </Tooltip>
+    </>
+  );
 
   const renderBody = (
     <Stack>
@@ -196,147 +239,162 @@ export default function PostCard({ post }) {
           WebkitBoxOrient: 'vertical',
         }}
       >
-        <Typography fontWeight='bold' fontSize= '0.83rem' color="black">Human wild life interaction:
-        <Link
-        variant="subtitle2"
-        underline="disable"
-        sx={{
-          overflow: 'hidden',
-          fontSize: '0.83rem',
-          display: '-webkit-box',
-          WebkitBoxOrient: 'vertical',
-        }}
-        >
-        {humanWild}</Link>
+        <Typography fontWeight='bold' fontSize='0.83rem' color="black">Human wild life interaction:{' '}
+          <Link
+            variant="subtitle2"
+            underline="disable"
+            sx={{
+              overflow: 'hidden',
+              fontSize: '0.83rem',
+              display: 'inline',
+              WebkitBoxOrient: 'vertical',
+            }}
+          >
+            {humanWild}
+          </Link>
         </Typography>
       </Link>
-      <Typography fontWeight='bold' fontSize= '0.83rem' color="black">Artificial Reef:
+      <Typography fontWeight='bold' fontSize='0.83rem' color="black">Artificial Reef:{' '}
         <Link
-        variant="subtitle2"
-        underline="disable"
-        sx={{
-          overflow: 'hidden',
-          fontSize: '0.83rem',
-          display: '-webkit-box',
-          WebkitBoxOrient: 'vertical',
-        }}
+          variant="subtitle2"
+          underline="disable"
+          sx={{
+            overflow: 'hidden',
+            fontSize: '0.83rem',
+            display: 'inline',
+            WebkitBoxOrient: 'vertical',
+          }}
         >
-        {ar}</Link>
-        </Typography>
-        <Typography fontWeight='bold' fontSize= '0.83rem' color="black">Max Depth:
+          {ar}
+        </Link>
+      </Typography>
+      <Typography fontWeight='bold' fontSize='0.83rem' color="black">Max Depth:{' '}
         <Link
-        variant="subtitle2"
-        underline="disable"
-        sx={{
-          overflow: 'hidden',
-          fontSize: '0.83rem',
-          display: '-webkit-box',
-          WebkitBoxOrient: 'vertical',
-        }}
+          variant="subtitle2"
+          underline="disable"
+          sx={{
+            overflow: 'hidden',
+            fontSize: '0.83rem',
+            display: 'inline',
+            WebkitBoxOrient: 'vertical',
+          }}
         >
-        {maxDepth}</Link>
-        </Typography>
-      
-        <Typography fontWeight='bold' fontSize= '0.83rem' color="black">Distance:
+          {maxDepth}
+        </Link>
+      </Typography>
+
+      <Typography fontWeight='bold' fontSize='0.83rem' color="black">Distance:{' '}
         <Link
-        variant="subtitle2"
-        underline="disable"
-        sx={{
-          overflow: 'hidden',
-          fontSize: '0.83rem',
-          display: '-webkit-box',
-          WebkitBoxOrient: 'vertical',
-        }}
+          variant="subtitle2"
+          underline="disable"
+          sx={{
+            overflow: 'hidden',
+            fontSize: '0.83rem',
+            display: 'inline',
+            WebkitBoxOrient: 'vertical',
+          }}
         >
-        {distance}</Link>
-        </Typography>
-   
+          {distance}
+        </Link>
+      </Typography>
+
       <Stack direction="row" justifyContent="space-between" alignItems="center">
-      <Typography fontWeight='bold' fontSize= '0.83rem' color="black">Temp:
-        <Link
-        variant="subtitle2"
-        underline="disable"
-        sx={{
-          overflow: 'hidden',
-          fontSize: '0.83rem',
-          display: '-webkit-box',
-          WebkitBoxOrient: 'vertical',
-        }}
-        >
-        {temp}</Link>
+        <Typography fontWeight='bold' fontSize='0.83rem' color="black">Temp:{' '}
+          <Link
+            variant="subtitle2"
+            underline="disable"
+            sx={{
+              overflow: 'hidden',
+              fontSize: '0.83rem',
+              display: 'inline',
+              WebkitBoxOrient: 'vertical',
+            }}
+          >
+            {temp}
+          </Link>
         </Typography>
-        <Typography fontWeight='bold' fontSize= '0.83rem' color="black">Rank:
-        <Link
-        variant="subtitle2"
-        underline="disable"
-        sx={{
-          overflow: 'hidden',
-          fontSize: '0.83rem',
-          display: '-webkit-box',
-          WebkitBoxOrient: 'vertical',
-        }}
-        >
-        {rankOfDive}</Link>
+        <Typography fontWeight='bold' fontSize='0.83rem' color="black">Rank:{' '}
+          <Link
+            variant="subtitle2"
+            underline="disable"
+            sx={{
+              overflow: 'hidden',
+              fontSize: '0.83rem',
+              display: 'inline',
+              WebkitBoxOrient: 'vertical',
+            }}
+          >
+            {rankOfDive}
+          </Link>
         </Typography>
       </Stack>
     </Stack>
   );
-  
-  
 
   const renderDataCodes = (
     <Stack>
-      <Link
-        variant="subtitle2"
-        underline="disable"
-        sx={{
-          overflow: 'hidden',
-          display: '-webkit-box',
-          fontSize: '0.83rem',
-          WebkitBoxOrient: 'vertical',
-        }}
-      >
-        {objectGroup}
-      </Link>
-      <Link
-        variant="subtitle2"
-        underline="hover"
-        sx={{
-          overflow: 'hidden',
-          fontSize: '0.83rem',
-          display: '-webkit-box',
-          WebkitBoxOrient: 'vertical',
-        }}
-      >
-        {objectCode}
-      </Link>
-      <Link
-        variant="subtitle2"
-        underline="hover"
-        sx={{
-          overflow: 'hidden',
-          fontSize: '0.83rem',
-          display: '-webkit-box',
-          WebkitBoxOrient: 'vertical',
-        }}
-      >
-        {reportType}
-      </Link>
-      <Link
-        variant="subtitle2"
-        underline="hover"
-        sx={{
-          fontSize: '0.83rem',
-          height: 30,
-          overflow: 'hidden',
-          WebkitLineClamp: 2,
-          display: '-webkit-box',
-          WebkitBoxOrient: 'vertical',
-        }}
-      >
-        {typeOfDive}
-      </Link>
-      
+      <Typography fontWeight="bold" fontSize="0.83rem" color="black">
+        Object group:{' '}
+        <Link
+          variant="subtitle2"
+          underline="disable"
+          sx={{
+            overflow: 'hidden',
+            fontSize: '0.83rem',
+            display: 'inline',
+            WebkitBoxOrient: 'vertical',
+          }}
+        >
+          {objectGroup}
+        </Link>
+      </Typography>
+
+      <Typography fontWeight="bold" fontSize="0.83rem" color="black">
+        Object code:{' '}
+        <Link
+          variant="subtitle2"
+          underline="disable"
+          sx={{
+            overflow: 'hidden',
+            fontSize: '0.83rem',
+            display: 'inline',
+            WebkitBoxOrient: 'vertical',
+          }}
+        >
+          {objectCode}
+        </Link>
+      </Typography>
+
+      <Typography fontWeight="bold" fontSize="0.83rem" color="black">
+        Report type:{' '}
+        <Link
+          variant="subtitle2"
+          underline="disable"
+          sx={{
+            overflow: 'hidden',
+            fontSize: '0.83rem',
+            display: 'inline',
+            WebkitBoxOrient: 'vertical',
+          }}
+        >
+          {reportType}
+        </Link>
+      </Typography>
+      <Typography fontWeight="bold" fontSize="0.83rem" color="black">
+        Type of dive:{' '}
+        <Link
+          variant="subtitle2"
+          underline="disable"
+          sx={{
+            overflow: 'hidden',
+            fontSize: '0.83rem',
+            display: 'inline',
+            WebkitBoxOrient: 'vertical',
+          }}
+        >
+          {typeOfDive}
+        </Link>
+      </Typography>
     </Stack>
   );
 
@@ -344,7 +402,7 @@ export default function PostCard({ post }) {
     <Stack
       direction="row"
       flexWrap="wrap"
-      justifyContent="flex-start" 
+      justifyContent="flex-start"
       sx={{
         mt: 1
       }}
@@ -377,6 +435,16 @@ export default function PostCard({ post }) {
     />
   );
 
+  const getTimeIcon = (timeDive) => {
+    if (timeDive === 'Light') {
+      return <WbSunnyIcon sx={{ ml: 1, fontSize: 18, color: 'text.disabled' }} />;
+    } if (timeDive === 'Night') {
+      return <DarkModeIcon sx={{ ml: 1, fontSize: 18, color: 'text.disabled' }} />;
+    } 
+      return <QuestionMarkRoundedIcon sx={{ ml: 1, fontSize: 18, color: 'text.disabled' }} />;
+    
+  };
+
   const renderUpper = (
     <Stack spacing={0.5}>
       <Stack direction="row" justifyContent="space-between">
@@ -403,20 +471,14 @@ export default function PostCard({ post }) {
               sx={{ cursor: 'pointer', fontSize: 18, color: 'text.disabled' }}
             />
           )}
-          {time === 'Light' ? (
-            <WbSunnyIcon sx={{ ml: 1, fontSize: 18, color: 'text.disabled' }} />
-          ) : time === 'Night' ? (
-            <DarkModeIcon sx={{ ml: 1, fontSize: 18, color: 'text.disabled' }} />
-          ) : (
-            <QuestionMarkRoundedIcon sx={{ ml: 1, fontSize: 18, color: 'text.disabled' }} />
-          )}
+          {getTimeIcon(time)}
         </Stack>
       </Stack>
       <Typography
         variant="caption"
         component="div"
         sx={{
-          height:20,
+          height: 20,
           color: 'text.disabled',
           display: 'flex',
           alignItems: 'center',
@@ -441,14 +503,13 @@ export default function PostCard({ post }) {
           height: 40
         }}
       >
-        <EventAvailableOutlinedIcon sx={{ mr: 0.5, fontSize: 16 }}/>
+        <EventAvailableOutlinedIcon sx={{ mr: 0.5, fontSize: 16 }} />
         Report receiving date:
         <br />
         {reportReceivingDate}
       </Typography>
     </Stack>
   );
-  
 
   const renderShape = (
     <SvgColor
@@ -469,35 +530,33 @@ export default function PostCard({ post }) {
     <Grid xs={12} sm={4} md={3}>
       <Card
         sx={{
-          height: isSmallScreen ? '70vh' : '30vh', // Adjust height for small screens
+          height: isSmallScreen ? '70vh' : '30vh',
           minHeight: isSmallScreen ? 200 : 300,
           maxHeight: isSmallScreen ? 400 : 600,
           display: 'flex',
           flexDirection: 'column',
         }}
       >
-        <Box 
+        <Box
           sx={{
             position: 'relative',
-            pt: isSmallScreen ? 'calc(100% * 3 / 5)':'calc(100% * 3 / 4)',
+            pt: isSmallScreen ? 'calc(100% * 3 / 5)' : 'calc(100% * 3 / 4)',
           }}
         >
           {renderShape}
-
           {renderAvatar}
-
           {renderCover}
+          {renderDeleteEdit}
         </Box>
 
         <Box
           sx={{
             p: (theme) => theme.spacing(4, 1, 3, 2),
-            overflowY: 'auto', // Make the inner content scrollable
-            flex: 1, // Allow the Box to grow to take up available space
+            overflowY: 'auto',
+            flex: 1,
           }}
         >
           {renderUpper}
-
           {renderDiveSite}
           {renderBody}
           {renderDataCodes}
@@ -506,10 +565,40 @@ export default function PostCard({ post }) {
           {renderInfo}
         </Box>
       </Card>
+
+      <EditData
+        open={editDialogOpen}
+        handleClose={handleEditClose}
+        pendingData={editData}
+        onDeleteClick={() => {}}
+      />
+
+      <Dialog
+        open={deleteDialogOpen}
+        onClose={handleDeleteClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">Are you sure you want to delete this item?</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            This action cannot be undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDeleteClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleDeleteClick} color="primary" autoFocus>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Grid>
   );
 }
 
 PostCard.propTypes = {
   post: PropTypes.object.isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
