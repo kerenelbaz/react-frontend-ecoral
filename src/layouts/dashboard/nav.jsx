@@ -114,7 +114,7 @@ export default function Nav({ openNav, onCloseNav }) {
     {navConfig.map((item, index) => (
       <React.Fragment key={item.title}>
         <NavItem item={item} />
-        {item.title === 'Insert Data' && <DividerText />}
+        {item.title === 'Insert Data' && user.email==='admin@admin.com' && <DividerText />}
       </React.Fragment>
     ))}
   </Stack>

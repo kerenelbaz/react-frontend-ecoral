@@ -91,7 +91,7 @@ export const fullNavConfig = [
   }
 ];
 
-export const limitedNavConfig = fullNavConfig.filter(item => !['Pending Dives','All Dives', 'Import Posts', 'Add Dive Site', 'Add Articles'].includes(item.title));
+export const limitedNavConfig = fullNavConfig.filter(item => !['blog' , 'Pending Dives','All Dives', 'Import Posts', 'Add Dive Site', 'Add Articles'].includes(item.title));
 
 const getUser = () => {
   const user = JSON.parse(localStorage.getItem('user'));
