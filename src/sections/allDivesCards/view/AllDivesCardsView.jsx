@@ -119,17 +119,17 @@ export default function AllDivesCardsView() {
     console.log('Pending data received for deletion:', postId);
     try {
       // Make a request to your server to delete the row
-      const response = await fetch(`http://localhost:8000/api/pendings_dives/${postId}`, {
+      const response = await fetch(`http://localhost:8000/api/dives/${postId}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
-        throw new Error('Failed to delete row');
+        throw new Error('Failed to delete dive');
       }
       setPosts((prevData) => prevData.filter((row) => row.id !== postId));
       setFilteredPosts((prevData) => prevData.filter((row) => row.id !== postId));
       setSearchCount((prevCount) => prevCount - 1);
     } catch (error) {
-      console.error('Error deleting row:', error);
+      console.error('Error deleting dive:', error);
     }
   };
 
