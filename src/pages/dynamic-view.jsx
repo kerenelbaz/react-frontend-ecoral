@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useView } from 'src/viewContexts';
 
-import { AllDivesCardsView } from 'src/sections/blog/view';
+import { AllDivesCardsView } from 'src/sections/allDivesCards/view';
 import { AllDataView } from 'src/sections/allData/view';
 
 

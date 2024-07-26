@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 
-import { AllDivesCardsView } from 'src/sections/blog/view';
+import { AllDivesCardsView } from 'src/sections/allDivesCards/view';
 
 // ----------------------------------------------------------------------
 
@@ -11,7 +11,7 @@ export default function AllDivesCardsPage() {
         <title> All Dives - Admin | Ecoral  </title>
       </Helmet>
 
-      <AllDivesCardsView/>
+      <AllDivesCardsView />
     </>
   );
 }
