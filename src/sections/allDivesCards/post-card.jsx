@@ -33,7 +33,7 @@ import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlin
 import Iconify from 'src/components/iconify';
 import SvgColor from 'src/components/svg-color';
 
-import EditData from 'src/sections/pendingAdmin/view/handle-edit-data'; // Adjust the import path as needed
+import EditPostData from './view/editPostData';
 
 export default function PostCard({ post, onDelete }) {
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
@@ -139,9 +139,9 @@ export default function PostCard({ post, onDelete }) {
     }
     if (gen === 'Female') {
       return <WomanRoundedIcon sx={{ fontSize: 20 }} />;
-    } 
+    }
     return <QuestionMarkRoundedIcon sx={{ fontSize: 20 }} />;
-    
+
   };
 
   const renderUserInfo = (
@@ -440,9 +440,9 @@ export default function PostCard({ post, onDelete }) {
       return <WbSunnyIcon sx={{ ml: 1, fontSize: 18, color: 'text.disabled' }} />;
     } if (timeDive === 'Night') {
       return <DarkModeIcon sx={{ ml: 1, fontSize: 18, color: 'text.disabled' }} />;
-    } 
-      return <QuestionMarkRoundedIcon sx={{ ml: 1, fontSize: 18, color: 'text.disabled' }} />;
-    
+    }
+    return <QuestionMarkRoundedIcon sx={{ ml: 1, fontSize: 18, color: 'text.disabled' }} />;
+
   };
 
   const renderUpper = (
@@ -566,11 +566,13 @@ export default function PostCard({ post, onDelete }) {
         </Box>
       </Card>
 
-      <EditData
+      <EditPostData
         open={editDialogOpen}
         handleClose={handleEditClose}
-        pendingData={editData}
-        onDeleteClick={() => {}}
+        postData={editData}
+        onUpdate={(updatedData) => {
+          // Handle the update here if needed
+        }}
       />
 
       <Dialog

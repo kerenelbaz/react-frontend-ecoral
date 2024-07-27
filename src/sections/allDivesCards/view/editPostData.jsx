@@ -1,6 +1,7 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable no-unused-vars */
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from "react";
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import { useState, useEffect } from "react";
 
 import Slide from '@mui/material/Slide';
 import Alert from '@mui/material/Alert';
@@ -11,12 +12,15 @@ import Snackbar from '@mui/material/Snackbar';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+// import Typography from '@mui/material/Typography';
 import DialogTitle from '@mui/material/DialogTitle';
 import Autocomplete from '@mui/material/Autocomplete';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 
-import './style.css';
+import 'src/sections/pendingAdmin/view/style.css';
+
+// eslint-disable-next-line import/no-unresolved
 import dataLists from '../../insertData/view/dataLists.json';
 
 const humanWildInterList = ['Between 3 to 10 M', 'Closer than 10 M', 'Forther than 10 M', 'Macro', 'NA'];
@@ -39,14 +43,15 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function EditData({ open, handleClose, pendingData, onDeleteClick }) {
+export default function EditPostData({ open, handleClose, postData, onUpdate }) {
+  const [openImageDialog, setOpenImageDialog] = useState(false);
   const [stateSnackbar, setStateSnackbar] = useState({
     open: false,
     Transition: Slide,
   });
 
   const [formData, setFormData] = useState({
-    ...pendingData,
+    ...postData,
     objectCode: '',
     idCode: '',
     humanWildInter: '',
@@ -54,34 +59,12 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
     loggedBy: '',
   });
 
-  const [diveCode, setDiveCode] = useState(null);
-  const [diveCodeState, setDiveCodeState] = useState('');
-
   useEffect(() => {
     setFormData(prevData => ({
       ...prevData,
-      ...pendingData
+      ...postData
     }));
-  }, [pendingData]);
-
-  useEffect(() => {
-    if (pendingData && pendingData.diveCode) {
-      setDiveCodeState(pendingData.diveCode);
-    }
-  }, [pendingData]);
-
-  useEffect(() => {
-    if (open && pendingData) {
-      generateDiveCode(pendingData.linkURL).then(newDiveCode => {
-        setDiveCode(newDiveCode);
-        setDiveCodeState(newDiveCode);
-      });
-    }
-  }, [open, pendingData]);
-
-  useEffect(() => {
-    console.log('Generated diveCode:', diveCode);
-  }, [diveCode]);
+  }, [postData]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -91,8 +74,11 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
     }));
   };
 
-  const handleFormInputChange = (e) => {
-    const { name, value } = e.target;
+  const handleImageClick = () => {
+    setOpenImageDialog(true);
+  };
+
+  const handleFieldChange = (name, value) => {
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -153,104 +139,19 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
     });
   };
 
-  const handleImageClick = () => {
-    console.log("Image clicked"); // Add your image click handler logic here
-  };
-
-  const generateDiveCode = async (linkURL) => {
-    try {
-      const response = await fetch(`http://localhost:8000/api/dives`);
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-  
-      const responseData = await response.json();
-      const { dives: fetchedDives } = responseData.data;
-  
-      // Handle cases where linkURL is undefined, null, or empty
-      if (!linkURL) {
-        linkURL = `unique-${Math.random().toString(36).substring(2, 15)}`;
-      }
-  
-      // Extract numeric part and suffix from each dive code
-      const diveCodeParts = fetchedDives.map((dive) => {
-        const match = dive.diveCode && typeof dive.diveCode === 'string' ? dive.diveCode.match(/(\d+)([A-Z]?)/) : null;
-        return match ? { base: parseInt(match[1], 10), suffix: match[2] || 'A' } : null;
-      }).filter(part => part !== null);
-  
-      // Find the highest numeric base
-      const highestBase = diveCodeParts.length === 0 ? 0 : Math.max(...diveCodeParts.map(part => part.base));
-  
-      // Find the highest suffix for the given linkURL
-      const newDiveCodeBase = highestBase + 1;
-      let newDiveCode = `${newDiveCodeBase}A`;
-  
-      const existingDives = fetchedDives.filter(dive => dive.linkURL === linkURL);
-      if (existingDives.length > 0) {
-        const baseCode = parseInt(existingDives[0].diveCode.match(/(\d+)/)[1], 10);
-        const highestSuffix = Math.max(...existingDives.map(dive => {
-          if (dive.diveCode && typeof dive.diveCode === 'string') {
-            return dive.diveCode.charCodeAt(dive.diveCode.length - 1) - 65;
-          } 
-            return -1; // Default to 'A' if no valid suffix is found
-          
-        }));
-        newDiveCode = `${baseCode}${String.fromCharCode(65 + highestSuffix + 1)}`;
-      }
-  
-      return newDiveCode;
-    } catch (error) {
-      console.error('Error fetching documents:', error.message);
-      return 'Error';
-    }
-  };
-  
-
   const handleSaveChanges = async () => {
-    const newDiveCode = await generateDiveCode(formData.linkURL);
-    setDiveCode(newDiveCode);
-
-    const objectDiveToServer = {
-      diveCode: newDiveCode,
-      objectCode: formData.objectCode,
-      date: formData.date,
-      time: formData.time,
-      diveSite: formData.diveSite,
-      objectGroup: formData.objectGroup,
-      specie: formData.specie,
-      idCode_photographerName: formData.idCode_photographerName,
-      imageLocation: formData.imageLocation,
-      AR: formData.AR,
-      humanWildlifeInteraction: formData.humanWildlifeInteraction,
-      reportType: formData.reportType,
-      typeOfDive: formData.typeOfDive,
-      rankOfDive: formData.rankOfDive,
-      media: formData.media,
-      documentation: formData.documentation,
-      ageOfDiver: formData.ageOfDiver,
-      sexOfDiver: formData.sexOfDiver,
-      maxDepth: formData.maxDepth,
-      distance: formData.distance,
-      temp: formData.temp,
-      userDescription: formData.userDescription,
-      researcherComment: formData.researcherComment,
-      linkURL: formData.linkURL,
-      loggedBy: formData.loggedBy,
-      loggingDate: formData.loggingDate,
-    };
-
     try {
-      const response = await fetch('http://localhost:8000/api/dives', {
-        method: 'POST',
+      const response = await fetch('http://localhost:8000/api/posts', {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
         },
-        body: JSON.stringify(objectDiveToServer)
+        body: JSON.stringify(formData)
       });
 
       if (response.ok) {
         handleClickSnack();
-        onDeleteClick(formData);
+        onUpdate(formData);
         handleClose();
       } else {
         console.error('Failed to save data:', response.statusText);
@@ -267,7 +168,7 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
       open={open}
     >
       <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-        Dive Code: {diveCodeState}
+        Edit Post: {formData.title}
       </DialogTitle>
       <IconButton
         aria-label="close"
@@ -282,12 +183,12 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
         <CloseIcon />
       </IconButton>
       <DialogContent dividers>
-        {pendingData && (
+        {postData && (
           <>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <Button onClick={handleImageClick}>
                 <div className="wrapImg">
-                  <img className="imageB" src={pendingData.file} alt="Preview" />
+                  <img className="imageB" src={postData.file} alt="Preview" />
                 </div>
               </Button>
             </div>
@@ -299,16 +200,16 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
                       <TextField
                         InputProps={{ readOnly: true }}
                         id="standard-read-only-input"
-                        label="Data logged at: "
-                        defaultValue={formatDateTime(pendingData.loggingDate)}
+                        label="Date Logged"
+                        defaultValue={formatDateTime(postData.loggingDate)}
                         variant="standard"
                         className="dateStyle"
                       />
                       <TextField
                         InputProps={{ readOnly: true }}
                         id="standard-read-only-input"
-                        label="Date dive: "
-                        defaultValue={formatDateTime(pendingData.date)}
+                        label="Post Date"
+                        defaultValue={formatDateTime(postData.date)}
                         variant="standard"
                         className="dateStyle"
                       />
@@ -318,34 +219,39 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
                   <div className="txtContainer">
                     <div>
                       <TextField
-                        label="Logged By: "
+                        label="Logged By"
                         variant="standard"
                         className="dateStyle"
-                        onChange={handleFormInputChange}
+                        onChange={handleInputChange}
+                        name="loggedBy"
+                        value={formData.loggedBy}
                       />
                       <TextField
-                        label="Photo took in AR: "
-                        defaultValue={pendingData.AR}
-                        name="arReef"
+                        label="Photo in AR"
+                        defaultValue={postData.AR}
+                        name="AR"
                         variant="standard"
                         className="dateStyle"
-                        onChange={handleFormInputChange}
+                        onChange={handleInputChange}
+                        value={formData.AR}
                       />
                       <TextField
-                        id="standard-read-only-input"
-                        label="Dive took place during: "
-                        defaultValue={pendingData.time}
+                        label="Post Time"
+                        defaultValue={postData.time}
+                        name="time"
                         variant="standard"
                         className="dateStyle"
-                        onChange={handleFormInputChange}
+                        onChange={handleInputChange}
+                        value={formData.time}
                       />
                       <TextField
-                        id="standard-read-only-input"
-                        label="Dive Rank: "
-                        defaultValue={pendingData.rankOfDive}
+                        label="Post Rank"
+                        defaultValue={postData.rankOfPost}
+                        name="rankOfPost"
                         variant="standard"
                         className="dateStyle"
-                        onChange={handleFormInputChange}
+                        onChange={handleInputChange}
+                        value={formData.rankOfPost}
                       />
                     </div>
                   </div>
@@ -354,7 +260,7 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
                   <div className="inLine">
                     <Autocomplete
                       options={dataLists.diveSite}
-                      defaultValue={pendingData.diveSite}
+                      defaultValue={postData.diveSite}
                       getOptionLabel={(option) => option}
                       onChange={(e, value) =>
                         handleAutocompleteChange("diveSite", value || "")
@@ -371,10 +277,11 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
                         />
                       )}
                     />
+
                     <Autocomplete
                       options={dataLists.objectGroupList}
                       getOptionLabel={(option) => option}
-                      defaultValue={pendingData.objectGroup}
+                      defaultValue={postData.objectGroup}
                       onChange={(e, value) =>
                         handleAutocompleteChange("objectGroup", value || "")
                       }
@@ -389,10 +296,11 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
                         />
                       )}
                     />
+
                     <Autocomplete
                       options={dataLists.specieName}
                       getOptionLabel={(option) => option}
-                      defaultValue={pendingData.specie}
+                      defaultValue={postData.specie}
                       onChange={(e, value) =>
                         handleAutocompleteChange("specie", value || "")
                       }
@@ -407,11 +315,12 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
                       )}
                     />
                   </div>
+
                   <div className="inLine">
                     <Autocomplete
                       options={dataLists.imageLocation}
                       getOptionLabel={(option) => option}
-                      defaultValue={pendingData.imageLocation}
+                      defaultValue={postData.imageLocation}
                       onChange={(e, value) =>
                         handleAutocompleteChange("imageLocation", value || "")
                       }
@@ -426,10 +335,11 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
                         />
                       )}
                     />
+
                     <Autocomplete
                       options={dataLists.ReportType}
                       getOptionLabel={(option) => option}
-                      defaultValue={pendingData.reportType}
+                      defaultValue={postData.reportType}
                       onChange={(e, value) =>
                         handleAutocompleteChange("reportType", value || "")
                       }
@@ -447,7 +357,7 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
                     <Autocomplete
                       options={dataLists.typeOfDive}
                       getOptionLabel={(option) => option}
-                      defaultValue={pendingData.typeOfDive}
+                      defaultValue={postData.typeOfDive}
                       onChange={(e, value) =>
                         handleAutocompleteChange("typeOfDive", value || "")
                       }
@@ -463,6 +373,7 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
                       )}
                     />
                   </div>
+
                   <div className="inLine">
                     <Autocomplete
                       options={humanWildInterList}
@@ -481,6 +392,7 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
                       )}
                     />
                   </div>
+
                   <div className="inLine">
                     <TextField
                       label='Max Depth (meters)'
@@ -488,9 +400,11 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
                       id="maxDepth"
                       name="maxDepth"
                       className="fieldInput"
-                      defaultValue={pendingData.maxDepth}
-                      onChange={handleFormInputChange}
+                      defaultValue={postData.maxDepth}
+                      onChange={handleInputChange}
+                      value={formData.maxDepth}
                     />
+
                     <TextField
                       label='Distance (meters)'
                       type="number"
@@ -500,17 +414,20 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
                         shrink: true,
                       }}
                       className="fieldInput"
-                      defaultValue={pendingData.distance}
+                      defaultValue={postData.distance}
                       onChange={handleInputChange}
+                      value={formData.distance}
                     />
+
                     <TextField
                       label='Temperature (celsius)'
                       type="text"
                       name="temp"
                       id="standard-number"
                       className="fieldInput"
-                      defaultValue={pendingData.temp}
+                      defaultValue={postData.temp}
                       onChange={handleInputChange}
+                      value={formData.temp}
                     />
                   </div>
                   <div className="inLine">
@@ -519,26 +436,29 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
                       type="text"
                       name="idCode"
                       className="fieldInput"
-                      onChange={handleFormInputChange}
+                      onChange={handleInputChange}
                       value={formData.idCode}
                     />
+
                     <TextField
                       label="Object Code"
                       name="objectCode"
                       autoComplete='objectCode'
                       className="fieldInput"
-                      onChange={handleFormInputChange}
+                      onChange={handleInputChange}
                       value={formData.objectCode}
                     />
                   </div>
+
                   <div>
-                    <label className="lblDesc" htmlFor="userDescription">User dives description:</label>
-                    <p id="userDescription" className="lblDesc">{`"${pendingData.userDescription}"`}</p>
+                    <label className="lblDesc">User Post Description:</label>
+                    <p className="lblDesc">{`"${postData.userDescription}"`}</p>
                   </div>
+
                   <div>
                     <label className="lblDesc" htmlFor="researcherDesc">Researcher Comments:</label>
                     <textarea
-                      id="researcherDesc" name="researcherDesc" rows={3} className="admin-textarea" onChange={(e) => handleTextareaChange(e.target.value)} />
+                      id="researcherDesc" name="researcherDesc" rows={3} className="admin-textarea" onChange={(e) => handleTextareaChange(e.target.value)} value={formData.researcherDesc} />
                   </div>
                 </div>
               </form>
@@ -554,7 +474,7 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
                   severity="success"
                   variant="filled"
                   sx={{ width: '100%', fontSize: '25px' }}
-                >🐠 Dive saved, removed from pending table 🐠</Alert>
+                >🐠 Post updated successfully 🐠</Alert>
               </Snackbar>
             </div>
           </>
@@ -569,9 +489,9 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
   );
 }
 
-EditData.propTypes = {
+EditPostData.propTypes = {
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
-  pendingData: PropTypes.object,
-  onDeleteClick: PropTypes.func,
+  postData: PropTypes.object,
+  onUpdate: PropTypes.func,
 };
