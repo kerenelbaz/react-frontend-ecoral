@@ -22,6 +22,8 @@
     "vite:build": "vite build"
   },
   "dependencies": {
+    "@cloudinary/react": "^1.13.0",
+    "@cloudinary/url-gen": "^1.19.0",
     "@date-io/dayjs": "^3.0.0",
     "@emailjs/browser": "^4.3.3",
     "@emotion/react": "^11.11.4",
@@ -39,7 +41,8 @@
     "@mui/x-data-grid": "^6.19.10",
     "@mui/x-date-pickers": "^7.2.0",
     "apexcharts": "^3.49.0",
-    "axios": "^1.6.8",
+    "axios": "^1.7.2",
+    "cloudinary": "^2.3.1",
     "concurrently": "^8.2.2",
     "date-fns": "^2.30.0",
     "dayjs": "^1.11.10",

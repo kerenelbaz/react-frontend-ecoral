@@ -1,4 +1,5 @@
 /* eslint-disable no-nested-ternary */
+import axios from 'axios';
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useRef, useState, useEffect } from 'react';
 
@@ -22,7 +23,7 @@ import './styleByMe.css';
 import CameraCapture from './camera';
 import dataLists from './dataLists.json';
 
-const serverPath = `http://localhost:8000`
+const serverPath = `http://localhost:8000`;
 
 export default function InsertDataView() {
   const [insertData, setInsertData] = useState({
@@ -58,12 +59,9 @@ export default function InsertDataView() {
 
   const [diveCode, setDiveCode] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
-
   const [imagePreview, setImagePreview] = useState(null);
-
-  const [selectedTime, setSelectedTime] = useState(null)
+  const [selectedTime, setSelectedTime] = useState(null);
   const [selectedReef, setSelectedReef] = useState(null);
-
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const fileInputRef = useRef(null);
@@ -72,9 +70,13 @@ export default function InsertDataView() {
   const handleViewChange = () => {
     setCurrentView(currentView === 'image' ? 'camera' : 'image');
   };
+  // Log environment variables
+  console.log('Cloudinary Cloud Name:', process.env.REACT_APP_CLOUDINARY_CLOUD_NAME);
+  console.log('Cloudinary API Key:', process.env.REACT_APP_CLOUDINARY_KEY);
+  console.log('Cloudinary API Secret:', process.env.REACT_APP_CLOUDINARY_API_SECRET);
+
 
   useEffect(() => {
-   
     const fetchData = async () => {
       try {
         const response = await fetch(`${serverPath}/api/dives`);
@@ -87,7 +89,7 @@ export default function InsertDataView() {
 
         const numericDiveCodes = dives
           .map((dive) => dive.diveCode)
-          .filter((code) => !Number.isNaN(parseInt(code, 10))); 
+          .filter((code) => !Number.isNaN(parseInt(code, 10)));
 
         let newDiveCode;
         if (numericDiveCodes.length === 0) {
@@ -97,7 +99,6 @@ export default function InsertDataView() {
           newDiveCode = lastDiveCode + 1;
         }
 
-        
         setDiveCode(newDiveCode); // Set the state with the new dive code
       } catch (error) {
         console.error('Error fetching documents:', error.message);
@@ -116,18 +117,38 @@ export default function InsertDataView() {
     }));
   }, [selectedTime, selectedReef]);
 
-  const onSelectFile = (e) => {
+  // Function to upload image to Cloudinary and get the URL
+  const uploadToCloudinary = async (file) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', 'ecoral_preset'); 
+
+    try {
+
+      const response = await axios.post(
+        `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`,
+        formData
+      );
+      return response.data.secure_url;
+    } catch (error) {
+      console.error('Error uploading to Cloudinary:', error);
+      return null;
+    }
+  };
+
+  const onSelectFile = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
+      const imageUrl = await uploadToCloudinary(file);
+      if (imageUrl) {
+        setImagePreview(imageUrl);
         setInsertData((prevData) => ({
           ...prevData,
-          file: reader.result,
+          file: imageUrl,
         }));
-      };
-      reader.readAsDataURL(file);
+      } else {
+        setImagePreview(null);
+      }
     } else {
       setImagePreview(null);
     }
@@ -173,8 +194,6 @@ export default function InsertDataView() {
       },
     }));
   };
-
-
 
   function isAppropriateDate(diveDate) {
     const today = new Date();
@@ -373,6 +392,7 @@ export default function InsertDataView() {
       console.error('Error saving data:', error.message);
     }
   };
+
   const handleCloseSnackbar = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -542,7 +562,6 @@ export default function InsertDataView() {
                 key={index}
                 onClick={() => handleButtonClick(button, 'time')}
                 variant={selectedTime === button ? 'contained' : 'outlined'}
-               
               >
                 {button}
               </Button>
@@ -557,7 +576,7 @@ export default function InsertDataView() {
               name="size-large"
               defaultValue={insertData.rank}
               size="large"
-              onChange={handleRankChange} 
+              onChange={handleRankChange}
             />
           </Stack>
         </div>
@@ -610,7 +629,7 @@ export default function InsertDataView() {
 
           {currentView === 'camera' && <CameraCapture sendImage={sendImage} />}
           {currentView === 'image' && (
-            <Stack sx={{alignContent: 'center'}}>
+            <Stack sx={{ alignContent: 'center' }}>
               {currentView === 'image' && (
                 <input
                   ref={fileInputRef}
@@ -672,7 +691,6 @@ export default function InsertDataView() {
         </div>
         <br />
       </form>
-      {/* <CameraCapture /> */}
 
       <h2>Thank you for your contribution!</h2>
     </div>
