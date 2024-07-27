@@ -23,7 +23,7 @@ import 'src/sections/pendingAdmin/view/style.css';
 // eslint-disable-next-line import/no-unresolved
 import dataLists from '../../insertData/view/dataLists.json';
 
-const humanWildInterList = ['Between 3 to 10 M', 'Closer than 10 M', 'Forther than 10 M', 'Macro', 'NA'];
+const humanWildInterList = ['Between 3 to 10 M', 'Closer than 10 M', 'Further than 10 M', 'Macro', 'NA'];
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -52,8 +52,6 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
 
   const [formData, setFormData] = useState({
     ...postData,
-    objectCode: '',
-    idCode: '',
     humanWildInter: '',
     researcherDesc: '',
     loggedBy: '',
@@ -428,25 +426,6 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
                       defaultValue={postData.temp}
                       onChange={handleInputChange}
                       value={formData.temp}
-                    />
-                  </div>
-                  <div className="inLine">
-                    <TextField
-                      label='ID Code'
-                      type="text"
-                      name="idCode"
-                      className="fieldInput"
-                      onChange={handleInputChange}
-                      value={formData.idCode}
-                    />
-
-                    <TextField
-                      label="Object Code"
-                      name="objectCode"
-                      autoComplete='objectCode'
-                      className="fieldInput"
-                      onChange={handleInputChange}
-                      value={formData.objectCode}
                     />
                   </div>
 
