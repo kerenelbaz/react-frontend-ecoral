@@ -16,6 +16,7 @@ import Typography from '@mui/material/Typography';
 import FormControl from '@mui/material/FormControl';
 
 import './diveSitesMapStyle.css';
+import config from '../configServer';
 import markerIcon from './markerIcon.png';
 import youAreHereIcon from './youAreHereIcon.png';
 
@@ -59,7 +60,7 @@ export default function DiveSitesMapView() {
 
   const fetchDiveSitesFromServer = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/dive_sites_map');
+      const response = await fetch(`${config.serverUrl}/api/dive_sites_map`);
       if (!response.ok) {
         throw new Error('Failed to fetch dive sites');
       }

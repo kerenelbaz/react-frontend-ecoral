@@ -12,6 +12,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import GetAppTwoToneIcon from '@mui/icons-material/GetAppTwoTone';
 
 import './importPostsStyle.css';
+import config from '../configServer';
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
@@ -44,7 +45,7 @@ export default function ImportPostsView() {
               video: post.video , 
             };
 
-            const divingResponse = await fetch('http://localhost:8000/api/pendings_dives', {
+            const divingResponse = await fetch(`${config.serverUrl}/api/pendings_dives`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',

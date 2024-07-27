@@ -14,13 +14,14 @@ import Typography from '@mui/material/Typography';
 // import DialogContent from '@mui/material/DialogContent';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
-// import DialogContentText from '@mui/material/DialogContentText';
 
 import { useView } from 'src/viewContexts';
 
 import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 
+// import DialogContentText from '@mui/material/DialogContentText';
+import config from 'src/sections/configServer';
 import EditData from 'src/sections/pendingAdmin/view/handle-edit-data';
 
 import AllDataTableRow from '../allData-table-row';
@@ -46,7 +47,8 @@ export default function AllDataView() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/dives');
+        // const response = await fetch(`${config.serverUrl}/api/dives`);
+        const response = await fetch('https://ecoral.vercel.app/api/dives');
         if (!response.ok) {
           throw new Error('Failed to fetch data');
         }
@@ -156,7 +158,7 @@ export default function AllDataView() {
 
   const handleDeleteClick = async (rowClicked) => {
     try {
-      const response = await fetch(`http://localhost:8000/api/Dives/${rowClicked._id}`, {
+      const response = await fetch(`${config.serverUrl}/api/Dives/${rowClicked._id}`, {
         method: 'DELETE',
       });
       if (!response.ok) {

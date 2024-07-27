@@ -10,6 +10,7 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import AddLocationTwoToneIcon from '@mui/icons-material/AddLocationTwoTone';
 
 import './addDiveSiteStyle.css';
+import config from '../configServer';
 
 export default function AddDiveSiteView() {
   const [selectedType, setSelectedType] = useState(null);
@@ -66,7 +67,7 @@ export default function AddDiveSiteView() {
     };
 
     // a POST request to server
-    fetch('http://localhost:8000/api/dive_sites_map', {
+    fetch(`${config.serverUrl}/api/dive_sites_map`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

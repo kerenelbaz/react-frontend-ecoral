@@ -16,6 +16,8 @@ import Autocomplete from '@mui/material/Autocomplete';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 
+import config from 'src/sections/configServer';
+
 import './style.css';
 import dataLists from '../../insertData/view/dataLists.json';
 
@@ -159,7 +161,7 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
 
   const generateDiveCode = async (linkURL) => {
     try {
-      const response = await fetch(`http://localhost:8000/api/dives`);
+      const response = await fetch(`${config.serverUrl}/api/dives`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -240,7 +242,7 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
     };
 
     try {
-      const response = await fetch('http://localhost:8000/api/dives', {
+      const response = await fetch(`${config.serverUrl}/api/dives`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',

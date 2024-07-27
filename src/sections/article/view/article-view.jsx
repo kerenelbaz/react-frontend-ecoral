@@ -11,11 +11,10 @@ import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 
-// import { users } from 'src/_mock/user';
-// import { sample } from 'lodash';
-
 // import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
+
+import config from 'src/sections/configServer';
 
 import TableNoData from '../table-no-data';
 import UserTableRow from '../user-table-row';
@@ -58,7 +57,7 @@ export default function ArticleView() {
           setIsAdmin(user?.email === 'admin@admin.com');
         };
 
-        const response = await fetch('http://localhost:8000/api/articles');
+        const response = await fetch(`${config.serverUrl}/api/articles`);
         if (!response.ok) {
           throw new Error('Failed to fetch data');
         }
@@ -137,7 +136,7 @@ export default function ArticleView() {
     console.log(article._id);
     try {
       // Make a request to your server to delete the row
-      const response = await fetch(`http://localhost:8000/api/articles/${article._id}`, {
+      const response = await fetch(`${config.serverUrl}/api/articles/${article._id}`, {
         method: 'DELETE',
       });
       if (!response.ok) {

@@ -18,6 +18,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 
+import config from 'src/sections/configServer';
 import 'src/sections/pendingAdmin/view/style.css';
 
 // eslint-disable-next-line import/no-unresolved
@@ -139,7 +140,7 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
 
   const handleSaveChanges = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/posts', {
+      const response = await fetch(`${config.serverUrl}/api/posts`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',

@@ -16,6 +16,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 // eslint-disable-next-line import/no-extraneous-dependencies
 // import ButtonGroup from '@mui/material/ButtonGroup';
 // import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import config from 'src/sections/configServer';
+
 // import dataLists from './dataLists.json';
 import './styleByMeArticle.css';
 import GitHubLabel from './GitHubLabel';
@@ -189,7 +191,7 @@ export default function AddArticleView() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/articles');
+        const response = await fetch(`${config.serverUrl}/api/articles`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -251,7 +253,7 @@ export default function AddArticleView() {
 
     try {
       // Send form data to the server
-      const response = await fetch('http://localhost:8000/api/articles', {
+      const response = await fetch(`${config.serverUrl}/api/articles`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',

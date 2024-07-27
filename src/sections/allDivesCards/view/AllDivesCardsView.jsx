@@ -14,6 +14,8 @@ import { useView } from 'src/viewContexts';
 
 import Iconify from 'src/components/iconify';
 
+import config from 'src/sections/configServer';
+
 import PostCard from '../post-card';
 import PostSort from '../post-sort';
 import PostSearch from '../post-search';
@@ -30,7 +32,7 @@ export default function AllDivesCardsView() {
 
   const fetchData = useCallback(async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/dives');
+      const response = await fetch(`${config.serverUrl}/api/dives`);
       if (!response.ok) {
         throw new Error('Failed to fetch data');
       }
@@ -119,9 +121,9 @@ export default function AllDivesCardsView() {
     console.log('Pending data received for deletion:', postId);
     try {
       // Make a request to your server to delete the row
-      const response = await fetch(`http://localhost:8000/api/dives/${postId}`, {
+      const response = await fetch(`https://react-frontend-ecoral.vercel.app/all-dives/${postId}`, {
         method: 'DELETE',
-      });
+      });      
       if (!response.ok) {
         throw new Error('Failed to delete dive');
       }

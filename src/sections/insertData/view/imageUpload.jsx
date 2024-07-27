@@ -5,7 +5,7 @@ import React, { useRef, useState } from 'react';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { Stack, Alert, Button, Snackbar, IconButton } from '@mui/material';
 
-const serverPath = 'http://localhost:8000';
+import config from 'src/sections/configServer';
 
 const ImageUpload = ({ sendImage }) => {
     const [imagePreview, setImagePreview] = useState(null);
@@ -33,7 +33,7 @@ const ImageUpload = ({ sendImage }) => {
 
         try {
             const publicId = `your_public_id_${Date.now()}`;
-            const response = await axios.post(`${serverPath}/test-api-image-upload`, {
+            const response = await axios.post(`${config.serverUrl}/test-api-image-upload`, {
                 imageUrl: imagePreview,
                 publicId,
             });

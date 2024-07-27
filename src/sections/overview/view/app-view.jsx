@@ -13,10 +13,13 @@ import Typography from '@mui/material/Typography';
 // import AppTasks from '../app-tasks';
 // import AppNewsUpdate from '../app-news-update';
 // import AppOrderTimeline from '../app-order-timeline';
+import config from 'src/sections/configServer';
+
 import AppCurrentVisits from '../app-current-visits';
 // import AppWebsiteVisits from '../app-website-visits';
 // import AppWidgetSummary from '../app-widget-summary';
 // import AppTrafficBySite from '../app-traffic-by-site';
+
 // import AppCurrentSubject from '../app-current-subject';
 import AppConversionRates from '../app-conversion-rates';
 
@@ -128,7 +131,9 @@ export default function AppView() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/dives');
+        const response = await fetch(`${config.serverUrl}/api/dives`);
+        
+        console.log("fff");
         if (!response.ok) {
           throw new Error('Failed to fetch data');
         }

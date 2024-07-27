@@ -19,11 +19,11 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
+import config from 'src/sections/configServer';
+
 import './styleByMe.css';
 import CameraCapture from './camera';
 import dataLists from './dataLists.json';
-
-const serverPath = `http://localhost:8000`;
 
 export default function InsertDataView() {
   const [insertData, setInsertData] = useState({
@@ -79,7 +79,7 @@ export default function InsertDataView() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${serverPath}/api/dives`);
+        const response = await fetch(`${config.serverUrl}/api/dives`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -340,7 +340,7 @@ export default function InsertDataView() {
 
     try {
       // Send form data to the server
-      const response = await fetch('http://localhost:8000/api/pendings_dives', {
+      const response = await fetch(`${config.serverUrl}/api/pendings_dives`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
