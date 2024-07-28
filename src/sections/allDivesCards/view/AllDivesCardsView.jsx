@@ -67,7 +67,9 @@ export default function AllDivesCardsView() {
           imageLocation: dive.imageLocation || 'No image location',
           diveCode: `${dive.diveCode || 'No dive code'}`,
           loggedBy: `Logged By: ${dive.loggedBy || 'unknown'}`,
-          logginDate: `${dive.logginDate || 'unknown'}`,
+          loggingDate: dive.loggingDate
+          ? format(new Date(dive.loggingDate), 'dd MMM yyyy')
+          : 'none',
           createdAt: formattedCreatedAt,
           age: `Age: ${dive.ageOfDiver === 'NA' ? '-' : dive.ageOfDiver || 'Unknown'}`,
           time: dive.time || 'No time',
@@ -154,14 +156,14 @@ export default function AllDivesCardsView() {
 
   const handleSort = (event) => {
     const sortBy = event.target.value;
-
-    const validPosts = posts.filter((post) => !Number.isNaN(Date.parse(post.createdAt)));
-    const invalidPosts = posts.filter((post) => Number.isNaN(Date.parse(post.createdAt)));
-
+  
+    const validPosts = posts.filter((post) => !Number.isNaN(Date.parse(post.loggingDate)));
+    const invalidPosts = posts.filter((post) => Number.isNaN(Date.parse(post.loggingDate)));
+  
     const sortedValidPosts = validPosts.sort((a, b) => {
-      const dateA = new Date(a.createdAt);
-      const dateB = new Date(b.createdAt);
-
+      const dateA = new Date(a.loggingDate);
+      const dateB = new Date(b.loggingDate);
+  
       if (sortBy === 'latest') {
         return dateB - dateA;
       }
@@ -170,12 +172,14 @@ export default function AllDivesCardsView() {
       }
       return 0;
     });
-
+  
     const sortedPosts = [...sortedValidPosts, ...invalidPosts];
-
+  
     setPosts(sortedPosts);
     setFilteredPosts(sortedPosts); // Ensure filtered posts are also sorted
   };
+  
+
 
   const handleNewDive = () => {
     window.open('/insert-data', '_blank');

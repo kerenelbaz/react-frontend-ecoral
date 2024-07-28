@@ -133,6 +133,12 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
       researcherDesc: value
     }));
   };
+  const handleloggedby = (value) => {
+    setFormData(prevData => ({
+      ...prevData,
+      loggedBy: value
+    }));
+  };
 
   const handleAutocompleteChange = (name, value) => {
     setFormData((prevData) => ({
@@ -239,7 +245,10 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
       linkURL: formData.linkURL,
       loggedBy: formData.loggedBy,
       loggingDate: formData.loggingDate,
+      // file: formData.file,
     };
+
+    console.log("send to server: ",objectDiveToServer)
 
     try {
       const response = await fetch(`${config.serverUrl}/api/dives`, {
@@ -541,6 +550,11 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
                     <label className="lblDesc" htmlFor="researcherDesc">Researcher Comments:</label>
                     <textarea
                       id="researcherDesc" name="researcherDesc" rows={3} className="admin-textarea" onChange={(e) => handleTextareaChange(e.target.value)} />
+                  </div>
+                  <div>
+                    <label className="lblLoged" htmlFor="loggedBy">Logged By: </label>
+                    <TextField
+                      id="loggedBy" name="loggedBy" rows={3} onChange={(e) => handleloggedby(e.target.value)} />
                   </div>
                 </div>
               </form>

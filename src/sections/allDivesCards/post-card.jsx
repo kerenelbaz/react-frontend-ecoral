@@ -64,7 +64,7 @@ export default function PostCard({ post, onDelete }) {
     setDeleteDialogOpen(false);
   };
 
-  const { cover, humanWild, ar, maxDepth, idCodePhotographerName, reportReceivingDate, reportType, typeOfDive, userDescription, objectCode, objectGroup, diveSite, rankOfDive, specie, distance, temp, author, createdAt, diveCode, imageLocation, age, gender, linkURL, media, loggedBy, logginDate, time } = post;
+  const { cover, humanWild, ar, maxDepth, idCodePhotographerName, reportReceivingDate, reportType, typeOfDive, userDescription, objectCode, objectGroup, diveSite, rankOfDive, specie, distance, temp, author, createdAt, diveCode, imageLocation, age, gender, linkURL, media, loggedBy, loggingDate, time } = post;
 
   const renderAvatar = (
     <Avatar
@@ -88,11 +88,12 @@ export default function PostCard({ post, onDelete }) {
           variant="subtitle2"
           underline="hover"
           sx={{
-            overflow: 'hidden',
+            overflow: 'visible',
             fontSize: '0.9rem',
-            WebkitBoxOrient: 'vertical',
             textAlign: 'center',
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            display: 'inline-block',
+            whiteSpace: 'normal', // Allow text to wrap
           }}
         >
           <LocationOnIcon sx={{ mr: 0.5, fontSize: 13 }} />
@@ -102,27 +103,29 @@ export default function PostCard({ post, onDelete }) {
           variant="subtitle2"
           underline="none"
           sx={{
-            overflow: 'hidden',
-            textAlign: 'center'
+            overflow: 'visible',
+            textAlign: 'center',
+            display: 'inline-block',
+            whiteSpace: 'normal', // Allow text to wrap
           }}
         >
           {diveCode}
         </Link>
       </Stack>
-      <Stack direction="row" justifyContent="center" spacing={1}>
+      <Stack direction="row" justifyContent="left" spacing={1}>
         <Typography
           variant="subtitle2"
-          height="20px"
+          height="62px"
           sx={{
             display: 'flex',
             alignItems: 'center',
           }}
         >
-          {specie}
+          {`specie: ${specie}`}
         </Typography>
         <Typography
           variant="subtitle2"
-          height="20px"
+          height="40px"
           sx={{
             display: 'flex',
             height: 30,
@@ -132,6 +135,8 @@ export default function PostCard({ post, onDelete }) {
       </Stack>
     </Stack>
   );
+  
+
 
   const getGenderIcon = (gen) => {
     if (gen === 'Male') {
@@ -149,7 +154,7 @@ export default function PostCard({ post, onDelete }) {
       color="inherit"
       variant="subtitle2"
       sx={{
-        height: 30,
+        height: 50,
         overflow: 'hidden',
         WebkitLineClamp: 2,
         display: 'flex',
@@ -164,7 +169,7 @@ export default function PostCard({ post, onDelete }) {
         sx={{
           ml: 1,
           fontSize: 'inherit',
-          height: 30,
+          height: 50,
           overflow: 'hidden',
           WebkitLineClamp: 2,
           display: 'flex',
@@ -181,9 +186,9 @@ export default function PostCard({ post, onDelete }) {
       variant="subtitle2"
       sx={{
         ml: 1,
-        overflow: 'hidden',
-        WebkitLineClamp: 2,
-        display: 'flex',
+        overflow: 'visible',
+        whiteSpace: 'normal',
+        display: 'block',
       }}
     >
       {userDescription}
@@ -414,7 +419,7 @@ export default function PostCard({ post, onDelete }) {
       <Stack direction="row" alignItems="center">
         <Iconify icon="eva:calendar-outline" width={16} sx={{ mr: 0.5, color: 'green' }} />
         <Typography variant="caption">
-          {logginDate || 'Invalid Date'}
+          {loggingDate || 'Invalid Date'}
         </Typography>
       </Stack>
     </Stack>
@@ -464,11 +469,12 @@ export default function PostCard({ post, onDelete }) {
           {media === 'Website' ? (
             <LanguageIcon
               sx={{ cursor: 'pointer', fontSize: 18, color: 'text.disabled' }}
-              onClick={() => window.open(linkURL, '_blank')}
+              // onClick={() => window.open(linkURL, '_blank')}
             />
           ) : (
             <FacebookOutlinedIcon
               sx={{ cursor: 'pointer', fontSize: 18, color: 'text.disabled' }}
+              onClick={() => window.open(linkURL, '_blank')}
             />
           )}
           {getTimeIcon(time)}

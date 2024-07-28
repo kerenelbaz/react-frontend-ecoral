@@ -140,7 +140,7 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
 
   const handleSaveChanges = async () => {
     try {
-      const response = await fetch(`${config.serverUrl}/api/posts`, {
+      const response = await fetch(`${config.serverUrl}/api/dives/${formData._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
