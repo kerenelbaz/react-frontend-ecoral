@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
-import PropTypes from 'prop-types';
 /* eslint-disable jsx-a11y/label-has-associated-control */
+// editPostData.jsx
+import PropTypes from 'prop-types';
 import { useState, useEffect } from "react";
 
 import Slide from '@mui/material/Slide';
@@ -12,7 +13,6 @@ import Snackbar from '@mui/material/Snackbar';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-// import Typography from '@mui/material/Typography';
 import DialogTitle from '@mui/material/DialogTitle';
 import Autocomplete from '@mui/material/Autocomplete';
 import DialogContent from '@mui/material/DialogContent';
@@ -21,7 +21,6 @@ import DialogActions from '@mui/material/DialogActions';
 import config from 'src/sections/configServer';
 import 'src/sections/pendingAdmin/view/style.css';
 
-// eslint-disable-next-line import/no-unresolved
 import dataLists from '../../insertData/view/dataLists.json';
 
 const humanWildInterList = ['Between 3 to 10 M', 'Closer than 10 M', 'Further than 10 M', 'Macro', 'NA'];
@@ -59,6 +58,7 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
   });
 
   useEffect(() => {
+    console.log('postData on change:', postData);
     setFormData(prevData => ({
       ...prevData,
       ...postData
@@ -67,10 +67,14 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    setFormData((prevData) => {
+      const updatedFormData = {
+        ...prevData,
+        [name]: value,
+      };
+      console.log('formData on input change:', updatedFormData);
+      return updatedFormData;
+    });
   };
 
   const handleImageClick = () => {
@@ -139,13 +143,37 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
   };
 
   const handleSaveChanges = async () => {
+    // Function to get the changes between currentFormData and originalPostData
+    const getChangedFields = (currentFormData, originalPostData) => {
+      const changes = {};
+      Object.keys(currentFormData).forEach(key => {
+        if (currentFormData[key] !== originalPostData[key]) {
+          changes[key] = currentFormData[key];
+        }
+      });
+      console.log("original data: " ,originalPostData);
+      console.log("currentFormData: " ,currentFormData);
+      console.log("changes: " ,changes);
+      return changes;
+    };
+
+    // Get the changed fields
+    const changes = getChangedFields(formData, postData);
+
+    // Check if there are changes to save
+    if (Object.keys(changes).length === 0) {
+      console.log('No changes to save');
+      return;
+    }
+
+    console.log("changes: ", JSON.stringify(changes));
     try {
-      const response = await fetch(`${config.serverUrl}/api/dives/${formData._id}`, {
-        method: 'PUT',
+      const response = await fetch(`${config.serverUrl}/api/dives/${formData.id}`, {
+        method: 'PATCH', // Use PATCH instead of PUT
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(changes) // Send only the changed fields
       });
 
       if (response.ok) {
@@ -167,7 +195,7 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
       open={open}
     >
       <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-        Edit Post: {formData.title}
+        Edit Dive: {formData.diveCode}
       </DialogTitle>
       <IconButton
         aria-label="close"
@@ -199,7 +227,7 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
                       <TextField
                         InputProps={{ readOnly: true }}
                         id="standard-read-only-input"
-                        label="Date Logged"
+                        label="Date Dive Logged"
                         defaultValue={formatDateTime(postData.loggingDate)}
                         variant="standard"
                         className="dateStyle"
@@ -207,7 +235,7 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
                       <TextField
                         InputProps={{ readOnly: true }}
                         id="standard-read-only-input"
-                        label="Post Date"
+                        label="Dive Date"
                         defaultValue={formatDateTime(postData.date)}
                         variant="standard"
                         className="dateStyle"
@@ -219,15 +247,16 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
                     <div>
                       <TextField
                         label="Logged By"
+                        defaultValue={postData.loggedBy}
+                        name = "loggedBy"
                         variant="standard"
                         className="dateStyle"
                         onChange={handleInputChange}
-                        name="loggedBy"
                         value={formData.loggedBy}
                       />
                       <TextField
-                        label="Photo in AR"
-                        defaultValue={postData.AR}
+                        label="Artificial Reef"
+                        defaultValue={postData.ar}
                         name="AR"
                         variant="standard"
                         className="dateStyle"
@@ -235,7 +264,7 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
                         value={formData.AR}
                       />
                       <TextField
-                        label="Post Time"
+                        label="Dive Time"
                         defaultValue={postData.time}
                         name="time"
                         variant="standard"
@@ -244,8 +273,8 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
                         value={formData.time}
                       />
                       <TextField
-                        label="Post Rank"
-                        defaultValue={postData.rankOfPost}
+                        label="Dive Rank"
+                        defaultValue={postData.rankOfDive}
                         name="rankOfPost"
                         variant="standard"
                         className="dateStyle"
@@ -377,15 +406,34 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
                     <Autocomplete
                       options={humanWildInterList}
                       getOptionLabel={(option) => option}
+                      defaultValue={postData.humanWildlifeInteraction}
                       onChange={(e, value) =>
-                        handleAutocompleteChange("humanWildInter", value || "")
+                        handleAutocompleteChange("humanWildlifeInteraction", value || "")
                       }
                       renderInput={(params) => (
                         <TextField
                           {...params}
                           label="Human-wildlife interaction"
-                          name="humanWildInter"
+                          name="humanWildlifeInteraction"
                           autoComplete='humanWildInter'
+                          className="fieldInput"
+                          Autocomplete="humanWildlifeInteraction"
+                        />
+                      )}
+                    />
+                    <Autocomplete
+                      options={dataLists.specieName}
+                      getOptionLabel={(option) => option}
+                      defaultValue={postData.specie}
+                      onChange={(e, value) =>
+                        handleAutocompleteChange("specie", value || "")
+                      }
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Specie Name"
+                          name="specie"
+                          autoComplete='specie'
                           className="fieldInput"
                         />
                       )}

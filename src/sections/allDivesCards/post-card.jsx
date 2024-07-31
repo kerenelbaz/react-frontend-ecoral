@@ -64,7 +64,7 @@ export default function PostCard({ post, onDelete }) {
     setDeleteDialogOpen(false);
   };
 
-  const { cover, humanWild, ar, maxDepth, idCodePhotographerName, reportReceivingDate, reportType, typeOfDive, userDescription, objectCode, objectGroup, diveSite, rankOfDive, specie, distance, temp, author, createdAt, diveCode, imageLocation, age, gender, linkURL, media, loggedBy, loggingDate, time } = post;
+  const { cover, humanWildlifeInteraction, ar, maxDepth, idCodePhotographerName, reportReceivingDate, reportType, typeOfDive, userDescription, objectCode, objectGroup, diveSite, rankOfDive, specie, distance, temp, author, createdAt, diveCode, imageLocation, age, gender, linkURL, media, loggedBy, loggingDate, time } = post;
 
   const renderAvatar = (
     <Avatar
@@ -135,7 +135,7 @@ export default function PostCard({ post, onDelete }) {
       </Stack>
     </Stack>
   );
-  
+
 
 
   const getGenderIcon = (gen) => {
@@ -255,7 +255,7 @@ export default function PostCard({ post, onDelete }) {
               WebkitBoxOrient: 'vertical',
             }}
           >
-            {humanWild}
+            {humanWildlifeInteraction}
           </Link>
         </Typography>
       </Link>
@@ -412,15 +412,17 @@ export default function PostCard({ post, onDelete }) {
         mt: 1
       }}
     >
-      <Stack direction="row" alignItems="center">
-        <Iconify icon="eva:person-fill" width={16} sx={{ mr: 0.5, color: 'green' }} />
-        <Typography variant="caption">{loggedBy}</Typography>
-      </Stack>
-      <Stack direction="row" alignItems="center">
-        <Iconify icon="eva:calendar-outline" width={16} sx={{ mr: 0.5, color: 'green' }} />
-        <Typography variant="caption">
-          {loggingDate || 'Invalid Date'}
-        </Typography>
+      <Stack spacing={1} direction="row" alignItems="center">
+        <Stack direction="row" alignItems="center" >
+          <Iconify icon="eva:person-fill" width={16} sx={{ mr: 0.5, color: 'green' }} />
+          <Typography variant="caption">{loggedBy}</Typography>
+        </Stack>
+        <Stack direction="row" alignItems="center" >
+          <Iconify icon="eva:calendar-outline" width={16} sx={{ mr: 0.5, color: 'green' }} />
+          <Typography variant="caption">
+            {loggingDate || 'Invalid Date'}
+          </Typography>
+        </Stack>
       </Stack>
     </Stack>
   );
@@ -441,9 +443,9 @@ export default function PostCard({ post, onDelete }) {
   );
 
   const getTimeIcon = (timeDive) => {
-    if (timeDive === 'Light') {
+    if (timeDive === 'Light' || timeDive === 'light') {
       return <WbSunnyIcon sx={{ ml: 1, fontSize: 18, color: 'text.disabled' }} />;
-    } if (timeDive === 'Night') {
+    } if (timeDive === 'Night' || timeDive === 'night') {
       return <DarkModeIcon sx={{ ml: 1, fontSize: 18, color: 'text.disabled' }} />;
     }
     return <QuestionMarkRoundedIcon sx={{ ml: 1, fontSize: 18, color: 'text.disabled' }} />;
@@ -469,7 +471,7 @@ export default function PostCard({ post, onDelete }) {
           {media === 'Website' ? (
             <LanguageIcon
               sx={{ cursor: 'pointer', fontSize: 18, color: 'text.disabled' }}
-              // onClick={() => window.open(linkURL, '_blank')}
+            // onClick={() => window.open(linkURL, '_blank')}
             />
           ) : (
             <FacebookOutlinedIcon

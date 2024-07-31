@@ -1,3 +1,4 @@
+// AllDivesCardsView.jsx
 import { faker } from '@faker-js/faker';
 import { useNavigate } from 'react-router-dom';
 import { parse, format, parseISO } from 'date-fns';
@@ -19,6 +20,7 @@ import config from 'src/sections/configServer';
 import PostCard from '../post-card';
 import PostSort from '../post-sort';
 import PostSearch from '../post-search';
+import EditPostData from './editPostData';
 
 export default function AllDivesCardsView() {
   const [posts, setPosts] = useState([]);
@@ -29,6 +31,8 @@ export default function AllDivesCardsView() {
   const [searchCount, setSearchCount] = useState(0);
   const { switchToTable } = useView();
   const navigate = useNavigate();
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [editPostData, setEditPostData] = useState(null);
 
   const fetchData = useCallback(async () => {
     try {
@@ -66,10 +70,10 @@ export default function AllDivesCardsView() {
           cover: `/assets/images/covers/cover_${(index % 24) + 1}.jpg`,
           imageLocation: dive.imageLocation || 'No image location',
           diveCode: `${dive.diveCode || 'No dive code'}`,
-          loggedBy: `Logged By: ${dive.loggedBy || 'unknown'}`,
+          loggedBy: `${dive.loggedBy || 'unknown'}`,
           loggingDate: dive.loggingDate
           ? format(new Date(dive.loggingDate), 'dd MMM yyyy')
-          : 'none',
+          : 'unknown',
           createdAt: formattedCreatedAt,
           age: `Age: ${dive.ageOfDiver === 'NA' ? '-' : dive.ageOfDiver || 'Unknown'}`,
           time: dive.time || 'No time',
@@ -82,18 +86,13 @@ export default function AllDivesCardsView() {
           idCodePhotographerName: dive.idCode_photographerName || '',
           diveSite: dive.diveSite || 'No site data',
           specie: dive.specie || 'No Specie',
-          humanWild: dive.humanWildlifeInteraction || 'No info',
+          humanWildlifeInteraction: dive.humanWildlifeInteraction || 'No info',
           ar: dive.AR || 'No',
           distance: dive.distance || 'None',
           maxDepth: dive.maxDepth || 'no depth',
           temp: dive.temp || '-',
           rankOfDive: dive.rankOfDive || '-',
-          userDescription: (
-            <span>
-              <span style={{ color: 'black', textDecoration: 'underline' }}>User Description</span>:{' '}
-              {dive.userDescription || '-'}
-            </span>
-          ),
+          userDescription: dive.userDescription || 'No User Description',
           objectGroup: dive.objectGroup || '-',
           objectCode: dive.objectCode || '-',
           reportType: dive.reportType || '-',
@@ -137,6 +136,18 @@ export default function AllDivesCardsView() {
     }
   };
 
+  const handleEditClick = (post) => {
+    setEditPostData(post);
+    setEditDialogOpen(true);
+  };
+
+  const handleUpdatePost = (updatedPost) => {
+    setPosts((prevPosts) => prevPosts.map((post) => (post.id === updatedPost.id ? updatedPost : post)));
+    setFilteredPosts((prevFilteredPosts) =>
+      prevFilteredPosts.map((post) => (post.id === updatedPost.id ? updatedPost : post))
+    );
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -178,16 +189,11 @@ export default function AllDivesCardsView() {
     setPosts(sortedPosts);
     setFilteredPosts(sortedPosts); // Ensure filtered posts are also sorted
   };
-  
-
 
   const handleNewDive = () => {
     window.open('/insert-data', '_blank');
   };
 
-  // const handleAllDiveTable = () => {
-  //   window.open('/all-data', '_blank');
-  // }
   const handleSwitchToTable = () => {
     switchToTable();
     navigate('/all-dives');
@@ -236,7 +242,7 @@ export default function AllDivesCardsView() {
 
       <Grid container spacing={3}>
         {currentPosts.map((post, index) => (
-          <PostCard key={post.id} post={post} index={index} onDelete={handleDeleteClick} />
+          <PostCard key={post.id} post={post} index={index} onDelete={handleDeleteClick} onEdit={handleEditClick} />
         ))}
       </Grid>
 
@@ -257,6 +263,15 @@ export default function AllDivesCardsView() {
           color="primary"
         />
       </Stack>
+
+      {editPostData && (
+        <EditPostData
+          open={editDialogOpen}
+          handleClose={() => setEditDialogOpen(false)}
+          postData={editPostData}
+          onUpdate={handleUpdatePost}
+        />
+      )}
     </Container>
   );
 }
