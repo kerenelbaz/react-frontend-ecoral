@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-// editPostData.jsx
 import PropTypes from 'prop-types';
 import { useState, useEffect } from "react";
 
+import Grid from '@mui/material/Grid';
 import Slide from '@mui/material/Slide';
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
@@ -55,6 +55,7 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
     humanWildInter: '',
     researcherDesc: '',
     loggedBy: '',
+    objectCode:''
   });
 
   useEffect(() => {
@@ -285,203 +286,193 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
                   </div>
                   <br />
                   <br />
-                  <div className="inLine">
-                    <Autocomplete
-                      options={dataLists.diveSite}
-                      defaultValue={postData.diveSite}
-                      getOptionLabel={(option) => option}
-                      onChange={(e, value) =>
-                        handleAutocompleteChange("diveSite", value || "")
-                      }
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          required
-                          label="Dive Site"
-                          name="diveSite"
-                          autoComplete="diveSite"
-                          className="fieldInput"
-                          value={formData.diveSite}
-                        />
-                      )}
-                    />
+                  <Grid container spacing={2}>
+                    <Grid item xs={4}>
+                      <Autocomplete
+                        options={dataLists.diveSite}
+                        defaultValue={postData.diveSite}
+                        getOptionLabel={(option) => option}
+                        onChange={(e, value) =>
+                          handleAutocompleteChange("diveSite", value || "")
+                        }
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            required
+                            label="Dive Site"
+                            name="diveSite"
+                            autoComplete="diveSite"
+                            className="fieldInput"
+                            value={formData.diveSite}
+                          />
+                        )}
+                      />
+                    </Grid>
+                    <Grid item xs={4}>
+                      <Autocomplete
+                        options={dataLists.objectGroupList}
+                        getOptionLabel={(option) => option}
+                        defaultValue={postData.objectGroup}
+                        onChange={(e, value) =>
+                          handleAutocompleteChange("objectGroup", value || "")
+                        }
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            required
+                            label="Object Group"
+                            name="objectGroup"
+                            autoComplete='objectGroup'
+                            className="fieldInput"
+                          />
+                        )}
+                      />
+                    </Grid>
+                    <Grid item xs={4}>
+                      <TextField
+                        label="Object Code"
+                        defaultValue={postData.objectCode}
+                        name="objectCode"
+                        type = "text"
+                        className="fieldInput"
+                        // onChange={handleFieldChange}
+                        onChange={handleInputChange}
+                        value={formData.objectCode}
+                      />
+                      
+                    </Grid>
+                  </Grid>
 
-                    <Autocomplete
-                      options={dataLists.objectGroupList}
-                      getOptionLabel={(option) => option}
-                      defaultValue={postData.objectGroup}
-                      onChange={(e, value) =>
-                        handleAutocompleteChange("objectGroup", value || "")
-                      }
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          required
-                          label="Object Group"
-                          name="objectGroup"
-                          autoComplete='objectGroup'
-                          className="fieldInput"
-                        />
-                      )}
-                    />
+                  <Grid container spacing={2}>
+                    <Grid item xs={4}>
+                      <Autocomplete
+                        options={dataLists.imageLocation}
+                        getOptionLabel={(option) => option}
+                        defaultValue={postData.imageLocation}
+                        onChange={(e, value) =>
+                          handleAutocompleteChange("imageLocation", value || "")
+                        }
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            required
+                            label="Image Location"
+                            name="imageLocation"
+                            autoComplete="imageLocation"
+                            className="fieldInput"
+                          />
+                        )}
+                      />
+                    </Grid>
+                    <Grid item xs={4}>
+                      <Autocomplete
+                        options={dataLists.ReportType}
+                        getOptionLabel={(option) => option}
+                        defaultValue={postData.reportType}
+                        onChange={(e, value) =>
+                          handleAutocompleteChange("reportType", value || "")
+                        }
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            required
+                            label="Report Type"
+                            name="reportType"
+                            autoComplete='reportType'
+                            className="fieldInput"
+                          />
+                        )}
+                      />
+                    </Grid>
+                    <Grid item xs={4}>
+                      <Autocomplete
+                        options={dataLists.typeOfDive}
+                        getOptionLabel={(option) => option}
+                        defaultValue={postData.typeOfDive}
+                        onChange={(e, value) =>
+                          handleAutocompleteChange("typeOfDive", value || "")
+                        }
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            required
+                            label="Type Of Dive"
+                            name="typeOfDive"
+                            autoComplete='typeOfDive'
+                            className="fieldInput"
+                          />
+                        )}
+                      />
+                    </Grid>
+                  </Grid>
 
-                    <Autocomplete
-                      options={dataLists.specieName}
-                      getOptionLabel={(option) => option}
-                      defaultValue={postData.specie}
-                      onChange={(e, value) =>
-                        handleAutocompleteChange("specie", value || "")
-                      }
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Specie Name"
-                          name="specie"
-                          autoComplete='specie'
-                          className="fieldInput"
-                        />
-                      )}
-                    />
-                  </div>
+                  <Grid container spacing={2}>
+                    <Grid item xs={4}>
+                      <Autocomplete
+                        options={humanWildInterList}
+                        getOptionLabel={(option) => option}
+                        defaultValue={postData.humanWildlifeInteraction}
+                        onChange={(e, value) =>
+                          handleAutocompleteChange("humanWildlifeInteraction", value || "")
+                        }
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Human-wildlife interaction"
+                            name="humanWildlifeInteraction"
+                            autoComplete='humanWildInter'
+                            className="fieldInput"
+                          />
+                        )}
+                      />
+                    </Grid>
+                    <Grid item xs={4}>
+                      <TextField
+                        label='Max Depth (meters)'
+                        type="text"
+                        id="maxDepth"
+                        name="maxDepth"
+                        className="fieldInput"
+                        defaultValue={postData.maxDepth}
+                        onChange={handleInputChange}
+                        value={formData.maxDepth}
+                      />
+                    </Grid>
+                    <Grid item xs={4}>
+                      <TextField
+                        label='Distance (meters)'
+                        type="number"
+                        id="standard-number"
+                        name="distance"
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        className="fieldInput"
+                        defaultValue={postData.distance}
+                        onChange={handleInputChange}
+                        value={formData.distance}
+                      />
+                    </Grid>
+                  </Grid>
 
-                  <div className="inLine">
-                    <Autocomplete
-                      options={dataLists.imageLocation}
-                      getOptionLabel={(option) => option}
-                      defaultValue={postData.imageLocation}
-                      onChange={(e, value) =>
-                        handleAutocompleteChange("imageLocation", value || "")
-                      }
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          required
-                          label="Image Location"
-                          name="imageLocation"
-                          autoComplete="imageLocation"
-                          className="fieldInput"
-                        />
-                      )}
-                    />
-
-                    <Autocomplete
-                      options={dataLists.ReportType}
-                      getOptionLabel={(option) => option}
-                      defaultValue={postData.reportType}
-                      onChange={(e, value) =>
-                        handleAutocompleteChange("reportType", value || "")
-                      }
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          required
-                          label="Report Type"
-                          name="reportType"
-                          autoComplete='reportType'
-                          className="fieldInput"
-                        />
-                      )}
-                    />
-                    <Autocomplete
-                      options={dataLists.typeOfDive}
-                      getOptionLabel={(option) => option}
-                      defaultValue={postData.typeOfDive}
-                      onChange={(e, value) =>
-                        handleAutocompleteChange("typeOfDive", value || "")
-                      }
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          required
-                          label="Type Of Dive"
-                          name="typeOfDive"
-                          autoComplete='typeOfDive'
-                          className="fieldInput"
-                        />
-                      )}
-                    />
-                  </div>
-
-                  <div className="inLine">
-                    <Autocomplete
-                      options={humanWildInterList}
-                      getOptionLabel={(option) => option}
-                      defaultValue={postData.humanWildlifeInteraction}
-                      onChange={(e, value) =>
-                        handleAutocompleteChange("humanWildlifeInteraction", value || "")
-                      }
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Human-wildlife interaction"
-                          name="humanWildlifeInteraction"
-                          autoComplete='humanWildInter'
-                          className="fieldInput"
-                          Autocomplete="humanWildlifeInteraction"
-                        />
-                      )}
-                    />
-                    <Autocomplete
-                      options={dataLists.specieName}
-                      getOptionLabel={(option) => option}
-                      defaultValue={postData.specie}
-                      onChange={(e, value) =>
-                        handleAutocompleteChange("specie", value || "")
-                      }
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Specie Name"
-                          name="specie"
-                          autoComplete='specie'
-                          className="fieldInput"
-                        />
-                      )}
-                    />
-                  </div>
-
-                  <div className="inLine">
-                    <TextField
-                      label='Max Depth (meters)'
-                      type="text"
-                      id="maxDepth"
-                      name="maxDepth"
-                      className="fieldInput"
-                      defaultValue={postData.maxDepth}
-                      onChange={handleInputChange}
-                      value={formData.maxDepth}
-                    />
-
-                    <TextField
-                      label='Distance (meters)'
-                      type="number"
-                      id="standard-number"
-                      name="distance"
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      className="fieldInput"
-                      defaultValue={postData.distance}
-                      onChange={handleInputChange}
-                      value={formData.distance}
-                    />
-
-                    <TextField
-                      label='Temperature (celsius)'
-                      type="text"
-                      name="temp"
-                      id="standard-number"
-                      className="fieldInput"
-                      defaultValue={postData.temp}
-                      onChange={handleInputChange}
-                      value={formData.temp}
-                    />
-                  </div>
-
-                  <div>
-                    <label className="lblDesc">User Post Description:</label>
-                    <p className="lblDesc">{`"${postData.userDescription}"`}</p>
-                  </div>
+                  <Grid container spacing={2}>
+                    <Grid item xs={4}>
+                      <TextField
+                        label='Temperature (celsius)'
+                        type="text"
+                        name="temp"
+                        id="standard-number"
+                        className="fieldInput"
+                        defaultValue={postData.temp}
+                        onChange={handleInputChange}
+                        value={formData.temp}
+                      />
+                    </Grid>
+                    <Grid item xs={8}>
+                      <label className="lblDesc">User Post Description:</label>
+                      <p className="lblDesc">{`"${postData.userDescription}"`}</p>
+                    </Grid>
+                  </Grid>
 
                   <div>
                     <label className="lblDesc" htmlFor="researcherDesc">Researcher Comments:</label>
