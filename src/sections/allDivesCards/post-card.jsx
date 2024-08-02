@@ -1,6 +1,7 @@
 // post-card.jsx
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
@@ -40,6 +41,7 @@ export default function PostCard({ post, onDelete }) {
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [editData, setEditData] = useState(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [imageDialogOpen, setImageDialogOpen] = useState(false);
 
   const handleEditOpen = (data) => {
     setEditData(data);
@@ -62,6 +64,13 @@ export default function PostCard({ post, onDelete }) {
   const handleDeleteClick = () => {
     onDelete(post.id);
     setDeleteDialogOpen(false);
+  };
+  const handleImageOpen = () => {
+    setImageDialogOpen(true);
+  };
+
+  const handleImageClose = () => {
+    setImageDialogOpen(false);
   };
 
   const { cover, humanWildlifeInteraction, ar, maxDepth, idCodePhotographerName, reportReceivingDate, reportType, typeOfDive, userDescription, objectCode, objectGroup, diveSite, rankOfDive, specie, distance, temp, author, createdAt, diveCode, imageLocation, age, gender, linkURL, media, loggedBy, loggingDate, time } = post;
@@ -439,6 +448,8 @@ export default function PostCard({ post, onDelete }) {
         objectFit: 'cover',
         position: 'absolute',
       }}
+      onClick={handleImageOpen}
+
     />
   );
 
@@ -604,6 +615,50 @@ export default function PostCard({ post, onDelete }) {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <Dialog
+        open={imageDialogOpen}
+        onClose={handleImageClose}
+        fullWidth
+        maxWidth="lg"
+      >
+        <DialogTitle>Image Viewer</DialogTitle>
+        <DialogContent>
+          <TransformWrapper
+            initialScale={1}
+            initialPositionX={0}
+            initialPositionY={0}
+          >
+            {({ zoomIn, zoomOut, resetTransform }) => (
+              <>
+                <Box sx={{ mb: 2, display: 'flex', justifyContent: 'center' }}>
+                  <Button onClick={zoomIn} sx={{ mx: 1 }} />
+                  <Button onClick={zoomOut} sx={{ mx: 1 }} />
+                  <Button onClick={resetTransform} sx={{ mx: 1 }} />
+                </Box>
+                <TransformComponent>
+                  <Box
+                    component="img"
+                    alt={diveSite}
+                    src={cover}
+                    sx={{
+                      width: '100%',
+                      maxHeight: '80vh',
+                      objectFit: 'contain',
+                    }}
+                  />
+                </TransformComponent>
+              </>
+            )}
+          </TransformWrapper>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleImageClose} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+
     </Grid>
   );
 }
