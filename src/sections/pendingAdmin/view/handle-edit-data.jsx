@@ -579,7 +579,7 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
       </DialogContent>
       <DialogActions>
         <Button style={{ fontSize: "20px" }} autoFocus onClick={handleSaveChanges}>
-          Save changes:
+          Save changes
         </Button>
       </DialogActions>
     </BootstrapDialog>

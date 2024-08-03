@@ -29,6 +29,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import QuestionMarkRoundedIcon from '@mui/icons-material/QuestionMarkRounded';
 import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined';
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 import Iconify from 'src/components/iconify';
 import SvgColor from 'src/components/svg-color';
@@ -41,6 +42,7 @@ export default function PostCard({ post, onDelete }) {
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [editData, setEditData] = useState(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [imageDialogOpen, setImageDialogOpen] = useState(false);
 
   const handleEditOpen = (data) => {
     setEditData(data);
@@ -65,8 +67,17 @@ export default function PostCard({ post, onDelete }) {
     setDeleteDialogOpen(false);
   };
 
+
+  const handleImageOpen = () => {
+    setImageDialogOpen(true);
+    console.log(post);
+  };
+
+  const handleImageClose = () => {
+    setImageDialogOpen(false);
+  };
+
   const {
-    cover,
     humanWild,
     ar,
     maxDepth,
@@ -93,7 +104,12 @@ export default function PostCard({ post, onDelete }) {
     loggedBy,
     loggingDate,
     time,
+    file,
+    cover,
   } = post;
+
+
+
 
   const renderAvatar = (
     <Avatar
@@ -459,7 +475,7 @@ export default function PostCard({ post, onDelete }) {
     <Box
       component="img"
       alt={diveSite}
-      src={cover}
+      src={file || cover}
       sx={{
         top: 0,
         width: 1,
@@ -467,6 +483,8 @@ export default function PostCard({ post, onDelete }) {
         objectFit: 'cover',
         position: 'absolute',
       }}
+      onClick={handleImageOpen}
+
     />
   );
 
@@ -632,6 +650,53 @@ export default function PostCard({ post, onDelete }) {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <Dialog
+        open={imageDialogOpen}
+        onClose={handleImageClose}
+        fullWidth
+        maxWidth="lg"
+      >
+        <DialogTitle>Image Viewer</DialogTitle>
+        <DialogContent>
+          <TransformWrapper
+            initialScale={1}
+            initialPositionX={0}
+            initialPositionY={0}
+          >
+            {({ zoomIn, zoomOut, resetTransform }) => (
+              <>
+                <Box sx={{ mb: 2, display: 'flex', justifyContent: 'center' }}>
+                  <Button onClick={zoomIn} sx={{ mx: 1 }} />
+                  <Button onClick={zoomOut} sx={{ mx: 1 }} />
+                  <Button onClick={resetTransform} sx={{ mx: 1 }} />
+                </Box>
+                <TransformComponent>
+                  <Box
+                    component="img"
+                    alt={diveSite}
+                    src={file || cover}
+                    sx={{
+                      width: '100%',
+                      maxHeight: '80vh',
+                      objectFit: 'contain',
+                    }}
+                  />
+                </TransformComponent>
+              </>
+            )}
+          </TransformWrapper>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleImageClose} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+
+
+
     </Grid>
   );
 }

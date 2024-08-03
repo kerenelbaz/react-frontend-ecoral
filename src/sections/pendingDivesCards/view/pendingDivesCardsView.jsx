@@ -19,6 +19,7 @@ import config from 'src/sections/configServer';
 import PostCard from '../post-card';
 import PostSort from '../post-sort';
 import EditData from './handle-edit-data';
+// import { object } from 'prop-types';
 // import PostSearch from '../post-search';
 
 export default function PendingDivesCardsView() {
@@ -66,15 +67,17 @@ export default function PendingDivesCardsView() {
 
         return {
           id: dive._id,
+          file: dive.file,
+          dateDive: dive.date,
           cover: `/assets/images/covers/cover_${(index % 24) + 1}.jpg`,
           imageLocation: dive.imageLocation || 'No image location',
           diveCode: `${dive.diveCode || 'No dive code'}`,
-          loggedBy: `Logged By: ${dive.loggedBy || 'unknown'}`,
+          loggedBy: `${dive.loggedBy || ''}`,
           loggingDate: dive.loggingDate
             ? format(new Date(dive.loggingDate), 'dd MMM yyyy')
             : 'none',
           createdAt: formattedCreatedAt,
-          age: `Age: ${dive.ageOfDiver === 'NA' ? '-' : dive.ageOfDiver || 'Unknown'}`,
+          age: `${dive.ageOfDiver === 'NA' ? '-' : dive.ageOfDiver || ''}`,
           time: dive.time || 'No time',
           gender: dive.sexOfDiver === 'NA' ? 'No Gender' : dive.sexOfDiver || 'No gender',
           linkURL: dive.linkURL || 'No Link',
@@ -91,12 +94,7 @@ export default function PendingDivesCardsView() {
           maxDepth: dive.maxDepth || 'no depth',
           temp: dive.temp || '-',
           rankOfDive: dive.rankOfDive || '-',
-          userDescription: (
-            <span>
-              <span style={{ color: 'black', textDecoration: 'underline' }}>User Description</span>:{' '}
-              {dive.userDescription || '-'}
-            </span>
-          ),
+          userDescription: dive.userDescription || '-',
           objectGroup: dive.objectGroup || '-',
           objectCode: dive.objectCode || '-',
           reportType: dive.reportType || '-',
