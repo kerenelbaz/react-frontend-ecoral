@@ -1,4 +1,3 @@
-// post-card.jsx
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -74,7 +73,7 @@ export default function PostCard({ post, onDelete }) {
     setImageDialogOpen(false);
   };
 
-  const { cover, humanWildlifeInteraction, ar, maxDepth, idCodePhotographerName, reportReceivingDate, reportType, typeOfDive, userDescription, objectCode, objectGroup, diveSite, rankOfDive, specie, distance, temp, author, createdAt, diveCode, imageLocation, age, gender, linkURL, media, loggedBy, loggingDate, time } = post;
+  const { cover, humanWildlifeInteraction, ar, maxDepth, idCodePhotographerName, reportReceivingDate, reportType, typeOfDive, userDescription, objectCode, objectGroup, diveSite, rankOfDive, specie, distance, temp, author, createdAt, diveCode, imageLocation, age, gender, linkURL, media, loggedBy, loggingDate, time, fileLink } = post;
 
   const renderAvatar = (
     <Avatar
@@ -146,8 +145,6 @@ export default function PostCard({ post, onDelete }) {
     </Stack>
   );
 
-
-
   const getGenderIcon = (gen) => {
     if (gen === 'Male') {
       return <ManRoundedIcon sx={{ fontSize: 22 }} />;
@@ -156,7 +153,6 @@ export default function PostCard({ post, onDelete }) {
       return <WomanRoundedIcon sx={{ fontSize: 20 }} />;
     }
     return <QuestionMarkRoundedIcon sx={{ fontSize: 20 }} />;
-
   };
 
   const renderUserInfo = (
@@ -441,7 +437,7 @@ export default function PostCard({ post, onDelete }) {
     <Box
       component="img"
       alt={diveSite}
-      src={cover}
+      src={fileLink || cover}
       sx={{
         top: 0,
         width: 1,
@@ -641,7 +637,7 @@ export default function PostCard({ post, onDelete }) {
                   <Box
                     component="img"
                     alt={diveSite}
-                    src={cover}
+                    src={fileLink || cover}
                     sx={{
                       width: '100%',
                       maxHeight: '80vh',

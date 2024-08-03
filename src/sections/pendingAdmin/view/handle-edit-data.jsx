@@ -171,48 +171,48 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-  
+
       const responseData = await response.json();
       const { dives: fetchedDives } = responseData.data;
-  
+
       // Handle cases where linkURL is undefined, null, or empty
       if (!linkURL) {
         linkURL = `unique-${Math.random().toString(36).substring(2, 15)}`;
       }
-  
+
       // Extract numeric part and suffix from each dive code
       const diveCodeParts = fetchedDives.map((dive) => {
         const match = dive.diveCode && typeof dive.diveCode === 'string' ? dive.diveCode.match(/(\d+)([A-Z]?)/) : null;
         return match ? { base: parseInt(match[1], 10), suffix: match[2] || 'A' } : null;
       }).filter(part => part !== null);
-  
+
       // Find the highest numeric base
       const highestBase = diveCodeParts.length === 0 ? 0 : Math.max(...diveCodeParts.map(part => part.base));
-  
+
       // Find the highest suffix for the given linkURL
       const newDiveCodeBase = highestBase + 1;
       let newDiveCode = `${newDiveCodeBase}A`;
-  
+
       const existingDives = fetchedDives.filter(dive => dive.linkURL === linkURL);
       if (existingDives.length > 0) {
         const baseCode = parseInt(existingDives[0].diveCode.match(/(\d+)/)[1], 10);
         const highestSuffix = Math.max(...existingDives.map(dive => {
           if (dive.diveCode && typeof dive.diveCode === 'string') {
             return dive.diveCode.charCodeAt(dive.diveCode.length - 1) - 65;
-          } 
-            return -1; // Default to 'A' if no valid suffix is found
-          
+          }
+          return -1; // Default to 'A' if no valid suffix is found
+
         }));
         newDiveCode = `${baseCode}${String.fromCharCode(65 + highestSuffix + 1)}`;
       }
-  
+
       return newDiveCode;
     } catch (error) {
       console.error('Error fetching documents:', error.message);
       return 'Error';
     }
   };
-  
+
 
   const handleSaveChanges = async () => {
     const newDiveCode = await generateDiveCode(formData.linkURL);
@@ -245,10 +245,10 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
       linkURL: formData.linkURL,
       loggedBy: formData.loggedBy,
       loggingDate: formData.loggingDate,
-      // file: formData.file,
+      fileLink: formData.file,
     };
 
-    console.log("send to server: ",objectDiveToServer)
+    console.log("send to server: ", objectDiveToServer)
 
     try {
       const response = await fetch(`${config.serverUrl}/api/dives`, {

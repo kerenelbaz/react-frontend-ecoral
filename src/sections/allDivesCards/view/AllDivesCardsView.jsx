@@ -1,4 +1,3 @@
-// AllDivesCardsView.jsx
 import { faker } from '@faker-js/faker';
 import { useNavigate } from 'react-router-dom';
 import { parse, format, parseISO } from 'date-fns';
@@ -47,8 +46,6 @@ export default function AllDivesCardsView() {
 
       const fetchedPosts = dives.map((dive, index) => {
         let createdAt = dive.date || new Date().toISOString(); // Set to current date if missing
-
-        // Ensure valid date
         if (Number.isNaN(Date.parse(createdAt))) {
           createdAt = new Date().toISOString();
         }
@@ -68,12 +65,11 @@ export default function AllDivesCardsView() {
         return {
           id: dive._id,
           cover: `/assets/images/covers/cover_${(index % 24) + 1}.jpg`,
+          fileLink: dive.fileLink, // Include the fileLink
           imageLocation: dive.imageLocation || 'No image location',
           diveCode: `${dive.diveCode || 'No dive code'}`,
           loggedBy: `${dive.loggedBy || 'unknown'}`,
-          loggingDate: dive.loggingDate
-          ? format(new Date(dive.loggingDate), 'dd MMM yyyy')
-          : 'unknown',
+          loggingDate: dive.loggingDate,
           createdAt: formattedCreatedAt,
           age: `Age: ${dive.ageOfDiver === 'NA' ? '-' : dive.ageOfDiver || 'Unknown'}`,
           time: dive.time || 'No time',
@@ -250,7 +246,7 @@ export default function AllDivesCardsView() {
         <Typography variant="body2">
           Items per page:
           <select value={itemsPerPage} onChange={handleItemsPerPageChange}>
-            <option value={12}>12</option>
+            <option value={12}>12/</option>
             <option value={24}>24</option>
             <option value={40}>40</option>
           </select>
