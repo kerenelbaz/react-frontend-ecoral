@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { faker } from '@faker-js/faker';
 import { useNavigate } from 'react-router-dom';
 import { parse, format, parseISO } from 'date-fns';
@@ -114,23 +115,50 @@ export default function AllDivesCardsView() {
     fetchData();
   }, [fetchData]);
 
-  const handleDeleteClick = async (postId) => {
+  const deleteFromCloudinary = async (imageUrl) => {
+    const publicId = imageUrl.split('/').pop().split('.')[0]; // Extract public ID from the URL
+    try {
+        await axios.post(
+            `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/destroy`,
+            `public_id=${publicId}`,
+            {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Authorization': `Basic ${btoa(`${process.env.REACT_APP_CLOUDINARY_API_KEY}:${process.env.REACT_APP_CLOUDINARY_API_SECRET}`)}`
+                }
+            }
+        );
+        console.log('Image deleted from Cloudinary:', publicId);
+    } catch (error) {
+        console.error('Error deleting from Cloudinary:', error);
+    }
+};
+  
+  
+
+  const handleDeleteClick = async (postId, fileLink) => {
     console.log('Pending data received for deletion:', postId);
     try {
       // Make a request to your server to delete the row
-      const response = await fetch(`https://react-frontend-ecoral.vercel.app/all-dives/${postId}`, {
+      const response = await fetch(`${config.serverUrl}/api/dives/${postId}`,  {
         method: 'DELETE',
-      });      
+      });
       if (!response.ok) {
         throw new Error('Failed to delete dive');
       }
       setPosts((prevData) => prevData.filter((row) => row.id !== postId));
       setFilteredPosts((prevData) => prevData.filter((row) => row.id !== postId));
       setSearchCount((prevCount) => prevCount - 1);
+  
+      // Delete from Cloudinary
+      if (fileLink) {
+        await deleteFromCloudinary(fileLink);
+      }
     } catch (error) {
       console.error('Error deleting dive:', error);
     }
   };
+  
 
   const handleEditClick = (post) => {
     setEditPostData(post);
@@ -238,7 +266,8 @@ export default function AllDivesCardsView() {
 
       <Grid container spacing={3}>
         {currentPosts.map((post, index) => (
-          <PostCard key={post.id} post={post} index={index} onDelete={handleDeleteClick} onEdit={handleEditClick} />
+          <PostCard key={post.id} post={post} index={index} onDelete={() => handleDeleteClick(post.id, post.fileLink)} onEdit={handleEditClick} />
+
         ))}
       </Grid>
 
