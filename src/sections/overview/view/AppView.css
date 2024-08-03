@@ -1,0 +1,13 @@
+.chart-container {
+    display: flex;
+    align-items: stretch;
+    height: 502px;
+
+  }
+  
+  .chart-container .MuiPaper-root {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  

@@ -521,7 +521,8 @@ export default function InsertDataView() {
           />
         </div>
 
-        <div className="parentContainer">
+        <div className="twoInLine">
+        <div className="parentContainer" style={{ width: '70%' }}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={['DatePicker']} valueType="date">
               <div>
@@ -552,6 +553,21 @@ export default function InsertDataView() {
             </DemoContainer>
           </LocalizationProvider>
         </div>
+          <div style={{ 
+            width: '30%', 
+            display: 'flex', 
+            alignItems: 'center', 
+            paddingLeft: '10px', 
+            border: '1px solid #1675E8', 
+            borderRadius: '8px', 
+            padding: '10px', 
+            backgroundColor: '#f0f8ff',
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+          }}>
+            <p style={{ margin: 0 }}>If you don&apos;t know the specific date, insert the first day of the month.</p>
+          </div>
+        </div>
+
         <br />
         <div>
           <label className="lblButtonsGroup">Dive Took Place During:</label>

@@ -469,10 +469,18 @@ export default function AppView() {
        
       
 
-        <Grid xs={12} md={6} lg={4}>
+        <Grid xs={12} md={6} lg={4}
+        
+        >
 
           <AppCurrentVisits
             title="Data by image location"
+            sx={{
+              // display: 'flex',
+              // flexDirection: 'column',
+              // justifyContent: 'stretch',
+              height: '470px',
+            }}
             chart={{
               series: [ 
                 // object group
@@ -485,10 +493,18 @@ export default function AppView() {
     
       
 
-        <Grid xs={12} md={6} lg={8}>
+        <Grid xs={12} md={6} lg={8}
+        
+        >
           <AppConversionRates
             title="Top frequency species"
             subheader="top ten species"
+            sx={{
+              // display: 'flex',
+              // flexDirection: 'column',
+              // justifyContent: 'stretch',
+              height: '470px',
+            }}
             chart={{
               series: [
                 { label: topTenMostSpecies.specie1.name, 

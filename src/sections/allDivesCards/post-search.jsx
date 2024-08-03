@@ -5,7 +5,9 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import TabList from '@mui/lab/TabList';
+import Stack from '@mui/material/Stack';
 import TabPanel from '@mui/lab/TabPanel';
+import Button from '@mui/material/Button';
 import TabContext from '@mui/lab/TabContext';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -102,6 +104,40 @@ export default function PostSearch({ posts, onFilter, setSearchCount }) {
     setSearchCount(filteredPosts.length);
   };
 
+   const handleClearAll = () => {
+    setQueries({
+      diveCode: '',
+      diveSite: '',
+      specie: '',
+      objectGroup: '',
+      loggedBy: '',
+      logginDate: '',
+      createdAt: '',
+      age: '',
+      time: '',
+      gender: '',
+      linkURL: '',
+      media: '',
+      reportReceivingDate: '',
+      idCodePhotographerName: '',
+      humanWild: '',
+      ar: '',
+      distance: '',
+      maxDepth: '',
+      temp: '',
+      rankOfDive: '',
+      userDescription: '',
+      objectCode: '',
+      reportType: '',
+      typeOfDive: '',
+      authorName: '',
+    });
+
+    onFilter(posts);
+    setSearchCount(posts.length);
+  };
+
+
   return (
     <Box sx={{ width: '100%', typography: 'body1' }}>
       <TabContext value={value}>
@@ -134,26 +170,46 @@ export default function PostSearch({ posts, onFilter, setSearchCount }) {
             <Tab label="Author Name" value="25" />
           </TabList>
         </Box>
-        {Object.keys(queries).map((field, index) => (
-          <TabPanel key={field} value={(index + 1).toString()}>
-            <TextField
-              label={field.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
-              value={queries[field]}
-              onChange={handleInputChange(field)}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Iconify
-                      icon="eva:search-fill"
-                      sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
-                    />
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </TabPanel>
-        ))}
+        <Stack direction="row" alignItems="center" spacing={2} mt={2}>
+          <Box sx={{ flexGrow: 1 }}>
+            {Object.keys(queries).map((field, index) => (
+              <TabPanel key={field} value={(index + 1).toString()} sx={{ p: 0 }}>
+                <TextField
+                  label={field.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                  value={queries[field]}
+                  onChange={handleInputChange(field)}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Iconify
+                          icon="eva:search-fill"
+                          sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
+                        />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </TabPanel>
+            ))}
+          </Box>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={handleClearAll}
+            size="small"
+            sx={{
+              height: 'fit-content',
+              alignSelf: 'flex-start',
+              mt: 1.5, // Adjust margin to align vertically with the TextField
+            }}
+          >
+            Clear All
+          </Button>
+        </Stack>
+
+
       </TabContext>
+      
     </Box>
   );
 }
