@@ -34,7 +34,8 @@ import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import Iconify from 'src/components/iconify';
 import SvgColor from 'src/components/svg-color';
 
-import EditPostData from './view/editPostData';
+// import EditPostData from './view/editPostData';
+import EditData from './view/handle-edit-data';
 
 export default function PostCard({ post, onDelete }) {
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
