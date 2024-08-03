@@ -1,6 +1,7 @@
 // post-card.jsx
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
@@ -29,7 +30,6 @@ import DialogContentText from '@mui/material/DialogContentText';
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import QuestionMarkRoundedIcon from '@mui/icons-material/QuestionMarkRounded';
 import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined';
-import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 import Iconify from 'src/components/iconify';
 import SvgColor from 'src/components/svg-color';
