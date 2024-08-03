@@ -70,10 +70,7 @@ export default function InsertDataView() {
   const handleViewChange = () => {
     setCurrentView(currentView === 'image' ? 'camera' : 'image');
   };
-  // Log environment variables
-  console.log('Cloudinary Cloud Name:', process.env.REACT_APP_CLOUDINARY_CLOUD_NAME);
-  console.log('Cloudinary API Key:', process.env.REACT_APP_CLOUDINARY_KEY);
-  console.log('Cloudinary API Secret:', process.env.REACT_APP_CLOUDINARY_API_SECRET);
+
 
 
   useEffect(() => {

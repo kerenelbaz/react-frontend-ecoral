@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { faker } from '@faker-js/faker';
 import { useNavigate } from 'react-router-dom';
 import { parse, format, parseISO } from 'date-fns';
@@ -116,23 +115,51 @@ export default function AllDivesCardsView() {
   }, [fetchData]);
 
   const deleteFromCloudinary = async (imageUrl) => {
-    const publicId = imageUrl.split('/').pop().split('.')[0]; // Extract public ID from the URL
     try {
-        await axios.post(
-            `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/destroy`,
-            `public_id=${publicId}`,
-            {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'Authorization': `Basic ${btoa(`${process.env.REACT_APP_CLOUDINARY_API_KEY}:${process.env.REACT_APP_CLOUDINARY_API_SECRET}`)}`
-                }
-            }
-        );
+      // Extract the public ID from the URL
+      const publicId = imageUrl.split('/').pop().split('.')[0];
+  
+      // Create the request body as a JSON-like string
+      const requestBody = `{"publicId": "${publicId}"}`;
+  
+      // Log the request details
+      console.log("Deleting image with public ID:", publicId);
+      console.log("Sending request to:", `${config.serverUrl}/api/dives/delete-image`);
+      console.log("Request body:", requestBody);
+  
+      // Make a request to your server to delete the image from Cloudinary
+      const response = await fetch(`${config.serverUrl}/api/dives/delete-image`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: requestBody,
+      });
+  
+      console.log('Response status:', response.status);
+  
+      // Check if the response is OK (status 200-299)
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const result = await response.json();
+  
+      console.log('Response result:', result);
+  
+      if (result.result === 'ok') {
         console.log('Image deleted from Cloudinary:', publicId);
+      } else {
+        console.error('Failed to delete image from Cloudinary:', result.message);
+      }
     } catch (error) {
-        console.error('Error deleting from Cloudinary:', error);
+      console.error('Error sending delete request to server:', error);
     }
-};
+  };
+  
+  
+  
+  
   
   
 
