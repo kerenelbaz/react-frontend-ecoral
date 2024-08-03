@@ -120,7 +120,7 @@ export default function AllDivesCardsView() {
       // Make a request to your server to delete the row
       const response = await fetch(`https://react-frontend-ecoral.vercel.app/all-dives/${postId}`, {
         method: 'DELETE',
-      });      
+      });
       if (!response.ok) {
         throw new Error('Failed to delete dive');
       }
@@ -138,7 +138,9 @@ export default function AllDivesCardsView() {
   };
 
   const handleUpdatePost = (updatedPost) => {
-    setPosts((prevPosts) => prevPosts.map((post) => (post.id === updatedPost.id ? updatedPost : post)));
+    setPosts((prevPosts) =>
+      prevPosts.map((post) => (post.id === updatedPost.id ? updatedPost : post))
+    );
     setFilteredPosts((prevFilteredPosts) =>
       prevFilteredPosts.map((post) => (post.id === updatedPost.id ? updatedPost : post))
     );
@@ -163,14 +165,14 @@ export default function AllDivesCardsView() {
 
   const handleSort = (event) => {
     const sortBy = event.target.value;
-  
+
     const validPosts = posts.filter((post) => !Number.isNaN(Date.parse(post.loggingDate)));
     const invalidPosts = posts.filter((post) => Number.isNaN(Date.parse(post.loggingDate)));
-  
+
     const sortedValidPosts = validPosts.sort((a, b) => {
       const dateA = new Date(a.loggingDate);
       const dateB = new Date(b.loggingDate);
-  
+
       if (sortBy === 'latest') {
         return dateB - dateA;
       }
@@ -179,9 +181,9 @@ export default function AllDivesCardsView() {
       }
       return 0;
     });
-  
+
     const sortedPosts = [...sortedValidPosts, ...invalidPosts];
-  
+
     setPosts(sortedPosts);
     setFilteredPosts(sortedPosts); // Ensure filtered posts are also sorted
   };
@@ -238,7 +240,13 @@ export default function AllDivesCardsView() {
 
       <Grid container spacing={3}>
         {currentPosts.map((post, index) => (
-          <PostCard key={post.id} post={post} index={index} onDelete={handleDeleteClick} onEdit={handleEditClick} />
+          <PostCard
+            key={post.id}
+            post={post}
+            index={index}
+            onDelete={handleDeleteClick}
+            onEdit={handleEditClick}
+          />
         ))}
       </Grid>
 

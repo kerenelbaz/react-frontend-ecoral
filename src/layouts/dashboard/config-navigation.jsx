@@ -61,7 +61,7 @@ export const fullNavConfig = [
   
   {
     title: 'Pending Dives',
-    path: '/pending-dives',
+    path: '/pending-dives-cards',
     icon: <PendingActionsTwoToneIcon />,
   },
   {

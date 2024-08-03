@@ -18,7 +18,8 @@ import config from 'src/sections/configServer';
 
 import PostCard from '../post-card';
 import PostSort from '../post-sort';
-import PostSearch from '../post-search';
+import EditData from './handle-edit-data';
+// import PostSearch from '../post-search';
 
 export default function PendingDivesCardsView() {
   const [posts, setPosts] = useState([]);
@@ -27,6 +28,8 @@ export default function PendingDivesCardsView() {
   const [itemsPerPage, setItemsPerPage] = useState(12);
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [searchCount, setSearchCount] = useState(0);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [editPostData, setEditPostData] = useState(null);
   const { switchToTable } = useView();
   const navigate = useNavigate();
 
@@ -137,6 +140,11 @@ export default function PendingDivesCardsView() {
     }
   };
 
+  const handleEditClick = (post) => {
+    setEditPostData(post);
+    setEditDialogOpen(true);
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -179,9 +187,9 @@ export default function PendingDivesCardsView() {
     setFilteredPosts(sortedPosts); // Ensure filtered posts are also sorted
   };
 
-  const handleNewDive = () => {
-    window.open('/insert-data', '_blank');
-  };
+  // const handleNewDive = () => {
+  //   window.open('/insert-data', '_blank');
+  // };
 
   // const handleAllDiveTable = () => {
   //   window.open('/all-data', '_blank');
@@ -206,14 +214,14 @@ export default function PendingDivesCardsView() {
           ]}
           onSort={handleSort}
         />
-        <Button
+        {/* <Button
           variant="contained"
           color="inherit"
           startIcon={<Iconify icon="eva:plus-fill" />}
           onClick={handleNewDive}
         >
           Add Dive
-        </Button>
+        </Button> */}
         <Button
           variant="contained"
           color="inherit"
@@ -224,9 +232,9 @@ export default function PendingDivesCardsView() {
         </Button>
       </Stack>
 
-      <Stack direction="row" alignItems="center" justifyContent="space-between">
+      {/* <Stack direction="row" alignItems="center" justifyContent="space-between">
         <PostSearch posts={posts} onFilter={setFilteredPosts} setSearchCount={setSearchCount} />
-      </Stack>
+      </Stack> */}
 
       <Stack mb={5} direction="row" alignItems="center" justifyContent="center">
         <Typography variant="h6">{searchCount} posts found</Typography>
@@ -234,7 +242,13 @@ export default function PendingDivesCardsView() {
 
       <Grid container spacing={3}>
         {currentPosts.map((post, index) => (
-          <PostCard key={post.id} post={post} index={index} onDelete={handleDeleteClick} />
+          <PostCard
+            key={post.id}
+            post={post}
+            index={index}
+            onDelete={handleDeleteClick}
+            onEdit={handleEditClick}
+          />
         ))}
       </Grid>
 
@@ -255,6 +269,15 @@ export default function PendingDivesCardsView() {
           color="primary"
         />
       </Stack>
+
+      {editPostData && (
+        <EditData
+          open={editDialogOpen}
+          handleClose={() => setEditDialogOpen(false)}
+          pendingData={editPostData}
+          onDeleteClick={handleDeleteClick}
+        />
+      )}
     </Container>
   );
 }
