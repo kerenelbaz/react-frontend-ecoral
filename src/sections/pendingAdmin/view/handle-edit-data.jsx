@@ -133,12 +133,12 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
       researcherDesc: value
     }));
   };
-  const handleloggedby = (value) => {
-    setFormData(prevData => ({
-      ...prevData,
-      loggedBy: value
-    }));
-  };
+  // const handleloggedby = (value) => {
+  //   setFormData(prevData => ({
+  //     ...prevData,
+  //     loggedBy: value
+  //   }));
+  // };
 
   const handleAutocompleteChange = (name, value) => {
     setFormData((prevData) => ({
@@ -315,6 +315,7 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
                         variant="standard"
                         className="dateStyle"
                       />
+                      
                       <TextField
                         InputProps={{ readOnly: true }}
                         id="standard-read-only-input"
@@ -328,11 +329,15 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
                   <br />
                   <div className="txtContainer">
                     <div>
+                      
                       <TextField
-                        label="Logged By: "
+                        label="Logged By"
+                        defaultValue={pendingData.loggedBy}
+                        name = "loggedBy"
                         variant="standard"
                         className="dateStyle"
-                        onChange={handleFormInputChange}
+                        onChange={handleInputChange}
+                        value={formData.loggedBy}
                       />
                       <TextField
                         label="Photo took in AR: "
@@ -551,11 +556,7 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
                     <textarea
                       id="researcherDesc" name="researcherDesc" rows={3} className="admin-textarea" onChange={(e) => handleTextareaChange(e.target.value)} />
                   </div>
-                  <div>
-                    <label className="lblLoged" htmlFor="loggedBy">Logged By: </label>
-                    <TextField
-                      id="loggedBy" name="loggedBy" rows={3} onChange={(e) => handleloggedby(e.target.value)} />
-                  </div>
+                  
                 </div>
               </form>
               <Snackbar
