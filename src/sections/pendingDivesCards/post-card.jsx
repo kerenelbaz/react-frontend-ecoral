@@ -29,18 +29,19 @@ import DialogContentText from '@mui/material/DialogContentText';
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import QuestionMarkRoundedIcon from '@mui/icons-material/QuestionMarkRounded';
 import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined';
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 import Iconify from 'src/components/iconify';
 import SvgColor from 'src/components/svg-color';
 
-// import EditPostData from './view/editPostData';
-import EditPostData from '../allDivesCards/view/editPostData';
+import EditPostData from './view/editPostData';
 
 export default function PostCard({ post, onDelete }) {
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [editData, setEditData] = useState(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [imageDialogOpen, setImageDialogOpen] = useState(false);
 
   const handleEditOpen = (data) => {
     setEditData(data);
@@ -65,7 +66,49 @@ export default function PostCard({ post, onDelete }) {
     setDeleteDialogOpen(false);
   };
 
-  const { cover, humanWild, ar, maxDepth, idCodePhotographerName, reportReceivingDate, reportType, typeOfDive, userDescription, objectCode, objectGroup, diveSite, rankOfDive, specie, distance, temp, author, createdAt, diveCode, imageLocation, age, gender, linkURL, media, loggedBy, loggingDate, time } = post;
+
+  const handleImageOpen = () => {
+    setImageDialogOpen(true);
+    console.log(post);
+  };
+
+  const handleImageClose = () => {
+    setImageDialogOpen(false);
+  };
+
+  const {
+    humanWild,
+    ar,
+    maxDepth,
+    idCodePhotographerName,
+    reportReceivingDate,
+    reportType,
+    typeOfDive,
+    userDescription,
+    objectCode,
+    objectGroup,
+    diveSite,
+    rankOfDive,
+    specie,
+    distance,
+    temp,
+    author,
+    createdAt,
+    diveCode,
+    imageLocation,
+    age,
+    gender,
+    linkURL,
+    media,
+    loggedBy,
+    loggingDate,
+    time,
+    file,
+    cover,
+  } = post;
+
+
+
 
   const renderAvatar = (
     <Avatar
@@ -136,8 +179,6 @@ export default function PostCard({ post, onDelete }) {
       </Stack>
     </Stack>
   );
-  
-
 
   const getGenderIcon = (gen) => {
     if (gen === 'Male') {
@@ -147,7 +188,6 @@ export default function PostCard({ post, onDelete }) {
       return <WomanRoundedIcon sx={{ fontSize: 20 }} />;
     }
     return <QuestionMarkRoundedIcon sx={{ fontSize: 20 }} />;
-
   };
 
   const renderUserInfo = (
@@ -245,7 +285,8 @@ export default function PostCard({ post, onDelete }) {
           WebkitBoxOrient: 'vertical',
         }}
       >
-        <Typography fontWeight='bold' fontSize='0.83rem' color="black">Human wild life interaction:{' '}
+        <Typography fontWeight="bold" fontSize="0.83rem" color="black">
+          Human wild life interaction:{' '}
           <Link
             variant="subtitle2"
             underline="disable"
@@ -260,7 +301,8 @@ export default function PostCard({ post, onDelete }) {
           </Link>
         </Typography>
       </Link>
-      <Typography fontWeight='bold' fontSize='0.83rem' color="black">Artificial Reef:{' '}
+      <Typography fontWeight="bold" fontSize="0.83rem" color="black">
+        Artificial Reef:{' '}
         <Link
           variant="subtitle2"
           underline="disable"
@@ -274,7 +316,8 @@ export default function PostCard({ post, onDelete }) {
           {ar}
         </Link>
       </Typography>
-      <Typography fontWeight='bold' fontSize='0.83rem' color="black">Max Depth:{' '}
+      <Typography fontWeight="bold" fontSize="0.83rem" color="black">
+        Max Depth:{' '}
         <Link
           variant="subtitle2"
           underline="disable"
@@ -289,7 +332,8 @@ export default function PostCard({ post, onDelete }) {
         </Link>
       </Typography>
 
-      <Typography fontWeight='bold' fontSize='0.83rem' color="black">Distance:{' '}
+      <Typography fontWeight="bold" fontSize="0.83rem" color="black">
+        Distance:{' '}
         <Link
           variant="subtitle2"
           underline="disable"
@@ -305,7 +349,8 @@ export default function PostCard({ post, onDelete }) {
       </Typography>
 
       <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <Typography fontWeight='bold' fontSize='0.83rem' color="black">Temp:{' '}
+        <Typography fontWeight="bold" fontSize="0.83rem" color="black">
+          Temp:{' '}
           <Link
             variant="subtitle2"
             underline="disable"
@@ -319,7 +364,8 @@ export default function PostCard({ post, onDelete }) {
             {temp}
           </Link>
         </Typography>
-        <Typography fontWeight='bold' fontSize='0.83rem' color="black">Rank:{' '}
+        <Typography fontWeight="bold" fontSize="0.83rem" color="black">
+          Rank:{' '}
           <Link
             variant="subtitle2"
             underline="disable"
@@ -410,7 +456,7 @@ export default function PostCard({ post, onDelete }) {
       flexWrap="wrap"
       justifyContent="flex-start"
       sx={{
-        mt: 1
+        mt: 1,
       }}
     >
       <Stack direction="row" alignItems="center">
@@ -419,9 +465,7 @@ export default function PostCard({ post, onDelete }) {
       </Stack>
       <Stack direction="row" alignItems="center">
         <Iconify icon="eva:calendar-outline" width={16} sx={{ mr: 0.5, color: 'green' }} />
-        <Typography variant="caption">
-          {loggingDate || 'Invalid Date'}
-        </Typography>
+        <Typography variant="caption">{loggingDate || 'Invalid Date'}</Typography>
       </Stack>
     </Stack>
   );
@@ -430,7 +474,7 @@ export default function PostCard({ post, onDelete }) {
     <Box
       component="img"
       alt={diveSite}
-      src={cover}
+      src={file || cover}
       sx={{
         top: 0,
         width: 1,
@@ -438,17 +482,19 @@ export default function PostCard({ post, onDelete }) {
         objectFit: 'cover',
         position: 'absolute',
       }}
+      onClick={handleImageOpen}
+
     />
   );
 
   const getTimeIcon = (timeDive) => {
     if (timeDive === 'Light') {
       return <WbSunnyIcon sx={{ ml: 1, fontSize: 18, color: 'text.disabled' }} />;
-    } if (timeDive === 'Night') {
+    }
+    if (timeDive === 'Night') {
       return <DarkModeIcon sx={{ ml: 1, fontSize: 18, color: 'text.disabled' }} />;
     }
     return <QuestionMarkRoundedIcon sx={{ ml: 1, fontSize: 18, color: 'text.disabled' }} />;
-
   };
 
   const renderUpper = (
@@ -507,7 +553,7 @@ export default function PostCard({ post, onDelete }) {
           color: 'text.disabled',
           display: 'flex',
           alignItems: 'center',
-          height: 40
+          height: 40,
         }}
       >
         <EventAvailableOutlinedIcon sx={{ mr: 0.5, fontSize: 16 }} />
@@ -573,13 +619,11 @@ export default function PostCard({ post, onDelete }) {
         </Box>
       </Card>
 
-      <EditPostData
-        open={editDialogOpen}
-        handleClose={handleEditClose}
-        postData={editData}
-        onUpdate={(updatedData) => {
-          // Handle the update here if needed
-        }}
+      <EditData
+          open={editDialogOpen}
+          handleClose={() => setEditDialogOpen(false)}
+          pendingData={editData}
+          onDeleteClick={handleDeleteClick}
       />
 
       <Dialog
@@ -588,7 +632,9 @@ export default function PostCard({ post, onDelete }) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">Are you sure you want to delete this item?</DialogTitle>
+        <DialogTitle id="alert-dialog-title">
+          Are you sure you want to delete this item?
+        </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             This action cannot be undone.
@@ -603,6 +649,53 @@ export default function PostCard({ post, onDelete }) {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <Dialog
+        open={imageDialogOpen}
+        onClose={handleImageClose}
+        fullWidth
+        maxWidth="lg"
+      >
+        <DialogTitle>Image Viewer</DialogTitle>
+        <DialogContent>
+          <TransformWrapper
+            initialScale={1}
+            initialPositionX={0}
+            initialPositionY={0}
+          >
+            {({ zoomIn, zoomOut, resetTransform }) => (
+              <>
+                <Box sx={{ mb: 2, display: 'flex', justifyContent: 'center' }}>
+                  <Button onClick={zoomIn} sx={{ mx: 1 }} />
+                  <Button onClick={zoomOut} sx={{ mx: 1 }} />
+                  <Button onClick={resetTransform} sx={{ mx: 1 }} />
+                </Box>
+                <TransformComponent>
+                  <Box
+                    component="img"
+                    alt={diveSite}
+                    src={file || cover}
+                    sx={{
+                      width: '100%',
+                      maxHeight: '80vh',
+                      objectFit: 'contain',
+                    }}
+                  />
+                </TransformComponent>
+              </>
+            )}
+          </TransformWrapper>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleImageClose} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+
+
+
     </Grid>
   );
 }
