@@ -77,10 +77,11 @@ export default function UserTableRow({ key,data, selected, handleClick, handleDe
         selected={selected}
         onDoubleClick={handleClick}
       >
+        
         <TableCell padding="checkbox" onClick={handleClick}>
           {/* <Checkbox disableRipple checked={selected} onChange={handleClick} /> */}
         </TableCell>
-
+        
         <TableCell component="th" scope="row" padding="none" onClick={handleClick}>
           <Stack direction="row" alignItems="center" spacing={2}>
             {/* <Avatar alt={name} src={avatarUrl} /> */}

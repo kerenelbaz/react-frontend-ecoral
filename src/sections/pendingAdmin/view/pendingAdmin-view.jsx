@@ -9,12 +9,15 @@ import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
 import DatasetIcon from '@mui/icons-material/Dataset';
-import TableContainer from '@mui/material/TableContainer'; import TablePagination from '@mui/material/TablePagination';
+import TableContainer from '@mui/material/TableContainer';
+import TablePagination from '@mui/material/TablePagination';
 
 import Scrollbar from 'src/components/scrollbar';
 
-import EditData from './handle-edit-data'; import TableEmptyRows from '../table-empty-rows';
-import UserTableRow from '../pendingAdmin-table-row'; import UserTableHead from '../pendingAdmin-table-head';
+import EditData from './handle-edit-data';
+import TableEmptyRows from '../table-empty-rows';
+import UserTableRow from '../pendingAdmin-table-row';
+import UserTableHead from '../pendingAdmin-table-head';
 import { emptyRows, applyFilter, getComparator } from '../utils';
 
 export default function PendingAdminView() {
@@ -44,16 +47,13 @@ export default function PendingAdminView() {
         const responseData = await response.json();
         const { pendingDives } = responseData.data;
         setUsersData(pendingDives);
-
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
 
     fetchData();
-
   }, []);
-
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -73,7 +73,6 @@ export default function PendingAdminView() {
     if (!dateFormatRegex1.test(dateTimeString) && !dateFormatRegex2.test(dateTimeString)) {
       return dateTimeString; // Return the original string if the format doesn't match
     }
-
 
     const dateTime = new Date(dateTimeString);
 
@@ -102,14 +101,12 @@ export default function PendingAdminView() {
   });
 
   const handleEditClick = (pendingData) => {
-
     setOpenEditData(true);
     setSelectedRow(pendingData);
-
   };
 
   const handleDeleteClick = async (pendingData) => {
-    console.log("pending data recived function is:", pendingData)
+    console.log('pending data recived function is:', pendingData);
     console.log(pendingData._id);
     try {
       // Make a request to your server to delete the row
@@ -119,21 +116,20 @@ export default function PendingAdminView() {
       if (!response.ok) {
         throw new Error('Failed to delete row');
       }
-      setUsersData(prevData => prevData.filter(row => row._id !== pendingData._id));
-      const index = usersData.findIndex(obj => obj._id === pendingData._id);
+      setUsersData((prevData) => prevData.filter((row) => row._id !== pendingData._id));
+      const index = usersData.findIndex((obj) => obj._id === pendingData._id);
       if (index !== -1) {
         usersData.splice(index, 1);
       }
     } catch (error) {
       console.error('Error deleting row:', error);
     }
-    console.log(usersData)
+    console.log(usersData);
   };
 
   const handleCloseEditData = () => {
     setOpenEditData(false);
   };
-
 
   const handleAllDataButtonClick = () => {
     window.open('/all-data', '_blank');
@@ -144,15 +140,17 @@ export default function PendingAdminView() {
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">{`Pending Dives For Admin's Approval`}</Typography>
 
-
-        <Button variant="contained" color="inherit" startIcon={<DatasetIcon icon="eva:plus-fill" />} onClick={handleAllDataButtonClick}>
+        <Button
+          variant="contained"
+          color="inherit"
+          startIcon={<DatasetIcon icon="eva:plus-fill" />}
+          onClick={handleAllDataButtonClick}
+        >
           All Aproved Dives
         </Button>
-
       </Stack>
 
       <Card>
-
         <Scrollbar>
           <TableContainer sx={{ overflow: 'unset' }}>
             <Table sx={{ minWidth: 800 }}>
@@ -176,7 +174,6 @@ export default function PendingAdminView() {
                 {dataFiltered
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (
-
                     <UserTableRow
                       key={row._id}
                       loggingDate={row.loggingDate}
@@ -195,7 +192,6 @@ export default function PendingAdminView() {
                   height={77}
                   emptyRows={emptyRows(page, rowsPerPage, usersData.length)}
                 />
-
               </TableBody>
             </Table>
           </TableContainer>
@@ -211,8 +207,12 @@ export default function PendingAdminView() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Card>
-      <EditData open={openEditData} handleClose={handleCloseEditData} pendingData={selectedRow} onDeleteClick={handleDeleteClick} />
-
+      <EditData
+        open={openEditData}
+        handleClose={handleCloseEditData}
+        pendingData={selectedRow}
+        onDeleteClick={handleDeleteClick}
+      />
     </Container>
   );
 }

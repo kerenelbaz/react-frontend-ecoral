@@ -7,7 +7,8 @@ import ProtectedRoute from './protectedRoutes';
 
 export const IndexPage = lazy(() => import('src/pages/app'));
 export const AllDivesCardsPage = lazy(() => import('src/pages/all-dives-cards'));
-export const PendingAdminView = lazy(() => import('src/pages/pending-admin'));
+export const PendingAdminPage = lazy(() => import('src/pages/pending-admin'));
+export const PendingDivesCardsPage = lazy(() => import('src/pages/pending-dives-cards'));
 export const AllDataPage = lazy(() => import('src/pages/all-data'));
 export const LoginPage = lazy(() => import('src/pages/login'));
 export const ProductsPage = lazy(() => import('src/pages/products'));
@@ -54,7 +55,9 @@ export default function Router() {
           ),
           children: [
             { element: <IndexPage />, index: true },
-            { path: 'pending-dives', element: <PendingAdminView /> },
+            { path: 'pending-dives', element: <PendingAdminPage
+             /> },
+            { path: 'pending-dives-cards', element: <PendingDivesCardsPage /> },
             { path: 'all-data', element: <AllDataPage /> },
             { path: 'products', element: <ProductsPage /> },
             { path: 'all-dives-cards', element: <AllDivesCardsPage /> },
