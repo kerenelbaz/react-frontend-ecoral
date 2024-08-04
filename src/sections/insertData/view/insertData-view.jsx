@@ -1,8 +1,7 @@
 /* eslint-disable no-nested-ternary */
-import axios from 'axios';
 /* eslint-disable jsx-a11y/label-has-associated-control */
+import axios from 'axios';
 import { useRef, useState, useEffect } from 'react';
-
 import Stack from '@mui/material/Stack';
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
@@ -18,9 +17,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-
 import config from 'src/sections/configServer';
-
 import './styleByMe.css';
 import CameraCapture from './camera';
 import dataLists from './dataLists.json';
@@ -63,6 +60,7 @@ export default function InsertDataView() {
   const [selectedTime, setSelectedTime] = useState(null);
   const [selectedReef, setSelectedReef] = useState(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const fileInputRef = useRef(null);
   const [currentView, setCurrentView] = useState(imagePreview ? 'image' : 'placeholder');
@@ -70,8 +68,6 @@ export default function InsertDataView() {
   const handleViewChange = () => {
     setCurrentView(currentView === 'image' ? 'camera' : 'image');
   };
-
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -121,7 +117,6 @@ export default function InsertDataView() {
     formData.append('upload_preset', 'ecoral_preset'); 
 
     try {
-
       const response = await axios.post(
         `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`,
         formData
@@ -133,19 +128,12 @@ export default function InsertDataView() {
     }
   };
 
-  const onSelectFile = async (e) => {
+  const onSelectFile = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const imageUrl = await uploadToCloudinary(file);
-      if (imageUrl) {
-        setImagePreview(imageUrl);
-        setInsertData((prevData) => ({
-          ...prevData,
-          file: imageUrl,
-        }));
-      } else {
-        setImagePreview(null);
-      }
+      setSelectedFile(file);
+      const imageUrl = URL.createObjectURL(file);
+      setImagePreview(imageUrl);
     } else {
       setImagePreview(null);
     }
@@ -160,7 +148,6 @@ export default function InsertDataView() {
   };
 
   const handleRankChange = (event, newValue) => {
-    // Update the rank value in the insertData state
     setInsertData((prevData) => ({
       ...prevData,
       rank: newValue,
@@ -170,24 +157,22 @@ export default function InsertDataView() {
   const handleDateChange = (date) => {
     const isValidYear = isAppropriateDate(date);
     if (!isValidYear) {
-      // Mark the date as invalid
       setInsertData((prevFormData) => ({
         ...prevFormData,
         errors: {
           ...prevFormData.errors,
-          dateDive: true, // Corrected from birthDate to diveDate
+          dateDive: true,
         },
       }));
       setSelectedDate(date);
       return;
     }
-    // Update the form data with the valid dive date
     setInsertData((prevFormData) => ({
       ...prevFormData,
       dateDive: date,
       errors: {
         ...prevFormData.errors,
-        dateDive: false, // Corrected from birthDate to diveDate
+        dateDive: false,
       },
     }));
   };
@@ -195,22 +180,19 @@ export default function InsertDataView() {
   function isAppropriateDate(diveDate) {
     const today = new Date();
 
-    // Extracting the year, month, and day from the diveDate
     const diveYear = diveDate.$y;
     const diveMonth = diveDate.$M;
     const diveDay = diveDate.$D;
 
-    // Extracting the year, month, and day from today's date
     const currentYear = today.getFullYear();
     const currentMonth = today.getMonth();
     const currentDay = today.getDate();
 
-    // Check if the dive date is not older than January 1, 2014, and not later than today
     return (
-      diveYear >= 2014 && // Check if the year of the dive date is greater than or equal to 2014
-      (diveYear < currentYear || // Check if the dive year is less than the current year
-        (diveYear === currentYear && diveMonth < currentMonth) || // Or if it's the same year but the month is less than the current month
-        (diveYear === currentYear && diveMonth === currentMonth && diveDay <= currentDay)) // Or if it's the same year and month but the day is less than or equal to the current day
+      diveYear >= 2014 &&
+      (diveYear < currentYear ||
+        (diveYear === currentYear && diveMonth < currentMonth) ||
+        (diveYear === currentYear && diveMonth === currentMonth && diveDay <= currentDay))
     );
   }
 
@@ -222,16 +204,12 @@ export default function InsertDataView() {
     const { name, value } = e.target;
     let isValid = true;
 
-    // Regular expression to match only numeric values
     const numericRegex = /^[0-9]*$/;
 
-    // Check if the input value matches the numeric regex
     if (!numericRegex.test(value)) {
-      // If the input value doesn't match, set isValid to false
       isValid = false;
     }
 
-    // Update the state with the input value and validity
     setInsertData((prevFormData) => ({
       ...prevFormData,
       [name]: value,
@@ -252,14 +230,12 @@ export default function InsertDataView() {
   const handleButtonClick = (value, group) => {
     if (group === 'time') {
       setSelectedTime(value === selectedTime ? null : value);
-      // Update the timeDive value in the insertData state
       setInsertData((prevData) => ({
         ...prevData,
         timeDive: value,
       }));
     } else if (group === 'reef') {
       setSelectedReef(value === selectedReef ? null : value);
-      // Update the arReef value in the insertData state
       setInsertData((prevData) => ({
         ...prevData,
         arReef: value,
@@ -268,7 +244,6 @@ export default function InsertDataView() {
   };
 
   const handleTextareaChange = (value) => {
-    // Update the state with the value of the textarea
     setInsertData((prevData) => ({
       ...prevData,
       userDescription: value,
@@ -276,16 +251,26 @@ export default function InsertDataView() {
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault(); // Prevent default form submission behavior
+    event.preventDefault();
+
+    if (selectedFile) {
+      const imageUrl = await uploadToCloudinary(selectedFile);
+      if (imageUrl) {
+        setInsertData((prevData) => ({
+          ...prevData,
+          file: imageUrl,
+        }));
+      }
+    }
 
     const userJsonString = localStorage.getItem('user');
     const user = JSON.parse(userJsonString.replace(/^"(.*)"$/, '$1'));
-    // Extracting age from birth date
+
     const birthDate = new Date(user.birthDate);
     const currentDate = new Date();
     let age = currentDate.getFullYear() - birthDate.getFullYear();
     if (currentDate.getMonth() > birthDate.getMonth()) age += 1;
-    // Retrieving gender
+
     const { gender } = user;
 
     const entireDivingData = {
@@ -312,9 +297,7 @@ export default function InsertDataView() {
       documentation: 'P',
     };
 
-    // Check if the Date Of Dive field is empty
     if (!insertData.dateDive) {
-      // Set error for Date Of Dive field
       setInsertData((prevFormData) => ({
         ...prevFormData,
         errors: {
@@ -322,21 +305,17 @@ export default function InsertDataView() {
           dateDive: true,
         },
       }));
-      // Return to prevent further processing
       return;
     }
 
-    // Check if any errors are true
     const hasErrors = Object.values(insertData.errors).some((error) => error);
 
-    // If any error is true, return without saving the data
     if (hasErrors) {
       console.log('There are errors in the form. Data not saved.');
       return;
     }
 
     try {
-      // Send form data to the server
       const response = await fetch(`${config.serverUrl}/api/pendings_dives`, {
         method: 'POST',
         headers: {
@@ -351,7 +330,6 @@ export default function InsertDataView() {
           window.location.reload();
         }, 2500);
 
-        // Reset form data after successful submission
         setInsertData({
           dateDive: '',
           timeDive: '',
@@ -406,7 +384,6 @@ export default function InsertDataView() {
         <div className="twoInLine">
           <Autocomplete
             options={dataLists.diveSite}
-            // specifies how to render the options in the dropdown list - returns the option itself
             getOptionLabel={(option) => option}
             onChange={(e, value) => handleAutocompleteChange('site', value || '')}
             renderInput={(params) => (

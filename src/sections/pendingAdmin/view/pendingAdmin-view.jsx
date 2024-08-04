@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -11,10 +12,10 @@ import Typography from '@mui/material/Typography';
 import DatasetIcon from '@mui/icons-material/Dataset';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
-import { useNavigate } from 'react-router-dom';
-import { useView } from 'src/viewContexts';
-import Iconify from 'src/components/iconify';
 
+import { useView } from 'src/viewContexts';
+
+import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 
 import EditData from './handle-edit-data';
