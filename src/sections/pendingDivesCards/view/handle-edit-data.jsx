@@ -185,7 +185,7 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
       const { dives: fetchedDives } = responseData.data;
 
       // Handle cases where linkURL is undefined, null, or empty
-      if (!linkURL) {
+      if (!linkURL || linkURL === 'No Link') {
         linkURL = `unique-${Math.random().toString(36).substring(2, 15)}`;
       }
 
