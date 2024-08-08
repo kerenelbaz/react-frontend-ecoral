@@ -1,4 +1,4 @@
-import React, { useState  , useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Box from '@mui/material/Box';
 import Slide from '@mui/material/Slide';
@@ -25,24 +25,21 @@ export default function ImportPostsView() {
   const [divinPostsNumber, setDivinPostsNumber] = useState(0);
   const [errorMessage, setErrorMessage] = useState('');
 
-
-
-
   useEffect(() => {
     if (divinPostsNumber > 0) {
       const sendDivingPostsToServer = async () => {
         try {
-          const fetchPromises = postsAboutDiving.map(async ( post, index) => {
-            const postToSend={
+          const fetchPromises = postsAboutDiving.map(async (post, index) => {
+            const postToSend = {
               AR: post.AR,
-              date: post.date , 
-              diveSite: post.diveSite , 
-              imageLocation: post.imageLocation , 
-              objectGroup: post.objectGroup , 
-              specie: post.specie , 
-              time: post.time , 
-              linkURL: post.linkURL , 
-              video: post.video , 
+              date: post.date,
+              diveSite: post.diveSite,
+              imageLocation: post.imageLocation,
+              objectGroup: post.objectGroup,
+              specie: post.specie,
+              time: post.time,
+              file: post.file,
+              video: post.video,
             };
 
             const divingResponse = await fetch(`${config.serverUrl}/api/pendings_dives`, {
@@ -67,7 +64,7 @@ export default function ImportPostsView() {
       };
       sendDivingPostsToServer();
     }
-  }, [postsAboutDiving , divinPostsNumber ]);
+  }, [postsAboutDiving, divinPostsNumber]);
 
   const handleClose = () => {
     setOpen(false);
