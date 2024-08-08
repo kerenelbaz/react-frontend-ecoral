@@ -16,9 +16,11 @@ import Iconify from 'src/components/iconify';
 
 import config from 'src/sections/configServer';
 
+import EditData from './handle-edit-data';
+// import EditData from 'src/sections/pendingAdmin/view/handle-edit-data';
+
 import PostCard from '../post-card';
 import PostSort from '../post-sort';
-import EditData from './handle-edit-data';
 // import { object } from 'prop-types';
 // import PostSearch from '../post-search';
 

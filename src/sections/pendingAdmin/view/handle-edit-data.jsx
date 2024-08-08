@@ -176,7 +176,7 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
       const { dives: fetchedDives } = responseData.data;
 
       // Handle cases where linkURL is undefined, null, or empty
-      if (!linkURL) {
+      if (!linkURL || linkURL === 'No Link') {
         linkURL = `unique-${Math.random().toString(36).substring(2, 15)}`;
       }
 
@@ -315,7 +315,7 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
                         variant="standard"
                         className="dateStyle"
                       />
-                      
+
                       <TextField
                         InputProps={{ readOnly: true }}
                         id="standard-read-only-input"
@@ -329,11 +329,11 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
                   <br />
                   <div className="txtContainer">
                     <div>
-                      
+
                       <TextField
                         label="Logged By"
                         defaultValue={pendingData.loggedBy}
-                        name = "loggedBy"
+                        name="loggedBy"
                         variant="standard"
                         className="dateStyle"
                         onChange={handleInputChange}
@@ -556,7 +556,7 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
                     <textarea
                       id="researcherDesc" name="researcherDesc" rows={3} className="admin-textarea" onChange={(e) => handleTextareaChange(e.target.value)} />
                   </div>
-                  
+
                 </div>
               </form>
               <Snackbar

@@ -258,13 +258,30 @@ export default function InsertDataView() {
 
     if (selectedFile) {
       const imageUrl = await uploadToCloudinary(selectedFile);
+      console.log("imageUrl inside the cloudinary", imageUrl);
       if (imageUrl) {
-        setInsertData((prevData) => ({
-          ...prevData,
-          file: imageUrl,
-        }));
+        setInsertData((prevData) => {
+          const updatedData = {
+            ...prevData,
+            file: imageUrl,
+          };
+          console.log("file is", updatedData.file);
+
+          // Proceed with the submission using the updated data
+          submitData(updatedData);
+
+          return updatedData;
+        });
       }
+    } else {
+      // Proceed with the submission using the current state
+      submitData(insertData);
     }
+  };
+
+  const submitData = async (data) => {
+    console.log("image url: ", selectedFile);
+    console.log("fileLink: insertData.file,", data.file);
 
     const userJsonString = localStorage.getItem('user');
     const user = JSON.parse(userJsonString.replace(/^"(.*)"$/, '$1'));
@@ -277,30 +294,30 @@ export default function InsertDataView() {
     const { gender } = user;
 
     const entireDivingData = {
-      diveCode,
-      date: insertData.dateDive,
-      time: insertData.timeDive,
-      diveSite: insertData.site,
-      objectGroup: insertData.objectGroup,
-      specie: insertData.specie,
-      file: insertData.file,
-      imageLocation: insertData.imgLocation,
-      uploadeImage: insertData.uploadeImage,
-      AR: insertData.arReef,
-      reportType: insertData.reportType,
-      typeOfDive: insertData.typeOfDive,
-      rankOfDive: insertData.rank,
-      userDescription: insertData.userDescription,
-      maxDepth: insertData.maxDepth,
-      distance: insertData.distance,
-      temp: insertData.temp,
+      // diveCode,
+      date: data.dateDive,
+      time: data.timeDive,
+      diveSite: data.site,
+      objectGroup: data.objectGroup,
+      specie: data.specie,
+      file: data.file,
+      imageLocation: data.imgLocation,
+      uploadeImage: data.uploadeImage,
+      AR: data.arReef,
+      reportType: data.reportType,
+      typeOfDive: data.typeOfDive,
+      rankOfDive: data.rank,
+      userDescription: data.userDescription,
+      maxDepth: data.maxDepth,
+      distance: data.distance,
+      temp: data.temp,
       ageOfDiver: age,
       sexOfDiver: gender,
       media: 'Website',
       documentation: 'P',
     };
 
-    if (!insertData.dateDive) {
+    if (!data.dateDive) {
       setInsertData((prevFormData) => ({
         ...prevFormData,
         errors: {
@@ -311,7 +328,7 @@ export default function InsertDataView() {
       return;
     }
 
-    const hasErrors = Object.values(insertData.errors).some((error) => error);
+    const hasErrors = Object.values(data.errors).some((error) => error);
 
     if (hasErrors) {
       console.log('There are errors in the form. Data not saved.');
@@ -326,6 +343,8 @@ export default function InsertDataView() {
         },
         body: JSON.stringify(entireDivingData),
       });
+
+      console.log(entireDivingData);
 
       if (response.ok) {
         setOpenSnackbar(true);
