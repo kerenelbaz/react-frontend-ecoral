@@ -45,16 +45,17 @@ export default function AllDivesCardsView() {
       dives.sort((a, b) => new Date(b.logginDate) - new Date(a.logginDate));
 
       const fetchedPosts = dives.map((dive, index) => {
-        const createdAt = dive.date || ''; // Set to empty string if missing
+        let createdAt = dive.date || new Date().toISOString(); // Set to current date if missing
+        if (Number.isNaN(Date.parse(createdAt))) {
+          createdAt = new Date().toISOString();
+        }
 
         let formattedCreatedAt;
         try {
-          if (createdAt === '') {
-            formattedCreatedAt = 'No dive date';
-          } else if (createdAt.includes('-')) {
+          if (createdAt.includes('-')) {
             formattedCreatedAt = format(parseISO(createdAt), 'dd/MM/yyyy');
           } else {
-            formattedCreatedAt = createdAt; // If it's already in the format dd/MM/yyyy
+            formattedCreatedAt = format(parse(createdAt, 'dd/MM/yyyy', new Date()), 'dd/MM/yyyy');
           }
         } catch (error) {
           console.error('Error formatting date:', createdAt, error);
@@ -68,8 +69,8 @@ export default function AllDivesCardsView() {
           imageLocation: dive.imageLocation || 'No image location',
           diveCode: `${dive.diveCode || 'No dive code'}`,
           loggedBy: `${dive.loggedBy || 'unknown'}`,
-          loggingDate: formattedCreatedAt,
-          createdAt: dive.date,
+          loggingDate: dive.loggingDate,
+          createdAt: formattedCreatedAt,
           age: `Age: ${dive.ageOfDiver === 'NA' ? '-' : dive.ageOfDiver || 'Unknown'}`,
           time: dive.time || 'No time',
           gender: dive.sexOfDiver === 'NA' ? 'No Gender' : dive.sexOfDiver || 'No gender',
@@ -155,6 +156,15 @@ export default function AllDivesCardsView() {
       console.error('Error sending delete request to server:', error);
     }
   };
+<<<<<<< HEAD
+=======
+  
+  
+  
+  
+  
+  
+>>>>>>> parent of ccaa923 (worked on pending dives)
 
   const handleDeleteClick = async (postId, fileLink) => {
     console.log('Pending data received for deletion:', postId);

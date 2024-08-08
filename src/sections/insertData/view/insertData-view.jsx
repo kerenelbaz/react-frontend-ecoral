@@ -2,7 +2,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import axios from 'axios';
 import { useRef, useState, useEffect } from 'react';
-
 import Stack from '@mui/material/Stack';
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
@@ -18,9 +17,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-
 import config from 'src/sections/configServer';
-
 import './styleByMe.css';
 import CameraCapture from './camera';
 import dataLists from './dataLists.json';
@@ -117,7 +114,7 @@ export default function InsertDataView() {
   const uploadToCloudinary = async (file) => {
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('upload_preset', 'ecoral_preset');
+    formData.append('upload_preset', 'ecoral_preset'); 
 
     try {
       const response = await axios.post(
@@ -136,10 +133,6 @@ export default function InsertDataView() {
     if (file) {
       setSelectedFile(file);
       const imageUrl = URL.createObjectURL(file);
-      setInsertData((prevData) => ({
-        ...prevData,
-        file: imageUrl,
-      }));
       setImagePreview(imageUrl);
     } else {
       setImagePreview(null);
@@ -298,8 +291,8 @@ export default function InsertDataView() {
       maxDepth: insertData.maxDepth,
       distance: insertData.distance,
       temp: insertData.temp,
-      ageOfDiver: age,
-      sexOfDiver: gender,
+      age,
+      gender,
       media: 'Website',
       documentation: 'P',
     };
@@ -330,12 +323,11 @@ export default function InsertDataView() {
         },
         body: JSON.stringify(entireDivingData),
       });
-      console.log("inseret dive:", JSON.stringify(entireDivingData))
 
       if (response.ok) {
         setOpenSnackbar(true);
         setTimeout(() => {
-          // window.location.reload();
+          window.location.reload();
         }, 2500);
 
         setInsertData({
@@ -504,45 +496,45 @@ export default function InsertDataView() {
         </div>
 
         <div className="twoInLine">
-          <div className="parentContainer" style={{ width: '70%' }}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer components={['DatePicker']} valueType="date">
-                <div>
-                  <DatePicker
-                    label="Date Of Dive"
-                    id="dateDive"
-                    name="dateDive"
-                    onChange={handleDateChange}
-                    format="DD/MM/YYYY"
-                    required
-                    inputStyle={{
-                      color: insertData.errors.dateDive ? 'red' : selectedDate ? 'blue' : '#1675E8',
-                    }}
-                    slotProps={{
-                      textField: {
-                        error: insertData.errors.dateDive,
-                        helperText: insertData.errors.dateDive && 'Invalid dive date',
+        <div className="parentContainer" style={{ width: '70%' }}>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DemoContainer components={['DatePicker']} valueType="date">
+              <div>
+                <DatePicker
+                  label="Date Of Dive"
+                  id="dateDive"
+                  name="dateDive"
+                  onChange={handleDateChange}
+                  format="DD/MM/YYYY"
+                  required
+                  inputStyle={{
+                    color: insertData.errors.dateDive ? 'red' : selectedDate ? 'blue' : '#1675E8',
+                  }}
+                  slotProps={{
+                    textField: {
+                      error: insertData.errors.dateDive,
+                      helperText: insertData.errors.dateDive && 'Invalid dive date',
+                    },
+                    InputProps: {
+                      style: {
+                        color: selectedDate ? 'blue' : '#1675E8',
+                        fontWeight: selectedDate ? 'bold' : 'normal',
                       },
-                      InputProps: {
-                        style: {
-                          color: selectedDate ? 'blue' : '#1675E8',
-                          fontWeight: selectedDate ? 'bold' : 'normal',
-                        },
-                      },
-                    }}
-                  />
-                </div>
-              </DemoContainer>
-            </LocalizationProvider>
-          </div>
-          <div style={{
-            width: '30%',
-            display: 'flex',
-            alignItems: 'center',
-            paddingLeft: '10px',
-            border: '1px solid #1675E8',
-            borderRadius: '8px',
-            padding: '10px',
+                    },
+                  }}
+                />
+              </div>
+            </DemoContainer>
+          </LocalizationProvider>
+        </div>
+          <div style={{ 
+            width: '30%', 
+            display: 'flex', 
+            alignItems: 'center', 
+            paddingLeft: '10px', 
+            border: '1px solid #1675E8', 
+            borderRadius: '8px', 
+            padding: '10px', 
             backgroundColor: '#f0f8ff',
             boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
           }}>
