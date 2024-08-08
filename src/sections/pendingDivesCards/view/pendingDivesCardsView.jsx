@@ -72,12 +72,12 @@ export default function PendingDivesCardsView() {
           cover: `/assets/images/covers/cover_${(index % 24) + 1}.jpg`,
           imageLocation: dive.imageLocation || 'No image location',
           diveCode: `${dive.diveCode || 'No dive code'}`,
-          loggedBy: `Logged By: ${dive.loggedBy || 'unknown'}`,
+          // loggedBy: `${dive.loggedBy || 'unknown'}`,
           loggingDate: dive.loggingDate
             ? format(new Date(dive.loggingDate), 'dd MMM yyyy')
             : 'none',
           createdAt: formattedCreatedAt,
-          age: `Age: ${dive.ageOfDiver === 'NA' ? '-' : dive.ageOfDiver || 'Unknown'}`,
+          age: dive.ageOfDiver || "",
           time: dive.time || 'No time',
           gender: dive.sexOfDiver === 'NA' ? 'No Gender' : dive.sexOfDiver || 'No gender',
           linkURL: dive.linkURL || 'No Link',
@@ -89,7 +89,7 @@ export default function PendingDivesCardsView() {
           diveSite: dive.diveSite || 'No site data',
           specie: dive.specie || 'No Specie',
           humanWild: dive.humanWildlifeInteraction || 'No info',
-          ar: dive.AR || 'No',
+          ar: dive.AR || '',
           distance: dive.distance || 'None',
           maxDepth: dive.maxDepth || 'no depth',
           temp: dive.temp || '-',
