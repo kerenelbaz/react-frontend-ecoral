@@ -29,11 +29,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import DialogContentText from '@mui/material/DialogContentText';
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import QuestionMarkRoundedIcon from '@mui/icons-material/QuestionMarkRounded';
-<<<<<<< HEAD
-// import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined';
-=======
 import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined';
->>>>>>> parent of 69b2553 (Merge branch 'main' of https://github.com/kerenelbaz/react-frontend-ecoral)
 
 import Iconify from 'src/components/iconify';
 import SvgColor from 'src/components/svg-color';
