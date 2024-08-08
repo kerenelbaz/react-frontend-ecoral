@@ -52,10 +52,10 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
 
   const [formData, setFormData] = useState({
     ...postData,
-    humanWildInter: '',
-    researcherDesc: '',
-    loggedBy: '',
-    objectCode:''
+    // humanWildInter: '',
+    // researcherDesc: '',
+    // loggedBy: '',
+    // objectCode:''
   });
 
   useEffect(() => {

@@ -1,7 +1,6 @@
-import axios from 'axios';
 import { faker } from '@faker-js/faker';
+import { format, parseISO } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
-import { parse, format, parseISO } from 'date-fns';
 import React, { useState, useEffect, useCallback } from 'react';
 
 import Stack from '@mui/material/Stack';
@@ -46,17 +45,16 @@ export default function AllDivesCardsView() {
       dives.sort((a, b) => new Date(b.logginDate) - new Date(a.logginDate));
 
       const fetchedPosts = dives.map((dive, index) => {
-        let createdAt = dive.date || new Date().toISOString(); // Set to current date if missing
-        if (Number.isNaN(Date.parse(createdAt))) {
-          createdAt = new Date().toISOString();
-        }
+        const createdAt = dive.date || ''; // Set to empty string if missing
 
         let formattedCreatedAt;
         try {
-          if (createdAt.includes('-')) {
+          if (createdAt === '') {
+            formattedCreatedAt = 'No dive date';
+          } else if (createdAt.includes('-')) {
             formattedCreatedAt = format(parseISO(createdAt), 'dd/MM/yyyy');
           } else {
-            formattedCreatedAt = format(parse(createdAt, 'dd/MM/yyyy', new Date()), 'dd/MM/yyyy');
+            formattedCreatedAt = createdAt; // If it's already in the format dd/MM/yyyy
           }
         } catch (error) {
           console.error('Error formatting date:', createdAt, error);
@@ -70,8 +68,8 @@ export default function AllDivesCardsView() {
           imageLocation: dive.imageLocation || 'No image location',
           diveCode: `${dive.diveCode || 'No dive code'}`,
           loggedBy: `${dive.loggedBy || 'unknown'}`,
-          loggingDate: dive.loggingDate,
-          createdAt: formattedCreatedAt,
+          loggingDate: formattedCreatedAt,
+          createdAt: dive.date,
           age: `Age: ${dive.ageOfDiver === 'NA' ? '-' : dive.ageOfDiver || 'Unknown'}`,
           time: dive.time || 'No time',
           gender: dive.sexOfDiver === 'NA' ? 'No Gender' : dive.sexOfDiver || 'No gender',
@@ -116,31 +114,53 @@ export default function AllDivesCardsView() {
   }, [fetchData]);
 
   const deleteFromCloudinary = async (imageUrl) => {
-    const publicId = imageUrl.split('/').pop().split('.')[0]; // Extract public ID from the URL
     try {
-        await axios.post(
-            `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/destroy`,
-            `public_id=${publicId}`,
-            {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'Authorization': `Basic ${btoa(`${process.env.REACT_APP_CLOUDINARY_API_KEY}:${process.env.REACT_APP_CLOUDINARY_API_SECRET}`)}`
-                }
-            }
-        );
+      // Extract the public ID from the URL
+      const publicId = imageUrl.split('/').pop().split('.')[0];
+
+      // Create the request body as a JSON-like string
+      const requestBody = `{"publicId": "${publicId}"}`;
+
+      // Log the request details
+      console.log("Deleting image with public ID:", publicId);
+      console.log("Sending request to:", `${config.serverUrl}/api/dives/delete-image`);
+      console.log("Request body:", requestBody);
+
+      // Make a request to your server to delete the image from Cloudinary
+      const response = await fetch(`${config.serverUrl}/api/dives/delete-image`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: requestBody,
+      });
+
+      console.log('Response status:', response.status);
+
+      // Check if the response is OK (status 200-299)
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const result = await response.json();
+
+      console.log('Response result:', result);
+
+      if (result.result === 'ok') {
         console.log('Image deleted from Cloudinary:', publicId);
+      } else {
+        console.error('Failed to delete image from Cloudinary:', result.message);
+      }
     } catch (error) {
-        console.error('Error deleting from Cloudinary:', error);
+      console.error('Error sending delete request to server:', error);
     }
-};
-  
-  
+  };
 
   const handleDeleteClick = async (postId, fileLink) => {
     console.log('Pending data received for deletion:', postId);
     try {
       // Make a request to your server to delete the row
-      const response = await fetch(`${config.serverUrl}/api/dives/${postId}`,  {
+      const response = await fetch(`${config.serverUrl}/api/dives/${postId}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
@@ -149,7 +169,7 @@ export default function AllDivesCardsView() {
       setPosts((prevData) => prevData.filter((row) => row.id !== postId));
       setFilteredPosts((prevData) => prevData.filter((row) => row.id !== postId));
       setSearchCount((prevCount) => prevCount - 1);
-  
+
       // Delete from Cloudinary
       if (fileLink) {
         await deleteFromCloudinary(fileLink);
@@ -158,7 +178,7 @@ export default function AllDivesCardsView() {
       console.error('Error deleting dive:', error);
     }
   };
-  
+
 
   const handleEditClick = (post) => {
     setEditPostData(post);
