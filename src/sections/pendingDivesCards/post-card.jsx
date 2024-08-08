@@ -22,14 +22,14 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import SatelliteIcon from '@mui/icons-material/Satellite';
+// import SatelliteIcon from '@mui/icons-material/Satellite';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import ManRoundedIcon from '@mui/icons-material/ManRounded';
-import WomanRoundedIcon from '@mui/icons-material/WomanRounded';
+// import ManRoundedIcon from '@mui/icons-material/ManRounded';
+// import WomanRoundedIcon from '@mui/icons-material/WomanRounded';
 import DialogContentText from '@mui/material/DialogContentText';
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import QuestionMarkRoundedIcon from '@mui/icons-material/QuestionMarkRounded';
-import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined';
+// import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined';
 
 import Iconify from 'src/components/iconify';
 import SvgColor from 'src/components/svg-color';

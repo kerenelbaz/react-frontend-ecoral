@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
+import { format, parseISO } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
-import { parse, format, parseISO } from 'date-fns';
 import React, { useState, useEffect, useCallback } from 'react';
 
 import Stack from '@mui/material/Stack';
@@ -117,15 +117,15 @@ export default function AllDivesCardsView() {
     try {
       // Extract the public ID from the URL
       const publicId = imageUrl.split('/').pop().split('.')[0];
-  
+
       // Create the request body as a JSON-like string
       const requestBody = `{"publicId": "${publicId}"}`;
-  
+
       // Log the request details
       console.log("Deleting image with public ID:", publicId);
       console.log("Sending request to:", `${config.serverUrl}/api/dives/delete-image`);
       console.log("Request body:", requestBody);
-  
+
       // Make a request to your server to delete the image from Cloudinary
       const response = await fetch(`${config.serverUrl}/api/dives/delete-image`, {
         method: 'POST',
@@ -134,18 +134,18 @@ export default function AllDivesCardsView() {
         },
         body: requestBody,
       });
-  
+
       console.log('Response status:', response.status);
-  
+
       // Check if the response is OK (status 200-299)
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-  
+
       const result = await response.json();
-  
+
       console.log('Response result:', result);
-  
+
       if (result.result === 'ok') {
         console.log('Image deleted from Cloudinary:', publicId);
       } else {
@@ -155,12 +155,12 @@ export default function AllDivesCardsView() {
       console.error('Error sending delete request to server:', error);
     }
   };
-  
+
   const handleDeleteClick = async (postId, fileLink) => {
     console.log('Pending data received for deletion:', postId);
     try {
       // Make a request to your server to delete the row
-      const response = await fetch(`${config.serverUrl}/api/dives/${postId}`,  {
+      const response = await fetch(`${config.serverUrl}/api/dives/${postId}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
@@ -169,7 +169,7 @@ export default function AllDivesCardsView() {
       setPosts((prevData) => prevData.filter((row) => row.id !== postId));
       setFilteredPosts((prevData) => prevData.filter((row) => row.id !== postId));
       setSearchCount((prevCount) => prevCount - 1);
-  
+
       // Delete from Cloudinary
       if (fileLink) {
         await deleteFromCloudinary(fileLink);
@@ -178,7 +178,7 @@ export default function AllDivesCardsView() {
       console.error('Error deleting dive:', error);
     }
   };
-  
+
 
   const handleEditClick = (post) => {
     setEditPostData(post);
