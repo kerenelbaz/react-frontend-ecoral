@@ -97,8 +97,8 @@ export default function PostCard({ post, onDelete }) {
     createdAt,
     diveCode,
     imageLocation,
-    age,
-    gender,
+    ageOfDiver,
+    sexOfDiver,
     linkURL,
     media,
     loggedBy,
@@ -203,8 +203,8 @@ export default function PostCard({ post, onDelete }) {
         alignItems: 'center',
       }}
     >
-      {getGenderIcon(gender)}
-      {gender}
+      {getGenderIcon(sexOfDiver)}
+      {sexOfDiver}
       <Typography
         color="inherit"
         variant="subtitle2"
@@ -218,7 +218,7 @@ export default function PostCard({ post, onDelete }) {
           alignItems: 'center',
         }}
       >
-        {age}
+        {ageOfDiver}
       </Typography>
     </Typography>
   );

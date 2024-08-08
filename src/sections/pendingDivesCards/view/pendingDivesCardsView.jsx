@@ -77,9 +77,9 @@ export default function PendingDivesCardsView() {
             ? format(new Date(dive.loggingDate), 'dd MMM yyyy')
             : 'none',
           createdAt: formattedCreatedAt,
-          age: dive.ageOfDiver || "",
+          ageOfDiver: dive.ageOfDiver || "",
           time: dive.time || 'No time',
-          gender: dive.sexOfDiver,
+          sexOfDiver: dive.sexOfDiver,
           linkURL: dive.linkURL || 'No Link',
           media: dive.media || 'No media',
           reportReceivingDate: dive.reportReceivingDate
