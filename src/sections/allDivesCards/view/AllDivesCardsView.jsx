@@ -186,9 +186,7 @@ export default function AllDivesCardsView() {
   };
 
   const handleUpdatePost = (updatedPost) => {
-    setPosts((prevPosts) =>
-      prevPosts.map((post) => (post.id === updatedPost.id ? updatedPost : post))
-    );
+    setPosts((prevPosts) => prevPosts.map((post) => (post.id === updatedPost.id ? updatedPost : post)));
     setFilteredPosts((prevFilteredPosts) =>
       prevFilteredPosts.map((post) => (post.id === updatedPost.id ? updatedPost : post))
     );
@@ -213,14 +211,14 @@ export default function AllDivesCardsView() {
 
   const handleSort = (event) => {
     const sortBy = event.target.value;
-
+  
     const validPosts = posts.filter((post) => !Number.isNaN(Date.parse(post.loggingDate)));
     const invalidPosts = posts.filter((post) => Number.isNaN(Date.parse(post.loggingDate)));
-
+  
     const sortedValidPosts = validPosts.sort((a, b) => {
       const dateA = new Date(a.loggingDate);
       const dateB = new Date(b.loggingDate);
-
+  
       if (sortBy === 'latest') {
         return dateB - dateA;
       }
@@ -229,9 +227,9 @@ export default function AllDivesCardsView() {
       }
       return 0;
     });
-
+  
     const sortedPosts = [...sortedValidPosts, ...invalidPosts];
-
+  
     setPosts(sortedPosts);
     setFilteredPosts(sortedPosts); // Ensure filtered posts are also sorted
   };

@@ -19,8 +19,12 @@ import EditData from 'src/sections/pendingAdmin/view/handle-edit-data';
 
 import PostCard from '../post-card';
 import PostSort from '../post-sort';
+<<<<<<< HEAD
 // import { object } from 'prop-types';
 // import PostSearch from '../post-search';
+=======
+import PostSearch from '../post-search';
+>>>>>>> parent of 69b2553 (Merge branch 'main' of https://github.com/kerenelbaz/react-frontend-ecoral)
 
 export default function PendingDivesCardsView() {
   const [posts, setPosts] = useState([]);
@@ -29,8 +33,6 @@ export default function PendingDivesCardsView() {
   const [itemsPerPage, setItemsPerPage] = useState(12);
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [searchCount, setSearchCount] = useState(0);
-  const [editDialogOpen, setEditDialogOpen] = useState(false);
-  const [editPostData, setEditPostData] = useState(null);
   const { switchToTable } = useView();
   const navigate = useNavigate();
 
@@ -67,9 +69,8 @@ export default function PendingDivesCardsView() {
 
         return {
           id: dive._id,
-          file: dive.file,
-          dateDive: dive.date,
           cover: `/assets/images/covers/cover_${(index % 24) + 1}.jpg`,
+<<<<<<< HEAD
           // imageLocation:dive.imageLocation,
           // diveCode:dive.diveCode,
           // loggedBy:dive.loggedBy,
@@ -99,6 +100,42 @@ export default function PendingDivesCardsView() {
           // objectCode: dive.objectCode,
           // reportType: dive.reportType,
           // typeOfDive: dive.typeOfDive,
+=======
+          imageLocation: dive.imageLocation || 'No image location',
+          diveCode: `${dive.diveCode || 'No dive code'}`,
+          loggedBy: `Logged By: ${dive.loggedBy || 'unknown'}`,
+          loggingDate: dive.loggingDate
+            ? format(new Date(dive.loggingDate), 'dd MMM yyyy')
+            : 'none',
+          createdAt: formattedCreatedAt,
+          age: `Age: ${dive.ageOfDiver === 'NA' ? '-' : dive.ageOfDiver || 'Unknown'}`,
+          time: dive.time || 'No time',
+          gender: dive.sexOfDiver === 'NA' ? 'No Gender' : dive.sexOfDiver || 'No gender',
+          linkURL: dive.linkURL || 'No Link',
+          media: dive.media || 'No media',
+          reportReceivingDate: dive.reportReceivingDate
+            ? format(new Date(dive.reportReceivingDate), 'dd MMM yyyy')
+            : 'none',
+          idCodePhotographerName: dive.idCode_photographerName || '',
+          diveSite: dive.diveSite || 'No site data',
+          specie: dive.specie || 'No Specie',
+          humanWild: dive.humanWildlifeInteraction || 'No info',
+          ar: dive.AR || 'No',
+          distance: dive.distance || 'None',
+          maxDepth: dive.maxDepth || 'no depth',
+          temp: dive.temp || '-',
+          rankOfDive: dive.rankOfDive || '-',
+          userDescription: (
+            <span>
+              <span style={{ color: 'black', textDecoration: 'underline' }}>User Description</span>:{' '}
+              {dive.userDescription || '-'}
+            </span>
+          ),
+          objectGroup: dive.objectGroup || '-',
+          objectCode: dive.objectCode || '-',
+          reportType: dive.reportType || '-',
+          typeOfDive: dive.typeOfDive || '-',
+>>>>>>> parent of 69b2553 (Merge branch 'main' of https://github.com/kerenelbaz/react-frontend-ecoral)
           author: {
             name: faker.person.fullName(),
             avatarUrl: `/assets/images/avatars/avatar_${(index % 25) + 1}.jpg`,
@@ -138,6 +175,7 @@ export default function PendingDivesCardsView() {
     }
   };
 
+<<<<<<< HEAD
   const handleEditClick = (post) => {
     console.log("post");
     console.log("post", post);
@@ -145,6 +183,8 @@ export default function PendingDivesCardsView() {
     setEditDialogOpen(true);
   };
 
+=======
+>>>>>>> parent of 69b2553 (Merge branch 'main' of https://github.com/kerenelbaz/react-frontend-ecoral)
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -187,9 +227,9 @@ export default function PendingDivesCardsView() {
     setFilteredPosts(sortedPosts); // Ensure filtered posts are also sorted
   };
 
-  // const handleNewDive = () => {
-  //   window.open('/insert-data', '_blank');
-  // };
+  const handleNewDive = () => {
+    window.open('/insert-data', '_blank');
+  };
 
   // const handleAllDiveTable = () => {
   //   window.open('/all-data', '_blank');
@@ -214,14 +254,14 @@ export default function PendingDivesCardsView() {
           ]}
           onSort={handleSort}
         />
-        {/* <Button
+        <Button
           variant="contained"
           color="inherit"
           startIcon={<Iconify icon="eva:plus-fill" />}
           onClick={handleNewDive}
         >
           Add Dive
-        </Button> */}
+        </Button>
         <Button
           variant="contained"
           color="inherit"
@@ -232,9 +272,9 @@ export default function PendingDivesCardsView() {
         </Button>
       </Stack>
 
-      {/* <Stack direction="row" alignItems="center" justifyContent="space-between">
+      <Stack direction="row" alignItems="center" justifyContent="space-between">
         <PostSearch posts={posts} onFilter={setFilteredPosts} setSearchCount={setSearchCount} />
-      </Stack> */}
+      </Stack>
 
       <Stack mb={5} direction="row" alignItems="center" justifyContent="center">
         <Typography variant="h6">{searchCount} posts found</Typography>
@@ -242,13 +282,7 @@ export default function PendingDivesCardsView() {
 
       <Grid container spacing={3}>
         {currentPosts.map((post, index) => (
-          <PostCard
-            key={post.id}
-            post={post}
-            index={index}
-            onDelete={handleDeleteClick}
-            onEdit={handleEditClick}
-          />
+          <PostCard key={post.id} post={post} index={index} onDelete={handleDeleteClick} />
         ))}
       </Grid>
 
@@ -269,15 +303,6 @@ export default function PendingDivesCardsView() {
           color="primary"
         />
       </Stack>
-
-      {editPostData && (
-        <EditData
-          open={editDialogOpen}
-          handleClose={() => setEditDialogOpen(false)}
-          pendingData={editPostData}
-          onDeleteClick={handleDeleteClick}
-        />
-      )}
     </Container>
   );
 }

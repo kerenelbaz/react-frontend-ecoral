@@ -32,8 +32,6 @@ export default function PendingAdminView() {
   const [usersData, setUsersData] = useState([]);
   const [openEditData, setOpenEditData] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
-  const { switchToCards } = useView();
-  const navigate = useNavigate();
 
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
@@ -141,16 +139,10 @@ export default function PendingAdminView() {
     window.open('/all-data', '_blank');
   };
 
-  const handleSwitchToCards = () => {
-    switchToCards();
-    navigate('/pending-dives-cards');
-  };
-
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">{`Pending Dives For Admin's Approval`}</Typography>
-        
 
         <Button
           variant="contained"
@@ -159,14 +151,6 @@ export default function PendingAdminView() {
           onClick={handleAllDataButtonClick}
         >
           All Aproved Dives
-        </Button>
-        <Button
-          variant="contained"
-          color="inherit"
-          startIcon={<Iconify icon="mdi:table" />}
-          onClick={handleSwitchToCards}
-        >
-          As cards
         </Button>
       </Stack>
 
