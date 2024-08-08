@@ -15,10 +15,10 @@ import { useView } from 'src/viewContexts';
 import Iconify from 'src/components/iconify';
 
 import config from 'src/sections/configServer';
-import EditData from 'src/sections/pendingAdmin/view/handle-edit-data';
 
 import PostCard from '../post-card';
 import PostSort from '../post-sort';
+import EditData from './handle-edit-data';
 // import { object } from 'prop-types';
 // import PostSearch from '../post-search';
 
@@ -70,35 +70,35 @@ export default function PendingDivesCardsView() {
           file: dive.file,
           dateDive: dive.date,
           cover: `/assets/images/covers/cover_${(index % 24) + 1}.jpg`,
-          // imageLocation:dive.imageLocation,
-          // diveCode:dive.diveCode,
-          // loggedBy:dive.loggedBy,
+          imageLocation: dive.imageLocation || 'No image location',
+          diveCode: `${dive.diveCode || 'No dive code'}`,
+          loggedBy: `Logged By: ${dive.loggedBy || 'unknown'}`,
           loggingDate: dive.loggingDate
             ? format(new Date(dive.loggingDate), 'dd MMM yyyy')
             : 'none',
-          createdAt: dive.date,
-          // age: dive.ageOfDiver,
-          // time: dive.time,
-          // gender: dive.sexOfDiver,
-          linkURL: dive.linkURL,
-          media: dive.media,
-          // reportReceivingDate: dive.reportReceivingDate
-          //   ? format(new Date(dive.reportReceivingDate), 'dd MMM yyyy')
-          //   : 'none',
-          // idCodePhotographerName: dive.idCode_photographerName,
-          diveSite: dive.diveSite,
-          specie: dive.specie,
-          // humanWild: dive.humanWildlifeInteraction,
-          // ar: dive.AR,
-          // distance: dive.distance,
-          // maxDepth: dive.maxDepth,
-          // temp: dive.temp,
-          // rankOfDive: dive.rankOfDive,
-          // userDescription: dive.userDescription,
-          // objectGroup: dive.objectGroup ,
-          // objectCode: dive.objectCode,
-          // reportType: dive.reportType,
-          // typeOfDive: dive.typeOfDive,
+          createdAt: formattedCreatedAt,
+          age: `Age: ${dive.ageOfDiver === 'NA' ? '-' : dive.ageOfDiver || 'Unknown'}`,
+          time: dive.time || 'No time',
+          gender: dive.sexOfDiver === 'NA' ? 'No Gender' : dive.sexOfDiver || 'No gender',
+          linkURL: dive.linkURL || 'No Link',
+          media: dive.media || 'No media',
+          reportReceivingDate: dive.reportReceivingDate
+            ? format(new Date(dive.reportReceivingDate), 'dd MMM yyyy')
+            : 'none',
+          idCodePhotographerName: dive.idCode_photographerName || '',
+          diveSite: dive.diveSite || 'No site data',
+          specie: dive.specie || 'No Specie',
+          humanWild: dive.humanWildlifeInteraction || 'No info',
+          ar: dive.AR || 'No',
+          distance: dive.distance || 'None',
+          maxDepth: dive.maxDepth || 'no depth',
+          temp: dive.temp || '-',
+          rankOfDive: dive.rankOfDive || '-',
+          userDescription: dive.userDescription || '-',
+          objectGroup: dive.objectGroup || '-',
+          objectCode: dive.objectCode || '-',
+          reportType: dive.reportType || '-',
+          typeOfDive: dive.typeOfDive || '-',
           author: {
             name: faker.person.fullName(),
             avatarUrl: `/assets/images/avatars/avatar_${(index % 25) + 1}.jpg`,
@@ -139,8 +139,6 @@ export default function PendingDivesCardsView() {
   };
 
   const handleEditClick = (post) => {
-    console.log("post");
-    console.log("post", post);
     setEditPostData(post);
     setEditDialogOpen(true);
   };

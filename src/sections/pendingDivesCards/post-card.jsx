@@ -22,14 +22,14 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-// import SatelliteIcon from '@mui/icons-material/Satellite';
+import SatelliteIcon from '@mui/icons-material/Satellite';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-// import ManRoundedIcon from '@mui/icons-material/ManRounded';
-// import WomanRoundedIcon from '@mui/icons-material/WomanRounded';
+import ManRoundedIcon from '@mui/icons-material/ManRounded';
+import WomanRoundedIcon from '@mui/icons-material/WomanRounded';
 import DialogContentText from '@mui/material/DialogContentText';
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import QuestionMarkRoundedIcon from '@mui/icons-material/QuestionMarkRounded';
-// import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined';
+import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined';
 
 import Iconify from 'src/components/iconify';
 import SvgColor from 'src/components/svg-color';
@@ -78,31 +78,31 @@ export default function PostCard({ post, onDelete }) {
   };
 
   const {
-    // humanWild,
-    // ar,
-    // maxDepth,
-    // idCodePhotographerName,
-    // reportReceivingDate,
-    // reportType,
-    // typeOfDive,
-    // userDescription,
-    // objectCode,
-    // objectGroup,
+    humanWild,
+    ar,
+    maxDepth,
+    idCodePhotographerName,
+    reportReceivingDate,
+    reportType,
+    typeOfDive,
+    userDescription,
+    objectCode,
+    objectGroup,
     diveSite,
-    // rankOfDive,
-    // specie,
-    // distance,
-    // temp,
+    rankOfDive,
+    specie,
+    distance,
+    temp,
     author,
     createdAt,
-    // diveCode,
-    // imageLocation,
-    // age,
-    // gender,
+    diveCode,
+    imageLocation,
+    age,
+    gender,
     linkURL,
     media,
-    // loggedBy,
-    // loggingDate,
+    loggedBy,
+    loggingDate,
     time,
     file,
     cover,
@@ -144,7 +144,7 @@ export default function PostCard({ post, onDelete }) {
           <LocationOnIcon sx={{ mr: 0.5, fontSize: 13 }} />
           {diveSite}
         </Link>
-        {/* <Link
+        <Link
           variant="subtitle2"
           underline="none"
           sx={{
@@ -155,9 +155,9 @@ export default function PostCard({ post, onDelete }) {
           }}
         >
           {diveCode}
-        </Link> */}
+        </Link>
       </Stack>
-      {/* <Stack direction="row" justifyContent="left" spacing={1}>
+      <Stack direction="row" justifyContent="left" spacing={1}>
         <Typography
           variant="subtitle2"
           height="62px"
@@ -177,65 +177,65 @@ export default function PostCard({ post, onDelete }) {
             alignItems: 'center',
           }}
         />
-      </Stack> */}
+      </Stack>
     </Stack>
   );
 
-  // const getGenderIcon = (gen) => {
-  //   if (gen === 'Male') {
-  //     return <ManRoundedIcon sx={{ fontSize: 22 }} />;
-  //   }
-  //   if (gen === 'Female') {
-  //     return <WomanRoundedIcon sx={{ fontSize: 20 }} />;
-  //   }
-  //   return <QuestionMarkRoundedIcon sx={{ fontSize: 20 }} />;
-  // };
+  const getGenderIcon = (gen) => {
+    if (gen === 'Male') {
+      return <ManRoundedIcon sx={{ fontSize: 22 }} />;
+    }
+    if (gen === 'Female') {
+      return <WomanRoundedIcon sx={{ fontSize: 20 }} />;
+    }
+    return <QuestionMarkRoundedIcon sx={{ fontSize: 20 }} />;
+  };
 
-  // const renderUserInfo = (
-  //   <Typography
-  //     color="inherit"
-  //     variant="subtitle2"
-  //     sx={{
-  //       height: 50,
-  //       overflow: 'hidden',
-  //       WebkitLineClamp: 2,
-  //       display: 'flex',
-  //       alignItems: 'center',
-  //     }}
-  //   >
-  //     {getGenderIcon(gender)}
-  //     {gender}
-  //     <Typography
-  //       color="inherit"
-  //       variant="subtitle2"
-  //       sx={{
-  //         ml: 1,
-  //         fontSize: 'inherit',
-  //         height: 50,
-  //         overflow: 'hidden',
-  //         WebkitLineClamp: 2,
-  //         display: 'flex',
-  //         alignItems: 'center',
-  //       }}
-  //     >
-  //       {age}
-  //     </Typography>
-  //   </Typography>
-  // );
+  const renderUserInfo = (
+    <Typography
+      color="inherit"
+      variant="subtitle2"
+      sx={{
+        height: 50,
+        overflow: 'hidden',
+        WebkitLineClamp: 2,
+        display: 'flex',
+        alignItems: 'center',
+      }}
+    >
+      {getGenderIcon(gender)}
+      {gender}
+      <Typography
+        color="inherit"
+        variant="subtitle2"
+        sx={{
+          ml: 1,
+          fontSize: 'inherit',
+          height: 50,
+          overflow: 'hidden',
+          WebkitLineClamp: 2,
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
+        {age}
+      </Typography>
+    </Typography>
+  );
 
-  // const renderUserDescription = (
-  //   <Typography
-  //     variant="subtitle2"
-  //     sx={{
-  //       ml: 1,
-  //       overflow: 'visible',
-  //       whiteSpace: 'normal',
-  //       display: 'block',
-  //     }}
-  //   >
-  //     {userDescription}
-  //   </Typography>
-  // );
+  const renderUserDescription = (
+    <Typography
+      variant="subtitle2"
+      sx={{
+        ml: 1,
+        overflow: 'visible',
+        whiteSpace: 'normal',
+        display: 'block',
+      }}
+    >
+      {userDescription}
+    </Typography>
+  );
 
   const renderDeleteEdit = (
     <>
@@ -274,202 +274,202 @@ export default function PostCard({ post, onDelete }) {
     </>
   );
 
-  // const renderBody = (
-  //   <Stack>
-  //     <Link
-  //       variant="subtitle2"
-  //       underline="disable"
-  //       sx={{
-  //         overflow: 'hidden',
-  //         fontSize: '0.83rem',
-  //         display: '-webkit-box',
-  //         WebkitBoxOrient: 'vertical',
-  //       }}
-  //     >
-  //       <Typography fontWeight="bold" fontSize="0.83rem" color="black">
-  //         Human wild life interaction:{' '}
-  //         <Link
-  //           variant="subtitle2"
-  //           underline="disable"
-  //           sx={{
-  //             overflow: 'hidden',
-  //             fontSize: '0.83rem',
-  //             display: 'inline',
-  //             WebkitBoxOrient: 'vertical',
-  //           }}
-  //         >
-  //           {humanWild}
-  //         </Link>
-  //       </Typography>
-  //     </Link>
-  //     <Typography fontWeight="bold" fontSize="0.83rem" color="black">
-  //       Artificial Reef:{' '}
-  //       <Link
-  //         variant="subtitle2"
-  //         underline="disable"
-  //         sx={{
-  //           overflow: 'hidden',
-  //           fontSize: '0.83rem',
-  //           display: 'inline',
-  //           WebkitBoxOrient: 'vertical',
-  //         }}
-  //       >
-  //         {ar}
-  //       </Link>
-  //     </Typography>
-  //     <Typography fontWeight="bold" fontSize="0.83rem" color="black">
-  //       Max Depth:{' '}
-  //       <Link
-  //         variant="subtitle2"
-  //         underline="disable"
-  //         sx={{
-  //           overflow: 'hidden',
-  //           fontSize: '0.83rem',
-  //           display: 'inline',
-  //           WebkitBoxOrient: 'vertical',
-  //         }}
-  //       >
-  //         {maxDepth}
-  //       </Link>
-  //     </Typography>
+  const renderBody = (
+    <Stack>
+      <Link
+        variant="subtitle2"
+        underline="disable"
+        sx={{
+          overflow: 'hidden',
+          fontSize: '0.83rem',
+          display: '-webkit-box',
+          WebkitBoxOrient: 'vertical',
+        }}
+      >
+        <Typography fontWeight="bold" fontSize="0.83rem" color="black">
+          Human wild life interaction:{' '}
+          <Link
+            variant="subtitle2"
+            underline="disable"
+            sx={{
+              overflow: 'hidden',
+              fontSize: '0.83rem',
+              display: 'inline',
+              WebkitBoxOrient: 'vertical',
+            }}
+          >
+            {humanWild}
+          </Link>
+        </Typography>
+      </Link>
+      <Typography fontWeight="bold" fontSize="0.83rem" color="black">
+        Artificial Reef:{' '}
+        <Link
+          variant="subtitle2"
+          underline="disable"
+          sx={{
+            overflow: 'hidden',
+            fontSize: '0.83rem',
+            display: 'inline',
+            WebkitBoxOrient: 'vertical',
+          }}
+        >
+          {ar}
+        </Link>
+      </Typography>
+      <Typography fontWeight="bold" fontSize="0.83rem" color="black">
+        Max Depth:{' '}
+        <Link
+          variant="subtitle2"
+          underline="disable"
+          sx={{
+            overflow: 'hidden',
+            fontSize: '0.83rem',
+            display: 'inline',
+            WebkitBoxOrient: 'vertical',
+          }}
+        >
+          {maxDepth}
+        </Link>
+      </Typography>
 
-  //     <Typography fontWeight="bold" fontSize="0.83rem" color="black">
-  //       Distance:{' '}
-  //       <Link
-  //         variant="subtitle2"
-  //         underline="disable"
-  //         sx={{
-  //           overflow: 'hidden',
-  //           fontSize: '0.83rem',
-  //           display: 'inline',
-  //           WebkitBoxOrient: 'vertical',
-  //         }}
-  //       >
-  //         {distance}
-  //       </Link>
-  //     </Typography>
+      <Typography fontWeight="bold" fontSize="0.83rem" color="black">
+        Distance:{' '}
+        <Link
+          variant="subtitle2"
+          underline="disable"
+          sx={{
+            overflow: 'hidden',
+            fontSize: '0.83rem',
+            display: 'inline',
+            WebkitBoxOrient: 'vertical',
+          }}
+        >
+          {distance}
+        </Link>
+      </Typography>
 
-  //     <Stack direction="row" justifyContent="space-between" alignItems="center">
-  //       <Typography fontWeight="bold" fontSize="0.83rem" color="black">
-  //         Temp:{' '}
-  //         <Link
-  //           variant="subtitle2"
-  //           underline="disable"
-  //           sx={{
-  //             overflow: 'hidden',
-  //             fontSize: '0.83rem',
-  //             display: 'inline',
-  //             WebkitBoxOrient: 'vertical',
-  //           }}
-  //         >
-  //           {temp}
-  //         </Link>
-  //       </Typography>
-  //       <Typography fontWeight="bold" fontSize="0.83rem" color="black">
-  //         Rank:{' '}
-  //         <Link
-  //           variant="subtitle2"
-  //           underline="disable"
-  //           sx={{
-  //             overflow: 'hidden',
-  //             fontSize: '0.83rem',
-  //             display: 'inline',
-  //             WebkitBoxOrient: 'vertical',
-  //           }}
-  //         >
-  //           {rankOfDive}
-  //         </Link>
-  //       </Typography>
-  //     </Stack>
-  //   </Stack>
-  // );
+      <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Typography fontWeight="bold" fontSize="0.83rem" color="black">
+          Temp:{' '}
+          <Link
+            variant="subtitle2"
+            underline="disable"
+            sx={{
+              overflow: 'hidden',
+              fontSize: '0.83rem',
+              display: 'inline',
+              WebkitBoxOrient: 'vertical',
+            }}
+          >
+            {temp}
+          </Link>
+        </Typography>
+        <Typography fontWeight="bold" fontSize="0.83rem" color="black">
+          Rank:{' '}
+          <Link
+            variant="subtitle2"
+            underline="disable"
+            sx={{
+              overflow: 'hidden',
+              fontSize: '0.83rem',
+              display: 'inline',
+              WebkitBoxOrient: 'vertical',
+            }}
+          >
+            {rankOfDive}
+          </Link>
+        </Typography>
+      </Stack>
+    </Stack>
+  );
 
-  // const renderDataCodes = (
-  //   <Stack>
-  //     <Typography fontWeight="bold" fontSize="0.83rem" color="black">
-  //       Object group:{' '}
-  //       <Link
-  //         variant="subtitle2"
-  //         underline="disable"
-  //         sx={{
-  //           overflow: 'hidden',
-  //           fontSize: '0.83rem',
-  //           display: 'inline',
-  //           WebkitBoxOrient: 'vertical',
-  //         }}
-  //       >
-  //         {objectGroup}
-  //       </Link>
-  //     </Typography>
+  const renderDataCodes = (
+    <Stack>
+      <Typography fontWeight="bold" fontSize="0.83rem" color="black">
+        Object group:{' '}
+        <Link
+          variant="subtitle2"
+          underline="disable"
+          sx={{
+            overflow: 'hidden',
+            fontSize: '0.83rem',
+            display: 'inline',
+            WebkitBoxOrient: 'vertical',
+          }}
+        >
+          {objectGroup}
+        </Link>
+      </Typography>
 
-  //     <Typography fontWeight="bold" fontSize="0.83rem" color="black">
-  //       Object code:{' '}
-  //       <Link
-  //         variant="subtitle2"
-  //         underline="disable"
-  //         sx={{
-  //           overflow: 'hidden',
-  //           fontSize: '0.83rem',
-  //           display: 'inline',
-  //           WebkitBoxOrient: 'vertical',
-  //         }}
-  //       >
-  //         {objectCode}
-  //       </Link>
-  //     </Typography>
+      <Typography fontWeight="bold" fontSize="0.83rem" color="black">
+        Object code:{' '}
+        <Link
+          variant="subtitle2"
+          underline="disable"
+          sx={{
+            overflow: 'hidden',
+            fontSize: '0.83rem',
+            display: 'inline',
+            WebkitBoxOrient: 'vertical',
+          }}
+        >
+          {objectCode}
+        </Link>
+      </Typography>
 
-  //     <Typography fontWeight="bold" fontSize="0.83rem" color="black">
-  //       Report type:{' '}
-  //       <Link
-  //         variant="subtitle2"
-  //         underline="disable"
-  //         sx={{
-  //           overflow: 'hidden',
-  //           fontSize: '0.83rem',
-  //           display: 'inline',
-  //           WebkitBoxOrient: 'vertical',
-  //         }}
-  //       >
-  //         {reportType}
-  //       </Link>
-  //     </Typography>
-  //     <Typography fontWeight="bold" fontSize="0.83rem" color="black">
-  //       Type of dive:{' '}
-  //       <Link
-  //         variant="subtitle2"
-  //         underline="disable"
-  //         sx={{
-  //           overflow: 'hidden',
-  //           fontSize: '0.83rem',
-  //           display: 'inline',
-  //           WebkitBoxOrient: 'vertical',
-  //         }}
-  //       >
-  //         {typeOfDive}
-  //       </Link>
-  //     </Typography>
-  //   </Stack>
-  // );
+      <Typography fontWeight="bold" fontSize="0.83rem" color="black">
+        Report type:{' '}
+        <Link
+          variant="subtitle2"
+          underline="disable"
+          sx={{
+            overflow: 'hidden',
+            fontSize: '0.83rem',
+            display: 'inline',
+            WebkitBoxOrient: 'vertical',
+          }}
+        >
+          {reportType}
+        </Link>
+      </Typography>
+      <Typography fontWeight="bold" fontSize="0.83rem" color="black">
+        Type of dive:{' '}
+        <Link
+          variant="subtitle2"
+          underline="disable"
+          sx={{
+            overflow: 'hidden',
+            fontSize: '0.83rem',
+            display: 'inline',
+            WebkitBoxOrient: 'vertical',
+          }}
+        >
+          {typeOfDive}
+        </Link>
+      </Typography>
+    </Stack>
+  );
 
-  // const renderInfo = (
-  //   <Stack
-  //     direction="row"
-  //     flexWrap="wrap"
-  //     justifyContent="flex-start"
-  //     sx={{
-  //       mt: 1,
-  //     }}
-  //   >
-  //     <Stack direction="row" alignItems="center">
-  //       <Iconify icon="eva:person-fill" width={16} sx={{ mr: 0.5, color: 'green' }} />
-  //       <Typography variant="caption">{loggedBy}</Typography>
-  //     </Stack>
-  //     <Stack direction="row" alignItems="center">
-  //       <Iconify icon="eva:calendar-outline" width={16} sx={{ mr: 0.5, color: 'green' }} />
-  //       <Typography variant="caption">{loggingDate || 'Invalid Date'}</Typography>
-  //     </Stack>
-  //   </Stack>
-  // );
+  const renderInfo = (
+    <Stack
+      direction="row"
+      flexWrap="wrap"
+      justifyContent="flex-start"
+      sx={{
+        mt: 1,
+      }}
+    >
+      <Stack direction="row" alignItems="center">
+        <Iconify icon="eva:person-fill" width={16} sx={{ mr: 0.5, color: 'green' }} />
+        <Typography variant="caption">{loggedBy}</Typography>
+      </Stack>
+      <Stack direction="row" alignItems="center">
+        <Iconify icon="eva:calendar-outline" width={16} sx={{ mr: 0.5, color: 'green' }} />
+        <Typography variant="caption">{loggingDate || 'Invalid Date'}</Typography>
+      </Stack>
+    </Stack>
+  );
 
   const renderCover = (
     <Box
@@ -538,14 +538,14 @@ export default function PostCard({ post, onDelete }) {
           alignItems: 'center',
         }}
       >
-        {/* <SatelliteIcon sx={{ mr: 0.5, fontSize: 16 }} />
+        <SatelliteIcon sx={{ mr: 0.5, fontSize: 16 }} />
         {imageLocation}
         {idCodePhotographerName && (
           <>
             &nbsp;|&nbsp;
             {idCodePhotographerName}
           </>
-        )} */}
+        )}
       </Typography>
       <Typography
         variant="caption"
@@ -557,10 +557,10 @@ export default function PostCard({ post, onDelete }) {
           height: 40,
         }}
       >
-        {/* <EventAvailableOutlinedIcon sx={{ mr: 0.5, fontSize: 16 }} />
+        <EventAvailableOutlinedIcon sx={{ mr: 0.5, fontSize: 16 }} />
         Report receiving date:
         <br />
-        {reportReceivingDate} */}
+        {reportReceivingDate}
       </Typography>
     </Stack>
   );
@@ -612,11 +612,11 @@ export default function PostCard({ post, onDelete }) {
         >
           {renderUpper}
           {renderDiveSite}
-          {/* {renderBody}
+          {renderBody}
           {renderDataCodes}
           {renderUserInfo}
-          {renderUserDescription} */}
-          {/* {renderInfo} */}
+          {renderUserDescription}
+          {renderInfo}
         </Box>
       </Card>
 
