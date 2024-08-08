@@ -29,27 +29,34 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import DialogContentText from '@mui/material/DialogContentText';
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import QuestionMarkRoundedIcon from '@mui/icons-material/QuestionMarkRounded';
+<<<<<<< HEAD
 import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined';
+=======
+// import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined';
+>>>>>>> parent of d7e44c6 (revert)
 
 import Iconify from 'src/components/iconify';
 import SvgColor from 'src/components/svg-color';
 
 <<<<<<< HEAD
 // import EditPostData from './view/editPostData';
-<<<<<<< HEAD
 import EditData from './view/handle-edit-data';
+<<<<<<< HEAD
 =======
 import EditPostData from '../allDivesCards/view/editPostData';
 >>>>>>> parent of 69b2553 (Merge branch 'main' of https://github.com/kerenelbaz/react-frontend-ecoral)
 =======
 import EditPostData from './view/editPostData';
 >>>>>>> parent of 8aaf634 (Update post-card.jsx)
+=======
+>>>>>>> parent of d7e44c6 (revert)
 
 export default function PostCard({ post, onDelete }) {
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [editData, setEditData] = useState(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [imageDialogOpen, setImageDialogOpen] = useState(false);
 
   const handleEditOpen = (data) => {
     setEditData(data);
@@ -74,7 +81,6 @@ export default function PostCard({ post, onDelete }) {
     setDeleteDialogOpen(false);
   };
 
-<<<<<<< HEAD
 
   const handleImageOpen = () => {
     setImageDialogOpen(true);
@@ -118,9 +124,6 @@ export default function PostCard({ post, onDelete }) {
 
 
 
-=======
-  const { cover, humanWild, ar, maxDepth, idCodePhotographerName, reportReceivingDate, reportType, typeOfDive, userDescription, objectCode, objectGroup, diveSite, rankOfDive, specie, distance, temp, author, createdAt, diveCode, imageLocation, age, gender, linkURL, media, loggedBy, loggingDate, time } = post;
->>>>>>> parent of 69b2553 (Merge branch 'main' of https://github.com/kerenelbaz/react-frontend-ecoral)
 
   const renderAvatar = (
     <Avatar
@@ -191,11 +194,13 @@ export default function PostCard({ post, onDelete }) {
       </Stack>
     </Stack>
   );
-  
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 <<<<<<< HEAD
+=======
+>>>>>>> parent of d7e44c6 (revert)
   // const getGenderIcon = (gen) => {
   //   if (gen === 'Male') {
   //     return <ManRoundedIcon sx={{ fontSize: 22 }} />;
@@ -205,6 +210,7 @@ export default function PostCard({ post, onDelete }) {
   //   }
   //   return <QuestionMarkRoundedIcon sx={{ fontSize: 20 }} />;
   // };
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> parent of ccaa923 (worked on pending dives)
@@ -223,6 +229,8 @@ export default function PostCard({ post, onDelete }) {
 =======
   };
 >>>>>>> parent of ccaa923 (worked on pending dives)
+=======
+>>>>>>> parent of d7e44c6 (revert)
 
   const renderUserInfo = (
     <Typography
@@ -309,6 +317,9 @@ export default function PostCard({ post, onDelete }) {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of d7e44c6 (revert)
   // const renderBody = (
   //   <Stack>
   //     <Link
@@ -479,6 +490,7 @@ export default function PostCard({ post, onDelete }) {
   //     </Stack>
   //   </Stack>
   // );
+<<<<<<< HEAD
 =======
   const renderBody = (
     <Stack>
@@ -597,6 +609,8 @@ export default function PostCard({ post, onDelete }) {
 >>>>>>> parent of 69b2553 (Merge branch 'main' of https://github.com/kerenelbaz/react-frontend-ecoral)
 =======
 >>>>>>> parent of ccaa923 (worked on pending dives)
+=======
+>>>>>>> parent of d7e44c6 (revert)
 
   const renderDataCodes = (
     <Stack>
@@ -667,6 +681,9 @@ export default function PostCard({ post, onDelete }) {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of d7e44c6 (revert)
   // const renderInfo = (
   //   <Stack
   //     direction="row"
@@ -686,6 +703,7 @@ export default function PostCard({ post, onDelete }) {
   //     </Stack>
   //   </Stack>
   // );
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> parent of ccaa923 (worked on pending dives)
@@ -722,12 +740,14 @@ export default function PostCard({ post, onDelete }) {
     </Stack>
   );
 >>>>>>> parent of ccaa923 (worked on pending dives)
+=======
+>>>>>>> parent of d7e44c6 (revert)
 
   const renderCover = (
     <Box
       component="img"
       alt={diveSite}
-      src={cover}
+      src={file || cover}
       sx={{
         top: 0,
         width: 1,
@@ -735,17 +755,19 @@ export default function PostCard({ post, onDelete }) {
         objectFit: 'cover',
         position: 'absolute',
       }}
+      onClick={handleImageOpen}
+
     />
   );
 
   const getTimeIcon = (timeDive) => {
     if (timeDive === 'Light') {
       return <WbSunnyIcon sx={{ ml: 1, fontSize: 18, color: 'text.disabled' }} />;
-    } if (timeDive === 'Night') {
+    }
+    if (timeDive === 'Night') {
       return <DarkModeIcon sx={{ ml: 1, fontSize: 18, color: 'text.disabled' }} />;
     }
     return <QuestionMarkRoundedIcon sx={{ ml: 1, fontSize: 18, color: 'text.disabled' }} />;
-
   };
 
   const renderUpper = (
@@ -804,7 +826,7 @@ export default function PostCard({ post, onDelete }) {
           color: 'text.disabled',
           display: 'flex',
           alignItems: 'center',
-          height: 40
+          height: 40,
         }}
       >
         <EventAvailableOutlinedIcon sx={{ mr: 0.5, fontSize: 16 }} />
@@ -870,13 +892,11 @@ export default function PostCard({ post, onDelete }) {
         </Box>
       </Card>
 
-      <EditPostData
-        open={editDialogOpen}
-        handleClose={handleEditClose}
-        postData={editData}
-        onUpdate={(updatedData) => {
-          // Handle the update here if needed
-        }}
+      <EditData
+          open={editDialogOpen}
+          handleClose={() => setEditDialogOpen(false)}
+          pendingData={editData}
+          onDeleteClick={handleDeleteClick}
       />
 
       <Dialog
@@ -885,7 +905,9 @@ export default function PostCard({ post, onDelete }) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">Are you sure you want to delete this item?</DialogTitle>
+        <DialogTitle id="alert-dialog-title">
+          Are you sure you want to delete this item?
+        </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             This action cannot be undone.
@@ -900,6 +922,53 @@ export default function PostCard({ post, onDelete }) {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <Dialog
+        open={imageDialogOpen}
+        onClose={handleImageClose}
+        fullWidth
+        maxWidth="lg"
+      >
+        <DialogTitle>Image Viewer</DialogTitle>
+        <DialogContent>
+          <TransformWrapper
+            initialScale={1}
+            initialPositionX={0}
+            initialPositionY={0}
+          >
+            {({ zoomIn, zoomOut, resetTransform }) => (
+              <>
+                <Box sx={{ mb: 2, display: 'flex', justifyContent: 'center' }}>
+                  <Button onClick={zoomIn} sx={{ mx: 1 }} />
+                  <Button onClick={zoomOut} sx={{ mx: 1 }} />
+                  <Button onClick={resetTransform} sx={{ mx: 1 }} />
+                </Box>
+                <TransformComponent>
+                  <Box
+                    component="img"
+                    alt={diveSite}
+                    src={file || cover}
+                    sx={{
+                      width: '100%',
+                      maxHeight: '80vh',
+                      objectFit: 'contain',
+                    }}
+                  />
+                </TransformComponent>
+              </>
+            )}
+          </TransformWrapper>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleImageClose} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+
+
+
     </Grid>
   );
 }
