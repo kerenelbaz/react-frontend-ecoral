@@ -38,12 +38,16 @@ import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlin
 import Iconify from 'src/components/iconify';
 import SvgColor from 'src/components/svg-color';
 
+<<<<<<< HEAD
 // import EditPostData from './view/editPostData';
 <<<<<<< HEAD
 import EditData from './view/handle-edit-data';
 =======
 import EditPostData from '../allDivesCards/view/editPostData';
 >>>>>>> parent of 69b2553 (Merge branch 'main' of https://github.com/kerenelbaz/react-frontend-ecoral)
+=======
+import EditPostData from './view/editPostData';
+>>>>>>> parent of 8aaf634 (Update post-card.jsx)
 
 export default function PostCard({ post, onDelete }) {
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
