@@ -79,7 +79,7 @@ export default function PendingDivesCardsView() {
           createdAt: formattedCreatedAt,
           age: dive.ageOfDiver || "",
           time: dive.time || 'No time',
-          gender: dive.sexOfDiver === 'NA' ? 'No Gender' : dive.sexOfDiver || 'No gender',
+          gender: dive.sexOfDiver,
           linkURL: dive.linkURL || 'No Link',
           media: dive.media || 'No media',
           reportReceivingDate: dive.reportReceivingDate
