@@ -18,14 +18,7 @@ import config from 'src/sections/configServer';
 
 import PostCard from '../post-card';
 import PostSort from '../post-sort';
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 import EditData from './handle-edit-data';
->>>>>>> parent of ccaa923 (worked on pending dives)
-=======
->>>>>>> parent of d7e44c6 (revert)
 // import { object } from 'prop-types';
 // import PostSearch from '../post-search';
 
@@ -77,42 +70,6 @@ export default function PendingDivesCardsView() {
           file: dive.file,
           dateDive: dive.date,
           cover: `/assets/images/covers/cover_${(index % 24) + 1}.jpg`,
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> parent of d7e44c6 (revert)
-          // imageLocation:dive.imageLocation,
-          // diveCode:dive.diveCode,
-          // loggedBy:dive.loggedBy,
-          loggingDate: dive.loggingDate
-            ? format(new Date(dive.loggingDate), 'dd MMM yyyy')
-            : 'none',
-          createdAt: dive.date,
-          // age: dive.ageOfDiver,
-          // time: dive.time,
-          // gender: dive.sexOfDiver,
-          linkURL: dive.linkURL,
-          media: dive.media,
-          // reportReceivingDate: dive.reportReceivingDate
-          //   ? format(new Date(dive.reportReceivingDate), 'dd MMM yyyy')
-          //   : 'none',
-          // idCodePhotographerName: dive.idCode_photographerName,
-          diveSite: dive.diveSite,
-          specie: dive.specie,
-          // humanWild: dive.humanWildlifeInteraction,
-          // ar: dive.AR,
-          // distance: dive.distance,
-          // maxDepth: dive.maxDepth,
-          // temp: dive.temp,
-          // rankOfDive: dive.rankOfDive,
-          // userDescription: dive.userDescription,
-          // objectGroup: dive.objectGroup ,
-          // objectCode: dive.objectCode,
-          // reportType: dive.reportType,
-          // typeOfDive: dive.typeOfDive,
-<<<<<<< HEAD
-=======
           imageLocation: dive.imageLocation || 'No image location',
           diveCode: `${dive.diveCode || 'No dive code'}`,
           loggedBy: `Logged By: ${dive.loggedBy || 'unknown'}`,
@@ -121,16 +78,6 @@ export default function PendingDivesCardsView() {
             : 'none',
           createdAt: formattedCreatedAt,
           age: `Age: ${dive.ageOfDiver === 'NA' ? '-' : dive.ageOfDiver || 'Unknown'}`,
-=======
-          imageLocation: dive.imageLocation || 'No image location',
-          diveCode: `${dive.diveCode || 'No dive code'}`,
-          loggedBy: `${dive.loggedBy || ''}`,
-          loggingDate: dive.loggingDate
-            ? format(new Date(dive.loggingDate), 'dd MMM yyyy')
-            : 'none',
-          createdAt: formattedCreatedAt,
-          age: `${dive.ageOfDiver === 'NA' ? '-' : dive.ageOfDiver || ''}`,
->>>>>>> parent of ccaa923 (worked on pending dives)
           time: dive.time || 'No time',
           gender: dive.sexOfDiver === 'NA' ? 'No Gender' : dive.sexOfDiver || 'No gender',
           linkURL: dive.linkURL || 'No Link',
@@ -147,26 +94,11 @@ export default function PendingDivesCardsView() {
           maxDepth: dive.maxDepth || 'no depth',
           temp: dive.temp || '-',
           rankOfDive: dive.rankOfDive || '-',
-<<<<<<< HEAD
-          userDescription: (
-            <span>
-              <span style={{ color: 'black', textDecoration: 'underline' }}>User Description</span>:{' '}
-              {dive.userDescription || '-'}
-            </span>
-          ),
-=======
           userDescription: dive.userDescription || '-',
->>>>>>> parent of ccaa923 (worked on pending dives)
           objectGroup: dive.objectGroup || '-',
           objectCode: dive.objectCode || '-',
           reportType: dive.reportType || '-',
           typeOfDive: dive.typeOfDive || '-',
-<<<<<<< HEAD
->>>>>>> parent of 69b2553 (Merge branch 'main' of https://github.com/kerenelbaz/react-frontend-ecoral)
-=======
->>>>>>> parent of ccaa923 (worked on pending dives)
-=======
->>>>>>> parent of d7e44c6 (revert)
           author: {
             name: faker.person.fullName(),
             avatarUrl: `/assets/images/avatars/avatar_${(index % 25) + 1}.jpg`,

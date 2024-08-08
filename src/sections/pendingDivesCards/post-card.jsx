@@ -22,34 +22,20 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-// import SatelliteIcon from '@mui/icons-material/Satellite';
+import SatelliteIcon from '@mui/icons-material/Satellite';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-// import ManRoundedIcon from '@mui/icons-material/ManRounded';
-// import WomanRoundedIcon from '@mui/icons-material/WomanRounded';
+import ManRoundedIcon from '@mui/icons-material/ManRounded';
+import WomanRoundedIcon from '@mui/icons-material/WomanRounded';
 import DialogContentText from '@mui/material/DialogContentText';
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import QuestionMarkRoundedIcon from '@mui/icons-material/QuestionMarkRounded';
-<<<<<<< HEAD
 import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined';
-=======
-// import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined';
->>>>>>> parent of d7e44c6 (revert)
 
 import Iconify from 'src/components/iconify';
 import SvgColor from 'src/components/svg-color';
 
-<<<<<<< HEAD
 // import EditPostData from './view/editPostData';
 import EditData from './view/handle-edit-data';
-<<<<<<< HEAD
-=======
-import EditPostData from '../allDivesCards/view/editPostData';
->>>>>>> parent of 69b2553 (Merge branch 'main' of https://github.com/kerenelbaz/react-frontend-ecoral)
-=======
-import EditPostData from './view/editPostData';
->>>>>>> parent of 8aaf634 (Update post-card.jsx)
-=======
->>>>>>> parent of d7e44c6 (revert)
 
 export default function PostCard({ post, onDelete }) {
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
@@ -63,10 +49,10 @@ export default function PostCard({ post, onDelete }) {
     setEditDialogOpen(true);
   };
 
-  const handleEditClose = () => {
-    setEditDialogOpen(false);
-    setEditData(null);
-  };
+  // const handleEditClose = () => {
+  //   setEditDialogOpen(false);
+  //   setEditData(null);
+  // };
 
   const handleDeleteOpen = () => {
     setDeleteDialogOpen(true);
@@ -195,25 +181,6 @@ export default function PostCard({ post, onDelete }) {
     </Stack>
   );
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-<<<<<<< HEAD
-=======
->>>>>>> parent of d7e44c6 (revert)
-  // const getGenderIcon = (gen) => {
-  //   if (gen === 'Male') {
-  //     return <ManRoundedIcon sx={{ fontSize: 22 }} />;
-  //   }
-  //   if (gen === 'Female') {
-  //     return <WomanRoundedIcon sx={{ fontSize: 20 }} />;
-  //   }
-  //   return <QuestionMarkRoundedIcon sx={{ fontSize: 20 }} />;
-  // };
-<<<<<<< HEAD
-=======
-=======
->>>>>>> parent of ccaa923 (worked on pending dives)
   const getGenderIcon = (gen) => {
     if (gen === 'Male') {
       return <ManRoundedIcon sx={{ fontSize: 22 }} />;
@@ -222,15 +189,7 @@ export default function PostCard({ post, onDelete }) {
       return <WomanRoundedIcon sx={{ fontSize: 20 }} />;
     }
     return <QuestionMarkRoundedIcon sx={{ fontSize: 20 }} />;
-<<<<<<< HEAD
-
   };
->>>>>>> parent of 69b2553 (Merge branch 'main' of https://github.com/kerenelbaz/react-frontend-ecoral)
-=======
-  };
->>>>>>> parent of ccaa923 (worked on pending dives)
-=======
->>>>>>> parent of d7e44c6 (revert)
 
   const renderUserInfo = (
     <Typography
@@ -315,70 +274,6 @@ export default function PostCard({ post, onDelete }) {
     </>
   );
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> parent of d7e44c6 (revert)
-  // const renderBody = (
-  //   <Stack>
-  //     <Link
-  //       variant="subtitle2"
-  //       underline="disable"
-  //       sx={{
-  //         overflow: 'hidden',
-  //         fontSize: '0.83rem',
-  //         display: '-webkit-box',
-  //         WebkitBoxOrient: 'vertical',
-  //       }}
-  //     >
-  //       <Typography fontWeight="bold" fontSize="0.83rem" color="black">
-  //         Human wild life interaction:{' '}
-  //         <Link
-  //           variant="subtitle2"
-  //           underline="disable"
-  //           sx={{
-  //             overflow: 'hidden',
-  //             fontSize: '0.83rem',
-  //             display: 'inline',
-  //             WebkitBoxOrient: 'vertical',
-  //           }}
-  //         >
-  //           {humanWild}
-  //         </Link>
-  //       </Typography>
-  //     </Link>
-  //     <Typography fontWeight="bold" fontSize="0.83rem" color="black">
-  //       Artificial Reef:{' '}
-  //       <Link
-  //         variant="subtitle2"
-  //         underline="disable"
-  //         sx={{
-  //           overflow: 'hidden',
-  //           fontSize: '0.83rem',
-  //           display: 'inline',
-  //           WebkitBoxOrient: 'vertical',
-  //         }}
-  //       >
-  //         {ar}
-  //       </Link>
-  //     </Typography>
-  //     <Typography fontWeight="bold" fontSize="0.83rem" color="black">
-  //       Max Depth:{' '}
-  //       <Link
-  //         variant="subtitle2"
-  //         underline="disable"
-  //         sx={{
-  //           overflow: 'hidden',
-  //           fontSize: '0.83rem',
-  //           display: 'inline',
-  //           WebkitBoxOrient: 'vertical',
-  //         }}
-  //       >
-  //         {maxDepth}
-  //       </Link>
-  //     </Typography>
-=======
   const renderBody = (
     <Stack>
       <Link
@@ -437,7 +332,6 @@ export default function PostCard({ post, onDelete }) {
           {maxDepth}
         </Link>
       </Typography>
->>>>>>> parent of ccaa923 (worked on pending dives)
 
       <Typography fontWeight="bold" fontSize="0.83rem" color="black">
         Distance:{' '}
@@ -455,121 +349,9 @@ export default function PostCard({ post, onDelete }) {
         </Link>
       </Typography>
 
-<<<<<<< HEAD
-  //     <Stack direction="row" justifyContent="space-between" alignItems="center">
-  //       <Typography fontWeight="bold" fontSize="0.83rem" color="black">
-  //         Temp:{' '}
-  //         <Link
-  //           variant="subtitle2"
-  //           underline="disable"
-  //           sx={{
-  //             overflow: 'hidden',
-  //             fontSize: '0.83rem',
-  //             display: 'inline',
-  //             WebkitBoxOrient: 'vertical',
-  //           }}
-  //         >
-  //           {temp}
-  //         </Link>
-  //       </Typography>
-  //       <Typography fontWeight="bold" fontSize="0.83rem" color="black">
-  //         Rank:{' '}
-  //         <Link
-  //           variant="subtitle2"
-  //           underline="disable"
-  //           sx={{
-  //             overflow: 'hidden',
-  //             fontSize: '0.83rem',
-  //             display: 'inline',
-  //             WebkitBoxOrient: 'vertical',
-  //           }}
-  //         >
-  //           {rankOfDive}
-  //         </Link>
-  //       </Typography>
-  //     </Stack>
-  //   </Stack>
-  // );
-<<<<<<< HEAD
-=======
-  const renderBody = (
-    <Stack>
-      <Link
-        variant="subtitle2"
-        underline="disable"
-        sx={{
-          overflow: 'hidden',
-          fontSize: '0.83rem',
-          display: '-webkit-box',
-          WebkitBoxOrient: 'vertical',
-        }}
-      >
-        <Typography fontWeight='bold' fontSize='0.83rem' color="black">Human wild life interaction:{' '}
-          <Link
-            variant="subtitle2"
-            underline="disable"
-            sx={{
-              overflow: 'hidden',
-              fontSize: '0.83rem',
-              display: 'inline',
-              WebkitBoxOrient: 'vertical',
-            }}
-          >
-            {humanWild}
-          </Link>
-        </Typography>
-      </Link>
-      <Typography fontWeight='bold' fontSize='0.83rem' color="black">Artificial Reef:{' '}
-        <Link
-          variant="subtitle2"
-          underline="disable"
-          sx={{
-            overflow: 'hidden',
-            fontSize: '0.83rem',
-            display: 'inline',
-            WebkitBoxOrient: 'vertical',
-          }}
-        >
-          {ar}
-        </Link>
-      </Typography>
-      <Typography fontWeight='bold' fontSize='0.83rem' color="black">Max Depth:{' '}
-        <Link
-          variant="subtitle2"
-          underline="disable"
-          sx={{
-            overflow: 'hidden',
-            fontSize: '0.83rem',
-            display: 'inline',
-            WebkitBoxOrient: 'vertical',
-          }}
-        >
-          {maxDepth}
-        </Link>
-      </Typography>
-
-      <Typography fontWeight='bold' fontSize='0.83rem' color="black">Distance:{' '}
-        <Link
-          variant="subtitle2"
-          underline="disable"
-          sx={{
-            overflow: 'hidden',
-            fontSize: '0.83rem',
-            display: 'inline',
-            WebkitBoxOrient: 'vertical',
-          }}
-        >
-          {distance}
-        </Link>
-      </Typography>
-
-      <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <Typography fontWeight='bold' fontSize='0.83rem' color="black">Temp:{' '}
-=======
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Typography fontWeight="bold" fontSize="0.83rem" color="black">
           Temp:{' '}
->>>>>>> parent of ccaa923 (worked on pending dives)
           <Link
             variant="subtitle2"
             underline="disable"
@@ -583,12 +365,8 @@ export default function PostCard({ post, onDelete }) {
             {temp}
           </Link>
         </Typography>
-<<<<<<< HEAD
-        <Typography fontWeight='bold' fontSize='0.83rem' color="black">Rank:{' '}
-=======
         <Typography fontWeight="bold" fontSize="0.83rem" color="black">
           Rank:{' '}
->>>>>>> parent of ccaa923 (worked on pending dives)
           <Link
             variant="subtitle2"
             underline="disable"
@@ -605,12 +383,6 @@ export default function PostCard({ post, onDelete }) {
       </Stack>
     </Stack>
   );
-<<<<<<< HEAD
->>>>>>> parent of 69b2553 (Merge branch 'main' of https://github.com/kerenelbaz/react-frontend-ecoral)
-=======
->>>>>>> parent of ccaa923 (worked on pending dives)
-=======
->>>>>>> parent of d7e44c6 (revert)
 
   const renderDataCodes = (
     <Stack>
@@ -679,45 +451,13 @@ export default function PostCard({ post, onDelete }) {
     </Stack>
   );
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> parent of d7e44c6 (revert)
-  // const renderInfo = (
-  //   <Stack
-  //     direction="row"
-  //     flexWrap="wrap"
-  //     justifyContent="flex-start"
-  //     sx={{
-  //       mt: 1,
-  //     }}
-  //   >
-  //     <Stack direction="row" alignItems="center">
-  //       <Iconify icon="eva:person-fill" width={16} sx={{ mr: 0.5, color: 'green' }} />
-  //       <Typography variant="caption">{loggedBy}</Typography>
-  //     </Stack>
-  //     <Stack direction="row" alignItems="center">
-  //       <Iconify icon="eva:calendar-outline" width={16} sx={{ mr: 0.5, color: 'green' }} />
-  //       <Typography variant="caption">{loggingDate || 'Invalid Date'}</Typography>
-  //     </Stack>
-  //   </Stack>
-  // );
-<<<<<<< HEAD
-=======
-=======
->>>>>>> parent of ccaa923 (worked on pending dives)
   const renderInfo = (
     <Stack
       direction="row"
       flexWrap="wrap"
       justifyContent="flex-start"
       sx={{
-<<<<<<< HEAD
-        mt: 1
-=======
         mt: 1,
->>>>>>> parent of ccaa923 (worked on pending dives)
       }}
     >
       <Stack direction="row" alignItems="center">
@@ -726,22 +466,10 @@ export default function PostCard({ post, onDelete }) {
       </Stack>
       <Stack direction="row" alignItems="center">
         <Iconify icon="eva:calendar-outline" width={16} sx={{ mr: 0.5, color: 'green' }} />
-<<<<<<< HEAD
-        <Typography variant="caption">
-          {loggingDate || 'Invalid Date'}
-        </Typography>
-      </Stack>
-    </Stack>
-  );
->>>>>>> parent of 69b2553 (Merge branch 'main' of https://github.com/kerenelbaz/react-frontend-ecoral)
-=======
         <Typography variant="caption">{loggingDate || 'Invalid Date'}</Typography>
       </Stack>
     </Stack>
   );
->>>>>>> parent of ccaa923 (worked on pending dives)
-=======
->>>>>>> parent of d7e44c6 (revert)
 
   const renderCover = (
     <Box

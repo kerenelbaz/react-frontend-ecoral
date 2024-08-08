@@ -55,7 +55,7 @@ export default function AllDivesCardsView() {
           if (createdAt.includes('-')) {
             formattedCreatedAt = format(parseISO(createdAt), 'dd/MM/yyyy');
           } else {
-            formattedCreatedAt = format(parse(createdAt, 'dd/MM/yyyy', new Date()), 'dd/MM/yyyy');
+            // formattedCreatedAt = format(parse(createdAt, 'dd/MM/yyyy', new Date()), 'dd/MM/yyyy');
           }
         } catch (error) {
           console.error('Error formatting date:', createdAt, error);
@@ -156,15 +156,6 @@ export default function AllDivesCardsView() {
       console.error('Error sending delete request to server:', error);
     }
   };
-<<<<<<< HEAD
-=======
-  
-  
-  
-  
-  
-  
->>>>>>> parent of ccaa923 (worked on pending dives)
 
   const handleDeleteClick = async (postId, fileLink) => {
     console.log('Pending data received for deletion:', postId);
