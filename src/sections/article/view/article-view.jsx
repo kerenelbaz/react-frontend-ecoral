@@ -220,33 +220,27 @@ export default function ArticleView() {
                 ]}
               />
               <TableBody>
-                {dataFiltered
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row, index) => (
-                    <UserTableRow
-                      key={index}
-                      // name={row.name}
-                      // doi={row.doi}
-                      // author={row.author}
-                      // date={row.dateArticle}
-                      // tags={row.tags}
-                      // file={row.file}
-                      // link={row.link}
-                      data={row}
-                      selected={selected.indexOf(row.name) !== -1}
-                      handleClick={(event) => handleClick(event, row.name)}
-                      handleDelete={(event) => handleDeleteClick(row)}
-                      isAdmin={isAdmin}
-                    />
-                  ))}
+  {dataFiltered
+    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+    .map((row, index) => (
+      <UserTableRow
+        key={index}
+        data={row}
+        selected={selected.indexOf(row.name) !== -1}
+        handleClick={isAdmin ? (event) => handleClick(event, row.name) : null}
+        handleDelete={isAdmin ? (event) => handleDeleteClick(row) : null}
+        isAdmin={isAdmin}
+      />
+    ))}
+  
+  <TableEmptyRows
+    height={77}
+    emptyRows={emptyRows(page, rowsPerPage, users.length)}
+  />
 
-                <TableEmptyRows
-                  height={77}
-                  emptyRows={emptyRows(page, rowsPerPage, users.length)}
-                />
+  {notFound && <TableNoData query={filterName} />}
+</TableBody>
 
-                {notFound && <TableNoData query={filterName} />}
-              </TableBody>
             </Table>
           </TableContainer>
         </Scrollbar>

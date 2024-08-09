@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import PropTypes from 'prop-types';
 import { useState, useEffect } from "react";
+import dayjs from 'dayjs';
 
 import Grid from '@mui/material/Grid';
 import Slide from '@mui/material/Slide';
@@ -53,7 +54,7 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
   const [formData, setFormData] = useState({
     ...postData,
     // humanWildInter: '',
-    // researcherDesc: '',
+    // researcherComment: '',
     // loggedBy: '',
     // objectCode:''
   });
@@ -118,7 +119,7 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
   const handleTextareaChange = (value) => {
     setFormData(prevData => ({
       ...prevData,
-      researcherDesc: value
+      researcherComment: value
     }));
   };
 
@@ -232,16 +233,16 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
                       <TextField
                         InputProps={{ readOnly: true }}
                         id="standard-read-only-input"
-                        label="Date Dive Logged"
-                        value={formatDateTime(postData.loggingDate)}
+                        label="Date Inserted in:"
+                        value={formatDateTime(dayjs(postData.loggingDate).format('DD/MM/YYYY'))}
                         variant="standard"
                         className="dateStyle"
                       />
                       <TextField
                         InputProps={{ readOnly: true }}
                         id="standard-read-only-input"
-                        label="Dive Date"
-                        value={formatDateTime(postData.date)}
+                        label="Date Of Dive:"
+                        value={formatDateTime(dayjs(postData.date).format('DD/MM/YYYY'))}
                         variant="standard"
                         className="dateStyle"
                       />
@@ -284,7 +285,7 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
                         variant="standard"
                         className="dateStyle"
                         onChange={handleInputChange}
-                        value={formData.rankOfPost}
+                        value={formData.rankOfDive}
                       />
                     </div>
                   </div>
@@ -294,7 +295,7 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
                     <Grid item xs={4}>
                       <Autocomplete
                         options={dataLists.diveSite}
-                        // defaultValue={postData.diveSite}
+                        defaultValue={postData.diveSite}
                         getOptionLabel={(option) => option}
                         onChange={(e, value) =>
                           handleAutocompleteChange("diveSite", value || "")
@@ -304,7 +305,7 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
                             {...params}
                             label="Dive Site"
                             name="diveSite"
-                            autoComplete="diveSite"
+                            // autoComplete="diveSite"
                             className="fieldInput"
                             value={formData.diveSite}
                           />
@@ -474,9 +475,9 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
                   </Grid>
 
                   <div>
-                    <label className="lblDesc" htmlFor="researcherDesc">Researcher Comments:</label>
+                    <label className="lblDesc" htmlFor="researcherComment">Researcher Comments:</label>
                     <textarea
-                      id="researcherDesc" name="researcherDesc" rows={3} className="admin-textarea" onChange={(e) => handleTextareaChange(e.target.value)} value={formData.researcherDesc} />
+                      id="researcherComment" name="researcherComment" rows={3} className="admin-textarea" onChange={(e) => handleTextareaChange(e.target.value)} value={formData.researcherComment} />
                   </div>
                 </div>
               </form>

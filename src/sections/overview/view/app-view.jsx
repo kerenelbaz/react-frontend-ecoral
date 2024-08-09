@@ -333,7 +333,6 @@ const countGender = () => {
       <Typography variant="h4" sx={{ mb: 5 }}>
         Hi, Welcome 👋
       </Typography>
-//popopo
       <Grid container spacing={3}>
         <Grid xs={12} md={6} lg={4}>
           <AppCurrentVisits
