@@ -342,7 +342,7 @@ const countGender = () => {
               // display: 'flex',
               // flexDirection: 'column',
               // justifyContent: 'stretch',
-              height: '470px',
+              height: '500px',
             }}
             chart={{
               series: [
@@ -362,7 +362,7 @@ const countGender = () => {
               // display: 'flex',
               // flexDirection: 'column',
               // justifyContent: 'stretch',
-              height: '470px',
+              height: '500px',
             }}
             chart={{
               series: [
@@ -388,7 +388,7 @@ const countGender = () => {
               // display: 'flex',
               // flexDirection: 'column',
               // justifyContent: 'stretch',
-              height: '470px',
+              height: '500px',
             }}
             chart={{
               series: [
