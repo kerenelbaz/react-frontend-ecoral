@@ -57,14 +57,14 @@ export default function InsertDataView() {
     },
   });
 
-  const [diveCode, setDiveCode] = useState(null);
+  // const [diveCode, setDiveCode] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [selectedReef, setSelectedReef] = useState(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
-
+  const [capturedImage, setCapturedImage] = useState(null);  // Store the captured image
   const fileInputRef = useRef(null);
   const [currentView, setCurrentView] = useState(imagePreview ? 'image' : 'placeholder');
 
@@ -72,37 +72,37 @@ export default function InsertDataView() {
     setCurrentView(currentView === 'image' ? 'camera' : 'image');
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`${config.serverUrl}/api/dives`);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch(`${config.serverUrl}/api/dives`);
+  //       if (!response.ok) {
+  //         throw new Error('Network response was not ok');
+  //       }
 
-        const responseData = await response.json();
-        const { dives } = responseData.data;
+  //       const responseData = await response.json();
+  //       const { dives } = responseData.data;
 
-        const numericDiveCodes = dives
-          .map((dive) => dive.diveCode)
-          .filter((code) => !Number.isNaN(parseInt(code, 10)));
+  //       const numericDiveCodes = dives
+  //         .map((dive) => dive.diveCode)
+  //         .filter((code) => !Number.isNaN(parseInt(code, 10)));
 
-        let newDiveCode;
-        if (numericDiveCodes.length === 0) {
-          newDiveCode = 0;
-        } else {
-          const lastDiveCode = Math.max(...numericDiveCodes);
-          newDiveCode = lastDiveCode + 1;
-        }
+  //       let newDiveCode;
+  //       if (numericDiveCodes.length === 0) {
+  //         newDiveCode = 0;
+  //       } else {
+  //         const lastDiveCode = Math.max(...numericDiveCodes);
+  //         newDiveCode = lastDiveCode + 1;
+  //       }
 
-        setDiveCode(newDiveCode); // Set the state with the new dive code
-      } catch (error) {
-        console.error('Error fetching documents:', error.message);
-      }
-    };
+  //       // setDiveCode(newDiveCode); // Set the state with the new dive code
+  //     } catch (error) {
+  //       console.error('Error fetching documents:', error.message);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
   // Update button states when selectedTime or selectedReef changes
   useEffect(() => {
@@ -142,13 +142,13 @@ export default function InsertDataView() {
     }
   };
 
-  const sendImage = (image) => {
-    setImagePreview(image);
-    setInsertData((prevData) => ({
-      ...prevData,
-      file: image,
-    }));
-  };
+  // const sendImage = (image) => {
+  //   setImagePreview(image);
+  //   setInsertData((prevData) => ({
+  //     ...prevData,
+  //     file: image,
+  //   }));
+  // };
 
   const handleRankChange = (event, newValue) => {
     setInsertData((prevData) => ({
@@ -256,28 +256,77 @@ export default function InsertDataView() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (selectedFile) {
-      const imageUrl = await uploadToCloudinary(selectedFile);
-      console.log("imageUrl inside the cloudinary", imageUrl);
-      if (imageUrl) {
-        setInsertData((prevData) => {
-          const updatedData = {
-            ...prevData,
-            file: imageUrl,
-          };
-          console.log("file is", updatedData.file);
+    // Check if the date is selected
+    if (!insertData.dateDive) {
+      setInsertData((prevFormData) => ({
+        ...prevFormData,
+        errors: {
+          ...prevFormData.errors,
+          dateDive: true, // Trigger the error for the date field
+        },
+      }));
+      alert('Please select a date before submitting.');
+      return; // Exit the function to prevent submission
+    }
 
-          // Proceed with the submission using the updated data
-          submitData(updatedData);
+    // Check if an image has been uploaded
+    if (!capturedImage && !selectedFile) {
+      setInsertData((prevFormData) => ({
+        ...prevFormData,
+        errors: {
+          ...prevFormData.errors,
+          file: true, // Trigger the error for the file field
+        },
+      }));
+      alert('Please upload an image before submitting.');
+      return; // Exit the function to prevent submission
+    }
 
-          return updatedData;
-        });
+    // Proceed with the image upload and form submission
+    let imageUrl = null;
+
+    if (capturedImage) {
+      try {
+        console.log("Uploading captured image...");
+        imageUrl = await uploadToCloudinary(capturedImage);
+        console.log("Captured image uploaded to Cloudinary:", imageUrl);
+      } catch (error) {
+        console.error("Error uploading captured image to Cloudinary:", error);
+        return; // Exit the function if upload fails
       }
+    } else if (selectedFile) {
+      try {
+        console.log("Uploading selected file...");
+        imageUrl = await uploadToCloudinary(selectedFile);
+        console.log("Selected file uploaded to Cloudinary:", imageUrl);
+      } catch (error) {
+        console.error("Error uploading selected file to Cloudinary:", error);
+        return; // Exit the function if upload fails
+      }
+    }
+
+    // Continue with form submission using the uploaded image URL
+    if (imageUrl) {
+      setInsertData((prevData) => {
+        const updatedData = {
+          ...prevData,
+          file: imageUrl,
+        };
+        console.log("File after upload is", updatedData.file);
+
+        // Proceed with the submission using the updated data
+        submitData(updatedData);
+
+        return updatedData;
+      });
     } else {
       // Proceed with the submission using the current state
       submitData(insertData);
     }
   };
+
+
+
 
   const submitData = async (data) => {
     console.log("image url: ", selectedFile);
@@ -292,7 +341,7 @@ export default function InsertDataView() {
     if (currentDate.getMonth() > birthDate.getMonth()) age += 1;
 
     const { gender } = user;
-    const {name} = user;
+    const { name } = user;
     console.log("name: ", name);
 
     const entireDivingData = {
@@ -319,17 +368,17 @@ export default function InsertDataView() {
       documentation: 'P',
       idCode_photographerName: name,
     };
-
-    if (!data.dateDive) {
-      setInsertData((prevFormData) => ({
-        ...prevFormData,
-        errors: {
-          ...prevFormData.errors,
-          dateDive: true,
-        },
-      }));
-      return;
-    }
+    // console.log("entierlk", entireDivingData)
+    // if (!data.dateDive) {
+    //   setInsertData((prevFormData) => ({
+    //     ...prevFormData,
+    //     errors: {
+    //       ...prevFormData.errors,
+    //       dateDive: true,
+    //     },
+    //   }));
+    //   return;
+    // }
 
     const hasErrors = Object.values(data.errors).some((error) => error);
 
@@ -526,7 +575,7 @@ export default function InsertDataView() {
               <DemoContainer components={['DatePicker']} valueType="date">
                 <div>
                   <DatePicker
-                    label="Date Of Dive"
+                    label="Date Of Dive *"
                     id="dateDive"
                     name="dateDive"
                     onChange={handleDateChange}
@@ -632,7 +681,7 @@ export default function InsertDataView() {
         </div>
         <div>
           <label htmlFor="uploadeImage" className="lblButtonsGroup">
-            Upload an image
+            Upload an image *
           </label>
           <Button onClick={handleViewChange}>
             {currentView === 'image'
@@ -642,35 +691,39 @@ export default function InsertDataView() {
                 : 'Add Image'}
           </Button>
 
-          {currentView === 'camera' && <CameraCapture sendImage={sendImage} />}
+          {currentView === 'camera' && (
+            <CameraCapture sendImage={(imageBlob) => {
+              const imageUrl = URL.createObjectURL(imageBlob);
+              setImagePreview(imageUrl);
+              setCapturedImage(imageBlob); // Store the Blob for later upload
+            }} />
+          )}
+
           {currentView === 'image' && (
             <Stack sx={{ alignContent: 'center' }}>
-              {currentView === 'image' && (
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  onChange={onSelectFile}
-                  id="uploadeImage"
-                  name="uploadeImage"
-                  required
-                />
-              )}
-              {currentView === 'image' && (
-                <div className="image-placeholder">
-                  {imagePreview ? (
-                    <img src={imagePreview} alt="Preview" />
-                  ) : (
-                    <div className="placeholder-icon">
-                      <IconButton size="large" onClick={() => fileInputRef.current.click()}>
-                        <AddAPhotoIcon fontSize="inherit" />
-                      </IconButton>
-                    </div>
-                  )}
-                </div>
-              )}
+              <input
+                ref={fileInputRef}
+                type="file"
+                onChange={onSelectFile}
+                id="uploadeImage"
+                name="uploadeImage"
+                style={{ display: 'none' }}
+              />
+              <div className="image-placeholder">
+                {imagePreview ? (
+                  <img src={imagePreview} alt="Preview" />
+                ) : (
+                  <div className="placeholder-icon">
+                    <IconButton size="large" onClick={() => fileInputRef.current.click()}>
+                      <AddAPhotoIcon fontSize="inherit" />
+                    </IconButton>
+                  </div>
+                )}
+              </div>
             </Stack>
           )}
         </div>
+
         <br />
         <div>
           <label className="lblButtonsGroup" htmlFor="userDescription">

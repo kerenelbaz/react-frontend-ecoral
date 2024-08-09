@@ -1,25 +1,24 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import Webcam from 'react-webcam';
 import PropTypes from 'prop-types';
 import React, { useRef, useState } from 'react';
 
 import { Button } from '@mui/base';
 
-
-export default function CameraCapture({sendImage}) {
+export default function CameraCapture({ sendImage }) {
   const webcamRef = useRef(null);
   const [capturedImage, setCapturedImage] = useState(null);
 
   const capturePhoto = async () => {
-    const imageSrc = await webcamRef.current.getScreenshot();
-    setCapturedImage(imageSrc);
-    sendImage(imageSrc);
+    const imageSrc = webcamRef.current.getScreenshot();
+    const blob = await fetch(imageSrc).then((res) => res.blob());
+    setCapturedImage(blob);
+    sendImage(blob); // Sending the Blob directly to the parent component
   };
 
   return (
     <div>
       {capturedImage ? (
-        <img src={capturedImage} alt="Capture" />
+        <img src={URL.createObjectURL(capturedImage)} alt="Capture" />
       ) : (
         <Webcam audio={false} ref={webcamRef} />
       )}
@@ -29,5 +28,5 @@ export default function CameraCapture({sendImage}) {
 }
 
 CameraCapture.propTypes = {
-  sendImage: PropTypes.func,
+  sendImage: PropTypes.func.isRequired,
 };
