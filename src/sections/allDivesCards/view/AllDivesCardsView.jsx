@@ -188,13 +188,25 @@ export default function AllDivesCardsView() {
   };
 
   const handleUpdatePost = (updatedPost) => {
-    setPosts((prevPosts) =>
-      prevPosts.map((post) => (post.id === updatedPost.id ? updatedPost : post))
-    );
-    setFilteredPosts((prevFilteredPosts) =>
-      prevFilteredPosts.map((post) => (post.id === updatedPost.id ? updatedPost : post))
-    );
+    console.log("Updating post with id:", updatedPost.id);
+    
+    setPosts((prevPosts) => {
+      const newPosts = prevPosts.map((post) =>
+        post.id === updatedPost.id ? { ...post, ...updatedPost } : post
+      );
+      console.log("Updated posts:", newPosts);
+      return newPosts;
+    });
+    
+    setFilteredPosts((prevFilteredPosts) => {
+      const newFilteredPosts = prevFilteredPosts.map((post) =>
+        post.id === updatedPost.id ? { ...post, ...updatedPost } : post
+      );
+      console.log("Updated filtered posts:", newFilteredPosts);
+      return newFilteredPosts;
+    });
   };
+  
 
   if (loading) {
     return <div>Loading...</div>;
@@ -290,7 +302,12 @@ export default function AllDivesCardsView() {
 
       <Grid container spacing={3}>
         {currentPosts.map((post, index) => (
-          <PostCard key={post.id} post={post} index={index} onDelete={() => handleDeleteClick(post.id, post.fileLink)} onEdit={handleEditClick} />
+          <PostCard 
+          key={post.id} 
+          post={post} 
+          index={index} 
+          onDelete={() => handleDeleteClick(post.id, post.fileLink)} 
+          onEdit={handleEditClick} />
 
         ))}
       </Grid>
@@ -318,7 +335,12 @@ export default function AllDivesCardsView() {
           open={editDialogOpen}
           handleClose={() => setEditDialogOpen(false)}
           postData={editPostData}
-          onUpdate={handleUpdatePost}
+          // onUpdate={handleUpdatePost}
+          onUpdate={(updatedData) => {
+            console.log("onUpdate called with data:", updatedData);
+            handleUpdatePost(updatedData);  // This should call handleUpdatePost
+            setEditDialogOpen(false);  // Close the dialog after updating
+          }}
         />
       )}
     </Container>

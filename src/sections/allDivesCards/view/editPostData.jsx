@@ -157,17 +157,17 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
       console.log("changes: " ,changes);
       return changes;
     };
-
+  
     // Get the changed fields
     const changes = getChangedFields(formData, postData);
-
+  
     // Check if there are changes to save
     if (Object.keys(changes).length === 0) {
       console.log('No changes to save');
       return;
     }
-
-    console.log("changes: ", JSON.stringify(changes));
+  
+    console.log("Before fetch: ", formData);
     try {
       const response = await fetch(`${config.serverUrl}/api/dives/${formData.id}`, {
         method: 'PATCH', // Use PATCH instead of PUT
@@ -176,11 +176,13 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
         },
         body: JSON.stringify(changes) // Send only the changed fields
       });
-
+  
       if (response.ok) {
-        handleClickSnack();
-        onUpdate(formData);
-        handleClose();
+        console.log("Updated data in EditPostData:", formData);
+  
+        onUpdate(formData);  // Update the parent component's state
+        handleClickSnack();  // Show the success message
+        handleClose();  // Close the dialog only after everything is done
       } else {
         console.error('Failed to save data:', response.statusText);
       }
@@ -188,6 +190,8 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
       console.error('Error saving data:', error.message);
     }
   };
+  
+  
 
   return (
     <BootstrapDialog
@@ -229,7 +233,7 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
                         InputProps={{ readOnly: true }}
                         id="standard-read-only-input"
                         label="Date Dive Logged"
-                        defaultValue={formatDateTime(postData.loggingDate)}
+                        value={formatDateTime(postData.loggingDate)}
                         variant="standard"
                         className="dateStyle"
                       />
@@ -237,7 +241,7 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
                         InputProps={{ readOnly: true }}
                         id="standard-read-only-input"
                         label="Dive Date"
-                        defaultValue={formatDateTime(postData.date)}
+                        value={formatDateTime(postData.date)}
                         variant="standard"
                         className="dateStyle"
                       />
@@ -248,7 +252,7 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
                     <div>
                       <TextField
                         label="Logged By"
-                        defaultValue={postData.loggedBy}
+                        // defaultValue={postData.loggedBy}
                         name = "loggedBy"
                         variant="standard"
                         className="dateStyle"
@@ -257,7 +261,7 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
                       />
                       <TextField
                         label="Artificial Reef"
-                        defaultValue={postData.ar}
+                        // defaultValue={postData.AR}
                         name="AR"
                         variant="standard"
                         className="dateStyle"
@@ -266,7 +270,7 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
                       />
                       <TextField
                         label="Dive Time"
-                        defaultValue={postData.time}
+                        // defaultValue={postData.time}
                         name="time"
                         variant="standard"
                         className="dateStyle"
@@ -275,7 +279,7 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
                       />
                       <TextField
                         label="Dive Rank"
-                        defaultValue={postData.rankOfDive}
+                        // defaultValue={postData.rankOfDive}
                         name="rankOfPost"
                         variant="standard"
                         className="dateStyle"
@@ -290,7 +294,7 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
                     <Grid item xs={4}>
                       <Autocomplete
                         options={dataLists.diveSite}
-                        defaultValue={postData.diveSite}
+                        // defaultValue={postData.diveSite}
                         getOptionLabel={(option) => option}
                         onChange={(e, value) =>
                           handleAutocompleteChange("diveSite", value || "")
@@ -298,7 +302,6 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
                         renderInput={(params) => (
                           <TextField
                             {...params}
-                            required
                             label="Dive Site"
                             name="diveSite"
                             autoComplete="diveSite"
@@ -319,7 +322,6 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
                         renderInput={(params) => (
                           <TextField
                             {...params}
-                            required
                             label="Object Group"
                             name="objectGroup"
                             autoComplete='objectGroup'
@@ -331,7 +333,7 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
                     <Grid item xs={4}>
                       <TextField
                         label="Object Code"
-                        defaultValue={postData.objectCode}
+                        // defaultValue={postData.objectCode}
                         name="objectCode"
                         type = "text"
                         className="fieldInput"
@@ -355,7 +357,6 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
                         renderInput={(params) => (
                           <TextField
                             {...params}
-                            required
                             label="Image Location"
                             name="imageLocation"
                             autoComplete="imageLocation"
@@ -375,7 +376,6 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
                         renderInput={(params) => (
                           <TextField
                             {...params}
-                            required
                             label="Report Type"
                             name="reportType"
                             autoComplete='reportType'
@@ -395,7 +395,6 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
                         renderInput={(params) => (
                           <TextField
                             {...params}
-                            required
                             label="Type Of Dive"
                             name="typeOfDive"
                             autoComplete='typeOfDive'
@@ -433,7 +432,7 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
                         id="maxDepth"
                         name="maxDepth"
                         className="fieldInput"
-                        defaultValue={postData.maxDepth}
+                        // defaultValue={postData.maxDepth}
                         onChange={handleInputChange}
                         value={formData.maxDepth}
                       />
@@ -448,7 +447,7 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
                           shrink: true,
                         }}
                         className="fieldInput"
-                        defaultValue={postData.distance}
+                        // defaultValue={postData.distance}
                         onChange={handleInputChange}
                         value={formData.distance}
                       />
@@ -463,7 +462,7 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
                         name="temp"
                         id="standard-number"
                         className="fieldInput"
-                        defaultValue={postData.temp}
+                        // defaultValue={postData.temp}
                         onChange={handleInputChange}
                         value={formData.temp}
                       />
@@ -512,5 +511,5 @@ EditPostData.propTypes = {
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
   postData: PropTypes.object,
-  onUpdate: PropTypes.func,
+  onUpdate: PropTypes.func.isRequired,
 };

@@ -36,7 +36,7 @@ import SvgColor from 'src/components/svg-color';
 
 import EditPostData from './view/editPostData';
 
-export default function PostCard({ post, onDelete }) {
+export default function PostCard({ post, onDelete, onEdit }) {
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [editData, setEditData] = useState(null);
@@ -73,7 +73,7 @@ export default function PostCard({ post, onDelete }) {
     setImageDialogOpen(false);
   };
 
-  const { cover, humanWildlifeInteraction, ar, maxDepth, idCodePhotographerName, reportReceivingDate, reportType, typeOfDive, userDescription, objectCode, objectGroup, diveSite, rankOfDive, specie, distance, temp, author, date, diveCode, imageLocation, age, gender, linkURL, media, loggedBy, loggingDate, time, fileLink, researcherComment } = post;
+  const { cover, humanWildlifeInteraction, AR, maxDepth, idCodePhotographerName, reportReceivingDate, reportType, typeOfDive, userDescription, objectCode, objectGroup, diveSite, rankOfDive, specie, distance, temp, author, date, diveCode, imageLocation, age, gender, linkURL, media, loggedBy, loggingDate, time, fileLink, researcherComment } = post;
 
   const renderAvatar = (
     <Avatar
@@ -93,9 +93,9 @@ export default function PostCard({ post, onDelete }) {
   const renderDiveSite = (
     <Stack>
       <Stack direction="row" alignItems="center" justifyContent="center" spacing={1}>
-        <Link
+        <Typography
           variant="subtitle2"
-          underline="hover"
+          component="span"  // Prevents nesting <h6> within another <h6>
           sx={{
             overflow: 'visible',
             fontSize: '0.9rem',
@@ -107,10 +107,10 @@ export default function PostCard({ post, onDelete }) {
         >
           <LocationOnIcon sx={{ mr: 0.5, fontSize: 13 }} />
           {diveSite}
-        </Link>
-        <Link
+        </Typography>
+        <Typography
           variant="subtitle2"
-          underline="none"
+          component="span"  // Prevents nesting <h6> within another <h6>
           sx={{
             overflow: 'visible',
             textAlign: 'center',
@@ -119,11 +119,12 @@ export default function PostCard({ post, onDelete }) {
           }}
         >
           {diveCode}
-        </Link>
+        </Typography>
       </Stack>
       <Stack direction="row" justifyContent="left" spacing={1}>
         <Typography
           variant="subtitle2"
+          component="span"  // Prevents nesting <h6> within another <h6>
           height="62px"
           sx={{
             display: 'flex',
@@ -134,6 +135,7 @@ export default function PostCard({ post, onDelete }) {
         </Typography>
         <Typography
           variant="subtitle2"
+          component="span"  // Prevents nesting <h6> within another <h6>
           height="40px"
           sx={{
             display: 'flex',
@@ -159,6 +161,7 @@ export default function PostCard({ post, onDelete }) {
     <Typography
       color="inherit"
       variant="subtitle2"
+      component="div"  // Prevents nesting <h6> within another <h6>
       sx={{
         height: 50,
         overflow: 'hidden',
@@ -172,6 +175,7 @@ export default function PostCard({ post, onDelete }) {
       <Typography
         color="inherit"
         variant="subtitle2"
+        component="span"  // Prevents nesting <h6> within another <h6>
         sx={{
           ml: 1,
           fontSize: 'inherit',
@@ -190,6 +194,7 @@ export default function PostCard({ post, onDelete }) {
   const renderUserDescription = (
     <Typography
       variant="subtitle2"
+      component="div"  // Prevents nesting <h6> within another <h6>
       sx={{
         ml: 1,
         overflow: 'visible',
@@ -240,35 +245,12 @@ export default function PostCard({ post, onDelete }) {
 
   const renderBody = (
     <Stack>
-      <Link
-        variant="subtitle2"
-        underline="disable"
-        sx={{
-          overflow: 'hidden',
-          fontSize: '0.83rem',
-          display: '-webkit-box',
-          WebkitBoxOrient: 'vertical',
-        }}
-      >
-        <Typography fontWeight='bold' fontSize='0.83rem' color="black">Human wild life interaction:{' '}
-          <Link
-            variant="subtitle2"
-            underline="disable"
-            sx={{
-              overflow: 'hidden',
-              fontSize: '0.83rem',
-              display: 'inline',
-              WebkitBoxOrient: 'vertical',
-            }}
-          >
-            {humanWildlifeInteraction}
-          </Link>
-        </Typography>
-      </Link>
-      <Typography fontWeight='bold' fontSize='0.83rem' color="black">Artificial Reef:{' '}
+      <Typography fontWeight='bold' fontSize='0.83rem' color="black">
+        Human wild life interaction:{' '}
         <Link
           variant="subtitle2"
-          underline="disable"
+          underline="none"
+          component="span"  // Prevents nesting <h6> within another <h6>
           sx={{
             overflow: 'hidden',
             fontSize: '0.83rem',
@@ -276,13 +258,30 @@ export default function PostCard({ post, onDelete }) {
             WebkitBoxOrient: 'vertical',
           }}
         >
-          {ar}
+          {humanWildlifeInteraction}
+        </Link>
+      </Typography>
+
+      <Typography fontWeight='bold' fontSize='0.83rem' color="black">Artificial Reef:{' '}
+        <Link
+          variant="subtitle2"
+          underline="none"
+          component="span"  // Prevents nesting <h6> within another <h6>
+          sx={{
+            overflow: 'hidden',
+            fontSize: '0.83rem',
+            display: 'inline',
+            WebkitBoxOrient: 'vertical',
+          }}
+        >
+          {AR}
         </Link>
       </Typography>
       <Typography fontWeight='bold' fontSize='0.83rem' color="black">Max Depth:{' '}
         <Link
           variant="subtitle2"
-          underline="disable"
+          underline="none"
+          component="span"  // Prevents nesting <h6> within another <h6>
           sx={{
             overflow: 'hidden',
             fontSize: '0.83rem',
@@ -297,7 +296,8 @@ export default function PostCard({ post, onDelete }) {
       <Typography fontWeight='bold' fontSize='0.83rem' color="black">Distance:{' '}
         <Link
           variant="subtitle2"
-          underline="disable"
+          underline="none"
+          component="span"  // Prevents nesting <h6> within another <h6>
           sx={{
             overflow: 'hidden',
             fontSize: '0.83rem',
@@ -313,7 +313,8 @@ export default function PostCard({ post, onDelete }) {
         <Typography fontWeight='bold' fontSize='0.83rem' color="black">Temp:{' '}
           <Link
             variant="subtitle2"
-            underline="disable"
+            underline="none"
+            component="span"  // Prevents nesting <h6> within another <h6>
             sx={{
               overflow: 'hidden',
               fontSize: '0.83rem',
@@ -327,7 +328,8 @@ export default function PostCard({ post, onDelete }) {
         <Typography fontWeight='bold' fontSize='0.83rem' color="black">Rank:{' '}
           <Link
             variant="subtitle2"
-            underline="disable"
+            underline="none"
+            component="span"  // Prevents nesting <h6> within another <h6>
             sx={{
               overflow: 'hidden',
               fontSize: '0.83rem',
@@ -348,7 +350,8 @@ export default function PostCard({ post, onDelete }) {
         Object group:{' '}
         <Link
           variant="subtitle2"
-          underline="disable"
+          underline="none"
+          component="span"  // Prevents nesting <h6> within another <h6>
           sx={{
             overflow: 'hidden',
             fontSize: '0.83rem',
@@ -364,7 +367,8 @@ export default function PostCard({ post, onDelete }) {
         Object code:{' '}
         <Link
           variant="subtitle2"
-          underline="disable"
+          underline="none"
+          component="span"  // Prevents nesting <h6> within another <h6>
           sx={{
             overflow: 'hidden',
             fontSize: '0.83rem',
@@ -380,7 +384,8 @@ export default function PostCard({ post, onDelete }) {
         Report type:{' '}
         <Link
           variant="subtitle2"
-          underline="disable"
+          underline="none"
+          component="span"  // Prevents nesting <h6> within another <h6>
           sx={{
             overflow: 'hidden',
             fontSize: '0.83rem',
@@ -395,7 +400,8 @@ export default function PostCard({ post, onDelete }) {
         Type of dive:{' '}
         <Link
           variant="subtitle2"
-          underline="disable"
+          underline="none"
+          component="span"  // Prevents nesting <h6> within another <h6>
           sx={{
             overflow: 'hidden',
             fontSize: '0.83rem',
@@ -439,7 +445,8 @@ export default function PostCard({ post, onDelete }) {
         Researcher comment:{' '}
         <Link
           variant="subtitle2"
-          underline="disable"
+          underline="none"
+          component="span"  // Prevents nesting <h6> within another <h6>
           sx={{
             overflow: 'hidden',
             fontSize: '0.83rem',
@@ -486,7 +493,7 @@ export default function PostCard({ post, onDelete }) {
       <Stack direction="row" justifyContent="space-between">
         <Typography
           variant="caption"
-          component="div"
+          component="div"  // Prevents nesting <h6> within another <h6>
           sx={{
             color: 'text.disabled',
             display: 'flex',
@@ -500,7 +507,6 @@ export default function PostCard({ post, onDelete }) {
           {media === 'Website' ? (
             <LanguageIcon
               sx={{ cursor: 'pointer', fontSize: 18, color: 'text.disabled' }}
-            // onClick={() => window.open(linkURL, '_blank')}
             />
           ) : (
             <FacebookOutlinedIcon
@@ -513,7 +519,7 @@ export default function PostCard({ post, onDelete }) {
       </Stack>
       <Typography
         variant="caption"
-        component="div"
+        component="div"  // Prevents nesting <h6> within another <h6>
         sx={{
           height: 20,
           color: 'text.disabled',
@@ -532,7 +538,7 @@ export default function PostCard({ post, onDelete }) {
       </Typography>
       <Typography
         variant="caption"
-        component="div"
+        component="div"  // Prevents nesting <h6> within another <h6>
         sx={{
           color: 'text.disabled',
           display: 'flex',
@@ -608,7 +614,8 @@ export default function PostCard({ post, onDelete }) {
         handleClose={handleEditClose}
         postData={editData}
         onUpdate={(updatedData) => {
-          // Handle the update here if needed
+          onEdit(updatedData);  // Ensure onEdit is called when data is updated
+          handleEditClose();  // Close the dialog after updating
         }}
       />
 
@@ -684,4 +691,5 @@ export default function PostCard({ post, onDelete }) {
 PostCard.propTypes = {
   post: PropTypes.object.isRequired,
   onDelete: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
 };
