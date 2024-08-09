@@ -1,4 +1,4 @@
-import { faker } from '@faker-js/faker';
+// import { faker } from '@faker-js/faker';
 import { format, parseISO } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect, useCallback } from 'react';
@@ -70,7 +70,7 @@ export default function AllDivesCardsView() {
           diveCode: `${dive.diveCode || 'No dive code'}`,
           loggedBy: `${dive.loggedBy || 'unknown'}`,
           loggingDate: dive.loggingDate,
-          createdAt: formattedCreatedAt,
+          date: dive.date,
           age: `Age: ${dive.ageOfDiver === 'NA' ? '-' : dive.ageOfDiver || 'Unknown'}`,
           time: dive.time || 'No time',
           gender: dive.sexOfDiver === 'NA' ? 'No Gender' : dive.sexOfDiver || 'No gender',
@@ -83,7 +83,7 @@ export default function AllDivesCardsView() {
           diveSite: dive.diveSite || 'No site data',
           specie: dive.specie || 'No Specie',
           humanWildlifeInteraction: dive.humanWildlifeInteraction || 'No info',
-          ar: dive.AR || 'No',
+          AR: dive.AR || 'No',
           distance: dive.distance || 'None',
           maxDepth: dive.maxDepth || 'no depth',
           temp: dive.temp || '-',
@@ -94,7 +94,7 @@ export default function AllDivesCardsView() {
           reportType: dive.reportType || '-',
           typeOfDive: dive.typeOfDive || '-',
           author: {
-            name: faker.person.fullName(),
+            // name: faker.person.fullName(),
             avatarUrl: `/assets/images/avatars/avatar_${(index % 25) + 1}.jpg`,
           },
         };

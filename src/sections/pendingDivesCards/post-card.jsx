@@ -78,15 +78,12 @@ export default function PostCard({ post, onDelete }) {
   };
 
   const {
-    humanWild,
     ar,
     maxDepth,
     idCodePhotographerName,
-    reportReceivingDate,
     reportType,
     typeOfDive,
     userDescription,
-    objectCode,
     objectGroup,
     diveSite,
     rankOfDive,
@@ -94,14 +91,12 @@ export default function PostCard({ post, onDelete }) {
     distance,
     temp,
     author,
-    createdAt,
-    diveCode,
+    date,
     imageLocation,
     ageOfDiver,
     sexOfDiver,
     linkURL,
     media,
-    loggedBy,
     loggingDate,
     time,
     file,
@@ -144,18 +139,7 @@ export default function PostCard({ post, onDelete }) {
           <LocationOnIcon sx={{ mr: 0.5, fontSize: 13 }} />
           {diveSite}
         </Link>
-        <Link
-          variant="subtitle2"
-          underline="none"
-          sx={{
-            overflow: 'visible',
-            textAlign: 'center',
-            display: 'inline-block',
-            whiteSpace: 'normal', // Allow text to wrap
-          }}
-        >
-          {diveCode}
-        </Link>
+        
       </Stack>
       <Stack direction="row" justifyContent="left" spacing={1}>
         <Typography
@@ -224,17 +208,21 @@ export default function PostCard({ post, onDelete }) {
   );
 
   const renderUserDescription = (
-    <Typography
-      variant="subtitle2"
-      sx={{
-        ml: 1,
-        overflow: 'visible',
-        whiteSpace: 'normal',
-        display: 'block',
-      }}
-    >
-      {userDescription}
-    </Typography>
+    <Typography fontWeight="bold" fontSize="0.83rem" color="black">
+        User description{' '}
+        <Link
+          variant="subtitle2"
+          underline="disable"
+          sx={{
+            overflow: 'hidden',
+            fontSize: '0.83rem',
+            display: 'inline',
+            WebkitBoxOrient: 'vertical',
+          }}
+        >
+          {userDescription}
+        </Link>
+      </Typography>
   );
 
   const renderDeleteEdit = (
@@ -276,32 +264,7 @@ export default function PostCard({ post, onDelete }) {
 
   const renderBody = (
     <Stack>
-      <Link
-        variant="subtitle2"
-        underline="disable"
-        sx={{
-          overflow: 'hidden',
-          fontSize: '0.83rem',
-          display: '-webkit-box',
-          WebkitBoxOrient: 'vertical',
-        }}
-      >
-        <Typography fontWeight="bold" fontSize="0.83rem" color="black">
-          Human wild life interaction:{' '}
-          <Link
-            variant="subtitle2"
-            underline="disable"
-            sx={{
-              overflow: 'hidden',
-              fontSize: '0.83rem',
-              display: 'inline',
-              WebkitBoxOrient: 'vertical',
-            }}
-          >
-            {humanWild}
-          </Link>
-        </Typography>
-      </Link>
+      
       <Typography fontWeight="bold" fontSize="0.83rem" color="black">
         Artificial Reef:{' '}
         <Link
@@ -403,22 +366,6 @@ export default function PostCard({ post, onDelete }) {
       </Typography>
 
       <Typography fontWeight="bold" fontSize="0.83rem" color="black">
-        Object code:{' '}
-        <Link
-          variant="subtitle2"
-          underline="disable"
-          sx={{
-            overflow: 'hidden',
-            fontSize: '0.83rem',
-            display: 'inline',
-            WebkitBoxOrient: 'vertical',
-          }}
-        >
-          {objectCode}
-        </Link>
-      </Typography>
-
-      <Typography fontWeight="bold" fontSize="0.83rem" color="black">
         Report type:{' '}
         <Link
           variant="subtitle2"
@@ -451,25 +398,7 @@ export default function PostCard({ post, onDelete }) {
     </Stack>
   );
 
-  const renderInfo = (
-    <Stack
-      direction="row"
-      flexWrap="wrap"
-      justifyContent="flex-start"
-      sx={{
-        mt: 1,
-      }}
-    >
-      <Stack direction="row" alignItems="center">
-        <Iconify icon="eva:person-fill" width={16} sx={{ mr: 0.5, color: 'green' }} />
-        <Typography variant="caption">{loggedBy}</Typography>
-      </Stack>
-      <Stack direction="row" alignItems="center">
-        <Iconify icon="eva:calendar-outline" width={16} sx={{ mr: 0.5, color: 'green' }} />
-        <Typography variant="caption">{loggingDate || 'Invalid Date'}</Typography>
-      </Stack>
-    </Stack>
-  );
+ 
 
   const renderCover = (
     <Box
@@ -511,7 +440,7 @@ export default function PostCard({ post, onDelete }) {
           }}
         >
           <TodayIcon sx={{ mr: 0.5, fontSize: 16 }} />
-          {createdAt}
+          {date}
         </Typography>
         <Stack direction="row" alignItems="center" sx={{ ml: 'auto' }}>
           {media === 'Website' ? (
@@ -558,9 +487,9 @@ export default function PostCard({ post, onDelete }) {
         }}
       >
         <EventAvailableOutlinedIcon sx={{ mr: 0.5, fontSize: 16 }} />
-        Report receiving date:
+        Logged Date:
         <br />
-        {reportReceivingDate}
+        {loggingDate}
       </Typography>
     </Stack>
   );
@@ -616,7 +545,6 @@ export default function PostCard({ post, onDelete }) {
           {renderDataCodes}
           {renderUserInfo}
           {renderUserDescription}
-          {renderInfo}
         </Box>
       </Card>
 

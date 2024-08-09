@@ -73,7 +73,7 @@ export default function PostCard({ post, onDelete }) {
     setImageDialogOpen(false);
   };
 
-  const { cover, humanWildlifeInteraction, ar, maxDepth, idCodePhotographerName, reportReceivingDate, reportType, typeOfDive, userDescription, objectCode, objectGroup, diveSite, rankOfDive, specie, distance, temp, author, createdAt, diveCode, imageLocation, age, gender, linkURL, media, loggedBy, loggingDate, time, fileLink } = post;
+  const { cover, humanWildlifeInteraction, ar, maxDepth, idCodePhotographerName, reportReceivingDate, reportType, typeOfDive, userDescription, objectCode, objectGroup, diveSite, rankOfDive, specie, distance, temp, author, date, diveCode, imageLocation, age, gender, linkURL, media, loggedBy, loggingDate, time, fileLink } = post;
 
   const renderAvatar = (
     <Avatar
@@ -418,19 +418,25 @@ export default function PostCard({ post, onDelete }) {
         mt: 1
       }}
     >
-      <Stack spacing={1} direction="row" alignItems="center">
-        <Stack direction="row" alignItems="center" >
-          <Iconify icon="eva:person-fill" width={16} sx={{ mr: 0.5, color: 'green' }} />
-          <Typography variant="caption">{loggedBy}</Typography>
-        </Stack>
-        <Stack direction="row" alignItems="center" >
-          <Iconify icon="eva:calendar-outline" width={16} sx={{ mr: 0.5, color: 'green' }} />
-          <Typography variant="caption">
-            {loggingDate || 'Invalid Date'}
-          </Typography>
-        </Stack>
+      <Typography fontWeight="bold" fontSize="0.83rem" color="black" spacing={1}>
+        Dive approved by:{' '}
+      </Typography>
+      <Stack direction="row" alignItems="center" spacing={1}>
+        <Iconify icon="eva:person-fill" width={16} sx={{ color: 'green' }} />
+        <Typography variant="caption">{loggedBy}</Typography>
+      </Stack>
+
+      <Typography fontWeight="bold" fontSize="0.83rem" color="black" sx={{ ml: 2 }}>
+        at:{' '}
+      </Typography>
+      <Stack direction="row" alignItems="center" spacing={1}>
+        <Iconify icon="eva:calendar-outline" width={16} sx={{ color: 'green' }} />
+        <Typography variant="caption">
+          {reportReceivingDate || 'Invalid Date'}
+        </Typography>
       </Stack>
     </Stack>
+
   );
 
   const renderCover = (
@@ -473,7 +479,7 @@ export default function PostCard({ post, onDelete }) {
           }}
         >
           <TodayIcon sx={{ mr: 0.5, fontSize: 16 }} />
-          {createdAt}
+          {date}
         </Typography>
         <Stack direction="row" alignItems="center" sx={{ ml: 'auto' }}>
           {media === 'Website' ? (
@@ -520,9 +526,9 @@ export default function PostCard({ post, onDelete }) {
         }}
       >
         <EventAvailableOutlinedIcon sx={{ mr: 0.5, fontSize: 16 }} />
-        Report receiving date:
+        Dive inserted at:
         <br />
-        {reportReceivingDate}
+        {loggingDate}
       </Typography>
     </Stack>
   );

@@ -332,7 +332,7 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
                         InputProps={{ readOnly: true }}
                         id="standard-read-only-input"
                         label="Date dive: "
-                        defaultValue={formatDateTime(pendingData.dateDive)}
+                        defaultValue={formatDateTime(pendingData.date)}
                         variant="standard"
                         className="dateStyle"
                       />

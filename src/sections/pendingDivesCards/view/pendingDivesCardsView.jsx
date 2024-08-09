@@ -1,4 +1,4 @@
-import { faker } from '@faker-js/faker';
+// import { faker } from '@faker-js/faker';
 import { useNavigate } from 'react-router-dom';
 import { parse, format, parseISO } from 'date-fns';
 import React, { useState, useEffect, useCallback } from 'react';
@@ -70,27 +70,21 @@ export default function PendingDivesCardsView() {
         return {
           id: dive._id,
           file: dive.file,
-          dateDive: dive.date,
+          // dateDive: dive.date,
           cover: `/assets/images/covers/cover_${(index % 24) + 1}.jpg`,
           imageLocation: dive.imageLocation || 'No image location',
-          diveCode: `${dive.diveCode || 'No dive code'}`,
-          // loggedBy: `${dive.loggedBy || 'unknown'}`,
           loggingDate: dive.loggingDate
             ? format(new Date(dive.loggingDate), 'dd MMM yyyy')
             : 'none',
-          createdAt: formattedCreatedAt,
+          date: dive.date,
           ageOfDiver: dive.ageOfDiver || "",
           time: dive.time || 'No time',
           sexOfDiver: dive.sexOfDiver,
           linkURL: dive.linkURL || 'No Link',
           media: dive.media || 'No media',
-          reportReceivingDate: dive.reportReceivingDate
-            ? format(new Date(dive.reportReceivingDate), 'dd MMM yyyy')
-            : 'none',
           idCodePhotographerName: dive.idCode_photographerName || '',
           diveSite: dive.diveSite || 'No site data',
           specie: dive.specie || 'No Specie',
-          humanWild: dive.humanWildlifeInteraction || 'No info',
           ar: dive.AR || '',
           distance: dive.distance || 'None',
           maxDepth: dive.maxDepth || 'no depth',
@@ -98,11 +92,10 @@ export default function PendingDivesCardsView() {
           rankOfDive: dive.rankOfDive || '-',
           userDescription: dive.userDescription || '-',
           objectGroup: dive.objectGroup || '-',
-          objectCode: dive.objectCode || '-',
           reportType: dive.reportType || '-',
           typeOfDive: dive.typeOfDive || '-',
           author: {
-            name: faker.person.fullName(),
+            // name: faker.person.fullName(),
             avatarUrl: `/assets/images/avatars/avatar_${(index % 25) + 1}.jpg`,
           },
         };
