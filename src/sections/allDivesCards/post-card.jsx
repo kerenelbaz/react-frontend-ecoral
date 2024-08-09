@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies

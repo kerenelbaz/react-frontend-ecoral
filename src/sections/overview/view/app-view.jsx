@@ -1,18 +1,22 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 
+// import { BarChart } from '@mui/x-charts/BarChart';
 import config from 'src/sections/configServer';
 
 import AppCurrentVisits from '../app-current-visits';
+import AppWebsiteVisits from '../app-website-visits';
 import AppConversionRates from '../app-conversion-rates';
-
 // ----------------------------------------------------------------------
 
 export default function AppView() {
   const [allData, setAllData] = useState(null); // State to hold the fetched data
+  const [chartDataState, setChartDataState] = useState([]);
+  const [ageGroupsState, setAgeGroupsState] = useState([]);
   const [isArReef, setIsArReef] = useState({
     yes: 0,
     no: 0,
@@ -172,30 +176,30 @@ export default function AppView() {
   };
 
 
-// Function to count occurrences of gender
-const countGender = () => {
-  if (!allData) return; // Ensure data is loaded before processing
+  // Function to count occurrences of gender
+  const countGender = () => {
+    if (!allData) return; // Ensure data is loaded before processing
 
-  const femaleCounter = allData.filter(
-    (dive) => typeof dive.sexOfDiver === 'string' && dive.sexOfDiver.toLowerCase() === 'female'
-  ).length;
+    const femaleCounter = allData.filter(
+      (dive) => typeof dive.sexOfDiver === 'string' && dive.sexOfDiver.toLowerCase() === 'female'
+    ).length;
 
-  const maleCounter = allData.filter(
-    (dive) => typeof dive.sexOfDiver === 'string' && dive.sexOfDiver.toLowerCase() === 'male'
-  ).length;
+    const maleCounter = allData.filter(
+      (dive) => typeof dive.sexOfDiver === 'string' && dive.sexOfDiver.toLowerCase() === 'male'
+    ).length;
 
-  const naCounter = allData.filter(
-    (dive) => !dive.sexOfDiver || typeof dive.sexOfDiver !== 'string' || 
-              (dive.sexOfDiver.toLowerCase() !== 'female' && dive.sexOfDiver.toLowerCase() !== 'male')
-  ).length;
+    const naCounter = allData.filter(
+      (dive) => !dive.sexOfDiver || typeof dive.sexOfDiver !== 'string' ||
+        (dive.sexOfDiver.toLowerCase() !== 'female' && dive.sexOfDiver.toLowerCase() !== 'male')
+    ).length;
 
-  setGender((prevState) => ({
-    ...prevState,
-    male: maleCounter,
-    female: femaleCounter,
-    na: naCounter,
-  }));
-};
+    setGender((prevState) => ({
+      ...prevState,
+      male: maleCounter,
+      female: femaleCounter,
+      na: naCounter,
+    }));
+  };
 
 
 
@@ -309,16 +313,19 @@ const countGender = () => {
     const mostSites = sitesArray.slice(0, 11);
 
     setTopMostSites((prevState) => {
+      const newState = { ...prevState }; // Create a copy of the previous state
+
       for (let i = 0; i < 11; i += 1) {
         const site = mostSites[i];
-        prevState[`site${i}`] = site
+        newState[`site${i}`] = site
           ? {
-              name: site.name,
-              count: site.count,
-              species: getTopTwoSpecies(site.name),
-            }
+            name: site.name,
+            count: site.count,
+            species: getTopTwoSpecies(site.name),
+          }
           : { name: '', count: '', species: [] };
       }
+      return newState;
     });
   };
 
@@ -328,11 +335,69 @@ const countGender = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allData]);
 
+  const processDataForChart = (dives) => {
+    const ageGroupsData = {
+      '8-18': { males: 0, females: 0, undefined: 0 },
+      '19-30': { males: 0, females: 0, undefined: 0 },
+      '31-50': { males: 0, females: 0, undefined: 0 },
+      '50+': { males: 0, females: 0, undefined: 0 },
+      'undefined': { males: 0, females: 0, undefined: 0 },
+    };
+
+
+    dives.forEach((dive) => {
+      const { ageOfDiver, sexOfDiver } = dive;
+      let groupKey;
+
+      if ((ageOfDiver >= 8 && ageOfDiver <= 18) || ageOfDiver === '8-18') {
+        groupKey = '8-18';
+      } else if ((ageOfDiver >= 19 && ageOfDiver <= 30) || ageOfDiver === '19-30') {
+        groupKey = '19-30';
+      } else if ((ageOfDiver >= 31 && ageOfDiver <= 50) || ageOfDiver === '31-50') {
+        groupKey = '31-50';
+      } else if (ageOfDiver > 50 || ageOfDiver === '50+') {
+        groupKey = '50+';
+      } else if (ageOfDiver === 'NA') {
+        groupKey = 'undefined';
+      }
+
+      if (groupKey) {
+        if (sexOfDiver === 'male' || sexOfDiver === 'Male') {
+          ageGroupsData[groupKey].males += 1;
+        } else if (sexOfDiver === 'female' || sexOfDiver === 'Female') {
+          ageGroupsData[groupKey].females += 1;
+        } else {
+          ageGroupsData[groupKey].undefined += 1; // Count undefined gender
+        }
+      }
+
+    });
+
+    const chartData = Object.keys(ageGroupsData).map((key) => ({
+      ageGroup: key,
+      males: ageGroupsData[key].males,
+      females: ageGroupsData[key].females,
+      undefined: ageGroupsData[key].undefined, // Include undefined gender in the data
+
+    }));
+
+    setAgeGroupsState(chartData.map((item) => item.ageGroup));
+    setChartDataState(chartData);
+  };
+
+  useEffect(() => {
+    if (allData) {
+      processDataForChart(allData);
+    }
+  }, [allData]);
+
+
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" sx={{ mb: 5 }}>
         Hi, Welcome 👋
       </Typography>
+
       <Grid container spacing={3}>
         <Grid xs={12} md={6} lg={4}>
           <AppCurrentVisits
@@ -392,14 +457,63 @@ const countGender = () => {
             chart={{
               series: [
                 // object group
-                { label: 'Females', value: gendger.female},
+                { label: 'Females', value: gendger.female },
                 { label: 'Males', value: gendger.male },
                 { label: 'Undefined', value: gendger.na },
               ],
 
             }}
           />
+
         </Grid>
+
+        <Grid xs={12} md={6} lg={8}>
+          {console.log(chartDataState)}
+          <AppWebsiteVisits
+            style={{ height: '31.25em', }}
+            title="Website Visits"
+
+            chart={{
+
+              labels: ageGroupsState,
+              series: [
+                {
+                  name: 'Total in Age Group',
+                  type: 'column', // Column chart for total number of people in the age group
+                  fill: 'solid',
+                  data: chartDataState.map((item) => item.males + item.females + item.undefined), // Total data corresponding to each age group
+                },
+                {
+                  name: 'Females',
+                  type: 'area',
+                  fill: 'gradient',
+                  data: chartDataState.map((item) => item.females), // Data corresponding to Females in each age group
+                },
+
+                {
+                  name: 'Males',
+                  type: 'area',
+                  fill: 'gradient',
+                  data: chartDataState.map((item) => item.males), // Data corresponding to Males in each age group
+                },
+
+                {
+                  name: 'Undefined Gender',
+                  type: 'line',
+                  fill: 'solid',
+                  data: chartDataState.map((item) => item.undefined), // Data corresponding to undefined gender in each age group
+                },
+              ],
+              options: {
+                xaxis: {
+                  type: 'category',
+                  categories: ageGroupsState,
+                },
+              },
+            }}
+          />
+        </Grid>
+
       </Grid>
     </Container>
   );
