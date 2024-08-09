@@ -541,7 +541,7 @@ export default function PostCard({ post, onDelete }) {
         }}
       >
         <EventAvailableOutlinedIcon sx={{ mr: 0.5, fontSize: 16 }} />
-        Dive inserted at:
+        Dive inserted in:
         <br />
         {loggingDate}
       </Typography>

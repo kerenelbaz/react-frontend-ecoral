@@ -1,6 +1,8 @@
 // post-card.jsx
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import dayjs from 'dayjs';
+
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 import Box from '@mui/material/Box';
@@ -141,28 +143,43 @@ export default function PostCard({ post, onDelete }) {
         </Link>
 
       </Stack>
-      <Stack direction="row" justifyContent="left" spacing={1}>
-        <Typography
+
+        <Typography fontWeight="bold" fontSize="0.83rem" color="black">
+        Specie:{' '}
+        <Link
           variant="subtitle2"
-          height="62px"
+          underline="disable"
           sx={{
-            display: 'flex',
-            alignItems: 'center',
+            overflow: 'hidden',
+            fontSize: '0.83rem',
+            display: 'inline',
+            WebkitBoxOrient: 'vertical',
           }}
         >
-          {`specie: ${specie}`}
-        </Typography>
-        <Typography
-          variant="subtitle2"
-          height="40px"
-          sx={{
-            display: 'flex',
-            height: 30,
-            alignItems: 'center',
-          }}
-        />
-      </Stack>
+          {specie}
+        </Link>
+      </Typography>
+      
     </Stack>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   );
 
   const getGenderIcon = (gen) => {
@@ -209,7 +226,7 @@ export default function PostCard({ post, onDelete }) {
 
   const renderUserDescription = (
     <Typography fontWeight="bold" fontSize="0.83rem" color="black">
-      User description{' '}
+      User description: {' '}
       <Link
         variant="subtitle2"
         underline="disable"
@@ -312,7 +329,6 @@ export default function PostCard({ post, onDelete }) {
         </Link>
       </Typography>
 
-      <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Typography fontWeight="bold" fontSize="0.83rem" color="black">
           Temp:{' '}
           <Link
@@ -343,14 +359,14 @@ export default function PostCard({ post, onDelete }) {
             {rankOfDive}
           </Link>
         </Typography>
-      </Stack>
+      
     </Stack>
   );
 
   const renderDataCodes = (
     <Stack>
       <Typography fontWeight="bold" fontSize="0.83rem" color="black">
-        Object group:{' '}
+        Object Group:{' '}
         <Link
           variant="subtitle2"
           underline="disable"
@@ -366,7 +382,7 @@ export default function PostCard({ post, onDelete }) {
       </Typography>
 
       <Typography fontWeight="bold" fontSize="0.83rem" color="black">
-        Report type:{' '}
+        Report Type:{' '}
         <Link
           variant="subtitle2"
           underline="disable"
@@ -381,7 +397,7 @@ export default function PostCard({ post, onDelete }) {
         </Link>
       </Typography>
       <Typography fontWeight="bold" fontSize="0.83rem" color="black">
-        Type of dive:{' '}
+        Type Of Dive:{' '}
         <Link
           variant="subtitle2"
           underline="disable"
@@ -395,6 +411,23 @@ export default function PostCard({ post, onDelete }) {
           {typeOfDive}
         </Link>
       </Typography>
+
+      <Typography fontWeight="bold" fontSize="0.83rem" color="black">
+        Name Of Diver:{' '}
+        <Link
+          variant="subtitle2"
+          underline="disable"
+          sx={{
+            overflow: 'hidden',
+            fontSize: '0.83rem',
+            display: 'inline',
+            WebkitBoxOrient: 'vertical',
+          }}
+        >
+          {idCode_photographerName}
+        </Link>
+      </Typography>
+      
     </Stack>
   );
 
@@ -440,7 +473,7 @@ export default function PostCard({ post, onDelete }) {
           }}
         >
           <TodayIcon sx={{ mr: 0.5, fontSize: 16 }} />
-          {date}
+          Date Of Dive: {dayjs(date).format('DD/MM/YYYY')}
         </Typography>
         <Stack direction="row" alignItems="center" sx={{ ml: 'auto' }}>
           {media === 'Website' ? (
@@ -468,13 +501,7 @@ export default function PostCard({ post, onDelete }) {
         }}
       >
         <SatelliteIcon sx={{ mr: 0.5, fontSize: 16 }} />
-        {imageLocation}
-        {idCode_photographerName && (
-          <>
-            &nbsp;|&nbsp;
-            {idCode_photographerName}
-          </>
-        )}
+        {imageLocation}    
       </Typography>
       <Typography
         variant="caption"
@@ -487,9 +514,9 @@ export default function PostCard({ post, onDelete }) {
         }}
       >
         <EventAvailableOutlinedIcon sx={{ mr: 0.5, fontSize: 16 }} />
-        Logged Date:
-        <br />
-        {loggingDate}
+        Inserted In: {dayjs(loggingDate).format('DD/MM/YYYY')}
+
+        
       </Typography>
     </Stack>
   );

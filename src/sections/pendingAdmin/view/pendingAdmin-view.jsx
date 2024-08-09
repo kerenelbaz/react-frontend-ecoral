@@ -230,9 +230,9 @@ export default function PendingAdminView() {
                 onRequestSort={handleSort}
                 headLabel={[
                   { id: '' },
-                  { id: 'loggingDate', label: 'logged Data' },
-                  { id: 'dateDive', label: 'Date Dive' },
-                  { id: 'timeDive', label: 'Time Dive' },
+                  { id: 'loggingDate', label: 'Dive Inserted In' },
+                  { id: 'dateDive', label: 'Date Of Dive' },
+                  { id: 'timeDive', label: 'Time Of Dive' },
                   { id: 'site', label: 'Site' },
                   { id: 'objectGroup', label: 'Object Group' },
                   { id: 'reportType', label: 'Report Type' },

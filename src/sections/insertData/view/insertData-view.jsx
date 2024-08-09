@@ -2,6 +2,8 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import axios from 'axios';
 import { useRef, useState, useEffect } from 'react';
+import dayjs from 'dayjs';
+
 
 import Stack from '@mui/material/Stack';
 import Alert from '@mui/material/Alert';
@@ -172,7 +174,7 @@ export default function InsertDataView() {
     }
     setInsertData((prevFormData) => ({
       ...prevFormData,
-      dateDive: date,
+      dateDive: dayjs(date).format('DD/MM/YYYY'),
       errors: {
         ...prevFormData.errors,
         dateDive: false,
