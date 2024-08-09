@@ -470,7 +470,7 @@ export default function AppView() {
         </Grid>
 
         <Grid xs={12} md={6} lg={8}>
-          {console.log(chartDataState)}
+
           <AppWebsiteVisits
             style={{ height: '31.25em', }}
             title="Website Visits"
