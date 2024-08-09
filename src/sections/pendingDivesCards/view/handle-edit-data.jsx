@@ -2,6 +2,7 @@
 
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
+import dayjs from 'dayjs';
 
 import Slide from '@mui/material/Slide';
 import Alert from '@mui/material/Alert';
@@ -324,8 +325,8 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
                       <TextField
                         InputProps={{ readOnly: true }}
                         id="standard-read-only-input"
-                        label="Data logged at: "
-                        defaultValue={formatDateTime(pendingData.loggingDate)}
+                        label="Data Inserted In: "
+                        defaultValue={formatDateTime(dayjs(pendingData.loggingDate).format('DD/MM/YYYY'))}
                         variant="standard"
                         className="dateStyle"
                       />
@@ -333,8 +334,8 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
                       <TextField
                         InputProps={{ readOnly: true }}
                         id="standard-read-only-input"
-                        label="Date dive: "
-                        defaultValue={formatDateTime(pendingData.date)}
+                        label="Date Of Dive: "
+                        defaultValue={formatDateTime(dayjs(pendingData.date).format('DD/MM/YYYY'))}
                         variant="standard"
                         className="dateStyle"
                       />

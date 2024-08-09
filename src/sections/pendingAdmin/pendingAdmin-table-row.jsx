@@ -1,6 +1,8 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import dayjs from 'dayjs';
+
 
 // import Button from '@mui/material/Button'; 
 import Popover from '@mui/material/Popover';
@@ -65,8 +67,8 @@ export default function UserTableRow({
           </IconButton>
         </TableCell>
 
-        <TableCell>{loggingDate}</TableCell>
-        <TableCell>{dateDive}</TableCell>
+        <TableCell>{dayjs(loggingDate).format('DD/MM/YYYY')}</TableCell>
+        <TableCell>{dayjs(dateDive).format('DD/MM/YYYY')}</TableCell>
         <TableCell>{timeDive}</TableCell>
         <TableCell>{site}</TableCell>
         <TableCell>{objectGroup}</TableCell>
