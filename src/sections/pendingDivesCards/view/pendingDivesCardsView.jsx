@@ -82,7 +82,7 @@ export default function PendingDivesCardsView() {
           sexOfDiver: dive.sexOfDiver,
           linkURL: dive.linkURL || 'No Link',
           media: dive.media || 'No media',
-          idCodePhotographerName: dive.idCode_photographerName || '',
+          idCode_photographerName: dive.idCode_photographerName || '',
           diveSite: dive.diveSite || 'No site data',
           specie: dive.specie || 'No Specie',
           ar: dive.AR || '',

@@ -73,7 +73,7 @@ export default function PostCard({ post, onDelete }) {
     setImageDialogOpen(false);
   };
 
-  const { cover, humanWildlifeInteraction, ar, maxDepth, idCodePhotographerName, reportReceivingDate, reportType, typeOfDive, userDescription, objectCode, objectGroup, diveSite, rankOfDive, specie, distance, temp, author, date, diveCode, imageLocation, age, gender, linkURL, media, loggedBy, loggingDate, time, fileLink } = post;
+  const { cover, humanWildlifeInteraction, ar, maxDepth, idCodePhotographerName, reportReceivingDate, reportType, typeOfDive, userDescription, objectCode, objectGroup, diveSite, rankOfDive, specie, distance, temp, author, date, diveCode, imageLocation, age, gender, linkURL, media, loggedBy, loggingDate, time, fileLink, researcherComment } = post;
 
   const renderAvatar = (
     <Avatar
@@ -435,6 +435,21 @@ export default function PostCard({ post, onDelete }) {
           {reportReceivingDate || 'Invalid Date'}
         </Typography>
       </Stack>
+      <Typography fontWeight="bold" fontSize="0.83rem" color="black">
+        Researcher comment:{' '}
+        <Link
+          variant="subtitle2"
+          underline="disable"
+          sx={{
+            overflow: 'hidden',
+            fontSize: '0.83rem',
+            display: 'inline',
+            WebkitBoxOrient: 'vertical',
+          }}
+        >
+          {researcherComment}
+        </Link>
+      </Typography>
     </Stack>
 
   );

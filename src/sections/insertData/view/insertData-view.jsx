@@ -292,6 +292,8 @@ export default function InsertDataView() {
     if (currentDate.getMonth() > birthDate.getMonth()) age += 1;
 
     const { gender } = user;
+    const {name} = user;
+    console.log("name: ", name);
 
     const entireDivingData = {
       // diveCode,
@@ -315,6 +317,7 @@ export default function InsertDataView() {
       sexOfDiver: gender,
       media: 'Website',
       documentation: 'P',
+      idCode_photographerName: name,
     };
 
     if (!data.dateDive) {

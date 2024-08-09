@@ -80,7 +80,7 @@ export default function PostCard({ post, onDelete }) {
   const {
     ar,
     maxDepth,
-    idCodePhotographerName,
+    idCode_photographerName,
     reportType,
     typeOfDive,
     userDescription,
@@ -139,7 +139,7 @@ export default function PostCard({ post, onDelete }) {
           <LocationOnIcon sx={{ mr: 0.5, fontSize: 13 }} />
           {diveSite}
         </Link>
-        
+
       </Stack>
       <Stack direction="row" justifyContent="left" spacing={1}>
         <Typography
@@ -209,20 +209,20 @@ export default function PostCard({ post, onDelete }) {
 
   const renderUserDescription = (
     <Typography fontWeight="bold" fontSize="0.83rem" color="black">
-        User description{' '}
-        <Link
-          variant="subtitle2"
-          underline="disable"
-          sx={{
-            overflow: 'hidden',
-            fontSize: '0.83rem',
-            display: 'inline',
-            WebkitBoxOrient: 'vertical',
-          }}
-        >
-          {userDescription}
-        </Link>
-      </Typography>
+      User description{' '}
+      <Link
+        variant="subtitle2"
+        underline="disable"
+        sx={{
+          overflow: 'hidden',
+          fontSize: '0.83rem',
+          display: 'inline',
+          WebkitBoxOrient: 'vertical',
+        }}
+      >
+        {userDescription}
+      </Link>
+    </Typography>
   );
 
   const renderDeleteEdit = (
@@ -264,7 +264,7 @@ export default function PostCard({ post, onDelete }) {
 
   const renderBody = (
     <Stack>
-      
+
       <Typography fontWeight="bold" fontSize="0.83rem" color="black">
         Artificial Reef:{' '}
         <Link
@@ -398,7 +398,7 @@ export default function PostCard({ post, onDelete }) {
     </Stack>
   );
 
- 
+
 
   const renderCover = (
     <Box
@@ -446,7 +446,7 @@ export default function PostCard({ post, onDelete }) {
           {media === 'Website' ? (
             <LanguageIcon
               sx={{ cursor: 'pointer', fontSize: 18, color: 'text.disabled' }}
-              // onClick={() => window.open(linkURL, '_blank')}
+            // onClick={() => window.open(linkURL, '_blank')}
             />
           ) : (
             <FacebookOutlinedIcon
@@ -469,10 +469,10 @@ export default function PostCard({ post, onDelete }) {
       >
         <SatelliteIcon sx={{ mr: 0.5, fontSize: 16 }} />
         {imageLocation}
-        {idCodePhotographerName && (
+        {idCode_photographerName && (
           <>
             &nbsp;|&nbsp;
-            {idCodePhotographerName}
+            {idCode_photographerName}
           </>
         )}
       </Typography>
@@ -549,10 +549,10 @@ export default function PostCard({ post, onDelete }) {
       </Card>
 
       <EditData
-          open={editDialogOpen}
-          handleClose={() => setEditDialogOpen(false)}
-          pendingData={editData}
-          onDeleteClick={handleDeleteClick}
+        open={editDialogOpen}
+        handleClose={() => setEditDialogOpen(false)}
+        pendingData={editData}
+        onDeleteClick={handleDeleteClick}
       />
 
       <Dialog

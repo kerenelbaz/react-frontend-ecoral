@@ -59,7 +59,7 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
     objectCode: '',
     idCode: '',
     humanWildInter: '',
-    researcherDesc: '',
+    researcherComment: '',
     loggedBy: '',
   });
 
@@ -139,7 +139,7 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
   const handleTextareaChange = (value) => {
     setFormData((prevData) => ({
       ...prevData,
-      researcherDesc: value,
+      researcherComment: value,
     }));
   };
   // const handleloggedby = (value) => {
@@ -232,6 +232,8 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
   const handleSaveChanges = async () => {
     const newDiveCode = await generateDiveCode(formData.linkURL);
     setDiveCode(newDiveCode);
+
+    console.log("researcherComment", formData.researcherComment)
 
     const objectDiveToServer = {
       diveCode: newDiveCode,
@@ -558,12 +560,12 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
                     >{`"${pendingData.userDescription}"`}</p>
                   </div>
                   <div>
-                    <label className="lblDesc" htmlFor="researcherDesc">
+                    <label className="lblDesc" htmlFor="researcherComment">
                       Researcher Comments:
                     </label>
                     <textarea
-                      id="researcherDesc"
-                      name="researcherDesc"
+                      id="researcherComment"
+                      name="researcherComment"
                       rows={3}
                       className="admin-textarea"
                       onChange={(e) => handleTextareaChange(e.target.value)}

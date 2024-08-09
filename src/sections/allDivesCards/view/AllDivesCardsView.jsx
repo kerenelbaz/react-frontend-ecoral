@@ -76,6 +76,7 @@ export default function AllDivesCardsView() {
           gender: dive.sexOfDiver === 'NA' ? 'No Gender' : dive.sexOfDiver || 'No gender',
           linkURL: dive.linkURL || 'No Link',
           media: dive.media || 'No media',
+          researcherComment: dive.researcherComment,
           reportReceivingDate: dive.reportReceivingDate
             ? format(new Date(dive.reportReceivingDate), 'dd MMM yyyy')
             : 'none',
