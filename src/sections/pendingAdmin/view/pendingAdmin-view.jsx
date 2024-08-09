@@ -18,6 +18,8 @@ import { useView } from 'src/viewContexts';
 import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 
+import config from 'src/sections/configServer';
+
 import EditData from './handle-edit-data';
 import TableEmptyRows from '../table-empty-rows';
 import UserTableRow from '../pendingAdmin-table-row';
@@ -110,8 +112,50 @@ export default function PendingAdminView() {
     setOpenEditData(true);
     setSelectedRow(pendingData);
   };
+  const deleteFromCloudinary = async (imageUrl) => {
+    try {
+      console.log("im in cloudinary delete")
+      // Extract the public ID from the URL
+      const publicId = imageUrl.split('/').pop().split('.')[0];
 
-  const handleDeleteClick = async (pendingData) => {
+      // Create the request body as a JSON-like string
+      const requestBody = `{"publicId": "${publicId}"}`;
+
+      // Log the request details
+      console.log("Deleting image with public ID:", publicId);
+      console.log("Sending request to:", `${config.serverUrl}/api/dives/delete-image`);
+      console.log("Request body:", requestBody);
+
+      // Make a request to your server to delete the image from Cloudinary
+      const response = await fetch(`${config.serverUrl}/api/dives/delete-image`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: requestBody,
+      });
+
+      console.log('Response status:', response.status);
+
+      // Check if the response is OK (status 200-299)
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const result = await response.json();
+
+      console.log('Response result:', result);
+
+      if (result.result === 'ok') {
+        console.log('Image deleted from Cloudinary:', publicId);
+      } else {
+        console.error('Failed to delete image from Cloudinary:', result.message);
+      }
+    } catch (error) {
+      console.error('Error sending delete request to server:', error);
+    }
+  };
+  const handleDeleteClick = async (pendingData, fileLink) => {
     console.log('pending data recived function is:', pendingData);
     console.log(pendingData._id);
     try {
@@ -126,6 +170,11 @@ export default function PendingAdminView() {
       const index = usersData.findIndex((obj) => obj._id === pendingData._id);
       if (index !== -1) {
         usersData.splice(index, 1);
+      }
+      // Delete from Cloudinary
+      if (fileLink) {
+        console.log("fileLink deleted", fileLink);
+        await deleteFromCloudinary(fileLink);
       }
     } catch (error) {
       console.error('Error deleting row:', error);
@@ -204,7 +253,7 @@ export default function PendingAdminView() {
                       specie={row.specie}
                       reportType={row.reportType}
                       onEditClick={() => handleEditClick(row)}
-                      onDeleteClick={() => handleDeleteClick(row)}
+                      onDeleteClick={() => handleDeleteClick(row, row.file)}
                     />
                   ))}
 
