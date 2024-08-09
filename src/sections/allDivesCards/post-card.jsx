@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import dayjs from 'dayjs';
 
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
@@ -74,7 +75,7 @@ export default function PostCard({ post, onDelete, onEdit }) {
     setImageDialogOpen(false);
   };
 
-  const { cover, humanWildlifeInteraction, AR, maxDepth, idCodePhotographerName, reportReceivingDate, reportType, typeOfDive, userDescription, objectCode, objectGroup, diveSite, rankOfDive, specie, distance, temp, author, date, diveCode, imageLocation, age, gender, linkURL, media, loggedBy, loggingDate, time, fileLink, researcherComment } = post;
+  const { cover, humanWildlifeInteraction, AR, maxDepth, idCode_photographerName, reportReceivingDate, reportType, typeOfDive, userDescription, objectCode, objectGroup, diveSite, rankOfDive, specie, distance, temp, author, date, diveCode, imageLocation, age, gender, linkURL, media, loggedBy, loggingDate, time, fileLink, researcherComment } = post;
 
   const renderAvatar = (
     <Avatar
@@ -94,9 +95,9 @@ export default function PostCard({ post, onDelete, onEdit }) {
   const renderDiveSite = (
     <Stack>
       <Stack direction="row" alignItems="center" justifyContent="center" spacing={1}>
-        <Typography
+        <Link
           variant="subtitle2"
-          component="span"  // Prevents nesting <h6> within another <h6>
+          underline="hover"
           sx={{
             overflow: 'visible',
             fontSize: '0.9rem',
@@ -108,46 +109,28 @@ export default function PostCard({ post, onDelete, onEdit }) {
         >
           <LocationOnIcon sx={{ mr: 0.5, fontSize: 13 }} />
           {diveSite}
-        </Typography>
-        <Typography
+        </Link>
+
+      </Stack>
+
+        <Typography fontWeight="bold" fontSize="0.83rem" color="black">
+        Specie:{' '}
+        <Link
           variant="subtitle2"
-          component="span"  // Prevents nesting <h6> within another <h6>
+          underline="disable"
           sx={{
-            overflow: 'visible',
-            textAlign: 'center',
-            display: 'inline-block',
-            whiteSpace: 'normal', // Allow text to wrap
+            overflow: 'hidden',
+            fontSize: '0.83rem',
+            display: 'inline',
+            WebkitBoxOrient: 'vertical',
           }}
         >
-          {diveCode}
-        </Typography>
-      </Stack>
-      <Stack direction="row" justifyContent="left" spacing={1}>
-        <Typography
-          variant="subtitle2"
-          component="span"  // Prevents nesting <h6> within another <h6>
-          height="62px"
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          {`specie: ${specie}`}
-        </Typography>
-        <Typography
-          variant="subtitle2"
-          component="span"  // Prevents nesting <h6> within another <h6>
-          height="40px"
-          sx={{
-            display: 'flex',
-            height: 30,
-            alignItems: 'center',
-          }}
-        />
-      </Stack>
+          {specie}
+        </Link>
+      </Typography>
+      
     </Stack>
   );
-
   const getGenderIcon = (gen) => {
     if (gen === 'Male') {
       return <ManRoundedIcon sx={{ fontSize: 22 }} />;
@@ -193,17 +176,20 @@ export default function PostCard({ post, onDelete, onEdit }) {
   );
 
   const renderUserDescription = (
-    <Typography
-      variant="subtitle2"
-      component="div"  // Prevents nesting <h6> within another <h6>
-      sx={{
-        ml: 1,
-        overflow: 'visible',
-        whiteSpace: 'normal',
-        display: 'block',
-      }}
-    >
-      {userDescription}
+    <Typography fontWeight="bold" fontSize="0.83rem" color="black">
+      User description: {' '}
+      <Link
+        variant="subtitle2"
+        underline="disable"
+        sx={{
+          overflow: 'hidden',
+          fontSize: '0.83rem',
+          display: 'inline',
+          WebkitBoxOrient: 'vertical',
+        }}
+      >
+        {userDescription}
+      </Link>
     </Typography>
   );
 
@@ -246,6 +232,21 @@ export default function PostCard({ post, onDelete, onEdit }) {
 
   const renderBody = (
     <Stack>
+      <Typography fontWeight='bold' fontSize='0.83rem' color="black">
+      Dive Code:
+        <Link
+          variant="subtitle2"
+          underline="none"
+          component="span"  // Prevents nesting <h6> within another <h6>
+          sx={{
+            overflow: 'hidden',
+            fontSize: '0.83rem',
+            display: 'inline',
+            WebkitBoxOrient: 'vertical',
+          }}
+        > {diveCode}
+        </Link>
+      </Typography>
       <Typography fontWeight='bold' fontSize='0.83rem' color="black">
         Human wild life interaction:{' '}
         <Link
@@ -310,12 +311,11 @@ export default function PostCard({ post, onDelete, onEdit }) {
         </Link>
       </Typography>
 
-      <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <Typography fontWeight='bold' fontSize='0.83rem' color="black">Temp:{' '}
+      <Typography fontWeight="bold" fontSize="0.83rem" color="black">
+          Temp:{' '}
           <Link
             variant="subtitle2"
-            underline="none"
-            component="span"  // Prevents nesting <h6> within another <h6>
+            underline="disable"
             sx={{
               overflow: 'hidden',
               fontSize: '0.83rem',
@@ -326,11 +326,11 @@ export default function PostCard({ post, onDelete, onEdit }) {
             {temp}
           </Link>
         </Typography>
-        <Typography fontWeight='bold' fontSize='0.83rem' color="black">Rank:{' '}
+        <Typography fontWeight="bold" fontSize="0.83rem" color="black">
+          Rank:{' '}
           <Link
             variant="subtitle2"
-            underline="none"
-            component="span"  // Prevents nesting <h6> within another <h6>
+            underline="disable"
             sx={{
               overflow: 'hidden',
               fontSize: '0.83rem',
@@ -341,18 +341,16 @@ export default function PostCard({ post, onDelete, onEdit }) {
             {rankOfDive}
           </Link>
         </Typography>
-      </Stack>
     </Stack>
   );
 
   const renderDataCodes = (
     <Stack>
       <Typography fontWeight="bold" fontSize="0.83rem" color="black">
-        Object group:{' '}
+        Object Group:{' '}
         <Link
           variant="subtitle2"
-          underline="none"
-          component="span"  // Prevents nesting <h6> within another <h6>
+          underline="disable"
           sx={{
             overflow: 'hidden',
             fontSize: '0.83rem',
@@ -365,28 +363,10 @@ export default function PostCard({ post, onDelete, onEdit }) {
       </Typography>
 
       <Typography fontWeight="bold" fontSize="0.83rem" color="black">
-        Object code:{' '}
+        Report Type:{' '}
         <Link
           variant="subtitle2"
-          underline="none"
-          component="span"  // Prevents nesting <h6> within another <h6>
-          sx={{
-            overflow: 'hidden',
-            fontSize: '0.83rem',
-            display: 'inline',
-            WebkitBoxOrient: 'vertical',
-          }}
-        >
-          {objectCode}
-        </Link>
-      </Typography>
-
-      <Typography fontWeight="bold" fontSize="0.83rem" color="black">
-        Report type:{' '}
-        <Link
-          variant="subtitle2"
-          underline="none"
-          component="span"  // Prevents nesting <h6> within another <h6>
+          underline="disable"
           sx={{
             overflow: 'hidden',
             fontSize: '0.83rem',
@@ -398,11 +378,10 @@ export default function PostCard({ post, onDelete, onEdit }) {
         </Link>
       </Typography>
       <Typography fontWeight="bold" fontSize="0.83rem" color="black">
-        Type of dive:{' '}
+        Type Of Dive:{' '}
         <Link
           variant="subtitle2"
-          underline="none"
-          component="span"  // Prevents nesting <h6> within another <h6>
+          underline="disable"
           sx={{
             overflow: 'hidden',
             fontSize: '0.83rem',
@@ -413,6 +392,23 @@ export default function PostCard({ post, onDelete, onEdit }) {
           {typeOfDive}
         </Link>
       </Typography>
+    
+      <Typography fontWeight="bold" fontSize="0.83rem" color="black">
+        Name Of Diver:{' '}
+        <Link
+          variant="subtitle2"
+          underline="disable"
+          sx={{
+            overflow: 'hidden',
+            fontSize: '0.83rem',
+            display: 'inline',
+            WebkitBoxOrient: 'vertical',
+          }}
+        >
+          {idCode_photographerName}
+        </Link>
+      </Typography>
+      
     </Stack>
   );
 
@@ -425,43 +421,35 @@ export default function PostCard({ post, onDelete, onEdit }) {
         mt: 1
       }}
     >
+      <Iconify icon="eva:person-fill" width={16} sx={{ color: 'green' }} />
       <Typography fontWeight="bold" fontSize="0.83rem" color="black" spacing={1}>
-        Dive approved by:{' '}
+        Dive approved by:
       </Typography>
-      <Stack direction="row" alignItems="center" spacing={1}>
-        <Iconify icon="eva:person-fill" width={16} sx={{ color: 'green' }} />
-        <Typography variant="caption">{loggedBy}</Typography>
-      </Stack>
-
-      <Typography fontWeight="bold" fontSize="0.83rem" color="black" sx={{ ml: 2 }}>
-        at:{' '}
-      </Typography>
-      <Stack direction="row" alignItems="center" spacing={1}>
+      <Typography variant="caption"> {loggedBy}</Typography>
+  
+      <Box sx={{ width: '100%' }} /> {/* Line break after loggedBy */}
+  
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <Iconify icon="eva:calendar-outline" width={16} sx={{ color: 'green' }} />
-        <Typography variant="caption">
-          {reportReceivingDate || 'Invalid Date'}
+        <Typography fontWeight="bold" fontSize="0.83rem" color="black" sx={{ ml: 0 }}>
+In: 
         </Typography>
-      </Stack>
-      <Typography fontWeight="bold" fontSize="0.83rem" color="black">
-        Researcher comment:{' '}
-        <Link
-          variant="subtitle2"
-          underline="none"
-          component="span"  // Prevents nesting <h6> within another <h6>
-          sx={{
-            overflow: 'hidden',
-            fontSize: '0.83rem',
-            display: 'inline',
-            WebkitBoxOrient: 'vertical',
-          }}
-        >
-          {researcherComment}
-        </Link>
+      </Box>
+      <Typography variant="caption">
+        {dayjs(reportReceivingDate).format('DD/MM/YYYY')}
       </Typography>
+  
+      <Box sx={{ width: '100%' }} /> 
+
+      <Typography fontWeight="bold" fontSize="0.83rem" color="black" spacing={1}>Researcher comment: 
+      </Typography>
+      <Typography variant="caption">{researcherComment} </Typography>
+
+
     </Stack>
-
   );
-
+  
+  
   const renderCover = (
     <Box
       component="img"
@@ -502,7 +490,7 @@ export default function PostCard({ post, onDelete, onEdit }) {
           }}
         >
           <TodayIcon sx={{ mr: 0.5, fontSize: 16 }} />
-          {date}
+          Date Of Dive: {dayjs(date).format('DD/MM/YYYY')}
         </Typography>
         <Stack direction="row" alignItems="center" sx={{ ml: 'auto' }}>
           {media === 'Website' ? (
@@ -528,12 +516,13 @@ export default function PostCard({ post, onDelete, onEdit }) {
           alignItems: 'center',
         }}
       >
+
         <SatelliteIcon sx={{ mr: 0.5, fontSize: 16 }} />
         {imageLocation}
-        {idCodePhotographerName && (
+        {idCode_photographerName && (
           <>
             &nbsp;|&nbsp;
-            {idCodePhotographerName}
+            {idCode_photographerName}
           </>
         )}
       </Typography>
@@ -548,9 +537,7 @@ export default function PostCard({ post, onDelete, onEdit }) {
         }}
       >
         <EventAvailableOutlinedIcon sx={{ mr: 0.5, fontSize: 16 }} />
-        Dive inserted in:
-        <br />
-        {loggingDate}
+       Inserted In: {dayjs(loggingDate).format('DD/MM/YYYY')}
       </Typography>
     </Stack>
   );

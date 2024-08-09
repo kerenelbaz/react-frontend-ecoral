@@ -532,14 +532,6 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
                   </div>
                   <div className="inLine">
                     <TextField
-                      label='ID Code'
-                      type="text"
-                      name="idCode"
-                      className="fieldInput"
-                      onChange={handleFormInputChange}
-                      value={formData.idCode}
-                    />
-                    <TextField
                       label="Object Code"
                       name="objectCode"
                       autoComplete='objectCode'

@@ -135,7 +135,7 @@ export default function PostCard({ post, onDelete }) {
             textAlign: 'center',
             fontWeight: 'bold',
             display: 'inline-block',
-            whiteSpace: 'normal', // Allow text to wrap
+            whiteSpace: 'normal',
           }}
         >
           <LocationOnIcon sx={{ mr: 0.5, fontSize: 13 }} />
@@ -161,25 +161,6 @@ export default function PostCard({ post, onDelete }) {
       </Typography>
       
     </Stack>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   );
 
   const getGenderIcon = (gen) => {
@@ -411,7 +392,7 @@ export default function PostCard({ post, onDelete }) {
           {typeOfDive}
         </Link>
       </Typography>
-
+    
       <Typography fontWeight="bold" fontSize="0.83rem" color="black">
         Name Of Diver:{' '}
         <Link

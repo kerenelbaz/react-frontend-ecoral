@@ -59,7 +59,7 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
     ...pendingData,
     objectCode: '',
     idCode: '',
-    humanWildInter: '',
+    humanWildlifeInteraction: '',
     researcherComment: '',
     loggedBy: '',
   });
@@ -488,14 +488,14 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
                       options={humanWildInterList}
                       getOptionLabel={(option) => option}
                       onChange={(e, value) =>
-                        handleAutocompleteChange('humanWildInter', value || '')
+                        handleAutocompleteChange('humanWildlifeInteraction', value || '')
                       }
                       renderInput={(params) => (
                         <TextField
                           {...params}
                           label="Human-wildlife interaction"
-                          name="humanWildInter"
-                          autoComplete="humanWildInter"
+                          name="humanWildlifeInteraction"
+                          autoComplete="humanWildlifeInteraction"
                           className="fieldInput"
                         />
                       )}
@@ -534,14 +534,14 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
                     />
                   </div>
                   <div className="inLine">
-                    <TextField
+                    {/* <TextField
                       label="ID Code"
                       type="text"
                       name="idCode"
                       className="fieldInput"
                       onChange={handleFormInputChange}
                       value={formData.idCode}
-                    />
+                    /> */}
                     <TextField
                       label="Object Code"
                       name="objectCode"
