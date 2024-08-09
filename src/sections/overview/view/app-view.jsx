@@ -401,7 +401,7 @@ export default function AppView() {
       <Grid container spacing={3}>
         <Grid xs={12} md={6} lg={4}>
           <AppCurrentVisits
-            title="Amount of dives beside an artificial reef"
+            title="Amount of dives beside an artificial reef:"
             sx={{
               // display: 'flex',
               // flexDirection: 'column',
@@ -471,7 +471,7 @@ export default function AppView() {
           {console.log(chartDataState)}
           <AppWebsiteVisits
             style={{ height: '31.25em', }}
-            title="Website Visits"
+            title="Ages distribution:"
 
             chart={{
 
