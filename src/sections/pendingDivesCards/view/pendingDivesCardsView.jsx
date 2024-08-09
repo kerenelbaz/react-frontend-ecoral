@@ -115,7 +115,51 @@ export default function PendingDivesCardsView() {
     fetchData();
   }, [fetchData]);
 
-  const handleDeleteClick = async (postId) => {
+  const deleteFromCloudinary = async (imageUrl) => {
+    try {
+      console.log("im in cloudinary delete")
+      // Extract the public ID from the URL
+      const publicId = imageUrl.split('/').pop().split('.')[0];
+
+      // Create the request body as a JSON-like string
+      const requestBody = `{"publicId": "${publicId}"}`;
+
+      // Log the request details
+      console.log("Deleting image with public ID:", publicId);
+      console.log("Sending request to:", `${config.serverUrl}/api/dives/delete-image`);
+      console.log("Request body:", requestBody);
+
+      // Make a request to your server to delete the image from Cloudinary
+      const response = await fetch(`${config.serverUrl}/api/dives/delete-image`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: requestBody,
+      });
+
+      console.log('Response status:', response.status);
+
+      // Check if the response is OK (status 200-299)
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const result = await response.json();
+
+      console.log('Response result:', result);
+
+      if (result.result === 'ok') {
+        console.log('Image deleted from Cloudinary:', publicId);
+      } else {
+        console.error('Failed to delete image from Cloudinary:', result.message);
+      }
+    } catch (error) {
+      console.error('Error sending delete request to server:', error);
+    }
+  };
+
+  const handleDeleteClick = async (postId, fileLink) => {
     console.log('Pending data received for deletion:', postId);
     try {
       // Make a request to your server to delete the row
@@ -128,6 +172,13 @@ export default function PendingDivesCardsView() {
       setPosts((prevData) => prevData.filter((row) => row.id !== postId));
       setFilteredPosts((prevData) => prevData.filter((row) => row.id !== postId));
       setSearchCount((prevCount) => prevCount - 1);
+      console.log("fileLink deleted", fileLink);
+      // Delete from Cloudinary
+      if (fileLink) {
+        console.log("fileLink deleted", fileLink);
+        await deleteFromCloudinary(fileLink);
+      }
+
     } catch (error) {
       console.error('Error deleting dive:', error);
     }
@@ -239,7 +290,7 @@ export default function PendingDivesCardsView() {
             key={post.id}
             post={post}
             index={index}
-            onDelete={handleDeleteClick}
+            onDelete={() => handleDeleteClick(post.id, post.file)}
             onEdit={handleEditClick}
           />
         ))}
