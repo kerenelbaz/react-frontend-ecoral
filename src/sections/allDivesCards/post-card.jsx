@@ -519,12 +519,6 @@ In:
 
         <SatelliteIcon sx={{ mr: 0.5, fontSize: 16 }} />
         {imageLocation}
-        {idCode_photographerName && (
-          <>
-            &nbsp;|&nbsp;
-            {idCode_photographerName}
-          </>
-        )}
       </Typography>
       <Typography
         variant="caption"
