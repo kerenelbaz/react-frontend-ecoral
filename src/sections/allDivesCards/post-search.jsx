@@ -82,8 +82,6 @@ export default function PostSearch({ posts, onFilter, setSearchCount }) {
       const isDistanceMatch = newQueries.distance ? post.distance == newQueries.distance : true;
       const isMaxDepthMatch = newQueries.maxDepth ? post.maxDepth == newQueries.maxDepth : true;
       const isTempMatch = newQueries.temp ? post.temp == newQueries.temp : true;
-      // console.log(`post.temp: ${  post.temp}`);
-      // console.log(`temp: ${  isTempMatch}`);
       const isRankOfDiveMatch = newQueries.rankOfDive ? post.rankOfDive == newQueries.rankOfDive : true;
       const isUserDescriptionMatch = newQueries.userDescription ? post.userDescription.toLowerCase().includes(newQueries.userDescription.toLowerCase()) : true;
       const isObjectCodeMatch = newQueries.objectCode ? post.objectCode.toLowerCase().includes(newQueries.objectCode.toLowerCase()) : true;

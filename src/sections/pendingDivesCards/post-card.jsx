@@ -72,7 +72,6 @@ export default function PostCard({ post, onDelete }) {
 
   const handleImageOpen = () => {
     setImageDialogOpen(true);
-    console.log(post);
   };
 
   const handleImageClose = () => {

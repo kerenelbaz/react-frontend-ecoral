@@ -234,7 +234,6 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
     const newDiveCode = await generateDiveCode(formData.linkURL);
     setDiveCode(newDiveCode);
 
-    console.log("researcherComment", formData.researcherComment)
 
     const objectDiveToServer = {
       diveCode: newDiveCode,
@@ -276,6 +275,7 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
         },
         body: JSON.stringify(objectDiveToServer),
       });
+
 
       if (response.ok) {
         handleClickSnack();

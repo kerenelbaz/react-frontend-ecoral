@@ -289,21 +289,17 @@ export default function InsertDataView() {
 
     if (capturedImage) {
       try {
-        console.log("Uploading captured image...");
         imageUrl = await uploadToCloudinary(capturedImage);
-        console.log("Captured image uploaded to Cloudinary:", imageUrl);
       } catch (error) {
         console.error("Error uploading captured image to Cloudinary:", error);
-        return; // Exit the function if upload fails
+        return; 
       }
     } else if (selectedFile) {
       try {
-        console.log("Uploading selected file...");
         imageUrl = await uploadToCloudinary(selectedFile);
-        console.log("Selected file uploaded to Cloudinary:", imageUrl);
       } catch (error) {
         console.error("Error uploading selected file to Cloudinary:", error);
-        return; // Exit the function if upload fails
+        return; 
       }
     }
 
@@ -314,7 +310,6 @@ export default function InsertDataView() {
           ...prevData,
           file: imageUrl,
         };
-        console.log("File after upload is", updatedData.file);
 
         // Proceed with the submission using the updated data
         submitData(updatedData);
@@ -331,8 +326,6 @@ export default function InsertDataView() {
 
 
   const submitData = async (data) => {
-    console.log("image url: ", selectedFile);
-    console.log("fileLink: insertData.file,", data.file);
 
     const userJsonString = localStorage.getItem('user');
     const user = JSON.parse(userJsonString.replace(/^"(.*)"$/, '$1'));
@@ -344,7 +337,6 @@ export default function InsertDataView() {
 
     const { gender } = user;
     const { name } = user;
-    console.log("name: ", name);
 
     const entireDivingData = {
       // diveCode,
@@ -370,17 +362,7 @@ export default function InsertDataView() {
       documentation: 'P',
       idCode_photographerName: name,
     };
-    // console.log("entierlk", entireDivingData)
-    // if (!data.dateDive) {
-    //   setInsertData((prevFormData) => ({
-    //     ...prevFormData,
-    //     errors: {
-    //       ...prevFormData.errors,
-    //       dateDive: true,
-    //     },
-    //   }));
-    //   return;
-    // }
+
 
     const hasErrors = Object.values(data.errors).some((error) => error);
 

@@ -115,17 +115,13 @@ export default function PendingAdminView() {
   };
   const deleteFromCloudinary = async (imageUrl) => {
     try {
-      console.log("im in cloudinary delete")
       // Extract the public ID from the URL
       const publicId = imageUrl.split('/').pop().split('.')[0];
 
       // Create the request body as a JSON-like string
       const requestBody = `{"publicId": "${publicId}"}`;
 
-      // Log the request details
-      console.log("Deleting image with public ID:", publicId);
-      console.log("Sending request to:", `${config.serverUrl}/api/dives/delete-image`);
-      console.log("Request body:", requestBody);
+
 
       // Make a request to your server to delete the image from Cloudinary
       const response = await fetch(`${config.serverUrl}/api/dives/delete-image`, {
@@ -136,7 +132,6 @@ export default function PendingAdminView() {
         body: requestBody,
       });
 
-      console.log('Response status:', response.status);
 
       // Check if the response is OK (status 200-299)
       if (!response.ok) {
@@ -145,7 +140,6 @@ export default function PendingAdminView() {
 
       const result = await response.json();
 
-      console.log('Response result:', result);
 
       if (result.result === 'ok') {
         console.log('Image deleted from Cloudinary:', publicId);
@@ -157,8 +151,6 @@ export default function PendingAdminView() {
     }
   };
   const handleDeleteClick = async (pendingData, fileLink) => {
-    console.log('pending data recived function is:', pendingData);
-    console.log(pendingData._id);
     try {
       // Make a request to your server to delete the row
       const response = await fetch(`http://localhost:8000/api/pendings_dives/${pendingData._id}`, {
@@ -174,13 +166,11 @@ export default function PendingAdminView() {
       }
       // Delete from Cloudinary
       if (fileLink && requiredDeleteImage) {
-        console.log("fileLink deleted", fileLink);
         await deleteFromCloudinary(fileLink);
       }
     } catch (error) {
       console.error('Error deleting row:', error);
     }
-    console.log(usersData);
   };
 
   const handleCloseEditData = () => {

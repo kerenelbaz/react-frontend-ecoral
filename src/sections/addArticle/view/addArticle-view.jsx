@@ -261,13 +261,9 @@ export default function AddArticleView() {
         body: JSON.stringify(articleData),
       });
 
-      console.log(response);
       if (response.ok) {
         console.log('Data saved successfully');
         window.location.reload();
-        // setTimeout(() => {
-        //   window.location.reload();
-        // }, 1500);
 
         // Reset form data after successful submission
         setInsertData({

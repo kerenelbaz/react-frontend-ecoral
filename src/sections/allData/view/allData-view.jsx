@@ -36,7 +36,7 @@ export default function AllDataView() {
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('name');
   const [filterName] = useState('');
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(500);
   const [allDataDives, setAllDataDives] = useState([]);
   const [loading, setLoading] = useState(true); // Define loading state
   const [editingRow, setEditingRow] = useState(null); // State for editing row
@@ -203,31 +203,31 @@ export default function AllDataView() {
                 onSelectAllClick={handleSelectAllClick}
                 headLabel={[
                   { id: 'diveCode', label: 'Dive Code' },
-                  { id: 'loggingDate', label: 'Logging Date' },
+                  { id: 'loggingDate', label: 'Inserted In' },
                   { id: 'groupCode', label: 'Group Code' },
-                  { id: 'diveDate', label: 'Dive Date' },
+                  { id: 'diveDate', label: 'Date Of Dive' },
                   { id: 'time', label: 'Time' },
                   { id: 'diveSite', label: 'Dive Site' },
-                  { id: 'objectGroup', label: 'Object Group', align: 'center' },
+                  { id: 'objectGroup', label: 'Object Group' },
                   { id: 'specie', label: 'Specie' },
-                  { id: 'idCode', label: 'ID Code' },
+                  { id: 'idCode', label: 'ID Code/ Photographer Name' },
                   { id: 'Location', label: 'Location' },
                   { id: 'ar', label: 'Is AR?' },
-                  { id: 'humanWildInter', label: 'Human-Wild Interaction' },
+                  { id: 'humanWildInter', label: 'Human Wild Life Interaction' },
                   { id: 'reportType', label: 'Report Type' },
                   { id: 'typeOfDive', label: 'Type Of Dive' },
-                  { id: 'rank', label: 'Rank' },
+                  { id: 'rank', label: 'Dive Rank' },
                   { id: 'media', label: 'Media' },
                   { id: 'fileType', label: 'Documentation' },
-                  { id: 'diverAge', label: 'Age' },
-                  { id: 'diverSex', label: 'Sex' },
+                  { id: 'diverAge', label: 'Age Of Diver' },
+                  { id: 'diverSex', label: 'Sex Of Diver' },
                   { id: 'maxDepth', label: 'Max Depth' },
                   { id: 'distance', label: 'Distance' },
                   { id: 'temp', label: 'Temperature' },
                   { id: 'userDesc', label: 'User Description' },
                   { id: 'researcherDesc', label: 'Researcher Comments' },
                   { id: 'loggedBy', label: 'Logged By' },
-                  { id: 'fileLink', label: 'Link' },
+                  { id: 'fileLink', label: 'Image' },
                   { id: '' },
                 ]}
               />

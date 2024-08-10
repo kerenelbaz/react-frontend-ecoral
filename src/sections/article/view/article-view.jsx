@@ -63,7 +63,6 @@ export default function ArticleView() {
         }
         const responseData = await response.json();
         const { articles } = responseData.data;
-        console.log(articles);
         const mappedUsers = articles.map((article, index) => ({
           id: article.articleCode || faker.string.uuid(),
           name: article.name,
@@ -92,10 +91,6 @@ export default function ArticleView() {
       })
     );
   }, [users, allTags]);
-
-  // useEffect(() => {
-  //   console.log(users);
-  // }, [users]);
 
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
@@ -133,7 +128,6 @@ export default function ArticleView() {
   };
 
   const handleDeleteClick = async (article) => {
-    console.log(article._id);
     try {
       // Make a request to your server to delete the row
       const response = await fetch(`${config.serverUrl}/api/articles/${article._id}`, {

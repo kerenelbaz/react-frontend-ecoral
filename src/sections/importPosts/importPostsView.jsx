@@ -99,11 +99,11 @@ export default function ImportPostsView() {
       // If response is OK
       const data = await response.json();
       setPostsNumber(data.data.length);
-      console.log(data.data);
+      console.log("all posts:",data.data);
       const releventPosts = data.data.filter(
         (post) => !Object.prototype.hasOwnProperty.call(post, 'no data')
       );
-      console.log(releventPosts);
+      console.log("post about diving:", releventPosts);
       setPostsAboutDiving(releventPosts);
       setDivinPostsNumber(releventPosts.length);
     } catch (error) {

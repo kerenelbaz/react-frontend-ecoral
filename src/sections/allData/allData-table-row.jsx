@@ -80,7 +80,7 @@ export default function AllDataTableRow({
         <TableCell>{loggedBy}</TableCell>
         <TableCell>
           <Stack direction="row" alignItems="center" spacing={4}>
-            <Avatar alt={diveCode} src={fileLink} onClick={handleAvatarClick} sx={{ cursor: 'pointer' }} />
+            <Avatar alt={diveCode} src={fileLink || ""} onClick={handleAvatarClick} sx={{ cursor: 'pointer' }} />
           </Stack>  
         </TableCell>
       </TableRow>

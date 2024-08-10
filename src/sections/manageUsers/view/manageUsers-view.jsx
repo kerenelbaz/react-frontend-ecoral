@@ -48,7 +48,6 @@ import Card from '@mui/material/Card';
          }
          const responseData = await response.json();
          const users = responseData;
-         console.log(users);
          setUsersData(users); // Set the fetched data to state
        } catch (error) {
          console.error('Error fetching data:', error);
@@ -100,11 +99,8 @@ import Card from '@mui/material/Card';
    });
 
    const handleEditClick = (userData) => {
-     console.log("hello");
      setOpenEditData(true);
      setSelectedRow(userData);
-     // console.log("selected row", selectedRow);
-     // console.log("file", userData.file);
    };
 
    return (

@@ -83,7 +83,6 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
   }, [open, pendingData]);
 
   useEffect(() => {
-    console.log('Generated diveCode:', diveCode);
   }, [diveCode]);
 
   const handleInputChange = (e) => {
