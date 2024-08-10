@@ -33,6 +33,7 @@ export default function PendingDivesCardsView() {
   const [searchCount, setSearchCount] = useState(0);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [editPostData, setEditPostData] = useState(null);
+  const [requiredDeleteImage, setRequiredDeleteImage] = useState(false);
   const { switchToTable } = useView();
   const navigate = useNavigate();
 
@@ -64,6 +65,7 @@ export default function PendingDivesCardsView() {
           }
         } catch (error) {
           console.error('Error formatting date:', createdAt, error);
+          // eslint-disable-next-line no-unused-vars
           formattedCreatedAt = 'Invalid date';
         }
 
@@ -174,7 +176,7 @@ export default function PendingDivesCardsView() {
       setSearchCount((prevCount) => prevCount - 1);
       console.log("fileLink deleted", fileLink);
       // Delete from Cloudinary
-      if (fileLink) {
+      if (fileLink && requiredDeleteImage) {
         console.log("fileLink deleted", fileLink);
         await deleteFromCloudinary(fileLink);
       }
@@ -290,7 +292,12 @@ export default function PendingDivesCardsView() {
             key={post.id}
             post={post}
             index={index}
-            onDelete={() => handleDeleteClick(post.id, post.file)}
+            onDelete={() => {
+              setRequiredDeleteImage(true);
+
+              handleDeleteClick(post.id, post.file)
+            }
+            }
             onEdit={handleEditClick}
           />
         ))}

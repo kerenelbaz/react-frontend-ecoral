@@ -59,6 +59,7 @@ export default function AllDivesCardsView() {
           }
         } catch (error) {
           console.error('Error formatting date:', createdAt, error);
+          // eslint-disable-next-line no-unused-vars
           formattedCreatedAt = 'Invalid date';
         }
 

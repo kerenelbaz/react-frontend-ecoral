@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
+import dayjs from 'dayjs';
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from "react";
-import dayjs from 'dayjs';
 
 import Slide from '@mui/material/Slide';
 import Alert from '@mui/material/Alert';
@@ -42,7 +42,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function EditData({ open, handleClose, pendingData, onDeleteClick }) {
+export default function EditData({ open, handleClose, pendingData, onDeleteClick, requiredDeleteImage }) {
   const [stateSnackbar, setStateSnackbar] = useState({
     open: false,
     Transition: Slide,
@@ -262,6 +262,7 @@ export default function EditData({ open, handleClose, pendingData, onDeleteClick
 
       if (response.ok) {
         handleClickSnack();
+        requiredDeleteImage = false;
         onDeleteClick(formData);
         handleClose();
       } else {
@@ -584,4 +585,5 @@ EditData.propTypes = {
   handleClose: PropTypes.func.isRequired,
   pendingData: PropTypes.object,
   onDeleteClick: PropTypes.func,
+  requiredDeleteImage: PropTypes.bool,
 };
