@@ -414,7 +414,7 @@ export default function AppView() {
                 { label: 'Artificial Reef', value: isArReef.yes },
                 { label: 'Not Artificial Reef', value: isArReef.no },
               ],
-              //  colors: ['#a1f7b6','#bceef5', ], // Specify colors here
+               colors: ['#a1f7b6','#bceef5', ], // Specify colors here
             }}
           />
         </Grid>
