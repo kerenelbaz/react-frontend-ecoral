@@ -414,7 +414,7 @@ export default function AppView() {
                 { label: 'Artificial Reef', value: isArReef.yes },
                 { label: 'Not Artificial Reef', value: isArReef.no },
               ],
-              // colors: ['#1a77f2','#16d99a', ], // Specify colors here
+               colors: ['#a1f7b6','#bceef5', ], // Specify colors here
             }}
           />
         </Grid>
@@ -462,7 +462,7 @@ export default function AppView() {
                 { label: 'Males', value: gendger.male },
                 { label: 'Undefined', value: gendger.na },
               ],
-              colors: ['#FF69B4', '#1a77f2', '#AAAAAA'], // Specify colors here
+              colors: ['#FF69B4', '#1a77f2', '#f5ed0f'], // Specify colors here
 
             }}
           />
