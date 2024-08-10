@@ -1,9 +1,9 @@
 /* eslint-disable import/no-unresolved */
+import dayjs from 'dayjs';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
-import dayjs from 'dayjs';
 
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';

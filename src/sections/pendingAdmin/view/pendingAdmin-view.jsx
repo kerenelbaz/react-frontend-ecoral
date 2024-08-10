@@ -34,6 +34,7 @@ export default function PendingAdminView() {
   const [usersData, setUsersData] = useState([]);
   const [openEditData, setOpenEditData] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
+  const [requiredDeleteImage, setRequiredDeleteImage] = useState(false);
   const { switchToCards } = useView();
   const navigate = useNavigate();
 
@@ -172,7 +173,7 @@ export default function PendingAdminView() {
         usersData.splice(index, 1);
       }
       // Delete from Cloudinary
-      if (fileLink) {
+      if (fileLink && requiredDeleteImage) {
         console.log("fileLink deleted", fileLink);
         await deleteFromCloudinary(fileLink);
       }
@@ -199,7 +200,7 @@ export default function PendingAdminView() {
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">{`Pending Dives For Admin's Approval`}</Typography>
-        
+
 
         <Button
           variant="contained"
@@ -253,7 +254,10 @@ export default function PendingAdminView() {
                       specie={row.specie}
                       reportType={row.reportType}
                       onEditClick={() => handleEditClick(row)}
-                      onDeleteClick={() => handleDeleteClick(row, row.file)}
+                      onDeleteClick={() => {
+                        setRequiredDeleteImage(true);
+                        handleDeleteClick(row, row.file)
+                      }}
                     />
                   ))}
 
