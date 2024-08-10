@@ -317,7 +317,7 @@ export default function AllDivesCardsView() {
         <Typography variant="body2">
           Items per page:
           <select value={itemsPerPage} onChange={handleItemsPerPageChange}>
-            <option value={12}>12/</option>
+            <option value={12}>12</option>
             <option value={24}>24</option>
             <option value={40}>40</option>
           </select>
