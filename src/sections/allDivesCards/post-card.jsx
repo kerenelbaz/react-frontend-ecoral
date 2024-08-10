@@ -117,7 +117,7 @@ export default function PostCard({ post, onDelete, onEdit }) {
         Specie:{' '}
         <Link
           variant="subtitle2"
-          underline="disable"
+          underline="none"
           sx={{
             overflow: 'hidden',
             fontSize: '0.83rem',
@@ -180,7 +180,7 @@ export default function PostCard({ post, onDelete, onEdit }) {
       User description: {' '}
       <Link
         variant="subtitle2"
-        underline="disable"
+        underline="none"
         sx={{
           overflow: 'hidden',
           fontSize: '0.83rem',
@@ -315,7 +315,7 @@ export default function PostCard({ post, onDelete, onEdit }) {
           Temp:{' '}
           <Link
             variant="subtitle2"
-            underline="disable"
+            underline="none"
             sx={{
               overflow: 'hidden',
               fontSize: '0.83rem',
@@ -330,7 +330,7 @@ export default function PostCard({ post, onDelete, onEdit }) {
           Rank:{' '}
           <Link
             variant="subtitle2"
-            underline="disable"
+            underline="none"
             sx={{
               overflow: 'hidden',
               fontSize: '0.83rem',
@@ -350,7 +350,7 @@ export default function PostCard({ post, onDelete, onEdit }) {
         Object Group:{' '}
         <Link
           variant="subtitle2"
-          underline="disable"
+          underline="none"
           sx={{
             overflow: 'hidden',
             fontSize: '0.83rem',
@@ -366,7 +366,7 @@ export default function PostCard({ post, onDelete, onEdit }) {
         Report Type:{' '}
         <Link
           variant="subtitle2"
-          underline="disable"
+          underline="none"
           sx={{
             overflow: 'hidden',
             fontSize: '0.83rem',
@@ -381,7 +381,7 @@ export default function PostCard({ post, onDelete, onEdit }) {
         Type Of Dive:{' '}
         <Link
           variant="subtitle2"
-          underline="disable"
+          underline="none"
           sx={{
             overflow: 'hidden',
             fontSize: '0.83rem',
@@ -397,7 +397,7 @@ export default function PostCard({ post, onDelete, onEdit }) {
         Name Of Diver:{' '}
         <Link
           variant="subtitle2"
-          underline="disable"
+          underline="none"
           sx={{
             overflow: 'hidden',
             fontSize: '0.83rem',
