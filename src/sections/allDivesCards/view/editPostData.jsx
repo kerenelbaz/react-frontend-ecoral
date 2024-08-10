@@ -221,7 +221,7 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <Button onClick={handleImageClick}>
                 <div className="wrapImg">
-                  <img className="imageB" src={postData.file} alt="Preview" />
+                  <img className="imageB" src={postData.fileLink} alt="Preview" />
                 </div>
               </Button>
             </div>
