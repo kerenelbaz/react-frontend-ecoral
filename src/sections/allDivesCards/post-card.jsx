@@ -438,6 +438,8 @@ In:
       <Typography variant="caption">
         {dayjs(reportReceivingDate).format('DD/MM/YYYY')}
       </Typography>
+
+      
   
       <Box sx={{ width: '100%' }} /> 
 
@@ -490,7 +492,8 @@ In:
           }}
         >
           <TodayIcon sx={{ mr: 0.5, fontSize: 16 }} />
-          Date Of Dive: {dayjs(date).format('DD/MM/YYYY')}
+          {/* Date Of Dive: {dayjs(date).format('DD/MM/YYYY')} */}
+          Date Of Dive: {date}
         </Typography>
         <Stack direction="row" alignItems="center" sx={{ ml: 'auto' }}>
           {media === 'Website' ? (
