@@ -80,7 +80,7 @@ export default function AllDivesCardsView() {
           reportReceivingDate: dive.reportReceivingDate
             ? format(new Date(dive.reportReceivingDate), 'dd MMM yyyy')
             : 'none',
-          idCodePhotographerName: dive.idCode_photographerName || '',
+          idCode_photographerName: dive.idCode_photographerName || '',
           diveSite: dive.diveSite || 'No site data',
           specie: dive.specie || 'No Specie',
           humanWildlifeInteraction: dive.humanWildlifeInteraction || 'No info',
