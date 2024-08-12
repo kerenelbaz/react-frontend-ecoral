@@ -190,7 +190,7 @@ export default function AllDivesCardsView() {
 
   const handleUpdatePost = (updatedPost) => {
     console.log("Updating post with id:", updatedPost.id);
-    
+
     setPosts((prevPosts) => {
       const newPosts = prevPosts.map((post) =>
         post.id === updatedPost.id ? { ...post, ...updatedPost } : post
@@ -198,7 +198,7 @@ export default function AllDivesCardsView() {
       console.log("Updated posts:", newPosts);
       return newPosts;
     });
-    
+
     setFilteredPosts((prevFilteredPosts) => {
       const newFilteredPosts = prevFilteredPosts.map((post) =>
         post.id === updatedPost.id ? { ...post, ...updatedPost } : post
@@ -207,7 +207,7 @@ export default function AllDivesCardsView() {
       return newFilteredPosts;
     });
   };
-  
+
 
   if (loading) {
     return <div>Loading...</div>;
@@ -303,12 +303,12 @@ export default function AllDivesCardsView() {
 
       <Grid container spacing={3}>
         {currentPosts.map((post, index) => (
-          <PostCard 
-          key={post.id} 
-          post={post} 
-          index={index} 
-          onDelete={() => handleDeleteClick(post.id, post.fileLink)} 
-          onEdit={handleEditClick} />
+          <PostCard
+            key={post.id}
+            post={post}
+            index={index}
+            onDelete={() => handleDeleteClick(post.id, post.fileLink)}
+            onEdit={handleEditClick} />
 
         ))}
       </Grid>
