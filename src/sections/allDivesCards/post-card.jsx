@@ -1,7 +1,7 @@
 /* eslint-disable import/no-unresolved */
 import dayjs from 'dayjs';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
@@ -573,6 +573,11 @@ In:
     />
   );
 
+    useEffect(() => {
+      console.log("PostCard received post:", post);
+    }, [post]);
+
+
   return (
     <Grid xs={12} sm={4} md={3}>
       <Card
@@ -618,7 +623,7 @@ In:
         handleClose={handleEditClose}
         postData={editData}
         onUpdate={(updatedData) => {
-          onEdit(updatedData);  // Ensure onEdit is called when data is updated
+          onEdit(post);  // Ensure onEdit is called when data is updated
           handleEditClose();  // Close the dialog after updating
         }}
       />

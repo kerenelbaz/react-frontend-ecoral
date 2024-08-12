@@ -1,3 +1,5 @@
+/* eslint-disable no-inner-declarations */
+/* eslint-disable no-plusplus */
 // import { faker } from '@faker-js/faker';
 import { format, parseISO } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
@@ -31,6 +33,8 @@ export default function AllDivesCardsView() {
   const [searchCount, setSearchCount] = useState(0);
   const { switchToTable } = useView();
   const navigate = useNavigate();
+  const [key, setKey] = useState(0);
+
   // const [editDialogOpen, setEditDialogOpen] = useState(false);
   // const [editPostData, setEditPostData] = useState(null);
 
@@ -113,35 +117,60 @@ export default function AllDivesCardsView() {
     }
   }, []);
 
+
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
   // New function to fetch a specific post by its ID
   const fetchPostById = async (id) => {
     try {
       console.log(`Fetching post with ID: ${id}`); // Log the ID being fetched
       const response = await fetch(`${config.serverUrl}/api/dives/${id}`);
-  
+
       if (!response.ok) {
         if (response.status === 404) {
           console.error(`Post with ID ${id} not found.`);
         }
         throw new Error('Failed to fetch post data');
       }
-  
-      const updatedPost = await response.json();
-  
-      setPosts((prevPosts) =>
-        prevPosts.map((post) => (post.id === updatedPost.id ? updatedPost : post))
-      );
-      setFilteredPosts((prevPosts) =>
-        prevPosts.map((post) => (post.id === updatedPost.id ? updatedPost : post))
-      );
+
+      const data = await response.json();
+      console.log(data.data.dive);
+
+      const result = data.data.dive;
+
+      function updatePostSynchronously(prevPosts, idpost, updatedPost) {
+        const newPosts = [...prevPosts]; // Create a shallow copy of the array
+
+        for (let i = 0; i < newPosts.length; i++) {
+          if (newPosts[i].idpost === idpost) {  // Corrected property access
+            console.log(`Comparing ${newPosts[i].idpost} with ${idpost}`);
+            console.log('Updating post:', updatedPost);
+            newPosts[i] = { ...newPosts[i], ...updatedPost }; // Merge old and new data
+            break; // Stop iteration once a match is found
+          }
+        }
+
+        return newPosts; // Return the updated array
+      }
+
+      const newPosts = updatePostSynchronously(posts, id, result);
+      console.log("Updated newPosts:", newPosts);
+      setPosts(newPosts);
+
     } catch (error) {
       console.error('Error fetching post data:', error);
     }
   };
-  
+
+
+  // Use useEffect to log the updated posts state
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    console.log("Updated posts in state:", posts);
+  }, [posts]);
+
 
   const deleteFromCloudinary = async (imageUrl) => {
     try {
@@ -273,6 +302,7 @@ export default function AllDivesCardsView() {
     navigate('/all-dives');
   };
 
+
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between">
@@ -343,7 +373,7 @@ export default function AllDivesCardsView() {
           color="primary"
         />
       </Stack>
-{/* 
+      {/* 
       {editPostData && (
         <EditCardData
           open={editDialogOpen}
