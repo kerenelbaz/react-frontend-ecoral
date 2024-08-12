@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import dayjs from 'dayjs';
+import { useState } from "react";
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import PropTypes from 'prop-types';
-import { useState, useEffect } from "react";
 
 import Grid from '@mui/material/Grid';
 import Slide from '@mui/material/Slide';
@@ -53,19 +53,15 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
 
   const [formData, setFormData] = useState({
     ...postData,
-    // humanWildInter: '',
-    // researcherComment: '',
-    // loggedBy: '',
-    // objectCode:''
   });
 
-  useEffect(() => {
-    console.log('postData on change:', postData);
-    setFormData(prevData => ({
-      ...prevData,
-      ...postData
-    }));
-  }, [postData]);
+  // useEffect(() => {
+  //   console.log('postData on change:', postData);
+  //   setFormData(prevData => ({
+  //     ...prevData,
+  //     ...postData
+  //   }));
+  // }, [postData]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -130,12 +126,12 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
     }));
   };
 
-  const handleClickSnack = () => {
-    setStateSnackbar({
-      open: true,
-      Transition: Slide,
-    });
-  };
+  // const handleClickSnack = () => {
+  //   setStateSnackbar({
+  //     open: true,
+  //     Transition: Slide,
+  //   });
+  // };
 
   const handleCloseSnack = () => {
     setStateSnackbar({
@@ -158,12 +154,9 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
       console.log("changes: " ,changes);
       return changes;
     };
-  
-    // Get the changed fields
+
     const changes = getChangedFields(formData, postData);
-  
-    // Check if there are changes to save
-    if (Object.keys(changes).length === 0) {
+    if (Object.keys(changes).length === 0) {// Check if there are changes to save
       console.log('No changes to save');
       return;
     }
@@ -182,14 +175,15 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
         console.log("Updated data in EditPostData:", formData);
   
         onUpdate(formData);  // Update the parent component's state
-        handleClickSnack();  // Show the success message
-        handleClose();  // Close the dialog only after everything is done
+        
       } else {
         console.error('Failed to save data:', response.statusText);
       }
     } catch (error) {
       console.error('Error saving data:', error.message);
     }
+    // handleClickSnack();  // Show the success message
+    handleClose();  // Close the dialog only after everything is done
   };
   
   
@@ -485,8 +479,10 @@ export default function EditPostData({ open, handleClose, postData, onUpdate }) 
                 open={stateSnackbar.open}
                 onClose={handleCloseSnack}
                 TransitionComponent={stateSnackbar.Transition}
-                key={stateSnackbar.Transition.name}
-                autoHideDuration={1500}
+                // key={stateSnackbar.Transition.name}
+                // autoHideDuration={1500}
+                message="Changes saved successfully"
+
               >
                 <Alert
                   onClose={handleClose}

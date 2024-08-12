@@ -19,7 +19,8 @@ import config from 'src/sections/configServer';
 import PostCard from '../post-card';
 import PostSort from '../post-sort';
 import PostSearch from '../post-search';
-import EditPostData from './editPostData';
+// import EditPostData from './editPostData';
+// import EditCardData from './handle-edit-data';
 
 export default function AllDivesCardsView() {
   const [posts, setPosts] = useState([]);
@@ -30,8 +31,8 @@ export default function AllDivesCardsView() {
   const [searchCount, setSearchCount] = useState(0);
   const { switchToTable } = useView();
   const navigate = useNavigate();
-  const [editDialogOpen, setEditDialogOpen] = useState(false);
-  const [editPostData, setEditPostData] = useState(null);
+  // const [editDialogOpen, setEditDialogOpen] = useState(false);
+  // const [editPostData, setEditPostData] = useState(null);
 
   const fetchData = useCallback(async () => {
     try {
@@ -112,6 +113,32 @@ export default function AllDivesCardsView() {
     }
   }, []);
 
+  // New function to fetch a specific post by its ID
+  const fetchPostById = async (id) => {
+    try {
+      console.log(`Fetching post with ID: ${id}`); // Log the ID being fetched
+      const response = await fetch(`${config.serverUrl}/api/dives/${id}`);
+  
+      if (!response.ok) {
+        if (response.status === 404) {
+          console.error(`Post with ID ${id} not found.`);
+        }
+        throw new Error('Failed to fetch post data');
+      }
+  
+      const updatedPost = await response.json();
+  
+      setPosts((prevPosts) =>
+        prevPosts.map((post) => (post.id === updatedPost.id ? updatedPost : post))
+      );
+      setFilteredPosts((prevPosts) =>
+        prevPosts.map((post) => (post.id === updatedPost.id ? updatedPost : post))
+      );
+    } catch (error) {
+      console.error('Error fetching post data:', error);
+    }
+  };
+  
   useEffect(() => {
     fetchData();
   }, [fetchData]);
@@ -184,28 +211,14 @@ export default function AllDivesCardsView() {
 
 
   const handleEditClick = (post) => {
-    setEditPostData(post);
-    setEditDialogOpen(true);
+    console.log('Handle', post);
+    // setEditPostData(post);
+    // setEditDialogOpen(true);
   };
 
   const handleUpdatePost = (updatedPost) => {
-    console.log("Updating post with id:", updatedPost.id);
-
-    setPosts((prevPosts) => {
-      const newPosts = prevPosts.map((post) =>
-        post.id === updatedPost.id ? { ...post, ...updatedPost } : post
-      );
-      console.log("Updated posts:", newPosts);
-      return newPosts;
-    });
-
-    setFilteredPosts((prevFilteredPosts) => {
-      const newFilteredPosts = prevFilteredPosts.map((post) =>
-        post.id === updatedPost.id ? { ...post, ...updatedPost } : post
-      );
-      console.log("Updated filtered posts:", newFilteredPosts);
-      return newFilteredPosts;
-    });
+    console.log("updatePost", updatedPost);
+    fetchPostById(updatedPost.id); // Fetch the updated post from the server
   };
 
 
@@ -308,7 +321,7 @@ export default function AllDivesCardsView() {
             post={post}
             index={index}
             onDelete={() => handleDeleteClick(post.id, post.fileLink)}
-            onEdit={handleEditClick} />
+            onEdit={handleUpdatePost} />
 
         ))}
       </Grid>
@@ -330,9 +343,9 @@ export default function AllDivesCardsView() {
           color="primary"
         />
       </Stack>
-
+{/* 
       {editPostData && (
-        <EditPostData
+        <EditCardData
           open={editDialogOpen}
           handleClose={() => setEditDialogOpen(false)}
           postData={editPostData}
@@ -343,7 +356,7 @@ export default function AllDivesCardsView() {
             setEditDialogOpen(false);  // Close the dialog after updating
           }}
         />
-      )}
+      )} */}
     </Container>
   );
 }

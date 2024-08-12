@@ -36,16 +36,19 @@ import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlin
 import Iconify from 'src/components/iconify';
 import SvgColor from 'src/components/svg-color';
 
-import EditPostData from './view/editPostData';
+// import EditPostData from './view/editPostData';
+import EditCardData from './view/handle-edit-data';
+
 
 export default function PostCard({ post, onDelete, onEdit }) {
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
   const [editDialogOpen, setEditDialogOpen] = useState(false);
-  const [editData, setEditData] = useState(null);
+  const [editData, setEditData] = useState('');
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [imageDialogOpen, setImageDialogOpen] = useState(false);
 
   const handleEditOpen = (data) => {
+    console.log(data);
     setEditData(data);
     setEditDialogOpen(true);
   };
@@ -75,7 +78,6 @@ export default function PostCard({ post, onDelete, onEdit }) {
     setImageDialogOpen(false);
   };
 
-  // eslint-disable-next-line no-unused-vars
   const { cover, humanWildlifeInteraction, AR, maxDepth, idCode_photographerName, reportReceivingDate, reportType, typeOfDive, userDescription, objectCode, objectGroup, diveSite, rankOfDive, specie, distance, temp, author, date, diveCode, imageLocation, age, gender, linkURL, media, loggedBy, loggingDate, time, fileLink, researcherComment } = post;
 
   const renderAvatar = (
@@ -342,6 +344,22 @@ export default function PostCard({ post, onDelete, onEdit }) {
             {rankOfDive}
           </Link>
         </Typography>
+        <Typography fontWeight='bold' fontSize='0.83rem' color="black">Object code:{' '}
+        <Link
+          variant="subtitle2"
+          underline="none"
+          component="span"  // Prevents nesting <h6> within another <h6>
+          sx={{
+            overflow: 'hidden',
+            fontSize: '0.83rem',
+            display: 'inline',
+            WebkitBoxOrient: 'vertical',
+          }}
+        >
+          {objectCode}
+        </Link>
+      </Typography>
+
     </Stack>
   );
 
@@ -595,7 +613,7 @@ In:
         </Box>
       </Card>
 
-      <EditPostData
+      <EditCardData
         open={editDialogOpen}
         handleClose={handleEditClose}
         postData={editData}
