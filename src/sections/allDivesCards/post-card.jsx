@@ -75,6 +75,7 @@ export default function PostCard({ post, onDelete, onEdit }) {
     setImageDialogOpen(false);
   };
 
+  // eslint-disable-next-line no-unused-vars
   const { cover, humanWildlifeInteraction, AR, maxDepth, idCode_photographerName, reportReceivingDate, reportType, typeOfDive, userDescription, objectCode, objectGroup, diveSite, rankOfDive, specie, distance, temp, author, date, diveCode, imageLocation, age, gender, linkURL, media, loggedBy, loggingDate, time, fileLink, researcherComment } = post;
 
   const renderAvatar = (

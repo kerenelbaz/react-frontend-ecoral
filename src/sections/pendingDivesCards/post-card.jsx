@@ -1,8 +1,7 @@
 // post-card.jsx
+import dayjs from 'dayjs';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import dayjs from 'dayjs';
-
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 import Box from '@mui/material/Box';
