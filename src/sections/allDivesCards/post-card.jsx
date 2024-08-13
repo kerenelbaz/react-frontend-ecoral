@@ -1,7 +1,7 @@
 /* eslint-disable import/no-unresolved */
 import dayjs from 'dayjs';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
@@ -36,16 +36,19 @@ import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlin
 import Iconify from 'src/components/iconify';
 import SvgColor from 'src/components/svg-color';
 
-import EditPostData from './view/editPostData';
+// import EditPostData from './view/editPostData';
+import EditCardData from './view/handle-edit-data';
+
 
 export default function PostCard({ post, onDelete, onEdit }) {
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
   const [editDialogOpen, setEditDialogOpen] = useState(false);
-  const [editData, setEditData] = useState(null);
+  const [editData, setEditData] = useState('');
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [imageDialogOpen, setImageDialogOpen] = useState(false);
 
   const handleEditOpen = (data) => {
+    console.log(data);
     setEditData(data);
     setEditDialogOpen(true);
   };
@@ -341,6 +344,22 @@ export default function PostCard({ post, onDelete, onEdit }) {
             {rankOfDive}
           </Link>
         </Typography>
+        <Typography fontWeight='bold' fontSize='0.83rem' color="black">Object code:{' '}
+        <Link
+          variant="subtitle2"
+          underline="none"
+          component="span"  // Prevents nesting <h6> within another <h6>
+          sx={{
+            overflow: 'hidden',
+            fontSize: '0.83rem',
+            display: 'inline',
+            WebkitBoxOrient: 'vertical',
+          }}
+        >
+          {objectCode}
+        </Link>
+      </Typography>
+
     </Stack>
   );
 
@@ -554,6 +573,11 @@ In:
     />
   );
 
+    useEffect(() => {
+      console.log("PostCard received post:", post);
+    }, [post]);
+
+
   return (
     <Grid xs={12} sm={4} md={3}>
       <Card
@@ -594,12 +618,12 @@ In:
         </Box>
       </Card>
 
-      <EditPostData
+      <EditCardData
         open={editDialogOpen}
         handleClose={handleEditClose}
         postData={editData}
         onUpdate={(updatedData) => {
-          onEdit(updatedData);  // Ensure onEdit is called when data is updated
+          onEdit(post);  // Ensure onEdit is called when data is updated
           handleEditClose();  // Close the dialog after updating
         }}
       />
