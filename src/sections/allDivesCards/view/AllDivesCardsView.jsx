@@ -1,7 +1,4 @@
-/* eslint-disable no-inner-declarations */
-/* eslint-disable no-plusplus */
-// import { faker } from '@faker-js/faker';
-import { format, parseISO } from 'date-fns';
+import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect, useCallback } from 'react';
 
@@ -21,8 +18,6 @@ import config from 'src/sections/configServer';
 import PostCard from '../post-card';
 import PostSort from '../post-sort';
 import PostSearch from '../post-search';
-// import EditPostData from './editPostData';
-// import EditCardData from './handle-edit-data';
 
 export default function AllDivesCardsView() {
   const [posts, setPosts] = useState([]);
@@ -33,11 +28,7 @@ export default function AllDivesCardsView() {
   const [searchCount, setSearchCount] = useState(0);
   const { switchToTable } = useView();
   const navigate = useNavigate();
-  const [key, setKey] = useState(0);
-
-  // const [editDialogOpen, setEditDialogOpen] = useState(false);
-  // const [editPostData, setEditPostData] = useState(null);
-
+ 
   const fetchData = useCallback(async () => {
     try {
       const response = await fetch(`${config.serverUrl}/api/dives`);
@@ -49,26 +40,7 @@ export default function AllDivesCardsView() {
 
       dives.sort((a, b) => new Date(b.logginDate) - new Date(a.logginDate));
 
-      const fetchedPosts = dives.map((dive, index) => {
-        let createdAt = dive.date || new Date().toISOString(); // Set to current date if missing
-        if (Number.isNaN(Date.parse(createdAt))) {
-          createdAt = new Date().toISOString();
-        }
-
-        let formattedCreatedAt;
-        try {
-          if (createdAt.includes('-')) {
-            formattedCreatedAt = format(parseISO(createdAt), 'dd/MM/yyyy');
-          } else {
-            // formattedCreatedAt = format(parse(createdAt, 'dd/MM/yyyy', new Date()), 'dd/MM/yyyy');
-          }
-        } catch (error) {
-          console.error('Error formatting date:', createdAt, error);
-          // eslint-disable-next-line no-unused-vars
-          formattedCreatedAt = 'Invalid date';
-        }
-
-        return {
+      const fetchedPosts = dives.map((dive, index) => ({
           id: dive._id,
           cover: `/assets/images/covers/cover_${(index % 24) + 1}.jpg`,
           fileLink: dive.fileLink,
@@ -77,9 +49,9 @@ export default function AllDivesCardsView() {
           loggedBy: `${dive.loggedBy || '-'}`,
           loggingDate: dive.loggingDate,
           date: dive.date,
-          age: `${dive.ageOfDiver === 'NA' ? '-' : dive.ageOfDiver || '-'}`,
+          ageOfDiver: `${dive.ageOfDiver === 'NA' ? '-' : dive.ageOfDiver || '-'}`,
           time: dive.time || 'No time',
-          gender: dive.sexOfDiver === 'NA' ? 'No Gender' : dive.sexOfDiver || '-',
+          sexOfDiver: dive.sexOfDiver === 'NA' ? 'No Gender' : dive.sexOfDiver || '-',
           linkURL: dive.linkURL || '-',
           media: dive.media || '-',
           researcherComment: dive.researcherComment,
@@ -94,18 +66,16 @@ export default function AllDivesCardsView() {
           distance: dive.distance || '-',
           maxDepth: dive.maxDepth || '-',
           temp: dive.temp || '-',
-          rankOfDive: dive.rankOfDive || '-',
+          rankOfDive: dive.rankOfDive || '',
           userDescription: dive.userDescription || '-',
           objectGroup: dive.objectGroup || '-',
           objectCode: dive.objectCode || '-',
           reportType: dive.reportType || '-',
           typeOfDive: dive.typeOfDive || '-',
           author: {
-            // name: faker.person.fullName(),
             avatarUrl: `/assets/images/avatars/avatar_${(index % 25) + 1}.jpg`,
           },
-        };
-      });
+        }));
 
       setPosts(fetchedPosts);
       setFilteredPosts(fetchedPosts); // Initialize filtered posts
@@ -123,52 +93,7 @@ export default function AllDivesCardsView() {
     fetchData();
   }, [fetchData]);
 
-  // New function to fetch a specific post by its ID
-  const fetchPostById = async (id) => {
-    try {
-      console.log(`Fetching post with ID: ${id}`); // Log the ID being fetched
-      const response = await fetch(`${config.serverUrl}/api/dives/${id}`);
-
-      if (!response.ok) {
-        if (response.status === 404) {
-          console.error(`Post with ID ${id} not found.`);
-        }
-        throw new Error('Failed to fetch post data');
-      }
-
-      const data = await response.json();
-      console.log(data.data.dive);
-
-      const result = data.data.dive;
-
-      function updatePostSynchronously(prevPosts, idpost, updatedPost) {
-        const newPosts = [...prevPosts]; // Create a shallow copy of the array
-
-        for (let i = 0; i < newPosts.length; i++) {
-          if (newPosts[i].idpost === idpost) {  // Corrected property access
-            console.log(`Comparing ${newPosts[i].idpost} with ${idpost}`);
-            console.log('Updating post:', updatedPost);
-            newPosts[i] = { ...newPosts[i], ...updatedPost }; // Merge old and new data
-            break; // Stop iteration once a match is found
-          }
-        }
-
-        return newPosts; // Return the updated array
-      }
-
-      const newPosts = updatePostSynchronously(posts, id, result);
-      console.log("Updated newPosts:", newPosts);
-      setPosts(newPosts);
-
-    } catch (error) {
-      console.error('Error fetching post data:', error);
-    }
-  };
-
-
-  // Use useEffect to log the updated posts state
   useEffect(() => {
-    console.log("Updated posts in state:", posts);
   }, [posts]);
 
 
@@ -180,11 +105,6 @@ export default function AllDivesCardsView() {
       // Create the request body as a JSON-like string
       const requestBody = `{"publicId": "${publicId}"}`;
 
-      // Log the request details
-      console.log("Deleting image with public ID:", publicId);
-      console.log("Sending request to:", `${config.serverUrl}/api/dives/delete-image`);
-      console.log("Request body:", requestBody);
-
       // Make a request to your server to delete the image from Cloudinary
       const response = await fetch(`${config.serverUrl}/api/dives/delete-image`, {
         method: 'POST',
@@ -194,20 +114,16 @@ export default function AllDivesCardsView() {
         body: requestBody,
       });
 
-      console.log('Response status:', response.status);
-
       // Check if the response is OK (status 200-299)
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-
       const result = await response.json();
-
-      console.log('Response result:', result);
 
       if (result.result === 'ok') {
         console.log('Image deleted from Cloudinary:', publicId);
-      } else {
+      } 
+      else {
         console.error('Failed to delete image from Cloudinary:', result.message);
       }
     } catch (error) {
@@ -216,7 +132,6 @@ export default function AllDivesCardsView() {
   };
 
   const handleDeleteClick = async (postId, fileLink) => {
-    console.log('Pending data received for deletion:', postId);
     try {
       // Make a request to your server to delete the row
       const response = await fetch(`${config.serverUrl}/api/dives/${postId}`, {
@@ -238,18 +153,15 @@ export default function AllDivesCardsView() {
     }
   };
 
-
-  const handleEditClick = (post) => {
-    console.log('Handle', post);
-    // setEditPostData(post);
-    // setEditDialogOpen(true);
-  };
-
   const handleUpdatePost = (updatedPost) => {
-    console.log("updatePost", updatedPost);
-    fetchPostById(updatedPost.id); // Fetch the updated post from the server
+    setPosts(prevPosts => {
+      const updatedPosts = prevPosts.map(p => 
+        p.id === updatedPost.id ? { ...p, ...updatedPost } : p
+      );
+      console.log("Updated posts array:", updatedPosts);
+      return updatedPosts;
+    });
   };
-
 
   if (loading) {
     return <div>Loading...</div>;
@@ -348,7 +260,7 @@ export default function AllDivesCardsView() {
         {currentPosts.map((post, index) => (
           <PostCard
             key={post.id}
-            post={post}
+            post={{...post}}
             index={index}
             onDelete={() => handleDeleteClick(post.id, post.fileLink)}
             onEdit={handleUpdatePost} />
@@ -373,20 +285,6 @@ export default function AllDivesCardsView() {
           color="primary"
         />
       </Stack>
-      {/* 
-      {editPostData && (
-        <EditCardData
-          open={editDialogOpen}
-          handleClose={() => setEditDialogOpen(false)}
-          postData={editPostData}
-          // onUpdate={handleUpdatePost}
-          onUpdate={(updatedData) => {
-            console.log("onUpdate called with data:", updatedData);
-            handleUpdatePost(updatedData);  // This should call handleUpdatePost
-            setEditDialogOpen(false);  // Close the dialog after updating
-          }}
-        />
-      )} */}
     </Container>
   );
 }

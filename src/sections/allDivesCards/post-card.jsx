@@ -1,7 +1,8 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable import/no-unresolved */
 import dayjs from 'dayjs';
 import PropTypes from 'prop-types';
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
@@ -36,6 +37,8 @@ import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlin
 import Iconify from 'src/components/iconify';
 import SvgColor from 'src/components/svg-color';
 
+import config from 'src/sections/configServer';
+
 // import EditPostData from './view/editPostData';
 import EditCardData from './view/handle-edit-data';
 
@@ -46,9 +49,10 @@ export default function PostCard({ post, onDelete, onEdit }) {
   const [editData, setEditData] = useState('');
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [imageDialogOpen, setImageDialogOpen] = useState(false);
+  const [localPost, setLocalPost] = useState(post);
+  const [, forceUpdate] = useReducer(x => x + 1, 0);
 
   const handleEditOpen = (data) => {
-    console.log(data);
     setEditData(data);
     setEditDialogOpen(true);
   };
@@ -78,7 +82,7 @@ export default function PostCard({ post, onDelete, onEdit }) {
     setImageDialogOpen(false);
   };
 
-  const { cover, humanWildlifeInteraction, AR, maxDepth, idCode_photographerName, reportReceivingDate, reportType, typeOfDive, userDescription, objectCode, objectGroup, diveSite, rankOfDive, specie, distance, temp, author, date, diveCode, imageLocation, age, gender, linkURL, media, loggedBy, loggingDate, time, fileLink, researcherComment } = post;
+  const { cover, humanWildlifeInteraction, AR, maxDepth, idCode_photographerName, reportReceivingDate, reportType, typeOfDive, userDescription, objectCode, objectGroup, diveSite, rankOfDive, specie, distance, temp, author, date, diveCode, imageLocation, ageOfDiver, sexOfDiver, linkURL, media, loggedBy, loggingDate, time, fileLink, researcherComment } = post;
 
   const renderAvatar = (
     <Avatar
@@ -111,12 +115,12 @@ export default function PostCard({ post, onDelete, onEdit }) {
           }}
         >
           <LocationOnIcon sx={{ mr: 0.5, fontSize: 13 }} />
-          {diveSite}
+          {localPost.diveSite}
         </Link>
 
       </Stack>
 
-        <Typography fontWeight="bold" fontSize="0.83rem" color="black">
+      <Typography fontWeight="bold" fontSize="0.83rem" color="black">
         Specie:{' '}
         <Link
           variant="subtitle2"
@@ -128,10 +132,10 @@ export default function PostCard({ post, onDelete, onEdit }) {
             WebkitBoxOrient: 'vertical',
           }}
         >
-          {specie}
+          {localPost.specie}
         </Link>
       </Typography>
-      
+
     </Stack>
   );
   const getGenderIcon = (gen) => {
@@ -157,8 +161,8 @@ export default function PostCard({ post, onDelete, onEdit }) {
         alignItems: 'center',
       }}
     >
-      {getGenderIcon(gender)}
-      {gender}
+      {getGenderIcon(localPost.sexOfDiver)}
+      {localPost.sexOfDiver}
       <Typography
         color="inherit"
         variant="subtitle2"
@@ -173,7 +177,7 @@ export default function PostCard({ post, onDelete, onEdit }) {
           alignItems: 'center',
         }}
       >
-        {age}
+        {localPost.ageOfDiver}
       </Typography>
     </Typography>
   );
@@ -191,7 +195,7 @@ export default function PostCard({ post, onDelete, onEdit }) {
           WebkitBoxOrient: 'vertical',
         }}
       >
-        {userDescription}
+        {localPost.userDescription}
       </Link>
     </Typography>
   );
@@ -236,7 +240,7 @@ export default function PostCard({ post, onDelete, onEdit }) {
   const renderBody = (
     <Stack>
       <Typography fontWeight='bold' fontSize='0.83rem' color="black">
-      Dive Code:
+        Dive Code:
         <Link
           variant="subtitle2"
           underline="none"
@@ -263,7 +267,7 @@ export default function PostCard({ post, onDelete, onEdit }) {
             WebkitBoxOrient: 'vertical',
           }}
         >
-          {humanWildlifeInteraction}
+          {localPost.humanWildlifeInteraction}
         </Link>
       </Typography>
 
@@ -279,7 +283,7 @@ export default function PostCard({ post, onDelete, onEdit }) {
             WebkitBoxOrient: 'vertical',
           }}
         >
-          {AR}
+          {localPost.AR}
         </Link>
       </Typography>
       <Typography fontWeight='bold' fontSize='0.83rem' color="black">Max Depth:{' '}
@@ -294,7 +298,7 @@ export default function PostCard({ post, onDelete, onEdit }) {
             WebkitBoxOrient: 'vertical',
           }}
         >
-          {maxDepth}
+          {localPost.maxDepth}
         </Link>
       </Typography>
 
@@ -310,41 +314,41 @@ export default function PostCard({ post, onDelete, onEdit }) {
             WebkitBoxOrient: 'vertical',
           }}
         >
-          {distance}
+          {localPost.distance}
         </Link>
       </Typography>
 
       <Typography fontWeight="bold" fontSize="0.83rem" color="black">
-          Temp:{' '}
-          <Link
-            variant="subtitle2"
-            underline="none"
-            sx={{
-              overflow: 'hidden',
-              fontSize: '0.83rem',
-              display: 'inline',
-              WebkitBoxOrient: 'vertical',
-            }}
-          >
-            {temp}
-          </Link>
-        </Typography>
-        <Typography fontWeight="bold" fontSize="0.83rem" color="black">
-          Rank:{' '}
-          <Link
-            variant="subtitle2"
-            underline="none"
-            sx={{
-              overflow: 'hidden',
-              fontSize: '0.83rem',
-              display: 'inline',
-              WebkitBoxOrient: 'vertical',
-            }}
-          >
-            {rankOfDive}
-          </Link>
-        </Typography>
-        <Typography fontWeight='bold' fontSize='0.83rem' color="black">Object code:{' '}
+        Temp:{' '}
+        <Link
+          variant="subtitle2"
+          underline="none"
+          sx={{
+            overflow: 'hidden',
+            fontSize: '0.83rem',
+            display: 'inline',
+            WebkitBoxOrient: 'vertical',
+          }}
+        >
+          {localPost.temp}
+        </Link>
+      </Typography>
+      <Typography fontWeight="bold" fontSize="0.83rem" color="black">
+        Rank:{' '}
+        <Link
+          variant="subtitle2"
+          underline="none"
+          sx={{
+            overflow: 'hidden',
+            fontSize: '0.83rem',
+            display: 'inline',
+            WebkitBoxOrient: 'vertical',
+          }}
+        >
+          {localPost.rankOfDive}
+        </Link>
+      </Typography>
+      <Typography fontWeight='bold' fontSize='0.83rem' color="black">Object code:{' '}
         <Link
           variant="subtitle2"
           underline="none"
@@ -356,7 +360,7 @@ export default function PostCard({ post, onDelete, onEdit }) {
             WebkitBoxOrient: 'vertical',
           }}
         >
-          {objectCode}
+          {localPost.objectCode}
         </Link>
       </Typography>
 
@@ -377,7 +381,7 @@ export default function PostCard({ post, onDelete, onEdit }) {
             WebkitBoxOrient: 'vertical',
           }}
         >
-          {objectGroup}
+          {localPost.objectGroup}
         </Link>
       </Typography>
 
@@ -393,7 +397,7 @@ export default function PostCard({ post, onDelete, onEdit }) {
             WebkitBoxOrient: 'vertical',
           }}
         >
-          {reportType}
+          {localPost.reportType}
         </Link>
       </Typography>
       <Typography fontWeight="bold" fontSize="0.83rem" color="black">
@@ -408,10 +412,10 @@ export default function PostCard({ post, onDelete, onEdit }) {
             WebkitBoxOrient: 'vertical',
           }}
         >
-          {typeOfDive}
+          {localPost.typeOfDive}
         </Link>
       </Typography>
-    
+
       <Typography fontWeight="bold" fontSize="0.83rem" color="black">
         Name Of Diver:{' '}
         <Link
@@ -424,10 +428,10 @@ export default function PostCard({ post, onDelete, onEdit }) {
             WebkitBoxOrient: 'vertical',
           }}
         >
-          {idCode_photographerName}
+          {localPost.idCode_photographerName}
         </Link>
       </Typography>
-      
+
     </Stack>
   );
 
@@ -444,37 +448,36 @@ export default function PostCard({ post, onDelete, onEdit }) {
       <Typography fontWeight="bold" fontSize="0.83rem" color="black" spacing={1}>
         Dive approved by:
       </Typography>
-      <Typography variant="caption"> {loggedBy}</Typography>
-  
+      <Typography variant="caption"> {localPost.loggedBy}</Typography>
+
       <Box sx={{ width: '100%' }} /> {/* Line break after loggedBy */}
-  
+
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <Iconify icon="eva:calendar-outline" width={16} sx={{ color: 'green' }} />
         <Typography fontWeight="bold" fontSize="0.83rem" color="black" sx={{ ml: 0 }}>
-In: 
+          In:
         </Typography>
       </Box>
       <Typography variant="caption">
         {dayjs(reportReceivingDate).format('DD/MM/YYYY')}
       </Typography>
 
-      
-  
-      <Box sx={{ width: '100%' }} /> 
 
-      <Typography fontWeight="bold" fontSize="0.83rem" color="black" spacing={1}>Researcher comment: 
+
+      <Box sx={{ width: '100%' }} />
+
+      <Typography fontWeight="bold" fontSize="0.83rem" color="black" spacing={1}>Researcher comment:
       </Typography>
       <Typography variant="caption">{researcherComment} </Typography>
 
 
     </Stack>
   );
-  
-  
+
+
   const renderCover = (
     <Box
       component="img"
-      alt={diveSite}
       src={fileLink || cover}
       sx={{
         top: 0,
@@ -512,7 +515,7 @@ In:
         >
           <TodayIcon sx={{ mr: 0.5, fontSize: 16 }} />
           {/* Date Of Dive: {dayjs(date).format('DD/MM/YYYY')} */}
-          Date Of Dive: {date}
+          Date Of Dive: {localPost.date}
         </Typography>
         <Stack direction="row" alignItems="center" sx={{ ml: 'auto' }}>
           {media === 'Website' ? (
@@ -525,7 +528,7 @@ In:
               onClick={() => window.open(linkURL, '_blank')}
             />
           )}
-          {getTimeIcon(time)}
+          {getTimeIcon(localPost.time)}
         </Stack>
       </Stack>
       <Typography
@@ -540,7 +543,7 @@ In:
       >
 
         <SatelliteIcon sx={{ mr: 0.5, fontSize: 16 }} />
-        {imageLocation}
+        {localPost.imageLocation}
       </Typography>
       <Typography
         variant="caption"
@@ -553,7 +556,7 @@ In:
         }}
       >
         <EventAvailableOutlinedIcon sx={{ mr: 0.5, fontSize: 16 }} />
-       Inserted In: {dayjs(loggingDate).format('DD/MM/YYYY')}
+        Inserted In: {dayjs(loggingDate).format('DD/MM/YYYY')}
       </Typography>
     </Stack>
   );
@@ -573,10 +576,33 @@ In:
     />
   );
 
-    useEffect(() => {
-      console.log("PostCard received post:", post);
-    }, [post]);
+  const fetchPostById = async (id) => {
+    try {
+      const response = await fetch(`${config.serverUrl}/api/dives/${id}`);
+      if (!response.ok) {
+        if (response.status === 404) {
+          console.error(`Post with ID ${id} not found.`);
+        }
+        throw new Error('Failed to fetch post data');
+      }
+      const data = await response.json();
+      const result = data.data.dive;
+      setLocalPost(result);
+    } catch (error) {
+      console.error('Error fetching post data in postCard:', error);
+    }
+  };
 
+  useEffect(() => {
+    fetchPostById(post.id);
+    forceUpdate();
+  }, [post]);
+
+  // Ensure that the post data has been fetched before rendering
+  if (!localPost) {
+    forceUpdate();
+    return <div>Loading...</div>;
+  }
 
   return (
     <Grid xs={12} sm={4} md={3}>
@@ -673,7 +699,6 @@ In:
                 <TransformComponent>
                   <Box
                     component="img"
-                    alt={diveSite}
                     src={fileLink || cover}
                     sx={{
                       width: '100%',

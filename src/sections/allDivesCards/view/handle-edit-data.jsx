@@ -10,6 +10,7 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import { styled } from '@mui/material/styles';
 import Snackbar from '@mui/material/Snackbar';
+import Grid from '@mui/material/Unstable_Grid2';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
@@ -61,7 +62,6 @@ export default function EditCardData({ open, handleClose, postData, onUpdate }) 
     ...postData,
   });
 
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -104,7 +104,8 @@ export default function EditCardData({ open, handleClose, postData, onUpdate }) 
     return `${formattedDate}, ${formattedTime}`;
   };
 
-  const handleTextareaChange = (value) => {
+  const handleTextareaChange = (e) => {
+    const {value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       researcherComment: value,
@@ -144,9 +145,7 @@ export default function EditCardData({ open, handleClose, postData, onUpdate }) 
           changes[key] = currentFormData[key];
         }
       });
-      // console.log("original data: " ,originalPostData);
-      // console.log("currentFormData: " ,currentFormData);
-      // console.log("changes: " ,changes);
+
       return changes;
     };
 
@@ -155,25 +154,18 @@ export default function EditCardData({ open, handleClose, postData, onUpdate }) 
       console.log('No changes to save');
       return;
     }
-  
-    console.log(formData);
-    console.log(JSON.stringify(changes));
-    console.log("formData id: " , postData.id);
+
     try {
       const response = await fetch(`${config.serverUrl}/api/dives/${postData.id}`, {
-        method: 'PATCH', 
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(changes) // Send only the changed fields
       });
-  
+
       if (response.ok) {
-        console.log("Updated data in EditPostData:", formData);
-  
-        // onUpdate(formData);  // Update the parent component's state
-        
-        onUpdate({...postData, ...changes});
+        onUpdate({ ...postData, ...changes });
 
       } else {
         console.error('Failed to save data:', response);
@@ -182,7 +174,7 @@ export default function EditCardData({ open, handleClose, postData, onUpdate }) 
       console.error('Error saving data:', error.message);
     }
     // handleClickSnack();  // Show the success message
-    handleClose();  
+    handleClose();
   };
 
   return (
@@ -228,12 +220,13 @@ export default function EditCardData({ open, handleClose, postData, onUpdate }) 
                       />
 
                       <TextField
-                        InputProps={{ readOnly: true }}
-                        id="standard-read-only-input"
+                        name="date" 
                         label="Date Of Dive: "
-                        defaultValue={formatDateTime(dayjs(postData.date).format('DD/MM/YYYY'))}
+                        // defaultValue={formatDateTime(dayjs(postData.date).format('DD/MM/YYYY'))}
+                        defaultValue={postData.date}
                         variant="standard"
                         className="dateStyle"
+                        onChange={handleFormInputChange}
                       />
                     </div>
                   </div>
@@ -261,6 +254,7 @@ export default function EditCardData({ open, handleClose, postData, onUpdate }) 
                         id="standard-read-only-input"
                         label="Dive took place during: "
                         defaultValue={postData.time}
+                        name="time"
                         variant="standard"
                         className="dateStyle"
                         onChange={handleFormInputChange}
@@ -269,6 +263,8 @@ export default function EditCardData({ open, handleClose, postData, onUpdate }) 
                         id="standard-read-only-input"
                         label="Dive Rank: "
                         defaultValue={postData.rankOfDive}
+                        name='rankOfDive'
+                        type='text'
                         variant="standard"
                         className="dateStyle"
                         onChange={handleFormInputChange}
@@ -379,75 +375,137 @@ export default function EditCardData({ open, handleClose, postData, onUpdate }) 
                       )}
                     />
                   </div>
-                  <div className="inLine">
-                    <Autocomplete
-                      options={humanWildInterList}
-                      getOptionLabel={(option) => option}
-                      defaultValue={postData.humanWildlifeInteraction}
-                      onChange={(e, value) =>
-                        handleAutocompleteChange('humanWildlifeInteraction', value || '')
-                      }
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Human-wildlife interaction"
-                          name="humanWildlifeInteraction"
-                          autoComplete="humanWildlifeInteraction"
-                          className="fieldInput"
+
+
+                  <div>
+                    <Grid container spacing={2}>
+                      <Grid item xs={12} sm={6}>
+                        <Autocomplete
+                          options={humanWildInterList}
+                          getOptionLabel={(option) => option}
+                          defaultValue={postData.humanWildlifeInteraction}
+                          onChange={(e, value) =>
+                            handleAutocompleteChange('humanWildlifeInteraction', value || '')
+                          }
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              label="Human-wildlife interaction"
+                              name="humanWildlifeInteraction"
+                              autoComplete="humanWildlifeInteraction"
+                              className="fieldInput"
+                              fullWidth
+                            />
+                          )}
                         />
-                      )}
-                    />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          label="Object Code"
+                          name="objectCode"
+                          autoComplete="objectCode"
+                          className="fieldInput"
+                          onChange={handleFormInputChange}
+                          defaultValue={postData.objectCode}
+                          fullWidth
+                        />
+                      </Grid>
+                    </Grid>
                   </div>
-                  <div className="inLine">
-                    <TextField
-                      label="Max Depth (meters)"
-                      type="text"
-                      id="maxDepth"
-                      name="maxDepth"
-                      className="fieldInput"
-                      defaultValue={postData.maxDepth}
-                      onChange={handleFormInputChange}
-                    />
-                    <TextField
-                      label="Distance (meters)"
-                      type="number"
-                      id="standard-number"
-                      name="distance"
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      className="fieldInput"
-                      defaultValue={postData.distance}
-                      onChange={handleInputChange}
-                    />
-                    <TextField
-                      label="Temperature (celsius)"
-                      type="text"
-                      name="temp"
-                      id="standard-number"
-                      className="fieldInput"
-                      defaultValue={postData.temp}
-                      onChange={handleInputChange}
-                    />
+                  <div>
+                    <Grid container spacing={2}>
+                      <Grid item xs={12} sm={4}>
+                        <TextField
+                          label="Max Depth (meters)"
+                          type="text"
+                          id="maxDepth"
+                          name="maxDepth"
+                          className="fieldInput"
+                          defaultValue={postData.maxDepth}
+                          onChange={handleFormInputChange}
+                          fullWidth
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={4}>
+                        <TextField
+                          label="Distance (meters)"
+                          type="number"
+                          id="standard-number"
+                          name="distance"
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                          className="fieldInput"
+                          defaultValue={postData.distance}
+                          onChange={handleInputChange}
+                          fullWidth
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={4}>
+                        <TextField
+                          label="Temperature (celsius)"
+                          type="text"
+                          name="temp"
+                          id="standard-number"
+                          className="fieldInput"
+                          defaultValue={postData.temp}
+                          onChange={handleInputChange}
+                          fullWidth
+                        />
+                      </Grid>
+                    </Grid>
                   </div>
-                  <div className="inLine">
-                    <TextField
-                      label="Object Code"
-                      name="objectCode"
-                      autoComplete="objectCode"
-                      className="fieldInput"
-                      onChange={handleFormInputChange}
-                      value={postData.objectCode}
-                    />
+
+
+                  <div>
+                    <Grid container spacing={2}>
+                      <Grid item xs={12} sm={4}>
+                        <TextField
+                          label="Age of diver"
+                          type="text"
+                          name="ageOfDiver"
+                          className="fieldInput"
+                          defaultValue={postData.ageOfDiver}
+                          onChange={handleInputChange}
+                          fullWidth
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={4}>
+                        <TextField
+                          label="Sex of diver"
+                          type="text"
+                          name="sexOfDiver"
+                          className="fieldInput"
+                          defaultValue={postData.sexOfDiver}
+                          onChange={handleInputChange}
+                          fullWidth
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={4}>
+                        <TextField
+                          label="idCode / photographer namer"
+                          type="text"
+                          name="idCode_photographerName"
+                          className="fieldInput"
+                          defaultValue={postData.idCode_photographerName}
+                          onChange={handleInputChange}
+                          fullWidth
+                        />
+                      </Grid>
+                    </Grid>
                   </div>
                   <div>
                     <label className="lblDesc" htmlFor="userDescription">
-                      User dives description:
-                    </label>
-                    <p
-                      id="userDescription"
-                      className="lblDesc"
-                    >{`"${postData.userDescription}"`}</p>
+                    User&apos;s dives description:</label>
+                    <TextField
+                          type="text"
+                          name="userDescription"
+                          className="fieldInput"
+                          defaultValue={postData.userDescription}
+                          onChange={handleInputChange}
+                          fullWidth
+                        />
+
                   </div>
                   <div>
                     <label className="lblDesc" htmlFor="researcherComment">
@@ -455,10 +513,12 @@ export default function EditCardData({ open, handleClose, postData, onUpdate }) 
                     </label>
                     <textarea
                       id="researcherComment"
+                      defaultValue={postData.researcherComment}
+                      type="text"
                       name="researcherComment"
                       rows={3}
                       className="admin-textarea"
-                      onChange={(e) => handleTextareaChange(e.target.value)}
+                      onChange={handleTextareaChange}
                     />
                   </div>
                 </div>
