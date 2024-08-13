@@ -2,7 +2,7 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import Stack from '@mui/material/Stack';
-import Avatar from '@mui/material/Avatar';
+// import Avatar from '@mui/material/Avatar';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import EditIcon from '@mui/icons-material/Edit';
@@ -16,7 +16,7 @@ import ImageDialog from './imageDialog';
 
 export default function AllDataTableRow({
   selected, name, avatarUrl, company, role, isVerified, status, handleClick,
-  diveCode, diveDate, time, diveSite, objectGroup, specie, idCode, location, ar, humanWildInter, 
+  diveCode, diveDate, time, diveSite, objectGroup, specie, idCode, location, ar, humanWildInter,
   reportType, typeOfDive, groupCode, media, fileType, reportRecivingDate, InvestDoc, diverAge, diverSex, rank, loggedBy, loggingDate,
   idSharks, distance, temp, maxDepth, userDesc, researcherDesc, fileLink, onDeleteClicked, onEditClicked
 }) {
@@ -26,9 +26,9 @@ export default function AllDataTableRow({
     onDeleteClicked();
   }
 
-  const handleAvatarClick = () => {
-    setDialogOpen(true);
-  };
+  // const handleAvatarClick = () => {
+  //   setDialogOpen(true);
+  // };
 
   const handleCloseDialog = () => {
     setDialogOpen(false);
@@ -99,28 +99,28 @@ AllDataTableRow.propTypes = {
   selected: PropTypes.any,
   status: PropTypes.string,
   diveCode: PropTypes.string,
-  diveDate: PropTypes.string, 
-  diveSite: PropTypes.string, 
-  objectGroup: PropTypes.string, 
-  specie: PropTypes.string, 
-  idCode: PropTypes.string, 
-  location: PropTypes.string, 
-  ar: PropTypes.string, 
-  humanWildInter: PropTypes.string, 
-  reportType: PropTypes.string, 
-  typeOfDive: PropTypes.string, 
-  groupCode: PropTypes.string, 
-  media: PropTypes.string, 
-  fileType: PropTypes.string, 
-  InvestDoc: PropTypes.string, 
-  diverAge: PropTypes.string, 
-  diverSex: PropTypes.string, 
-  idSharks: PropTypes.string, 
-  distance: PropTypes.number, 
+  diveDate: PropTypes.string,
+  diveSite: PropTypes.string,
+  objectGroup: PropTypes.string,
+  specie: PropTypes.string,
+  idCode: PropTypes.string,
+  location: PropTypes.string,
+  ar: PropTypes.string,
+  humanWildInter: PropTypes.string,
+  reportType: PropTypes.string,
+  typeOfDive: PropTypes.string,
+  groupCode: PropTypes.string,
+  media: PropTypes.string,
+  fileType: PropTypes.string,
+  InvestDoc: PropTypes.string,
+  diverAge: PropTypes.string,
+  diverSex: PropTypes.string,
+  idSharks: PropTypes.string,
+  distance: PropTypes.number,
   temp: PropTypes.number,
-  maxDepth: PropTypes.number, 
-  userDesc: PropTypes.string, 
-  researcherDesc: PropTypes.string, 
+  maxDepth: PropTypes.number,
+  userDesc: PropTypes.string,
+  researcherDesc: PropTypes.string,
   fileLink: PropTypes.string,
   reportRecivingDate: PropTypes.string,
   rank: PropTypes.string,

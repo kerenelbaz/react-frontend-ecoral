@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+
 import Box from '@mui/material/Box';
 import Slide from '@mui/material/Slide';
 import Button from '@mui/material/Button';
@@ -110,7 +111,7 @@ export default function ImportPostsView() {
 
 
 
-      
+
       const response = await fetch('https://kkk111.pythonanywhere.com/', {
         method: 'POST',
         headers: {
@@ -127,7 +128,7 @@ export default function ImportPostsView() {
       // If response is OK
       const data = await response.json();
       setPostsNumber(data.data.length);
-      console.log("all posts:",data.data);
+      console.log("all posts:", data.data);
       const releventPosts = data.data.filter(
         (post) => !Object.prototype.hasOwnProperty.call(post, 'no data')
       );
