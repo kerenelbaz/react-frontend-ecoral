@@ -47,7 +47,7 @@ export default function AllDataTableRow({
             </IconButton>
           </Stack>
         </TableCell>
-        <TableCell component="th" scope="row" padding="3px">
+        <TableCell component="th" scope="row" padding="normal">
           <Stack direction="row" alignItems="center" spacing={4}>
             <Typography variant="subtitle2" noWrap>
               {diveCode}
@@ -78,11 +78,11 @@ export default function AllDataTableRow({
         <TableCell>{userDesc}</TableCell>
         <TableCell>{researcherDesc}</TableCell>
         <TableCell>{loggedBy}</TableCell>
-        <TableCell>
+        {/* <TableCell>
           <Stack direction="row" alignItems="center" spacing={4}>
             <Avatar alt={diveCode} src={fileLink || ""} onClick={handleAvatarClick} sx={{ cursor: 'pointer' }} />
           </Stack>  
-        </TableCell>
+        </TableCell> */}
       </TableRow>
       <ImageDialog open={dialogOpen} onClose={handleCloseDialog} fileLink={fileLink} />
     </>
@@ -116,9 +116,9 @@ AllDataTableRow.propTypes = {
   diverAge: PropTypes.string, 
   diverSex: PropTypes.string, 
   idSharks: PropTypes.string, 
-  distance: PropTypes.string, 
-  temp: PropTypes.string,
-  maxDepth: PropTypes.string, 
+  distance: PropTypes.number, 
+  temp: PropTypes.number,
+  maxDepth: PropTypes.number, 
   userDesc: PropTypes.string, 
   researcherDesc: PropTypes.string, 
   fileLink: PropTypes.string,

@@ -5,13 +5,9 @@ import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
 import Button from '@mui/material/Button';
-// import Dialog from '@mui/material/Dialog';
 import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
-// import DialogTitle from '@mui/material/DialogTitle';
-// import DialogActions from '@mui/material/DialogActions';
-// import DialogContent from '@mui/material/DialogContent';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 
@@ -20,7 +16,6 @@ import { useView } from 'src/viewContexts';
 import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 
-// import DialogContentText from '@mui/material/DialogContentText';
 import config from 'src/sections/configServer';
 import EditData from 'src/sections/pendingAdmin/view/handle-edit-data';
 
@@ -47,7 +42,6 @@ export default function AllDataView() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // const response = await fetch(`${config.serverUrl}/api/dives`);
         const response = await fetch('https://ecoral.vercel.app/api/dives');
         if (!response.ok) {
           throw new Error('Failed to fetch data');
@@ -80,17 +74,19 @@ export default function AllDataView() {
 
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
-    if (id !== '') {
-      setOrder(isAsc ? 'desc' : 'asc');
-      setOrderBy(id);
-      const sortedData = allDataDives.slice().sort((a, b) => {
-        if (isAsc) {
-          return a[id] > b[id] ? 1 : -1;
-        } 
-        return a[id] < b[id] ? 1 : -1;
-      });
-      setAllDataDives(sortedData);
-    }
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(id);
+
+    // Sort the entire dataset (not just the visible page)
+    const sortedData = allDataDives.slice().sort((a, b) => {
+      if (isAsc) {
+        return a[id] > b[id] ? 1 : -1;
+      }
+      return a[id] < b[id] ? 1 : -1;
+    });
+
+    // Update the state with the sorted data
+    setAllDataDives(sortedData);
   };
 
   const handleSelectAllClick = (event) => {
@@ -129,11 +125,15 @@ export default function AllDataView() {
     setRowsPerPage(parseInt(event.target.value, 10));
   };
 
+  // Apply filtering and sorting
   const dataFiltered = applyFilter({
     inputData: allDataDives,
     comparator: getComparator(order, orderBy),
     filterName,
   });
+
+  // Apply pagination after filtering
+  const paginatedData = dataFiltered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
   const formatDateTime = (dateTimeString) => {
     const dateFormatRegex1 = /^\w{3} \w{3} \d{2} \d{4} \d{2}:\d{2}:\d{2} GMT[+-]\d{4} \([\w\s]+\)$/;
@@ -227,14 +227,12 @@ export default function AllDataView() {
                   { id: 'userDesc', label: 'User Description' },
                   { id: 'researcherDesc', label: 'Researcher Comments' },
                   { id: 'loggedBy', label: 'Logged By' },
-                  { id: 'fileLink', label: 'Image' },
+                  // { id: 'fileLink', label: 'Image' },
                   { id: '' },
                 ]}
               />
               <TableBody>
-                {dataFiltered
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row) => (
+                {paginatedData.map((row) => (
                     <AllDataTableRow
                       key={row._id}
                       diveCode={row.diveCode}
@@ -262,7 +260,7 @@ export default function AllDataView() {
                       userDesc={row.userDescription}
                       researcherDesc={row.researcherComment}
                       loggedBy={row.loggedBy}
-                      fileLink={row.linkURL}
+                      // fileLink={row.linkURL}
                       handleClick={(event) => handleClick(event, row.name)}
                       onDeleteClicked={() => handleDeleteClick(row)}
                       onEditClicked={() => handleEditClick(row)}
