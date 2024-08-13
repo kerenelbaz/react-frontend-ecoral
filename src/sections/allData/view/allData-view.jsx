@@ -36,7 +36,7 @@ export default function AllDataView() {
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('name');
   const [filterName] = useState('');
-  const [rowsPerPage, setRowsPerPage] = useState(500);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [allDataDives, setAllDataDives] = useState([]);
   const [loading, setLoading] = useState(true); // Define loading state
   const [editingRow, setEditingRow] = useState(null); // State for editing row
