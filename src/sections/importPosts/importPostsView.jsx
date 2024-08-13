@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import axios from 'axios';
 import Box from '@mui/material/Box';
 import Slide from '@mui/material/Slide';
 import Button from '@mui/material/Button';
@@ -25,11 +25,36 @@ export default function ImportPostsView() {
   const [divinPostsNumber, setDivinPostsNumber] = useState(0);
   const [errorMessage, setErrorMessage] = useState('');
 
+
+
+  // Function to upload image to Cloudinary and get the URL
+  const uploadToCloudinary = async (file) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', 'ecoral_preset');
+
+    try {
+      const response = await axios.post(
+        `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`,
+        formData
+      );
+      return response.data.secure_url;
+    } catch (error) {
+      console.error('Error uploading to Cloudinary:', error);
+      return null;
+    }
+  };
+
   useEffect(() => {
     if (divinPostsNumber > 0) {
       const sendDivingPostsToServer = async () => {
         try {
+          let imageToUpload;
+
+
+
           const fetchPromises = postsAboutDiving.map(async (post, index) => {
+            imageToUpload = await uploadToCloudinary(post.file);
             const postToSend = {
               AR: post.AR,
               date: post.date,
@@ -38,7 +63,7 @@ export default function ImportPostsView() {
               objectGroup: post.objectGroup,
               specie: post.specie,
               time: post.time,
-              file: post.file,
+              file: imageToUpload,
               video: post.video,
             };
 
@@ -83,7 +108,10 @@ export default function ImportPostsView() {
         return;
       }
 
-      const response = await fetch('http://kirilldevs.pythonanywhere.com/api/html-analyze', {
+
+
+      
+      const response = await fetch('https://kkk111.pythonanywhere.com/', {
         method: 'POST',
         headers: {
           'Content-Type': 'text/plain',
@@ -156,8 +184,7 @@ export default function ImportPostsView() {
           <DialogTitle>Data Imported Successfully</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-slide-description">
-              {postsNumber} posts were found, {divinPostsNumber} of them about diving. Currently,
-              they are awaiting admin approval.
+              {postsNumber} posts were found, {divinPostsNumber} of them about diving. Currently, they are awaiting admin approval.
             </DialogContentText>
           </DialogContent>
           <DialogActions>

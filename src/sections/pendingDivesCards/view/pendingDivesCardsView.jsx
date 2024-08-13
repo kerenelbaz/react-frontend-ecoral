@@ -2,6 +2,7 @@
 import { useNavigate } from 'react-router-dom';
 import { parse, format, parseISO } from 'date-fns';
 import React, { useState, useEffect, useCallback } from 'react';
+import dayjs from 'dayjs';
 
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -78,7 +79,7 @@ export default function PendingDivesCardsView() {
           loggingDate: dive.loggingDate
             ? format(new Date(dive.loggingDate), 'dd MMM yyyy')
             : 'none',
-          date: dive.date,
+          date: `${dayjs(dive.date).format('DD/MM/YYYY')}`,
           ageOfDiver: dive.ageOfDiver || '',
           time: dive.time || '',
           sexOfDiver: dive.sexOfDiver,
