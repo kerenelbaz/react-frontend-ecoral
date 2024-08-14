@@ -65,7 +65,6 @@ export default function ImportPostsView() {
               specie: post.specie,
               time: post.time,
               file: imageToUpload,
-              video: post.video,
             };
 
             const divingResponse = await fetch(`${config.serverUrl}/api/pendings_dives`, {
@@ -112,7 +111,7 @@ export default function ImportPostsView() {
 
 
 
-      const response = await fetch('https://kkk111.pythonanywhere.com/', {
+      const response = await fetch('http://kirilldevs.pythonanywhere.com/api/html-analyze', {
         method: 'POST',
         headers: {
           'Content-Type': 'text/plain',
