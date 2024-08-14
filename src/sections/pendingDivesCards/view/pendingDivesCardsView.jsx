@@ -284,7 +284,7 @@ export default function PendingDivesCardsView() {
       </Stack> */}
 
       <Stack mb={5} direction="row" alignItems="center" justifyContent="center">
-        <Typography variant="h6">{searchCount} posts found</Typography>
+        <Typography variant="h6">{searchCount} dives found</Typography>
       </Stack>
 
       <Grid container spacing={3}>
