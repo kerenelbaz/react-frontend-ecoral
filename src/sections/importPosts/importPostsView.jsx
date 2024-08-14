@@ -52,8 +52,6 @@ export default function ImportPostsView() {
         try {
           let imageToUpload;
 
-
-
           const fetchPromises = postsAboutDiving.map(async (post, index) => {
             imageToUpload = await uploadToCloudinary(post.file);
             const postToSend = {
@@ -64,7 +62,10 @@ export default function ImportPostsView() {
               objectGroup: post.objectGroup,
               specie: post.specie,
               time: post.time,
+              media: post.media,
               file: imageToUpload,
+              linkURL: post.linkURL,
+              documentation: post.documentation
             };
 
             const divingResponse = await fetch(`${config.serverUrl}/api/pendings_dives`, {
