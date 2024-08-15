@@ -26,8 +26,6 @@ export default function ImportPostsView() {
   const [divinPostsNumber, setDivinPostsNumber] = useState(0);
   const [errorMessage, setErrorMessage] = useState('');
 
-
-
   // Function to upload image to Cloudinary and get the URL
   const uploadToCloudinary = async (file) => {
     const formData = new FormData();
@@ -65,7 +63,7 @@ export default function ImportPostsView() {
               media: post.media,
               file: imageToUpload,
               linkURL: post.linkURL,
-              documentation: post.documentation
+              documentation: post.documentation,
             };
 
             const divingResponse = await fetch(`${config.serverUrl}/api/pendings_dives`, {
@@ -109,10 +107,7 @@ export default function ImportPostsView() {
         return;
       }
 
-
-
-
-      const response = await fetch('http://kirilldevs.pythonanywhere.com/api/html-analyze', {
+      const response = await fetch('https://kkk111.pythonanywhere.com/', {
         method: 'POST',
         headers: {
           'Content-Type': 'text/plain',
@@ -128,11 +123,11 @@ export default function ImportPostsView() {
       // If response is OK
       const data = await response.json();
       setPostsNumber(data.data.length);
-      console.log("all posts:", data.data);
+      console.log('all posts:', data.data);
       const releventPosts = data.data.filter(
         (post) => !Object.prototype.hasOwnProperty.call(post, 'no data')
       );
-      console.log("post about diving:", releventPosts);
+      console.log('post about diving:', releventPosts);
       setPostsAboutDiving(releventPosts);
       setDivinPostsNumber(releventPosts.length);
     } catch (error) {
@@ -185,7 +180,8 @@ export default function ImportPostsView() {
           <DialogTitle>Data Imported Successfully</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-slide-description">
-              {postsNumber} posts were found, {divinPostsNumber} of them about diving. Currently, they are awaiting admin approval.
+              {postsNumber} posts were found, {divinPostsNumber} of them about diving. Currently,
+              they are awaiting admin approval.
             </DialogContentText>
           </DialogContent>
           <DialogActions>
